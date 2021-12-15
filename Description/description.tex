@@ -1,0 +1,156 @@
+\documentclass[a4paper,12pt,twoside]{article}
+
+%% packages
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,mathrsfs} 
+%\usepackage{import}
+\usepackage{float, subfig, caption}
+\usepackage{libertine}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{authblk} % meilleur liste d'auteur
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=red}
+\urlstyle{same}
+\usepackage[french]{minitoc}
+%\usepackage[acronym,toc,automake]{glossaries} % acronym pour les acronymes et toc pour inclusion des glossary dans la table des matières. Ne doit pas etre inclue si \makeglossaries n'est pas invoqué!
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+%\usepackage{minted} % pour code avec coloration dans le texte
+\usepackage{url} % Pour avoir de belles url
+%% package ticks spécifiquement (pour les schémas) 
+%\usepackage{tikz}%
+%\usepackage[top=2cm,bottom=2cm]{geometry}
+%% paramètres tikz
+%\usetikzlibrary{patterns,decorations.pathreplacing,shapes.misc}
+%\usetikzlibrary{calc}
+%\tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+%default radius will be 1pt. 
+%cross/.default={5pt}}
+% \definecolor{Gray}{gray}{0.9}
+% \definecolor{LightCyan}{rgb}{0.88,1,1}
+% \newcommand{\RN}[1]{\textup{\uppercase\expandafter{\romannumeral#1}}}    
+
+%% Macros
+\newcommand{\incode}[1]{{\footnotesize\ttfamily #1}} % pour du pseudo-code simple
+\newcommand{\rem}[2]{\noindent\underline{Remarque} : \textit{#1}\\ \indent #2}
+\newcommand{\note}[1]{\noindent\underline{Note} : \\ \indent #1}
+\newcommand{\defi}[2]{\noindent\underline{Définition} : \textbf{#1},\\ \indent #2}
+\newcommand{\slide}[2]{\textbullet ~ Slide n°#1 : \indent #2}
+
+
+%% Infos document
+% Titre
+\title{Description des fonctionnalités de l'EncyclopéBeer}
+% auteurs
+\author{Armel \and Clément}
+% date de création du document
+\date{\today}
+
+%% Glossaire, acronymes et index
+%\makeglossaries
+%%% Glossaire
+%\newglossaryentry{gl:us}
+%{
+%name={US}, 
+%description={La description}
+%}
+%
+%%% Acronyme
+%\newglossaryentry{ac:us}
+%{
+%type = \acronymtype, name = {US}, 
+%description = {User Story}, 
+%first = {User Story (US)\glsadd{gl:us}}, 
+%see = [Glossaire:]{gl:us}
+%}
+
+\begin{document}
+%% Informations Générale
+\maketitle
+%\author{}
+%\date{}
+%% Organisation 
+\tableofcontents%\addcontentsline{toc}{chapter}{Table des matières}
+%\listoffigures\addcontentsline{toc}{chapter}{Table des figures}
+%\listoftables\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+\section{Introduction}
+
+L’EncyclopeBeer est une encyclopédie qui permet aux amateurs de bières de chercher, noter et garder en mémoire leurs bières favorites. \textcolor{blue}{Elle permet aussi de suivre sa consommation} \textcolor{red}{et d’obtenir des suggestions personnalisées en fonction de ses goûts.} \\
+
+Pour les marchands elle permet de connaître le profil de ses clients : leur goûts et préférences afin d'adapter leurs marchandise, faire des suggestions personnalisées ou bien générales en fonction de la communauté (localisée proche du marchand). \\
+
+
+\rem{Sur le code couleur employé dans ce document}{La couleur indique la priorité d'une fonctionnalité. 
+\begin{itemize}
+\item noir : fonctionnalité prioritaire,
+\item \textcolor{blue}{fonctionnalité intéressante mais secondaire,}
+\item \textcolor{red}{fonctionnalité à développer plus tard,}
+\item \textcolor{green}{fonctionnalité opérationnelles.}
+\end{itemize}
+}
+
+\section{Client Web}
+L'utilisateur principale du client Web est le client, ou \textbf{Reader}.\\
+
+\begin{itemize}
+ \item Créer un compte, 
+ \item Se connecter à son compte, 
+ \item \textcolor{red}{Ajouter/Supprimer des contacts eux aussi inscrits.}
+ \item Rechercher les produits pour : 
+ 	\begin{itemize}
+ 	 \item Noter un produit (avec commentaire écrit pour les clients \textit{certifiés}),
+ 	 \item Ajouter un produit aux favoris, 
+ 	 \item Ajouter un produit aux envies,
+ 	 \item Suggérer un produit à un contact,
+ 	\end{itemize}
+ \item Proposer un ajout de produit (informations minimums : nom, marque, type)
+ \item Consulter : 
+ 	\begin{itemize}
+ 	 \item la liste des favoris, 
+ 	 \item la liste des envies, 
+ 	 \item \textcolor{blue}{l'historique des produits marqués comme consommés (quantités),} 
+ 	 \item \textcolor{red}{Les alertes du système sur sa consommation (code couleur pour différents états d'ébriété),}
+ 	 \item \textcolor{red}{Les recommandations des amis ou du système,}
+ 	\end{itemize}
+ \item \textcolor{blue}{Ajouter un produit à sa consommation.}
+ \item \textcolor{red}{Ajouter une consommation (non bière) en unité d'alcool ou degrés/volume à son historique de consommation.}
+\end{itemize}
+
+\section{Client lourd}
+
+L'utilisateur principale est l'administrateur, ou \textbf{Admin}. \\
+
+\begin{itemize}
+ \item Ajouter un produit (directement ou via la liste de proposition des Readers,)
+ \item Supprimer un produit, 
+ \item Modifier un produit, 
+ \item Gérer les utilisateurs (promotion des droits, modération des commentaires),
+ \item Obtenir les statistiques détaillées d'un Readers \textcolor{blue}{à développer plus si historique de consommation},
+ \item Obtenir les statistiques détaillées de l'ensemble (globales) des Readers\textcolor{blue}{à développer plus si historique de consommation}
+ \item Obtenir les statistiques par produit (qui aime quoi, quel age, quel genre, quel localisation,...),
+ \item \textcolor{red}{Analyser ces statistiques pour alimenter un système de recommandation de produit par le système.}
+\end{itemize}
+ 
+\section{Idées en vrac}
+\note{Le code couleur ne s'applique plus içi}. \\
+
+\begin{itemize}
+ \item Un administrateur doit pouvoir élever les droits
+ \item Un Reader \textit{certifié} devrait pouvoir obtenir certains des droits administrateur. (Ajouter un produit, modérer les commentaires, obtenir ses stats et pourquoi pas celle de ses contacts),
+ \item Un Marchand devrait pouvoir indiquer la disponibilité d'un produit dans son commerce. 
+ \item Un partenariat avec certain Marchand serait sympa (sa donnerait un ``coté lyon's club'' avec avantage client : Exemple promo sur le top 10 locale, etc...)
+\end{itemize}
+
+
+%% Glossaires
+%\newpage
+%\printglossary[type=\acronymtype]%\addcontentsline{toc}{chapter}{Acronymes}
+%%\glsaddall% force l'apparition de tt les entrées du glossaire
+%\glsaddallunused % meme chose que addall mais ne force pas la numéroattion dans la liste d'acronyme
+%%\printunsrtglossary[type=main]
+%\printglossary[type = main,nonumberlist]%\addcontentsline{toc}{chapter}{Glossaire}
+
+\end{document}
