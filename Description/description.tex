@@ -104,7 +104,7 @@ L'utilisateur principale du client Web est le client, ou \textbf{Reader}.\\
  	 \item Noter un produit (avec commentaire écrit pour les clients \textit{certifiés}),
  	 \item Ajouter un produit aux favoris, 
  	 \item Ajouter un produit aux envies,
- 	 \item Suggérer un produit à un contact,
+ 	 \item \textcolor{red}{Suggérer un produit à un contact},
  	\end{itemize}
  \item Proposer un ajout de produit (informations minimums : nom, marque, type)
  \item Consulter : 
@@ -144,6 +144,21 @@ L'utilisateur principale est l'administrateur, ou \textbf{Admin}. \\
  \item Un partenariat avec certain Marchand serait sympa (sa donnerait un ``coté lyon's club'' avec avantage client : Exemple promo sur le top 10 locale, etc...)
 \end{itemize}
 
+\section{Recommandations}
+Sur l'ordre des choses à faire : \\
+
+\begin{enumerate}
+ \item Pensez la logique (les algos, les design pattern à utiliser), 
+ \item Pensez aux problèmes techniques associés à chaque fonctionnalités,
+ \item Pensez la base de donnée (en s'appuyant sur les Use Cases),
+ \item Faire la base de données (avec les script pour CrUDe),
+ \item Blinder le Diagramme de Classe,
+ \item Coder les classes (et faire la doc en même temps dont la description de toutes les fonctions avec entrée, sortie, logique). Ne pas oublier de gérer toutes les exceptions (ex :  champ de saisie, problèmes mathématiques possibles)
+ \item Coder l'interface (boutons, formulaires, tt ce qui a un champ de saisie, une fonction derrière un bouton),
+ \item Pensez au (blinder le) design (Sketch),
+ \item Appliquer le design(Application du Sketch et \textit{faire la peinture}),
+ \item Tester : test unitaire pour chaque classe et méthode puis test d'intégration et enfin test de validation
+\end{enumerate}
 
 %% Glossaires
 %\newpage
