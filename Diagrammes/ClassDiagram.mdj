@@ -10020,9 +10020,9 @@
 							"font": "Arial;13;0",
 							"left": 1576,
 							"top": 632,
-							"width": 70,
-							"height": 129,
-							"text": "Et de 1 one to one! On pourrait ajouter ici d'autre type de produits!"
+							"width": 209,
+							"height": 89,
+							"text": "Et de 1 one to one(un peu forcé quand même). On pourrait ajouter ici d'autre type de produits! (il faudrait revoir les multiplicités du coup)"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -10038,7 +10038,7 @@
 								"$ref": "AAAAAAF9zkl47T2HxtA="
 							},
 							"lineStyle": 1,
-							"points": "1575:673;1376:544;1371:410"
+							"points": "1576:631;1376:544;1371:410"
 						}
 					]
 				},
