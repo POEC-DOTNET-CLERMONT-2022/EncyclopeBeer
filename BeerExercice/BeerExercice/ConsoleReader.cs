@@ -20,7 +20,7 @@ namespace BeerExercice
         /// Ask the user for an integer and return it. Continue ask until user enter an int
         /// </summary>
         /// <returns></returns>
-        internal int ReadIntFromUser()
+        public int ReadIntFromUser()
         {
             Console.WriteLine("Choisissez un int : ");
             

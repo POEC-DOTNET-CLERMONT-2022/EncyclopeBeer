@@ -11,6 +11,7 @@ namespace BeerExercice
         public IWriter Writer { get; set; }
 
         public Beer ReadBeer();
+        public int ReadIntFromUser();
 
     }
 }

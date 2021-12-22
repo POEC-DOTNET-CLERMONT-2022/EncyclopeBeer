@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeerExercice
 {
-    class BeerManager
+    internal class BeerManager
     {
         private IWriter Writer { get; }
         private IReader Reader { get; }
@@ -28,7 +28,7 @@ namespace BeerExercice
                 Beers.Add(Reader.ReadBeer());
 
             }
-            catch (Exception e) // a voir selon les possible exceptions dans create beer
+            catch (Exception e) // a voir selon les possible exceptions dans ReadBeer
             {
 
             }
@@ -43,12 +43,12 @@ namespace BeerExercice
                 {
                     var index = Reader.ReadIntFromUser();
                     Beers.RemoveAt(index);
+                    // On pourrait rajouter une validation utilisateur ici...
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch (ArgumentOutOfRangeException e) // exception levé si l'index n'existe pas
                 {
                     Writer.Display($"L'emplacement demandé n'existe pas.");
-                    Writer.Display($"Voulez vous réessayer (o/n)");
-                    var inpur = Reader. 
+                    Writer.Display($"Retour au menu principal.");
                 }
 
             }
