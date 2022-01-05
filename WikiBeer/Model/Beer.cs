@@ -36,7 +36,7 @@ namespace Ipme.WikiBeer.Model
             Degree = degree;
             //Ingredients = ingredients;
             _ingredients = new List<Ingredient>(); // marche si Ingredient n'est pas abstract 
-            _ingredients.AddRange(_fixture.CreateMany<Hops>(2));
+            _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
             //Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
             //Ingredients.AddRange(_fixture.CreateMany<Hops>(2));
         }
