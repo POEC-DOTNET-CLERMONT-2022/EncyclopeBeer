@@ -19,7 +19,7 @@
                         <TextBlock Text="{Binding Degree}"/>
                         <TextBlock Text=" - Id : "/>
                         <TextBlock Text="{Binding Id}"/>
-                        <TextBlock Text="Ingredients : "/>
+                        <TextBlock Text=" - Ingredients : "/>
                         <TextBlock Text="{Binding Ingredients}"/>
                         <TextBlock Text="."/>
                     </StackPanel>

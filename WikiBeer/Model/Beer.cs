@@ -15,11 +15,11 @@ namespace Ipme.WikiBeer.Model
         private readonly Fixture _fixture = new Fixture();
         public List<Ingredient> _ingredients;
 
-        //public List<Ingredient> Ingredients 
-        //{
-        //    get { return _ingredients; }
-        //    set { _ingredients = value; } 
-        //}
+        public List<Ingredient> Ingredients
+        {
+            get { return _ingredients; }
+            set { _ingredients = value; }
+        }
         //public List<Ingredient> Ingredients { get; internal set; }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace Ipme.WikiBeer.Extension.Factories
 
         public static BeerDto ToDto(this Beer beer)
         {
-            return new BeerDto {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu};
+            return new BeerDto {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu, Ingredients = beer.Ingredients};
         }
 
         //public static IEnumerable<Beer> ToModel(this IEnumerable<BeerDto> beers)
@@ -32,7 +32,7 @@ namespace Ipme.WikiBeer.Extension.Factories
 
         //public static Beer ToModel(this BeerDto beer)
         //{
-        //    return new Beer {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu};
+        //    return new Beer {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu, Ingredients = beer.Ingredients};
         //}
 
     }
