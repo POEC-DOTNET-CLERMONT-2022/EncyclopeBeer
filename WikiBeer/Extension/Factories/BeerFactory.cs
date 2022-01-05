@@ -19,7 +19,8 @@ namespace Ipme.WikiBeer.Extension.Factories
 
         public static BeerDto ToDto(this Beer beer)
         {
-            return new BeerDto {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu, Ingredients = beer.Ingredients.ToDto().ToList()};
+            // ToList Nécessaire à cause de l'implémentation de Ingredients comme une liste!
+            return new BeerDto {Id = beer.Id, Name = beer.Name , Degree = beer.Degree, Ibu = beer.Ibu, Ingredients = beer.Ingredients.ToDto().ToList()};  
         }
 
         //public static IEnumerable<Beer> ToModel(this IEnumerable<BeerDto> beers)

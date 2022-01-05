@@ -14,7 +14,7 @@ namespace Ipme.WikiBeer.Model
 
         private readonly Fixture _fixture = new Fixture();
 
-        // TODO Voir plus bas pour des histoire de bug
+        // TODO Voir plus bas pour des histoire de bug et surtout de comment passer une liste d'enfant d'abstract en wcf!
 
         //public List<Ingredient> _ingredients;
         //public List<Ingredient> Ingredients
