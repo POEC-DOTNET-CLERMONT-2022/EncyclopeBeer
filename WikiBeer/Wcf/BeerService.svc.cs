@@ -26,8 +26,7 @@ namespace Ipme.WikiBeer.Wcf
 
         public IEnumerable<BeerDto> GetBeers()
         {
-
-            //var beers = new List<BeerDto>() { new BeerDto{Id = Guid.NewGuid(), Name = "my_beer", Ibu = (float)0.5 , Degree = 5} };
+            //var beers = new List<BeerDto>() { new BeerDto { Id = Guid.NewGuid(), Name = "my_beer", Ibu = (float)0.5, Degree = 5 } };
             //foreach (var beer in beers)
             //{
             //    yield return beer;

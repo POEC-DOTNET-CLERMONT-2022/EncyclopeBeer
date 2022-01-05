@@ -13,14 +13,19 @@ namespace Ipme.WikiBeer.Model
         public float Degree { get; internal set; }
 
         private readonly Fixture _fixture = new Fixture();
-        public List<Ingredient> _ingredients;
 
-        public List<Ingredient> Ingredients
-        {
-            get { return _ingredients; }
-            set { _ingredients = value; }
-        }
-        //public List<Ingredient> Ingredients { get; internal set; }
+        // TODO Voir plus bas pour des histoire de bug
+
+        //public List<Ingredient> _ingredients;
+        //public List<Ingredient> Ingredients
+        //{
+        //    get { return _ingredients; }
+        //    set { _ingredients = value; }
+        //}
+ 
+        public List<Ingredient> Ingredients { get; internal set; }
+
+        //public List<string> Ingredients { get; internal set; } // pour test uniquement
 
         /// <summary>
         /// TODO : Résoudre le bug Fixture (voir comment plus bas sur property Vs attribut)
@@ -35,10 +40,12 @@ namespace Ipme.WikiBeer.Model
             Ibu = ibu;
             Degree = degree;
             //Ingredients = ingredients;
-            _ingredients = new List<Ingredient>(); // marche si Ingredient n'est pas abstract 
-            _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
-            //Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
-            //Ingredients.AddRange(_fixture.CreateMany<Hops>(2));
+            //_ingredients = new List<Ingredient>(); // marche si Ingredient n'est pas abstract 
+            //_ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
+            Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
+            Ingredients.AddRange(_fixture.CreateMany<Ingredient>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
+
+            //Ingredients = new List<string>(); // Pour test uniquement
         }
 
         public override string ToString()
