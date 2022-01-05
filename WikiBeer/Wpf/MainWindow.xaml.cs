@@ -1,18 +1,6 @@
 ﻿using Ipme.WikiBeer.Persistance;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ipme.WikiBeer.Wpf.UC;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ipme.WikiBeer.Wpf
 {
@@ -22,12 +10,17 @@ namespace Ipme.WikiBeer.Wpf
     public partial class MainWindow : Window
     {
         public IBeerManager BeerManager { get; }
+        public HomeUC HomeUC { get; set; } = new HomeUC();
 
         public MainWindow()
         {
             InitializeComponent();
-            BeerManager = new BeerManager();
-            BeerList.ItemsSource = BeerManager.GetAllBeer();
+            if (Application.Current is App app)
+            {
+                BeerManager = app.BeerManager;
+            }
+
+            MainControl.Content = HomeUC;
         }
     }
 }

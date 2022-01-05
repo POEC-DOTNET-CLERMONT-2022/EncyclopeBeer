@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ipme.WikiBeer.Persistance;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,6 +14,6 @@ namespace Ipme.WikiBeer.Wpf
     /// </summary>
     public partial class App : Application
     {
-
+        public IBeerManager BeerManager { get; set; } = new BeerManager();
     }
 }
