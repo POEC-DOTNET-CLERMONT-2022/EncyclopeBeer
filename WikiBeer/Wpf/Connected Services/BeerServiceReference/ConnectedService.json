@@ -1,0 +1,24 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "http://localhost:60260/BeerService.svc"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, BeerServiceReference"
+    ],
+    "references": [
+      "AutoFixture, {AutoFixture, 4.17.0}",
+      "Fare, {Fare, 2.1.1}",
+      "System.ComponentModel, {System.ComponentModel, 4.3.0}",
+      "System.ComponentModel.Annotations, {System.ComponentModel.Annotations, 4.3.0}",
+      "System.Runtime, {System.Runtime, 4.3.0}"
+    ],
+    "sync": true,
+    "targetFramework": "net6.0",
+    "typeReuseMode": "All"
+  }
+}
