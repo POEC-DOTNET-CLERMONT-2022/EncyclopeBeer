@@ -23,7 +23,7 @@
                 <Button Content="Statistique" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Stats"/>
                 <Button Content="Manager" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Manager"/>
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
-                    <Button Content="Beer" />
+                    <Button Content="Beer" Click="Button_Click_Beer"/>
                     <Button Content="Brewery"/>
                     <Button Content="Ingredient"/>
                     <Button Content="Color"/>

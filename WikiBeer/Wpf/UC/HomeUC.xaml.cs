@@ -38,6 +38,10 @@ namespace Ipme.WikiBeer.Wpf.UC
                 SubMenuManager.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void Button_Click_Beer(object sender, RoutedEventArgs e)
+        {
             HomeControl.Content = ListBeerUC;
         }
 
