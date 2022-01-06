@@ -12,6 +12,12 @@ namespace Ipme.WikiBeer.Wpf.UC
         public IBeerManager BeerManager { get; }
 
         public ListBeerUC ListBeerUC { get; set; } = new ListBeerUC();
+        public StatisticUC StatisticUC { get; set; } = new StatisticUC();
+        public BreweryUC BreweryUC { get; set; } = new BreweryUC();
+        public IngredientUC IngredientUC { get; set; } = new IngredientUC();
+        public ColorUC ColorUC { get; set; } = new ColorUC();
+        public FamilyUC FamilyUC { get; set; } = new FamilyUC();
+        public UserUC UserUC { get; set; } = new UserUC();
 
         public HomeUC()
         {
@@ -24,7 +30,7 @@ namespace Ipme.WikiBeer.Wpf.UC
 
         private void Button_Click_Stats(object sender, RoutedEventArgs e)
         {
-
+            HomeControl.Content = StatisticUC;
         }
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
@@ -45,10 +51,32 @@ namespace Ipme.WikiBeer.Wpf.UC
             HomeControl.Content = ListBeerUC;
         }
 
+        private void Button_Click_Brewery(object sender, RoutedEventArgs e)
+        {
+            HomeControl.Content = BreweryUC;
+
+        }
+
+        private void Button_Click_Ingredient(object sender, RoutedEventArgs e)
+        {
+            HomeControl.Content = IngredientUC;
+
+        }
+
+        private void Button_Click_Color(object sender, RoutedEventArgs e)
+        {
+            HomeControl.Content = ColorUC;
+
+        }
+
+        private void Button_Click_Family(object sender, RoutedEventArgs e)
+        {
+            HomeControl.Content = FamilyUC;
+        }
 
         private void Button_Click_User(object sender, RoutedEventArgs e)
         {
-
+            HomeControl.Content = UserUC;
         }
     }
 }

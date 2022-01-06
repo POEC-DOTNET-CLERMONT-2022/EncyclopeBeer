@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Persistance;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Ipme.WikiBeer.Wpf.UC
@@ -13,7 +14,10 @@ namespace Ipme.WikiBeer.Wpf.UC
         public ListBeerUC()
         {
             InitializeComponent();
-            BeerManager = new BeerManager();
+            if (Application.Current is App app)
+            {
+                BeerManager = app.BeerManager;
+            }
             BeerList.ItemsSource = BeerManager.GetAllBeer();
         }
     }

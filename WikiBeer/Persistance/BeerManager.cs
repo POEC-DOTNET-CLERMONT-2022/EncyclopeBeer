@@ -14,7 +14,7 @@ namespace Ipme.WikiBeer.Persistance
         {
             //Beers = new List<Beer>();
             _beers = new List<Beer>();
-            _beers.AddRange(_fixture.CreateMany<Beer>(1));
+            _beers.AddRange(_fixture.CreateMany<Beer>(20));
         }
 
         public IEnumerable<Beer> GetAllBeer()
