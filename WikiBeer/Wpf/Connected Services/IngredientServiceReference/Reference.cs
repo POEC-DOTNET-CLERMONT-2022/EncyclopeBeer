@@ -7,92 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BeerServiceReference
+namespace IngredientServiceReference
 {
     using System.Runtime.Serialization;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BeerDto", Namespace="http://schemas.datacontract.org/2004/07/Ipme.WikiBeer.Dtos")]
-    public partial class BeerDto : object
-    {
-        
-        private float DegreeField;
-        
-        private float IbuField;
-        
-        private System.Guid IdField;
-        
-        private BeerServiceReference.IngredientDto[] IngredientsField;
-        
-        private string NameField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public float Degree
-        {
-            get
-            {
-                return this.DegreeField;
-            }
-            set
-            {
-                this.DegreeField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public float Ibu
-        {
-            get
-            {
-                return this.IbuField;
-            }
-            set
-            {
-                this.IbuField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid Id
-        {
-            get
-            {
-                return this.IdField;
-            }
-            set
-            {
-                this.IdField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public BeerServiceReference.IngredientDto[] Ingredients
-        {
-            get
-            {
-                return this.IngredientsField;
-            }
-            set
-            {
-                this.IngredientsField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name
-        {
-            get
-            {
-                return this.NameField;
-            }
-            set
-            {
-                this.NameField = value;
-            }
-        }
-    }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
@@ -147,25 +65,25 @@ namespace BeerServiceReference
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BeerServiceReference.IBeerService")]
-    public interface IBeerService
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="IngredientServiceReference.IIngredientService")]
+    public interface IIngredientService
     {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBeers", ReplyAction="http://tempuri.org/IBeerService/GetBeersResponse")]
-        BeerServiceReference.BeerDto[] GetBeers();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIngredientService/GetIngredients", ReplyAction="http://tempuri.org/IIngredientService/GetIngredientsResponse")]
+        IngredientServiceReference.IngredientDto[] GetIngredients();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBeers", ReplyAction="http://tempuri.org/IBeerService/GetBeersResponse")]
-        System.Threading.Tasks.Task<BeerServiceReference.BeerDto[]> GetBeersAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIngredientService/GetIngredients", ReplyAction="http://tempuri.org/IIngredientService/GetIngredientsResponse")]
+        System.Threading.Tasks.Task<IngredientServiceReference.IngredientDto[]> GetIngredientsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public interface IBeerServiceChannel : BeerServiceReference.IBeerService, System.ServiceModel.IClientChannel
+    public interface IIngredientServiceChannel : IngredientServiceReference.IIngredientService, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public partial class BeerServiceClient : System.ServiceModel.ClientBase<BeerServiceReference.IBeerService>, BeerServiceReference.IBeerService
+    public partial class IngredientServiceClient : System.ServiceModel.ClientBase<IngredientServiceReference.IIngredientService>, IngredientServiceReference.IIngredientService
     {
         
         /// <summary>
@@ -175,47 +93,47 @@ namespace BeerServiceReference
         /// <param name="clientCredentials">Informations d'identification du client</param>
         static partial void ConfigureEndpoint(System.ServiceModel.Description.ServiceEndpoint serviceEndpoint, System.ServiceModel.Description.ClientCredentials clientCredentials);
         
-        public BeerServiceClient() : 
-                base(BeerServiceClient.GetDefaultBinding(), BeerServiceClient.GetDefaultEndpointAddress())
+        public IngredientServiceClient() : 
+                base(IngredientServiceClient.GetDefaultBinding(), IngredientServiceClient.GetDefaultEndpointAddress())
         {
-            this.Endpoint.Name = EndpointConfiguration.BasicHttpBinding_IBeerService.ToString();
+            this.Endpoint.Name = EndpointConfiguration.BasicHttpBinding_IIngredientService.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public BeerServiceClient(EndpointConfiguration endpointConfiguration) : 
-                base(BeerServiceClient.GetBindingForEndpoint(endpointConfiguration), BeerServiceClient.GetEndpointAddress(endpointConfiguration))
-        {
-            this.Endpoint.Name = endpointConfiguration.ToString();
-            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        }
-        
-        public BeerServiceClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
-                base(BeerServiceClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
+        public IngredientServiceClient(EndpointConfiguration endpointConfiguration) : 
+                base(IngredientServiceClient.GetBindingForEndpoint(endpointConfiguration), IngredientServiceClient.GetEndpointAddress(endpointConfiguration))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public BeerServiceClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(BeerServiceClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        public IngredientServiceClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
+                base(IngredientServiceClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public BeerServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public IngredientServiceClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(IngredientServiceClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        {
+            this.Endpoint.Name = endpointConfiguration.ToString();
+            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
+        }
+        
+        public IngredientServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
         }
         
-        public BeerServiceReference.BeerDto[] GetBeers()
+        public IngredientServiceReference.IngredientDto[] GetIngredients()
         {
-            return base.Channel.GetBeers();
+            return base.Channel.GetIngredients();
         }
         
-        public System.Threading.Tasks.Task<BeerServiceReference.BeerDto[]> GetBeersAsync()
+        public System.Threading.Tasks.Task<IngredientServiceReference.IngredientDto[]> GetIngredientsAsync()
         {
-            return base.Channel.GetBeersAsync();
+            return base.Channel.GetIngredientsAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -230,7 +148,7 @@ namespace BeerServiceReference
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IBeerService))
+            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IIngredientService))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
@@ -244,27 +162,27 @@ namespace BeerServiceReference
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IBeerService))
+            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IIngredientService))
             {
-                return new System.ServiceModel.EndpointAddress("http://localhost:60260/BeerService.svc");
+                return new System.ServiceModel.EndpointAddress("http://localhost:60260/IngredientService.svc");
             }
             throw new System.InvalidOperationException(string.Format("Le point de terminaison nommé \'{0}\' est introuvable.", endpointConfiguration));
         }
         
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return BeerServiceClient.GetBindingForEndpoint(EndpointConfiguration.BasicHttpBinding_IBeerService);
+            return IngredientServiceClient.GetBindingForEndpoint(EndpointConfiguration.BasicHttpBinding_IIngredientService);
         }
         
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return BeerServiceClient.GetEndpointAddress(EndpointConfiguration.BasicHttpBinding_IBeerService);
+            return IngredientServiceClient.GetEndpointAddress(EndpointConfiguration.BasicHttpBinding_IIngredientService);
         }
         
         public enum EndpointConfiguration
         {
             
-            BasicHttpBinding_IBeerService,
+            BasicHttpBinding_IIngredientService,
         }
     }
 }

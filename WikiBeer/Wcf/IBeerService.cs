@@ -15,13 +15,13 @@ namespace Ipme.WikiBeer.Wcf
     public interface IBeerService
     {
         IBeerManager BeerManager { get; }
-        IIngredientManager IngredientManager { get; }
+        //IIngredientManager IngredientManager { get; }
 
         [OperationContract]
         IEnumerable<BeerDto> GetBeers();
 
-        [OperationContract]
-        IEnumerable<IngredientDto> GetIngredients();
+        //[OperationContract]
+        //IEnumerable<IngredientDto> GetIngredients();
         //[OperationContract]
         //CompositeType GetDataUsingDataContract(CompositeType composite);
 

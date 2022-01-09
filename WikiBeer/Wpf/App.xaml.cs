@@ -1,4 +1,5 @@
 ﻿using BeerServiceReference;
+using IngredientServiceReference;
 using Ipme.WikiBeer.Persistance;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace Ipme.WikiBeer.Wpf
     {
 //        public IBeerManager BeerManager { get; } // Pour créer des objets Beer directement
         public BeerServiceClient BeerServiceClient { get; } // pour passer via wcf
+        public IngredientServiceClient IngredientServiceClient { get; } // pour passer via wcf
 
         public App()
         {
             InitializeComponent();
             BeerServiceClient = new BeerServiceClient();
+            IngredientServiceClient = new IngredientServiceClient();
 //            BeerManager = new BeerManager();
          }
     }

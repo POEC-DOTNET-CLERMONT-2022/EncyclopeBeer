@@ -26,7 +26,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Name : "/>
                                         <TextBlock Text="{Binding Name}"/>
-                                        <TextBlock Text="Type : "/>
+                                        <TextBlock Text=", Type : "/>
                                         <TextBlock Text="{Binding TypeOfIngredient}"/>
                                     </StackPanel>
                                 </DataTemplate>

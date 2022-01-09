@@ -23,7 +23,7 @@ namespace Ipme.WikiBeer.Wcf
         public BeerService()
         {
             BeerManager = new BeerManager();
-            IngredientManager = new IngredientManager();
+            //IngredientManager = new IngredientManager();
         }
 
         public IEnumerable<BeerDto> GetBeers()
@@ -34,11 +34,6 @@ namespace Ipme.WikiBeer.Wcf
             //    yield return beer;
             //}
             return BeerManager.GetAllBeer().ToDto();
-        }
-
-        public IEnumerable<IngredientDto> GetIngredients()
-        {
-            return IngredientManager.GetAllIngredient().ToDto();
         }
     }
 }

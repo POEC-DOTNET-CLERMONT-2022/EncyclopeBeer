@@ -8,5 +8,7 @@ namespace Ipme.WikiBeer.Persistance
     public interface IIngredientManager
     {
         IEnumerable<Ingredient> GetAllIngredient();
+
+        IEnumerable<Hops> GetAllHop();
     }
 }

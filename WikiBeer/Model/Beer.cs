@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Ipme.WikiBeer.Model.Ingredients;
+using Ipme.WikiBeer.Model.Magic;
 using System;
 using System.Collections.Generic;
 
@@ -25,8 +26,6 @@ namespace Ipme.WikiBeer.Model
  
         public List<Ingredient> Ingredients { get; internal set; }
 
-        //public List<string> Ingredients { get; internal set; } // pour test uniquement
-
         /// <summary>
         /// TODO : Résoudre le bug Fixture (voir comment plus bas sur property Vs attribut)
         /// </summary>
@@ -35,6 +34,7 @@ namespace Ipme.WikiBeer.Model
         /// <param name="degree"></param>
         public Beer(string name, float ibu, float degree)
         {
+            // Définitif
             Id = Guid.NewGuid();
             Name = name;
             Ibu = ibu;
@@ -43,12 +43,11 @@ namespace Ipme.WikiBeer.Model
             //_ingredients = new List<Ingredient>(); // marche si Ingredient n'est pas abstract 
             //_ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
             Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
-            
+
+            // Fixture            
             Ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
             Ingredients.AddRange(_fixture.CreateMany<Additive>(FixtureDefaultMagic.DEFAULT_ADDITIVES_NUMBER));
             Ingredients.AddRange(_fixture.CreateMany<Cereal>(FixtureDefaultMagic.DEFAULT_CEREALS_NUMBER));
-
-            //Ingredients = new List<string>(); // Pour test uniquement
         }
 
         public override string ToString()
@@ -56,6 +55,10 @@ namespace Ipme.WikiBeer.Model
             return $" Name: {Name} - IBU: {Ibu} - Degree: {Degree}%";
         }
 
+        /// <summary>
+        /// Pour transfert interne d'une bière à une autre (dans le futur Update du BeerManager)
+        /// </summary>
+        /// <param name="new_beer"></param>
         public void TransferId(Beer new_beer)
         {
             if (new_beer == null)

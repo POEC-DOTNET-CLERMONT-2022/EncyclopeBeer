@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Model.Ingredients;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Ipme.WikiBeer.Extension.Factories
         public static IngredientDto ToDto(this Ingredient ingredient)
         {
             //return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name};
-            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name, TypeOfIngredient = ingredient.TypeOfIngredient }; // Pour test classe asbtract
+            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name, Description = ingredient.Description, TypeOfIngredient = ingredient.TypeOfIngredient }; // Pour test classe asbtract
         }
     }
 }

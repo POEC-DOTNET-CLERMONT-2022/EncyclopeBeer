@@ -1,5 +1,6 @@
 ﻿using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Model;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Linq;

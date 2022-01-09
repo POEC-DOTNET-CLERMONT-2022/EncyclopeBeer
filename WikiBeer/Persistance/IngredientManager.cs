@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Ipme.WikiBeer.Model.Ingredients;
+using Ipme.WikiBeer.Persistance.Magic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace Ipme.WikiBeer.Persistance
 
         public IngredientManager()
         {
+            // Définitifs
             _ingredients = new List<Ingredient>();
+
+            // Fixture
             _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
             _ingredients.AddRange(_fixture.CreateMany<Additive>(FixtureDefaultMagic.DEFAULT_ADDITIVES_NUMBER));
             _ingredients.AddRange(_fixture.CreateMany<Cereal>(FixtureDefaultMagic.DEFAULT_CEREALS_NUMBER));
@@ -38,10 +42,10 @@ namespace Ipme.WikiBeer.Persistance
         }
 
         /// <summary>
-        /// A passé en générique pous plus de simplicité
+        /// A passer en générique pous plus de simplicité
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Hops> GetAllHops()
+        public IEnumerable<Hops> GetAllHop()
         {
             return _ingredients.OfType<Hops>();
         }

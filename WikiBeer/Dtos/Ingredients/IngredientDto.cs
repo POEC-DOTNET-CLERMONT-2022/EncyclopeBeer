@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Ipme.WikiBeer.Dtos
+namespace Ipme.WikiBeer.Dtos.Ingredients
 {
     [DataContract]
     public class IngredientDto
@@ -12,6 +12,8 @@ namespace Ipme.WikiBeer.Dtos
         public Guid Id { get; set; }
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
+        public string Description { get; set; }
 
         [DataMember]
         public string TypeOfIngredient { get; set; }

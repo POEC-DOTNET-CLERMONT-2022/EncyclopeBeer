@@ -5,7 +5,7 @@ using System.Text;
 /// <summary>
 /// All the magic constant used in AutoFixture calls (Persistance classes only)
 /// </summary>
-namespace Ipme.WikiBeer.Persistance
+namespace Ipme.WikiBeer.Persistance.Magic
 {
     internal static class FixtureDefaultMagic
     {

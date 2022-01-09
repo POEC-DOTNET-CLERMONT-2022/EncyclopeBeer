@@ -25,7 +25,7 @@
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
                     <Button Content="Beer" Click="Button_Click_Beer"/>
                     <Button Content="Brewery"/>
-                    <Button Content="Ingredient"/>
+                    <Button Content="Ingredient" Click="Button_Click_Ingredient"/>
                     <Button Content="Color"/>
                     <Button Content="Family"/>
                 </StackPanel>

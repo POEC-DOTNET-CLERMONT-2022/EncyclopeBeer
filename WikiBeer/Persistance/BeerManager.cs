@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoFixture;
 using Ipme.WikiBeer.Model;
+using Ipme.WikiBeer.Persistance.Magic;
 
 namespace Ipme.WikiBeer.Persistance
 {
@@ -13,8 +14,10 @@ namespace Ipme.WikiBeer.Persistance
 
         public BeerManager()
         {
-            //Beers = new List<Beer>();
+            // Définitifs
             _beers = new List<Beer>();
+
+            // Fixture
             _beers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEER_NUMBER));
         }
 
