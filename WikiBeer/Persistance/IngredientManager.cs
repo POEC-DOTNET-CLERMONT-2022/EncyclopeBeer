@@ -16,7 +16,9 @@ namespace Ipme.WikiBeer.Persistance
         public IngredientManager()
         {
             _ingredients = new List<Ingredient>();
-            _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_INGREDIENT_NUMBER));
+            _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
+            _ingredients.AddRange(_fixture.CreateMany<Additive>(FixtureDefaultMagic.DEFAULT_ADDITIVES_NUMBER));
+            _ingredients.AddRange(_fixture.CreateMany<Cereal>(FixtureDefaultMagic.DEFAULT_CEREALS_NUMBER));
         }
 
         public void AddIngredient(Ingredient ingredient)

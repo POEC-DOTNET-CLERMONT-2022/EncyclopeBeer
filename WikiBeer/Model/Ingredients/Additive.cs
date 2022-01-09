@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Model.Ingredients
 {
-    internal class Additive : Ingredient
+    public class Additive : Ingredient
     {
         public string Use { get; internal set; }
 
