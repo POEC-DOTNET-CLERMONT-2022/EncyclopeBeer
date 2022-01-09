@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.Model
 {
     internal class BeerStyle
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public string Name { get; internal set; }
         public string Description { get; internal set; }
         /// <summary>
@@ -27,7 +27,7 @@ namespace Ipme.WikiBeer.Model
             CorrespondingBeers = new List<Beer>();
 
             //Fixture
-            CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLES_NUMBER));
+            CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
         }
     }
 }

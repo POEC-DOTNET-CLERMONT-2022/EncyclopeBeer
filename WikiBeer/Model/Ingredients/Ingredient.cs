@@ -7,7 +7,7 @@ namespace Ipme.WikiBeer.Model.Ingredients
 {
     public abstract class Ingredient
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public string Name { get; internal set; }
         public string Description { get; internal set; }
         public string TypeOfIngredient { get; private set; }

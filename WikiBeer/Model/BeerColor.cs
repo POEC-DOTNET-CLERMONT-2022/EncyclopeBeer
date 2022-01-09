@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.Model
 {
     internal class BeerColor
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public string Name { get; internal set; }
         /// <summary>
         /// Peut être directement un Beer Manager au lieu d'une liste + méthodes CrUDe ???
@@ -25,7 +25,7 @@ namespace Ipme.WikiBeer.Model
             CorrespondingBeers = new List<Beer>();
 
             //Fixture
-            CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERCOLORS_NUMBER));
+            CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERCOLOR_NUMBER));
         }
     }
 }

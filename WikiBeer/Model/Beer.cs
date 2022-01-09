@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.Model
 {
     public class Beer
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public string Name { get; internal set; }
         public float Ibu { get; internal set; }
         public float Degree { get; internal set; }
@@ -59,17 +59,17 @@ namespace Ipme.WikiBeer.Model
         /// Pour transfert interne d'une bière à une autre (dans le futur Update du BeerManager). Inutile???
         /// </summary>
         /// <param name="new_beer"></param>
-        public void TransferId(Beer new_beer)
-        {
-            if (new_beer == null)
-            {
-                return;
-            }
-            else
-            {
-                new_beer.Id = Id;
-            }
-        }
+        //public void TransferId(Beer new_beer)
+        //{
+        //    if (new_beer == null)
+        //    {
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        new_beer.Id = Id;
+        //    }
+        //}
 
     }
 }

@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.Model
 {
     internal class Brewery
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get;}
         
         public string Name { get; internal set; }
 
