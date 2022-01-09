@@ -12,5 +12,8 @@ namespace Ipme.WikiBeer.Dtos
         public Guid Id { get; set; }
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public string TypeOfIngredient { get; set; }
     }
 }

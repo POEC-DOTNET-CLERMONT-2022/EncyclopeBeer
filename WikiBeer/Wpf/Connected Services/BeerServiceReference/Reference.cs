@@ -104,6 +104,8 @@ namespace BeerServiceReference
         
         private string NameField;
         
+        private string TypeOfIngredientField;
+        
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Guid Id
         {
@@ -127,6 +129,19 @@ namespace BeerServiceReference
             set
             {
                 this.NameField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TypeOfIngredient
+        {
+            get
+            {
+                return this.TypeOfIngredientField;
+            }
+            set
+            {
+                this.TypeOfIngredientField = value;
             }
         }
     }

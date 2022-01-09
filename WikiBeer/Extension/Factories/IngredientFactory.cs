@@ -18,7 +18,8 @@ namespace Ipme.WikiBeer.Extension.Factories
 
         public static IngredientDto ToDto(this Ingredient ingredient)
         {
-            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name};
+            //return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name};
+            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name, TypeOfIngredient = ingredient.TypeOfIngredient }; // Pour test classe asbtract
         }
     }
 }
