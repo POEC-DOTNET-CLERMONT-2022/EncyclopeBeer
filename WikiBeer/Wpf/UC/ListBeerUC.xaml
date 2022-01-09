@@ -20,7 +20,17 @@
                         <TextBlock Text=" - Id : "/>
                         <TextBlock Text="{Binding Id}"/>
                         <TextBlock Text=" - Ingredients : "/>
-                        <TextBlock Text="{Binding Ingredients}"/>
+                        <!--<TextBlock Text="{Binding Ingredients}"/>-->
+                        <ListBox x:Name="Ingredients" ItemsSource="{Binding Ingredients}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Name : "/>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <TextBlock Text="."/>
                     </StackPanel>
                 </DataTemplate>

@@ -24,6 +24,8 @@ namespace BeerServiceReference
         
         private System.Guid IdField;
         
+        private BeerServiceReference.IngredientDto[] IngredientsField;
+        
         private string NameField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
@@ -66,6 +68,56 @@ namespace BeerServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public BeerServiceReference.IngredientDto[] Ingredients
+        {
+            get
+            {
+                return this.IngredientsField;
+            }
+            set
+            {
+                this.IngredientsField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name
+        {
+            get
+            {
+                return this.NameField;
+            }
+            set
+            {
+                this.NameField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IngredientDto", Namespace="http://schemas.datacontract.org/2004/07/Ipme.WikiBeer.Dtos")]
+    public partial class IngredientDto : object
+    {
+        
+        private System.Guid IdField;
+        
+        private string NameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid Id
+        {
+            get
+            {
+                return this.IdField;
+            }
+            set
+            {
+                this.IdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Name
         {
             get
@@ -89,6 +141,12 @@ namespace BeerServiceReference
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetBeers", ReplyAction="http://tempuri.org/IBeerService/GetBeersResponse")]
         System.Threading.Tasks.Task<BeerServiceReference.BeerDto[]> GetBeersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetIngredients", ReplyAction="http://tempuri.org/IBeerService/GetIngredientsResponse")]
+        BeerServiceReference.IngredientDto[] GetIngredients();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBeerService/GetIngredients", ReplyAction="http://tempuri.org/IBeerService/GetIngredientsResponse")]
+        System.Threading.Tasks.Task<BeerServiceReference.IngredientDto[]> GetIngredientsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
@@ -149,6 +207,16 @@ namespace BeerServiceReference
         public System.Threading.Tasks.Task<BeerServiceReference.BeerDto[]> GetBeersAsync()
         {
             return base.Channel.GetBeersAsync();
+        }
+        
+        public BeerServiceReference.IngredientDto[] GetIngredients()
+        {
+            return base.Channel.GetIngredients();
+        }
+        
+        public System.Threading.Tasks.Task<BeerServiceReference.IngredientDto[]> GetIngredientsAsync()
+        {
+            return base.Channel.GetIngredientsAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

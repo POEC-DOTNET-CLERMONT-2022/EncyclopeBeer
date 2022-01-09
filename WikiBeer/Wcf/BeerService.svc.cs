@@ -18,10 +18,12 @@ namespace Ipme.WikiBeer.Wcf
         //public IBeerManager BeerManager { get; private set; } = new BeerManager();
         //public IBeerManager BeerManager => new BeerManager();
         public IBeerManager BeerManager { get; }
+        public IIngredientManager IngredientManager { get; }
 
         public BeerService()
         {
             BeerManager = new BeerManager();
+            IngredientManager = new IngredientManager();
         }
 
         public IEnumerable<BeerDto> GetBeers()
@@ -32,6 +34,11 @@ namespace Ipme.WikiBeer.Wcf
             //    yield return beer;
             //}
             return BeerManager.GetAllBeer().ToDto();
+        }
+
+        public IEnumerable<IngredientDto> GetIngredients()
+        {
+            return IngredientManager.GetAllIngredient().ToDto();
         }
     }
 }
