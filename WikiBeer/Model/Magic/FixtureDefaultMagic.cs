@@ -10,13 +10,13 @@ namespace Ipme.WikiBeer.Model.Magic
     internal static class FixtureDefaultMagic
     {
         // Ingredient
-        internal const int DEFAULT_HOPS_NUMBER = 1;
-        internal const int DEFAULT_CEREALS_NUMBER = 1;
-        internal const int DEFAULT_ADDITIVES_NUMBER = 1;
+        internal const int DEFAULT_HOP_NUMBER = 1;
+        internal const int DEFAULT_CEREAL_NUMBER = 1;
+        internal const int DEFAULT_ADDITIVE_NUMBER = 1;
 
         // Brewery
         internal const int DEFAULT_BEER_NUMBER_BY_BREWERY = 5;
-        internal const int DEFAULT_BEERSTYLES_NUMBER = 10;
-        internal const int DEFAULT_BEERCOLORS_NUMBER = 10;
+        internal const int DEFAULT_BEERSTYLE_NUMBER = 10;
+        internal const int DEFAULT_BEERCOLOR_NUMBER = 10;
     }
 }

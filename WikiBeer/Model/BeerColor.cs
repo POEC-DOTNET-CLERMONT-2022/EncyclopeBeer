@@ -9,15 +9,11 @@ namespace Ipme.WikiBeer.Model
     internal class BeerColor
     {
         public Guid Id { get; private set; }
-
         public string Name { get; internal set; }
-
         /// <summary>
         /// Peut être directement un Beer Manager au lieu d'une liste + méthodes CrUDe ???
         /// </summary>
         public List<Beer> CorrespondingBeers { get; internal set; }
-
-        // TODO : Ajout du champ Country (doit être une classe)
 
         private readonly Fixture _fixture = new Fixture();
 
