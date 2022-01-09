@@ -10,7 +10,7 @@ namespace Ipme.WikiBeer.Persistance
 {
     public class IngredientManager : IIngredientManager
     {
-        private List<Ingredient> _ingredients;
+        private readonly List<Ingredient> _ingredients;
 
         private readonly Fixture _fixture = new Fixture();
 

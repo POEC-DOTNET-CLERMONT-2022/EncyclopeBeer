@@ -56,7 +56,7 @@ namespace Ipme.WikiBeer.Model
         }
 
         /// <summary>
-        /// Pour transfert interne d'une bière à une autre (dans le futur Update du BeerManager)
+        /// Pour transfert interne d'une bière à une autre (dans le futur Update du BeerManager). Inutile???
         /// </summary>
         /// <param name="new_beer"></param>
         public void TransferId(Beer new_beer)

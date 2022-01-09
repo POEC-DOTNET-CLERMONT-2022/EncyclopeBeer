@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.Persistance
 {
     public class BeerManager : IBeerManager
     {
-        private List<Beer> _beers;
+        private readonly List<Beer> _beers;
 
         private readonly Fixture _fixture = new Fixture();
 
