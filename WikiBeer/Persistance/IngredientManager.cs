@@ -2,6 +2,7 @@
 using Ipme.WikiBeer.Model.Ingredients;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Ipme.WikiBeer.Persistance
@@ -18,9 +19,30 @@ namespace Ipme.WikiBeer.Persistance
             _ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_INGREDIENT_NUMBER));
         }
 
+        public void AddIngredient(Ingredient ingredient)
+        {
+            _ingredients.Add(ingredient);
+        }
+
+        public void DeleteIngredient(Ingredient ingredient)
+        {
+            if (!_ingredients.Any())
+                _ingredients.Remove(ingredient);
+        }
+
         public IEnumerable<Ingredient> GetAllIngredient()
         {
             return _ingredients;
         }
+
+        /// <summary>
+        /// A passé en générique pous plus de simplicité
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Hops> GetAllHops()
+        {
+            return _ingredients.OfType<Hops>();
+        }
+
     }
 }

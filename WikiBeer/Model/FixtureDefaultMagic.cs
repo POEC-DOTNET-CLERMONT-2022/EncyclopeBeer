@@ -9,6 +9,8 @@ namespace Ipme.WikiBeer.Model
 {
     internal static class FixtureDefaultMagic
     {
-        internal const int DEFAULT_HOPS_NUMBER = 2; 
+        internal const int DEFAULT_HOPS_NUMBER = 1;
+        internal const int DEFAULT_CEREALS_NUMBER = 1;
+        internal const int DEFAULT_ADDITIVES_NUMBER = 1;
     }
 }

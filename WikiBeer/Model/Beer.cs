@@ -43,7 +43,10 @@ namespace Ipme.WikiBeer.Model
             //_ingredients = new List<Ingredient>(); // marche si Ingredient n'est pas abstract 
             //_ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
             Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
+            
             Ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOPS_NUMBER));
+            Ingredients.AddRange(_fixture.CreateMany<Additive>(FixtureDefaultMagic.DEFAULT_ADDITIVES_NUMBER));
+            Ingredients.AddRange(_fixture.CreateMany<Cereal>(FixtureDefaultMagic.DEFAULT_CEREALS_NUMBER));
 
             //Ingredients = new List<string>(); // Pour test uniquement
         }
