@@ -10,7 +10,6 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListBeerUC : UserControl
     {
-//        public IBeerManager BeerManager { get; }
         public BeerServiceClient BeerServiceClient { get; }
 
         public ListBeerUC()
@@ -24,12 +23,7 @@ namespace Ipme.WikiBeer.Wpf.UC
 
             var beers = BeerServiceClient.GetBeers();
             BeerList.ItemsSource = beers;
-            // BeerListIngredients.ItemSource;
-            //BeerList.
-
-            //            BeerServiceClient = 
-            //BeerManager = new BeerManager();
-            //BeerList.ItemsSource = BeerManager.GetAllBeer();
+            BeerServiceClient.Close();
         }
     }
 }

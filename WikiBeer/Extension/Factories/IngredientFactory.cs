@@ -9,6 +9,12 @@ namespace Ipme.WikiBeer.Extension.Factories
 {
     public static class IngredientFactory
     {
+
+        /// <summary>
+        /// TODO : à refaire via LInQ
+        /// </summary>
+        /// <param name="ingredients"></param>
+        /// <returns></returns>
         public static IEnumerable<IngredientDto> ToDto(this IEnumerable<Ingredient> ingredients)
         {
             foreach (var ingredient in ingredients)
@@ -18,9 +24,8 @@ namespace Ipme.WikiBeer.Extension.Factories
         }
 
         public static IngredientDto ToDto(this Ingredient ingredient)
-        {
-            //return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name};
-            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name, Description = ingredient.Description, TypeOfIngredient = ingredient.TypeOfIngredient }; // Pour test classe asbtract
+        {   // TypeOfIngredient ici pour test
+            return new IngredientDto { Id = ingredient.Id, Name = ingredient.Name, Description = ingredient.Description, TypeOfIngredient = ingredient.TypeOfIngredient }; 
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
+/// <summary>
+/// TODO : Faire des DTO spécifique aux classes dérivées de Ingredient
+/// </summary>
 namespace Ipme.WikiBeer.Dtos.Ingredients
 {
     [DataContract]
@@ -16,6 +19,6 @@ namespace Ipme.WikiBeer.Dtos.Ingredients
         public string Description { get; set; }
 
         [DataMember]
-        public string TypeOfIngredient { get; set; }
+        public string TypeOfIngredient { get; set; } // Pour test d'affichage
     }
 }

@@ -27,14 +27,14 @@ namespace Ipme.WikiBeer.Wpf.UC
             InitializeComponent();
             if (Application.Current is App app)
             {
-                //                BeerManager = app.BeerManager;
                 IngredientServiceClient = app.IngredientServiceClient;
             }
 
             var ingredients = IngredientServiceClient.GetIngredients();
             // TODO retransformation en véritable objet ici
 
-            HopList.ItemsSource = ingredients; // TODO : A splitter en Hops, Cereal et Additive -> De nouveaux DTO pour sa (à l'étape précédente)
+            HopList.ItemsSource = ingredients; // TODO : A splitter en Hops, Cereal et Additive -> De nouveaux DTO pour sa (à l'étape précédente). Voir comment passer des objets hérités via DTO
+            IngredientServiceClient.Close();
         }
     }
 }
