@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BeerService.svc" />
+    <Content Include="IngredientService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +77,10 @@
       <DependentUpon>BeerService.svc</DependentUpon>
     </Compile>
     <Compile Include="IBeerService.cs" />
+    <Compile Include="IIngredientService.cs" />
+    <Compile Include="IngredientService.svc.cs">
+      <DependentUpon>IngredientService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +112,9 @@
       <Project>{BC1FE0FC-C926-4474-9F4C-78A5E46AB143}</Project>
       <Name>Persistance</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

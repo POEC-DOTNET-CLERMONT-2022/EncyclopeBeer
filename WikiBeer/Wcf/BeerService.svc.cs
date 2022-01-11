@@ -15,8 +15,6 @@ namespace Ipme.WikiBeer.Wcf
     // REMARQUE : pour lancer le client test WCF afin de tester ce service, sélectionnez Service1.svc ou Service1.svc.cs dans l'Explorateur de solutions et démarrez le débogage.
     public class BeerService : IBeerService
     {
-        //public IBeerManager BeerManager { get; private set; } = new BeerManager();
-        //public IBeerManager BeerManager => new BeerManager();
         public IBeerManager BeerManager { get; }
 
         public BeerService()
@@ -26,8 +24,7 @@ namespace Ipme.WikiBeer.Wcf
 
         public IEnumerable<BeerDto> GetBeers()
         {
-
-            //var beers = new List<BeerDto>() { new BeerDto{Id = Guid.NewGuid(), Name = "my_beer", Ibu = (float)0.5 , Degree = 5} };
+            //var beers = new List<BeerDto>() { new BeerDto { Id = Guid.NewGuid(), Name = "my_beer", Ibu = (float)0.5, Degree = 5 } };
             //foreach (var beer in beers)
             //{
             //    yield return beer;
