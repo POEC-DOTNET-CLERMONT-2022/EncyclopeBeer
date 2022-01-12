@@ -10,6 +10,7 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListBeerUC : UserControl
     {
+
         public BeerServiceClient BeerServiceClient { get; }
 
         public ListBeerUC()
