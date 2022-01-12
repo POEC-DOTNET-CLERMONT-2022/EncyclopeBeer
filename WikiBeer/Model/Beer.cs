@@ -12,8 +12,12 @@ namespace Ipme.WikiBeer.Model
         public string Name { get; internal set; }
         public float Ibu { get; internal set; }
         public float Degree { get; internal set; }
+        public BeerStyle Style { get; internal set; }
+        public BeerColor Color { get; internal set; }
 
         private readonly Fixture _fixture = new Fixture();
+
+
 
         // TODO Voir plus bas pour des histoire de bug et surtout de comment passer une liste d'enfant d'abstract en wcf!
 
