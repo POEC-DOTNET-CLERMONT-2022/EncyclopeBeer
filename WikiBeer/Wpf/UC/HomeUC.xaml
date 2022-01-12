@@ -26,10 +26,10 @@
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
 
                     <Button Content="Beer" Click="Button_Click_Beer"/>
-                    <Button Content="Brewery"/>
+                    <Button Content="Brewery" Click="Button_Click_Brewery"/>
                     <Button Content="Ingredient" Click="Button_Click_Ingredient"/>
-                    <Button Content="Color"/>
-                    <Button Content="Family"/>
+                    <Button Content="Color" Click="Button_Click_Color"/>
+                    <Button Content="Family" Click="Button_Click_Family"/>
                   
                 </StackPanel>
                 <Button Content="Utilisateur" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>

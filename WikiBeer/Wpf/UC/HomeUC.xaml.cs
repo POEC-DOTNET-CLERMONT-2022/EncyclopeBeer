@@ -1,6 +1,5 @@
 ﻿//using BeerServiceReference;
 //using IngredientServiceReference;
-using Ipme.WikiBeer.Persistance;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,7 +16,7 @@ namespace Ipme.WikiBeer.Wpf.UC
         public ListBeerUC ListBeerUC { get; set; } = new ListBeerUC();
         public StatisticUC StatisticUC { get; set; } = new StatisticUC();
         public BreweryUC BreweryUC { get; set; } = new BreweryUC();
-        public IngredientUC IngredientUC { get; set; } = new IngredientUC();
+        public ListIngredientUC ListIngredientUC { get; set; } = new ListIngredientUC();
         public ColorUC ColorUC { get; set; } = new ColorUC();
         public FamilyUC FamilyUC { get; set; } = new FamilyUC();
         public UserUC UserUC { get; set; } = new UserUC();
@@ -63,7 +62,7 @@ namespace Ipme.WikiBeer.Wpf.UC
 
         private void Button_Click_Ingredient(object sender, RoutedEventArgs e)
         {
-            HomeControl.Content = IngredientUC;
+            HomeControl.Content = ListIngredientUC;
 
         }
 
