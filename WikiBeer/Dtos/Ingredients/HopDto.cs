@@ -6,5 +6,6 @@ namespace Ipme.WikiBeer.Dtos.Ingredients
 {
     internal class HopDto
     {
+        public float AlphaAcid { get; internal set; }
     }
 }
