@@ -17,7 +17,7 @@ namespace Ipme.WikiBeer.Wpf.UC
             InitializeComponent();
             if (Application.Current is App app)
             {
-                //                BeerManager = app.BeerManager;
+                //BeerManager = app.BeerManager;
                 BeerServiceClient = app.BeerServiceClient;
             }
 
