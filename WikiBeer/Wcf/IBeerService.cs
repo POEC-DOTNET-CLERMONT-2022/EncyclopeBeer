@@ -19,9 +19,5 @@ namespace Ipme.WikiBeer.Wcf
         [OperationContract]
         IEnumerable<BeerDto> GetBeers();
 
-        //[OperationContract]
-        //CompositeType GetDataUsingDataContract(CompositeType composite);
-
-        // TODO: ajoutez vos opérations de service ici
     }
 }

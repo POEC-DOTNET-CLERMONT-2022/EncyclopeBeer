@@ -1,4 +1,5 @@
-﻿using Ipme.WikiBeer.Persistance;
+﻿//using BeerServiceReference;
+//using Ipme.WikiBeer.Persistance;
 using Ipme.WikiBeer.Wpf.UC;
 using System.Windows;
 
@@ -9,16 +10,11 @@ namespace Ipme.WikiBeer.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public IBeerManager BeerManager { get; }
         public HomeUC HomeUC { get; set; } = new HomeUC();
 
         public MainWindow()
         {
             InitializeComponent();
-            if (Application.Current is App app)
-            {
-                BeerManager = app.BeerManager;
-            }
 
             MainControl.Content = HomeUC;
         }

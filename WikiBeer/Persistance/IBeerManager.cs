@@ -10,5 +10,8 @@ namespace Ipme.WikiBeer.Persistance
     public interface IBeerManager
     {
         IEnumerable<Beer> GetAllBeer();
+        void AddBeer(Beer beer_to_add);
+        void DeleteBeer(Beer beer_to_delete);
+
     }
 }

@@ -1,14 +1,14 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://localhost:60260/BeerService.svc"
+      "http://localhost:60260/IngredientService.svc"
     ],
     "collectionTypes": [
       "System.Array",
       "System.Collections.Generic.Dictionary`2"
     ],
     "namespaceMappings": [
-      "*, BeerServiceReference"
+      "*, IngredientServiceReference"
     ],
     "references": [
       "AutoFixture, {AutoFixture, 4.17.0}",

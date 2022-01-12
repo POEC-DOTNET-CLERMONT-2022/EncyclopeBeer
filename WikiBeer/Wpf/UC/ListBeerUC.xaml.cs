@@ -1,4 +1,5 @@
-﻿using Ipme.WikiBeer.Persistance;
+﻿using BeerServiceReference;
+using Ipme.WikiBeer.Persistance;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,16 +10,20 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListBeerUC : UserControl
     {
-        public IBeerManager BeerManager { get; }
+        public BeerServiceClient BeerServiceClient { get; }
 
         public ListBeerUC()
         {
             InitializeComponent();
             if (Application.Current is App app)
             {
-                BeerManager = app.BeerManager;
+                //BeerManager = app.BeerManager;
+                BeerServiceClient = app.BeerServiceClient;
             }
-            BeerList.ItemsSource = BeerManager.GetAllBeer();
+
+            var beers = BeerServiceClient.GetBeers();
+            BeerList.ItemsSource = beers;
+            BeerServiceClient.Close();
         }
     }
 }
