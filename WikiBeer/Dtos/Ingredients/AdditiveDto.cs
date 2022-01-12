@@ -6,9 +6,9 @@ using System.Text;
 namespace Ipme.WikiBeer.Dtos.Ingredients
 {
     [DataContract]
-    internal class HopDto : IngredientDto
+    internal class AdditiveDto : IngredientDto
     {
         [DataMember]
-        public float AlphaAcid { get; set; }
+        public string Use { get; set; }
     }
 }
