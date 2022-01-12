@@ -13,16 +13,12 @@ namespace Ipme.WikiBeer.Model
         public string Description { get; internal set; }
         public Country Country { get; internal set; }
 
-        private readonly Fixture _fixture = new Fixture();
-
         public Brewery(string name, string description = Rules.DEFAULT_BREWERY_DESCRIPTION)
         {
             // Définitifs
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
-            
-            //Fixture
         }
 
     }
