@@ -17,7 +17,6 @@ namespace Ipme.WikiBeer.Dtos.Ingredients
         public string Name { get; set; }
         [DataMember]
         public string Description { get; set; }
-
         [DataMember]
         public string TypeOfIngredient { get; set; } // Pour test d'affichage
     }

@@ -10,6 +10,11 @@ namespace Ipme.WikiBeer.Extension.Factories
 {
     public static class BeerFactory
     {
+        /// <summary>
+        /// TODO : a optimiser via LInQ
+        /// </summary>
+        /// <param name="beers"></param>
+        /// <returns></returns>
         public static IEnumerable<BeerDto> ToDto(this IEnumerable<Beer> beers)
         {
             foreach (var beer in beers)

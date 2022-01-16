@@ -6,15 +6,11 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Model
 {
-    internal class BeerStyle
+    public class BeerStyle
     {
         public Guid Id { get; }
         public string Name { get; internal set; }
         public string Description { get; internal set; }
-        /// <summary>
-        /// Peut être directement un Beer Manager au lieu d'une liste + méthodes CrUDe ???
-        /// </summary>
-        public List<Beer> CorrespondingBeers { get; internal set; }
 
         private readonly Fixture _fixture = new Fixture();
 
@@ -24,10 +20,9 @@ namespace Ipme.WikiBeer.Model
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
-            CorrespondingBeers = new List<Beer>();
 
             //Fixture
-            CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
+            //CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
         }
     }
 }
