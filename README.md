@@ -1,3 +1,7 @@
+Dans CodeFirstDB les tests en cours pour remplacer wcf par l'api rest. 
+Pour l'instant la migration et une partie des controllers de l'api fonctionnent mais on a encore des problèmes de sérialisation avec l'api sur les collection de classes abstraites.
+En bonne voie cependant.
+
 # EncyclopeBeer
 
 Projet fil rouge POEC DEVOPS .Net  

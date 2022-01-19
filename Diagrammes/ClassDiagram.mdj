@@ -2775,16 +2775,17 @@
 									"model": {
 										"$ref": "AAAAAAF9vqOijh6A3LQ="
 									},
-									"visible": false,
 									"font": "Arial;13;0",
 									"left": 1504,
-									"top": 310,
+									"top": 312,
+									"width": 41.5517578125,
 									"height": 13,
-									"alpha": -0.5235987755982988,
-									"distance": 30,
+									"alpha": 5.317434214094624,
+									"distance": 42.20189569201838,
 									"hostEdge": {
 										"$ref": "AAAAAAF9vqOijx6Cq9E="
-									}
+									},
+									"text": "-Beers"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -6626,12 +6627,12 @@
 										"$ref": "AAAAAAF+TmW8eQdzfTg="
 									},
 									"font": "Arial;13;0",
-									"left": 1520,
-									"top": 495,
+									"left": 1552,
+									"top": 479,
 									"width": 19.5126953125,
 									"height": 13,
-									"alpha": -0.5235987755982988,
-									"distance": 25,
+									"alpha": 0.7821664052302917,
+									"distance": 32.28002478313795,
 									"hostEdge": {
 										"$ref": "AAAAAAF+TmW8egeAV50="
 									},
@@ -8887,9 +8888,11 @@
 								"_parent": {
 									"$ref": "AAAAAAF9vqOijh5+sy0="
 								},
+								"name": "Beers",
 								"reference": {
 									"$ref": "AAAAAAF9vn97zgNWmQM="
 								},
+								"visibility": "private",
 								"aggregation": "shared",
 								"multiplicity": "0..*"
 							}
