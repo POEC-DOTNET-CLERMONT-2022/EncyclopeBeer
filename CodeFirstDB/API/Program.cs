@@ -60,6 +60,12 @@ builder.Services.AddAutoMapper(typeof(DtoEntityProfile).Assembly); // il faudrai
 
 // Ci dessous des choses qui marchent
 var cs = builder.Configuration.GetConnectionString("DefaultContext"); // TODO : utiliser plutôt un string stocké coté persistance??? (voir DefaultMigration)
+
+// En fait on doit passer ici toutes les dépendances possibles (la suite devrait fonctionner)
+
+//builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(cs));
+//builder.Services.AddScoped(typeof(IGenericDbRepository<>), typeof(GenericDbRepository<>));
+
 // Syntax pour passer un IBeerReposetory avec connection string
 //builder.Services.AddScoped<IBeerRepository>(param => new BddToApiManager(cs));
 //// Syntax pour passer un IBeerReposetory avec DbContext particulier
@@ -67,7 +73,11 @@ var cs = builder.Configuration.GetConnectionString("DefaultContext"); // TODO : 
 //// Syntax pour passer un IBeerReposetory de type BeerRepository directement
 //builder.Services.AddScoped<IBeerRepository>(param => new BeerRepository(new WikiBeerSqlContext(cs)));
 // Syntax pour passer un IBeerRepository générique de type Beer avec un DbContext associé de type WikiBeerSqlContext
+//builder.Services.AddDbContext(opt => opt.UseSqlServer(WikiBeerSqlContext(cs)));
+//builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultContext")));
 builder.Services.AddScoped<IGenericDbRepository<BeerEntity>>(param => new GenericDbRepository<BeerEntity>(new WikiBeerSqlContext(cs)));
+//builder.Services.AddScoped<IGenericDbRepository<BeerEntity>, GenericDbRepository<BeerEntity>>();
+//builder.Services.AddScoped(typeof(IGenericDbRepository<>),typeof(GenericDbRepository<>));
 // Syntax pour passer ler repositories de test (utilisation d'AutoFixture)
 builder.Services.AddSingleton<IFakeBeerRepository, FakeBeerRepository>(); // Singleton pour reproductilibilité dans swagger
                                                                           // et test put/post via copié collé des Guid id

@@ -31,8 +31,10 @@ namespace Extensions.MapProfiles
             /// voir https://docs.automapper.org/en/stable/Lists-and-arrays.html#
 
             #region Dérivées
+            CreateMap<IngredientDto, IngredientModel>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
+            CreateMap<IngredientModel, IngredientDto>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
             CreateMap<HopDto, HopModel>().ReverseMap();
-            CreateMap<IngredientDto, IngredientModel>().ReverseMap().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
+
             //CreateMap<CerealDto, CerealModel>().ReverseMap();
             //CreateMap<AdditiveDto, AdditiveModel>().ReverseMap();
             #endregion

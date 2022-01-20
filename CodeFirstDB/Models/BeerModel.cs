@@ -24,6 +24,10 @@ namespace Models
 
         public IEnumerable<IngredientModel> Ingredients { get; set; }
 
+        public BeerModel()
+        {
+        }
+
         public BeerModel(string name, float ibu, float degree, BreweryModel brewery,
             BeerStyleModel style, BeerColorModel color, IEnumerable<IngredientModel> ingredients)
         {

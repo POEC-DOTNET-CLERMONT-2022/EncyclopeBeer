@@ -18,6 +18,7 @@ using Dtos;
 using Extensions.MapProfiles;
 using Models;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 // Config Automappeur 
 var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
@@ -36,7 +37,7 @@ var ressource = "";
 // Montage de la requetes
 var url = $"{localHost}{controller}{ressource}";
 
-// Création de la requêtes
+// Création de la requête Get
 var getRequest = new HttpRequestMessage(HttpMethod.Get, url);
 getRequest.Headers.Add("Accept", "application/json"); // header
 
@@ -45,13 +46,11 @@ var client = new HttpClient();
 
 // Test du Get
 var beersDto = await TestGetAsync(client, getRequest); // await nécessaire pour la transformation en list
-var beersModel = mapper.Map<List<BeerModel>>(beersDto); // problème de mappage des ingrédients ici
-// Construction nouvelle beer
+var beersModel = mapper.Map<List<BeerModel>>(beersDto); 
+// Extraction nouvelle beer
 var id = beersModel[0].Id;
-//beer0.Name = "MaBeer";
-//beer0.Id = Guid.NewGuid();
 
-// Construction nouvelle requêtes
+// Construction nouvelle requête GetById
 ressource = $"/GetbyId/{id}";
 url = $"{localHost}{controller}{ressource}";
 
@@ -59,29 +58,48 @@ url = $"{localHost}{controller}{ressource}";
 var getByIdRequest = new HttpRequestMessage(HttpMethod.Get, url);
 getByIdRequest.Headers.Add("Accept", "application/json");
 
-//async Task<BeerModel> TestGetByIdAsync(HttpClient client, HttpRequestMessage request)
-//{
-//    var response = await client.SendAsync(getByIdRequest);
-//    if (response.IsSuccessStatusCode)
-//    {
-//        // Désérialisation avec NewwtonSoft pour ne pas avoir à décorer les Dto
-//        var responseString = await response.Content.ReadAsStringAsync();
-//        var beerDto = JsonConvert.DeserializeObject<BeerDto>(responseString,
-//            GetJsonSettings());
+// Test du GetbyId
+var beerDto = await TestGetByIdAsync(client, getByIdRequest);
+var beerModel = mapper.Map<BeerModel>(beerDto);
 
-//        // Mapping de Dto à Model
-//        var beerModel = mapper.Map<BeerModel>(beerDto);
+// Autre méthode de parse // ne fcontionne pas pour l'instant
+//var uri = $"{localHost}{controller}"; // pose des problème de sérialisation
+//var beersDto2 = await client.GetFromJsonAsync<IEnumerable<BeerDto>>(uri); // on peut passer les options aussi
 
-//        Console.WriteLine("GetRequest récupérée");
-//        return beerModel;
-//    }
-//    else
-//    {
-//        Console.WriteLine("GetRequest non parsable");
-//        //return new BeerModel();
-//    }
-//}
+// Construction nouvelle bière
+beerModel.Name = "MaBeer";
+beerModel.Id = Guid.NewGuid();
+var newBeerDto = mapper.Map<BeerDto>(beerModel);
 
+// Construction nouvelle requêtes
+//ressource = $"/GetbyId/{id}";
+//url = $"{localHost}{controller}{ressource}";
+
+
+
+
+async Task<BeerModel> TestGetByIdAsync(HttpClient client, HttpRequestMessage request)
+{
+    var response = await client.SendAsync(getByIdRequest);
+    if (response.IsSuccessStatusCode)
+    {
+        // Désérialisation avec NewwtonSoft pour ne pas avoir à décorer les Dto
+        var responseString = await response.Content.ReadAsStringAsync();
+        var beerDto = JsonConvert.DeserializeObject<BeerDto>(responseString,
+            GetJsonSettings());
+
+        // Mapping de Dto à Model
+        var beerModel = mapper.Map<BeerModel>(beerDto);
+
+        Console.WriteLine("GetByIdRequest récupérée");
+        return beerModel;
+    }
+    else
+    {
+        Console.WriteLine("GetByIdRequest non parsable");
+        return new BeerModel();
+    }
+}
 
 // async Task car gère de l'async
 async Task<List<BeerDto>> TestGetAsync(HttpClient client, HttpRequestMessage request)
@@ -117,4 +135,4 @@ JsonSerializerSettings GetJsonSettings()
 }
 
 
-//Console.ReadLine();// Pour bloquer la console ouverte
+Console.ReadLine();// Pour bloquer la console ouverte

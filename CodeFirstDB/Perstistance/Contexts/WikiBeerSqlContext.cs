@@ -33,9 +33,9 @@ namespace Contexts
         }
 
         /// <summary>
-        /// Pour test divers et BddToAPIManager (pour donner une connection string)
+        /// Pour test divers et BddToAPIManager(pour donner une connection string)
         /// </summary>
-        /// <param name="connectionString"></param>
+        /// <param name = "connectionString" ></ param >
         public WikiBeerSqlContext(string connectionString)
         {
             ConnectionString = connectionString;
@@ -59,12 +59,13 @@ namespace Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Beers : a désactiver pour les test fixture -> a réactiver pour la migration
-            //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
-            //beerTypeBuilder.HasMany(b => b.Ingredients)
-            //               .WithMany(i => i.Beers)
-            //               .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
-            //beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            // Beers : a désactiver pour les test fixture -> a réactiver pour la migration Property(t => t.ThemeId)
+            //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>(mb => mb.Property(b => b.Id).ValueGeneratedOnAdd();); // Version pour générer les clefs à la volée via la base
+            EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
+            beerTypeBuilder.HasMany(b => b.Ingredients)
+                           .WithMany(i => i.Beers)
+                           .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+            beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
 
             //Si pas d'auto-include alors on doit charger en 2 fois
             //BeerEntity beer = GetById();

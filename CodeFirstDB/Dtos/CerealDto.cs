@@ -10,9 +10,9 @@ namespace Dtos
     {
         public float Ebc { get; set; }
 
-        public CerealDto(string name, string description, float ebc) : base(name, description)
-        {
-            Ebc = Ebc;
-        }
+        //public CerealDto(string name, string description, float ebc) : base(name, description)
+        //{
+        //    Ebc = Ebc;
+        //}
     }
 }

@@ -4,6 +4,7 @@ using Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Perstistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    partial class WikiBeerSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220119081322_tt")]
+    partial class tt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +29,12 @@ namespace Perstistance.Migrations
                     b.Property<Guid>("BeerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IngredientId")
+                    b.Property<Guid>("IngredientsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("BeerId", "IngredientId");
+                    b.HasKey("BeerId", "IngredientsId");
 
-                    b.HasIndex("IngredientId");
+                    b.HasIndex("IngredientsId");
 
                     b.ToTable("BeerIngredient", (string)null);
                 });
@@ -223,7 +225,7 @@ namespace Perstistance.Migrations
 
                     b.HasOne("Entities.IngredientEntity", null)
                         .WithMany()
-                        .HasForeignKey("IngredientId")
+                        .HasForeignKey("IngredientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

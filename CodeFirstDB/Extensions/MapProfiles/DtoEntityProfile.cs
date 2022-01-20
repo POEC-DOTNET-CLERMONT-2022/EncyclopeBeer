@@ -58,7 +58,8 @@ namespace Models
 
             #region Ingredients : abstract puis dérivées
             /// voir https://docs.automapper.org/en/stable/Lists-and-arrays.html#
-            CreateMap<IngredientDto, IngredientEntity>().ReverseMap().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
+            CreateMap<IngredientDto, IngredientEntity>().IncludeAllDerived();//.ReverseMap(); // IncludeAllDerived() pour inclure les types dérivées
+            CreateMap<IngredientEntity, IngredientDto>().IncludeAllDerived();
             #region Dérivées
             CreateMap<HopDto, HopEntity>().ReverseMap();
             CreateMap<CerealDto, CerealEntity>().ReverseMap();

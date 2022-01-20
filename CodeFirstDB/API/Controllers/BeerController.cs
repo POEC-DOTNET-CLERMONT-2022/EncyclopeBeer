@@ -51,5 +51,13 @@ namespace API.Controllers
             var beer = _ddbRepository.GetById(id);
             return _mapper.Map<BeerDto>(beer);
         }
+
+        [HttpPost]
+        public void Post([FromBody] BeerDto beerDto)
+        {
+            var beerEntity = _mapper.Map<BeerEntity>(beerDto);
+            _ddbRepository.Create(beerEntity);
+        }
+
     }
 }

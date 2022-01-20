@@ -8,6 +8,7 @@
 
         public string Description { get; set; }
 
+        public IngredientModel() { }
         public IngredientModel(string name, string description)
         {
             Name = name;

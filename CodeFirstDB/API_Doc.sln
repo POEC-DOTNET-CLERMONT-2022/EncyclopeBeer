@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Perstistance", "Perstistance\Perstistance.csproj", "{582C5C1F-55B3-42B8-9C06-2F11DEF33873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{7B3426E9-8E61-450B-AF41-6F9B50974298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{7B3426E9-8E61-450B-AF41-6F9B50974298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiToBddConsoleApp", "ApiToBddConsoleApp\ApiToBddConsoleApp.csproj", "{B4DB62DF-F3E2-4DD8-88C2-A33C15C9C4B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{7B3426E9-8E61-450B-AF41-6F9B50974298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B3426E9-8E61-450B-AF41-6F9B50974298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B3426E9-8E61-450B-AF41-6F9B50974298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4DB62DF-F3E2-4DD8-88C2-A33C15C9C4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DB62DF-F3E2-4DD8-88C2-A33C15C9C4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DB62DF-F3E2-4DD8-88C2-A33C15C9C4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DB62DF-F3E2-4DD8-88C2-A33C15C9C4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,8 +21,8 @@ namespace Entities
         public string Description { get; set; }
 
         // A commenter pour les tests fixtures
-        //[ForeignKey("IngredientId")]
-        //public ICollection<BeerEntity> Beers { get; set; } // nécessaire pour la table d'association
+        [ForeignKey("IngredientId")]
+        public ICollection<BeerEntity> Beers { get; set; } // nécessaire pour la table d'association
 
         protected IngredientEntity(string name, string description)
         {

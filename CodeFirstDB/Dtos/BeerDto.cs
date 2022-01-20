@@ -18,16 +18,16 @@
 
         public IEnumerable<IngredientDto> Ingredients { get; set; }
 
-        public BeerDto(string name, float ibu, float degree, BreweryDto brewery, 
-            BeerStyleDto style, BeerColorDto color, IEnumerable<IngredientDto> ingredients)
-        {
-            Name = name;
-            Ibu = ibu;
-            Degree = degree;
-            Brewery = brewery;
-            Style = style; 
-            Color = color;
-            Ingredients = ingredients;
-        }
+        //public BeerDto(string name, float ibu, float degree, BreweryDto brewery, 
+        //    BeerStyleDto style, BeerColorDto color, IEnumerable<IngredientDto> ingredients)
+        //{
+        //    Name = name;
+        //    Ibu = ibu;
+        //    Degree = degree;
+        //    Brewery = brewery;
+        //    Style = style; 
+        //    Color = color;
+        //    Ingredients = ingredients;
+        //}
     }
 }
