@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Dtos.Ingredients
 {
-    [DataContract]
     internal class CerealDto : IngredientDto
     {
-        [DataMember]
-        public float EBC { get; set; }
+        public float Ebc { get; set; }
     }
 }

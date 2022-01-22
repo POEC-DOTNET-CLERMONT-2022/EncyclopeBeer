@@ -6,20 +6,17 @@ namespace Ipme.WikiBeer.Entities
     {
         
         public Guid Id { get; set; }
-
         public string Name { get; set; }
-
         public float Ibu { get; set; }
-
         public float Degree { get; set; }
-
         public BreweryEntity Brewery { get; set; }
-
         public BeerStyleEntity Style { get; set; }
-
         public BeerColorEntity Color { get; set; }
-
-        public ICollection<IngredientEntity> Ingredients { get; set; } // List juste pour test Fixture
+        /// <summary>
+        /// ICollection car on aura peut être envie de faire des add ou delete dessus (par rapport à IEnumerable
+        /// ou l'on ne peut que itérer)
+        /// </summary>
+        public ICollection<IngredientEntity> Ingredients { get; set; } 
 
         /// <summary>
         /// Constructeur par défaut nécessaire pour héritage du BeerRepository à partir 

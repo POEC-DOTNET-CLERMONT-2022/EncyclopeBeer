@@ -8,17 +8,17 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 {
     public class HopEntity : IngredientEntity
     {
-        public float Ibu { get; set; }
+        public float AlphaAcid { get; set; }
 
         private HopEntity()
         {
         }
 
         public HopEntity(Guid id, string name, string description, ICollection<BeerEntity> beers
-            , float ibu)
+            , float alphaAcid)
             : base(id, name, description, beers)
         {
-            Ibu = ibu;
+            AlphaAcid = alphaAcid;
         }
     }
 }
