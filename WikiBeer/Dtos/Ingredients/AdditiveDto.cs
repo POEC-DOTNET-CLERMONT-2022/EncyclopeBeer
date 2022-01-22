@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Dtos.Ingredients
 {
-    internal class AdditiveDto : IngredientDto
+    public class AdditiveDto : IngredientDto
     {
         public string Use { get; set; }
     }
