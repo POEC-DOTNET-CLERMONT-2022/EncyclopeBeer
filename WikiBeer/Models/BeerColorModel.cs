@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Ipme.WikiBeer.Model.Magic;
+using Ipme.WikiBeer.Models.Magic;
 using System;
 using System.Collections.Generic;
 using System.Text;

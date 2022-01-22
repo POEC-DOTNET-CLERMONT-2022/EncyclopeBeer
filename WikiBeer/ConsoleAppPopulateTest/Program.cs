@@ -24,14 +24,14 @@ var fixture = new Fixture();
 fixture.Customizations.Add(new TypeRelay(typeof(IngredientModel), typeof(HopModel)));
 
 // Configuration BeerManager
-var url = "https://localhost:7137/";
+var url = "https://localhost:7160";
 var client = new HttpClient();
 var beerManager = new BeerDataManager(client, mapper, url);
 
 // Création d'une bière
 var beer = fixture.Create<BeerModel>();
 
-beerManager.Add(beer);
+await beerManager.Add(beer);
 var beers = await beerManager.GetAll();
 
 

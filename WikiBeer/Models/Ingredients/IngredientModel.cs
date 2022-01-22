@@ -1,4 +1,4 @@
-﻿using Ipme.WikiBeer.Model.Magic;
+﻿using Ipme.WikiBeer.Models.Magic;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +15,7 @@ namespace Ipme.WikiBeer.Models.Ingredients
         public string Description { get; internal set; }
         public string TypeOfIngredient { get; private set; } // Pour test pour l'instant 
 
-        public IngredientModel(string name, string desription = Rules.DEFAULT_INGREDIENT_DESCRIPTION)
+        public IngredientModel(string name, string desription)
         {
             // Définitif
             Id = Guid.NewGuid();

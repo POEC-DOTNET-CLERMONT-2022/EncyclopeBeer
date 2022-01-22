@@ -5,7 +5,7 @@ using System.Text;
 /// <summary>
 /// All the magic constants used in AutoFixture calls (Model classes only)
 /// </summary>
-namespace Ipme.WikiBeer.Model.Magic
+namespace Ipme.WikiBeer.Models.Magic
 {
     internal static class FixtureDefaultMagic
     {

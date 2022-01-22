@@ -1,4 +1,4 @@
-﻿namespace Ipme.WikiBeer.Model.Magic
+﻿namespace Ipme.WikiBeer.Models.Magic
 {
     internal static class Rules
     {

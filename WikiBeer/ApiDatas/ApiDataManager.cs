@@ -32,7 +32,7 @@ namespace Ipme.WikiBeer.ApiDatas
             //var request = new HttpRequestMessage(HttpMethod.Get, Uri);
             //request.Headers.Add("Accept", "application/json");
             //var response = await Client.SendAsync(request);
-            var response = await Client.GetAsync(Uri);
+            var response = await Client.GetAsync(Uri.AbsoluteUri);
             response.EnsureSuccessStatusCode(); // pète une exceptrion en cas de problème
             // Sérialisation 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -45,14 +45,13 @@ namespace Ipme.WikiBeer.ApiDatas
         public async Task Add(TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
-
-            var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri);
-            postRequest.Headers.Add("Accept", "*/*"); // header
-                                                      //postRequest.Headers.Add("Content-Type", "application/json-patch+json");
             var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
-            // Encoding et application application/json-patch+json nécessaire pour que la requête passes
+
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
+            postRequest.Headers.Add("Accept", "*/*"); 
             postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(postRequest);
+            response.EnsureSuccessStatusCode(); // pète une exceptrion en cas de problème
             //await HttpClient.PostAsJsonAsync(Uri, dto);
         }
 

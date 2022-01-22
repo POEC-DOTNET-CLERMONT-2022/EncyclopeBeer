@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dtos\Dtos.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
 </Project>

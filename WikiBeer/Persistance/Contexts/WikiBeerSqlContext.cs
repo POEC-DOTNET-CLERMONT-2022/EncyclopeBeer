@@ -54,15 +54,21 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             #region Configuration relations
             // Brewery
             typeBuilder.HasOne(be => be.Brewery).WithMany(br => br.Beers);
-            //.HasForeignKey(be => be.Brewery);
+            typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
             typeBuilder.HasOne(be => be.Style).WithMany();
+            typeBuilder.Navigation(be => be.Style).AutoInclude();
             // Color
             typeBuilder.HasOne(be => be.Color).WithMany();
+            typeBuilder.Navigation(be => be.Color).AutoInclude();
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
                            .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
             typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            //Si pas d'auto-include alors on doit charger en 2 fois
+            //BeerEntity beer = GetById();
+            //beer.Ingredients = GetIngredients(beer.BeerId);
+            // -> On tue alors l'interet du repos générique!!!
             #endregion
         }
 
@@ -78,6 +84,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Beers
             typeBuilder.HasMany(br => br.Beers).WithOne(be => be.Brewery);
             typeBuilder.Navigation(br => br.Beers).AutoInclude();
+            // Country 
+            typeBuilder.HasOne(br => br.Country).WithMany(c => c.Breweries);
+            typeBuilder.Navigation(br => br.Country).AutoInclude();
             #endregion
         }
 
@@ -114,6 +123,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
+            typeBuilder.HasMany(c => c.Breweries).WithOne(br => br.Country);
+            typeBuilder.Navigation(c => c.Breweries).AutoInclude();
             #endregion
         }
 

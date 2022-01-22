@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    partial class WikiBeerSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220122232749_tt3")]
+    partial class tt3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,7 +262,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BreweryEntity", b =>
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
-                        .WithMany("Breweries")
+                        .WithMany()
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -271,11 +273,6 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BreweryEntity", b =>
                 {
                     b.Navigation("Beers");
-                });
-
-            modelBuilder.Entity("Ipme.WikiBeer.Entities.CountryEntity", b =>
-                {
-                    b.Navigation("Breweries");
                 });
 #pragma warning restore 612, 618
         }
