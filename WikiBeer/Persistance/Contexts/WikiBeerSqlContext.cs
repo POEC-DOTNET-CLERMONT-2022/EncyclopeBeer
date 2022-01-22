@@ -20,11 +20,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<BeerStyleEntity> BeerStyles { get; set; }
         public DbSet<CountryEntity> Countrys { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
-        public DbSet<HopEntity> Hops { get; set; }
-        public DbSet<AdditiveEntity> Additives { get; set; }
-        public DbSet<CerealEntity> Cereals { get; set; }
         #endregion
-        
+
         /// <summary>
         /// Nécessaire au bon fonctionnement avec l'API (AddDbContext) et de la factory de migration
         /// </summary>
@@ -41,6 +38,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             OnBreweryCreating(modelBuilder);
             OnStyleCreating(modelBuilder);
             OnColorCreating(modelBuilder);
+            OnCountryCreating(modelBuilder);
             OnIngredientCreating(modelBuilder);
         }
 
@@ -48,10 +46,10 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         private void OnBeerCreating(ModelBuilder modelBuilder)
         {
             EntityTypeBuilder<BeerEntity> typeBuilder = modelBuilder.Entity<BeerEntity>();
-            
+            var idName = "BeerId";
             // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("Beer").HasKey(be => be.Id).HasName("BeerId");
-            typeBuilder.Property(be => be.Id).ValueGeneratedOnAdd();
+            typeBuilder.ToTable("Beer").HasKey(be => be.Id).HasName(idName);
+            typeBuilder.Property(be => be.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
             // Brewery
@@ -64,31 +62,32 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
                            .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
-            //beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
             #endregion
         }
 
         private void OnBreweryCreating(ModelBuilder modelBuilder)
         {
             EntityTypeBuilder<BreweryEntity> typeBuilder = modelBuilder.Entity<BreweryEntity>();
-            
+            var idName = "BreweryId";
             // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("Brewery").HasKey(br => br.Id).HasName("BreweryId");
-            typeBuilder.Property(br => br.Id).ValueGeneratedOnAdd();
+            typeBuilder.ToTable("Brewery").HasKey(br => br.Id).HasName(idName);
+            typeBuilder.Property(br => br.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
             // Beers
             typeBuilder.HasMany(br => br.Beers).WithOne(be => be.Brewery);
+            typeBuilder.Navigation(br => br.Beers).AutoInclude();
             #endregion
         }
 
         private void OnStyleCreating(ModelBuilder modelBuilder)
         {
             EntityTypeBuilder<BeerStyleEntity> typeBuilder = modelBuilder.Entity<BeerStyleEntity>();
-            
+            var idName = "StyleId";
             // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("BeerStyle").HasKey(s => s.Id).HasName("StyleId");
-            typeBuilder.Property(s => s.Id).ValueGeneratedOnAdd();
+            typeBuilder.ToTable("BeerStyle").HasKey(s => s.Id).HasName(idName);
+            typeBuilder.Property(s => s.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
             #endregion
@@ -96,11 +95,23 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
         private void OnColorCreating(ModelBuilder modelBuilder)
         {
-            EntityTypeBuilder<BreweryEntity> typeBuilder = modelBuilder.Entity<BreweryEntity>();
-            
+            EntityTypeBuilder<BeerColorEntity> typeBuilder = modelBuilder.Entity<BeerColorEntity>();
+            var idName = "ColorId";
             // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("BeerColor").HasKey(c => c.Id).HasName("ColorId");
-            typeBuilder.Property(c => c.Id).ValueGeneratedOnAdd();
+            typeBuilder.ToTable("BeerColor").HasKey(c => c.Id).HasName(idName);
+            typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
+
+            #region Configuration relations
+            #endregion
+        }
+
+        private void OnCountryCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<CountryEntity> typeBuilder = modelBuilder.Entity<CountryEntity>();
+            var idName = "CountryId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("Country").HasKey(c => c.Id).HasName(idName);
+            typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
             #endregion
@@ -109,10 +120,10 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         private void OnIngredientCreating(ModelBuilder modelBuilder)
         {
             EntityTypeBuilder<IngredientEntity> typeBuilder = modelBuilder.Entity<IngredientEntity>();
-            
+            var idName = "IngredientId";
             // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("Ingredient").HasKey(i => i.Id).HasName("IngredientId");
-            typeBuilder.Property(i => i.Id).ValueGeneratedOnAdd();
+            typeBuilder.ToTable("Ingredient").HasKey(i => i.Id).HasName(idName);
+            typeBuilder.Property(i => i.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
             // BeerIngredient
