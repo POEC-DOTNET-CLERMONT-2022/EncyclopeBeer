@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Entities.Ingredients;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +12,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 {
     public class WikiBeerSqlContext : DbContext
     {
+        #region Tables (DbSet)
         // Tables : absolument nécessaire pour utiliser l'API (pas vraiment certain sa, à tester une fois la bdd remplie)
         public DbSet<BeerEntity> Beers { get; set; }
         public DbSet<BreweryEntity> Brewerys { get; set; }
@@ -18,14 +23,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<HopEntity> Hops { get; set; }
         public DbSet<AdditiveEntity> Additives { get; set; }
         public DbSet<CerealEntity> Cereals { get; set; }
-
-        // Gestion
-        public string ConnectionString { get; private set; }
-
-        //public WikiBeerSqlContext()
-        //{
-        //}
-
+        #endregion
         /// <summary>
         /// Nécessaire au bon fonctionnement avec l'API (AddDbContext) et de la factory de migration
         /// </summary>
@@ -34,72 +32,127 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         {
         }
 
-        /// <summary>
-        /// Pour test divers et BddToAPIManager(pour donner une connection string)
-        /// </summary>
-        /// <param name = "connectionString" ></ param >
-        public WikiBeerSqlContext(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
-
-        /// <summary>
-        /// Pour test divers et BddToAPIManager (pour donner une connection string)
-        /// </summary>
-        /// <param name="optionsBuilder"></param>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // comportement par défaut si l'on ne fournit pas de connection string au constructeur (via AddDbContext dans l'api -> on passe par DbContextOptions<>...)
-            base.OnConfiguring(optionsBuilder);
-            if (string.IsNullOrEmpty(ConnectionString))
-                return;
-            else
-                optionsBuilder.UseSqlServer(ConnectionString);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Beers : a désactiver pour les test fixture -> a réactiver pour la migration Property(t => t.ThemeId)
-            //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>(mb => mb.Property(b => b.Id).ValueGeneratedOnAdd();); // Version pour générer les clefs à la volée via la base
-            EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
-            beerTypeBuilder.HasMany(b => b.Ingredients)
-                           .WithMany(i => i.Beers)
+            OnBeerCreating(modelBuilder);
+            OnBreweryCreating(modelBuilder);
+            OnStyleCreating(modelBuilder);
+            OnColorCreating(modelBuilder);
+            OnIngredientCreating(modelBuilder);
+
+            //// Beers : a désactiver pour les test fixture -> a réactiver pour la migration Property(t => t.ThemeId)
+            ////EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>(mb => mb.Property(b => b.Id).ValueGeneratedOnAdd();); // Version pour générer les clefs à la volée via la base
+            //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
+            //beerTypeBuilder.HasMany(b => b.Ingredients)
+            //               .WithMany(i => i.Beers)
+            //               .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+            //beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+
+            ////Si pas d'auto-include alors on doit charger en 2 fois
+            ////BeerEntity beer = GetById();
+            ////beer.Ingredients = GetIngredients(beer.BeerId);
+
+            ////Ingredients
+            ////EntityTypeBuilder<IngredientEntity> ingredientTypeBuilder = modelBuilder.Entity<IngredientEntity>();
+            ////ingredientTypeBuilder.HasMany(i => i.Beers)
+            ////                     .WithMany(b => b.Ingredients)
+            ////                     .UsingEntity(bi => bi.ToTable("BeersIngredients"));
+            ////ingredientTypeBuilder.Navigation(i => i.Beers).AutoInclude();
+
+            //EntityTypeBuilder<IngredientEntity> ingredientBuilder = modelBuilder.Entity<IngredientEntity>();
+
+
+            //// Configuration du Discriminateur de sous type dans la table BeerIngredient
+            //ingredientBuilder.HasDiscriminator<string>("Type")
+            //    .HasValue<HopEntity>("Hop")
+            //    .HasValue<CerealEntity>("Cereal")
+            //    .HasValue<AdditiveEntity>("Additive");
+            //ingredientBuilder.Property("Type").HasMaxLength(50);
+        }
+
+        #region Méthodes de configuration des models
+        private void OnBeerCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BeerEntity> typeBuilder = modelBuilder.Entity<BeerEntity>();
+            
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("Beer").HasKey(be => be.Id).HasName("BeerId");
+            typeBuilder.Property(be => be.Id).ValueGeneratedOnAdd();
+
+            #region Configuration relations
+            // Brewery
+            typeBuilder.HasOne(be => be.Brewery).WithMany(br => br.Beers);
+            //.HasForeignKey(be => be.Brewery);
+            // Style
+            typeBuilder.HasOne(be => be.Style).WithMany();
+            // Color
+            typeBuilder.HasOne(be => be.Color).WithMany();
+            // Ingredients - BeerIngredient
+            typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
                            .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
-            beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            //beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            #endregion
+        }
 
-            //Si pas d'auto-include alors on doit charger en 2 fois
-            //BeerEntity beer = GetById();
-            //beer.Ingredients = GetIngredients(beer.BeerId);
+        private void OnBreweryCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BreweryEntity> typeBuilder = modelBuilder.Entity<BreweryEntity>();
+            
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("Brewery").HasKey(br => br.Id).HasName("BreweryId");
+            typeBuilder.Property(br => br.Id).ValueGeneratedOnAdd();
 
-            //Ingredients
-            //EntityTypeBuilder<IngredientEntity> ingredientTypeBuilder = modelBuilder.Entity<IngredientEntity>();
-            //ingredientTypeBuilder.HasMany(i => i.Beers)
-            //                     .WithMany(b => b.Ingredients)
-            //                     .UsingEntity(bi => bi.ToTable("BeersIngredients"));
-            //ingredientTypeBuilder.Navigation(i => i.Beers).AutoInclude();
+            #region Configuration relations
+            // Beers
+            typeBuilder.HasMany(br => br.Beers).WithOne(be => be.Brewery);
+            #endregion
+        }
 
-            EntityTypeBuilder<IngredientEntity> ingredientBuilder = modelBuilder.Entity<IngredientEntity>();
+        private void OnStyleCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BeerStyleEntity> typeBuilder = modelBuilder.Entity<BeerStyleEntity>();
+            
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("BeerStyle").HasKey(s => s.Id).HasName("StyleId");
+            typeBuilder.Property(s => s.Id).ValueGeneratedOnAdd();
 
+            #region Configuration relations
+            #endregion
+        }
 
-            // Configuration du Discriminateur de sous type dans la table BeerIngredient
-            ingredientBuilder.HasDiscriminator<string>("Type")
+        private void OnColorCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BreweryEntity> typeBuilder = modelBuilder.Entity<BreweryEntity>();
+            
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("BeerColor").HasKey(c => c.Id).HasName("ColorId");
+            typeBuilder.Property(c => c.Id).ValueGeneratedOnAdd();
+
+            #region Configuration relations
+            #endregion
+        }
+
+        private void OnIngredientCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<IngredientEntity> typeBuilder = modelBuilder.Entity<IngredientEntity>();
+            
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("Ingredient").HasKey(i => i.Id).HasName("IngredientId");
+            typeBuilder.Property(i => i.Id).ValueGeneratedOnAdd();
+
+            #region Configuration relations
+            // BeerIngredient
+            typeBuilder.HasDiscriminator<string>("Type")
                 .HasValue<HopEntity>("Hop")
                 .HasValue<CerealEntity>("Cereal")
                 .HasValue<AdditiveEntity>("Additive");
-            ingredientBuilder.Property("Type").HasMaxLength(50);
-            //EntityTypeBuilder<HopEntity> hopTypeBuilder = modelBuilder.Entity<HopEntity>();
-            //hopTypeBuilder.HasDiscriminator<string>(typeof(HopEntity).Name); // ne fonctionen pas comme voulue, ajoute simplement une colonne
-            // au lieu de remplacer donner une valeur à la colonne Discriminator
-
-            // BeersIngredients --> plus besoin car on charge directement la liste d'ingrédients dans la bière (et inversement) sans passer par la table d'association
-            //EntityTypeBuilder<BeerIngredientEntity> beerIngredientTypeBuilder = modelBuilder.Entity<BeerIngredientEntity>();
-            //beerIngredientTypeBuilder.HasKey(bi => new { bi.BeerId, bi.IngredientId });
-            //beerIngredientTypeBuilder.HasOne(bi => bi.IngredientId).WithOne();
-            //beerIngredientTypeBuilder.Navigation(beer => beer.Ingredients).AutoInclude();
+            typeBuilder.Property("Type").HasMaxLength(50);
+            #endregion
         }
 
+        #endregion
 
         public override DbSet<TEntity> Set<TEntity>()
         {
