@@ -7,16 +7,16 @@ using System.Text;
 /// <summary>
 /// Gros Doute sur l'interet de cette classe : je remplacerai bien par une énum simple
 /// </summary>
-namespace Ipme.WikiBeer.Model
+namespace Ipme.WikiBeer.Models
 {
-    public class BeerColor
+    public class BeerColorModel
     {
         public Guid Id { get; }
         public string Name { get; internal set; }
 
         private readonly Fixture _fixture = new Fixture();
 
-        public BeerColor(string name)
+        public BeerColorModel(string name)
         {
             // Définitifs
             Id = Guid.NewGuid();

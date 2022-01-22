@@ -4,25 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ipme.WikiBeer.Model
+namespace Ipme.WikiBeer.Models
 {
-    public class BeerStyle
+    public class BreweryModel
     {
-        public Guid Id { get; }
+        public Guid Id { get;}        
         public string Name { get; internal set; }
         public string Description { get; internal set; }
+        public CountryModel Country { get; internal set; }
 
-        private readonly Fixture _fixture = new Fixture();
-
-        public BeerStyle(string name, string description = Rules.DEFAULT_BEERSTYLE_DESCRIPTION)
+        public BreweryModel(string name, string description = Rules.DEFAULT_BREWERY_DESCRIPTION)
         {
             // Définitifs
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
-
-            //Fixture
-            //CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
         }
+
     }
 }

@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
-using Dtos;
-using Models;
+using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
+using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Models.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Extensions.MapProfiles
+namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
 {
     public class DtoModelProfile : Profile
     {
-        //var map = new Mapper(BreweryProfile);
-        /// <summary>
-        /// Exemple explicite (nommage et type potentiellement différent)
-        /// </summary>
         public DtoModelProfile()
         {
             CreateMap<BeerDto, BeerModel>().ReverseMap();

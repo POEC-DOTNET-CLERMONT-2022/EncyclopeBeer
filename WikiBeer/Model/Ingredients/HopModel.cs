@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ipme.WikiBeer.Model.Ingredients
+namespace Ipme.WikiBeer.Models.Ingredients
 {
-    public class Hops : Ingredient
+    public class HopModel : IngredientModel
     {
         public float AlphaAcid { get; internal set; }
-        public Hops(string name, float alphaacid) : base(name)
+        public HopModel(string name, float alphaacid) : base(name)
         {
             AlphaAcid = alphaacid;
         }

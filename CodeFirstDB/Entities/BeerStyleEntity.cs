@@ -12,10 +12,13 @@ namespace Entities
 
         public string Name { get; set; }
 
-        public BeerStyleEntity(string name)
+        private BeerStyleEntity()
         {
-            Id = Guid.NewGuid();
-            Name = Name;
+        }
+        public BeerStyleEntity(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
         }
 
     }

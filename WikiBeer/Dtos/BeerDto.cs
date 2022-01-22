@@ -1,5 +1,4 @@
 ﻿using Ipme.WikiBeer.Dtos.Ingredients;
-using Ipme.WikiBeer.Model.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
