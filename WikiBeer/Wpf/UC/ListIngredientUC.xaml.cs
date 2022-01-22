@@ -1,5 +1,4 @@
-﻿using IngredientServiceReference;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,20 +20,20 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListIngredientUC : UserControl
     {
-        public IngredientServiceClient IngredientServiceClient { get; }
-        public ListIngredientUC()
-        {
-            InitializeComponent();
-            if (Application.Current is App app)
-            {
-                IngredientServiceClient = app.IngredientServiceClient;
-            }
+        //public IngredientServiceClient IngredientServiceClient { get; }
+        //public ListIngredientUC()
+        //{
+        //    InitializeComponent();
+        //    if (Application.Current is App app)
+        //    {
+        //        IngredientServiceClient = app.IngredientServiceClient;
+        //    }
 
-            var ingredients = IngredientServiceClient.GetIngredients();
-            // TODO retransformation en véritable objet ici
+        //    var ingredients = IngredientServiceClient.GetIngredients();
+        //    // TODO retransformation en véritable objet ici
 
-            HopList.ItemsSource = ingredients; // TODO : A splitter en Hops, Cereal et Additive -> De nouveaux DTO pour sa (à l'étape précédente). Voir comment passer des objets hérités via DTO
-            IngredientServiceClient.Close();
-        }
+        //    HopList.ItemsSource = ingredients; // TODO : A splitter en Hops, Cereal et Additive -> De nouveaux DTO pour sa (à l'étape précédente). Voir comment passer des objets hérités via DTO
+        //    IngredientServiceClient.Close();
+        //}
     }
 }

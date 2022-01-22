@@ -51,7 +51,7 @@ var beersModel = mapper.Map<List<BeerModel>>(beersDto);
 var id = beersModel[0].Id;
 
 // Construction nouvelle requête GetById
-ressource = $"/GetbyId/{id}";
+ressource = $"/{id}";
 url = $"{localHost}{controller}{ressource}";
 
 // Nouvelle requete
@@ -71,10 +71,30 @@ beerModel.Name = "MaBeer";
 beerModel.Id = Guid.NewGuid();
 var newBeerDto = mapper.Map<BeerDto>(beerModel);
 
-// Construction nouvelle requêtes
-//ressource = $"/GetbyId/{id}";
-//url = $"{localHost}{controller}{ressource}";
+// Sérialisation du DTO
+var beerString = JsonConvert.SerializeObject(newBeerDto, GetJsonSettings());
 
+//Construction nouvelle requêtes
+ressource = $"";
+url = $"{localHost}{controller}{ressource}";
+// Création de la requête Get
+var postRequest = new HttpRequestMessage(HttpMethod.Post, url);
+postRequest.Headers.Add("Accept", "*/*"); // header
+//postRequest.Headers.Add("Content-Type", "application/json-patch+json");
+
+// Encoding et application application/json-patch+json nécessaire pour que la requête passes
+postRequest.Content = new StringContent(beerString, System.Text.Encoding.UTF8, "application/json-patch+json");
+
+var response = await client.SendAsync(postRequest);
+if (response.IsSuccessStatusCode)
+{
+    var responseString = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseString);
+}
+else
+{
+    Console.WriteLine("PostRequest non parsable");
+}
 
 
 

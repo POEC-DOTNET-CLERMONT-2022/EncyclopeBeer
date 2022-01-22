@@ -40,7 +40,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BeerDto))] // gestion des codes de retour
         [ProducesResponseType(StatusCodes.Status404NotFound)] // Action Result permet de renvoyer un type et/ou un code d'errur
-        public ActionResult<BeerDto> Get([FromQuery]Guid id) 
+        public ActionResult<BeerDto> Get(Guid id) 
         {
             var beerEntity = _ddbRepository.GetById(id);
 

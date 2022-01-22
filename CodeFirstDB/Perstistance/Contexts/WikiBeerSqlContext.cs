@@ -61,11 +61,11 @@ namespace Contexts
 
             // Beers : a désactiver pour les test fixture -> a réactiver pour la migration Property(t => t.ThemeId)
             //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>(mb => mb.Property(b => b.Id).ValueGeneratedOnAdd();); // Version pour générer les clefs à la volée via la base
-            EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
-            beerTypeBuilder.HasMany(b => b.Ingredients)
-                           .WithMany(i => i.Beers)
-                           .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
-            beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+            //EntityTypeBuilder<BeerEntity> beerTypeBuilder = modelBuilder.Entity<BeerEntity>();
+            //beerTypeBuilder.HasMany(b => b.Ingredients)
+            //               .WithMany(i => i.Beers)
+            //               .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+            //beerTypeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
 
             //Si pas d'auto-include alors on doit charger en 2 fois
             //BeerEntity beer = GetById();
@@ -82,12 +82,12 @@ namespace Contexts
 
 
             // Configuration du Discriminateur de sous type dans la table BeerIngredient
-            ingredientBuilder.HasDiscriminator<string>("Type")
-                .HasValue<HopEntity>("Hop")
-                .HasValue<CerealEntity>("Cereal")
-                .HasValue<AdditiveEntity>("Additive");
-            ingredientBuilder.Property("Type").HasMaxLength(50);
-            //EntityTypeBuilder<HopEntity> hopTypeBuilder = modelBuilder.Entity<HopEntity>();
+            //ingredientBuilder.HasDiscriminator<string>("Type")
+            //    .HasValue<HopEntity>("Hop")
+            //    .HasValue<CerealEntity>("Cereal")
+            //    .HasValue<AdditiveEntity>("Additive");
+            //ingredientBuilder.Property("Type").HasMaxLength(50);
+            ////EntityTypeBuilder<HopEntity> hopTypeBuilder = modelBuilder.Entity<HopEntity>();
             //hopTypeBuilder.HasDiscriminator<string>(typeof(HopEntity).Name); // ne fonctionen pas comme voulue, ajoute simplement une colonne
             // au lieu de remplacer donner une valeur à la colonne Discriminator
 
