@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Ipme.WikiBeer.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Ipme.WikiBeer.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
 </Project>

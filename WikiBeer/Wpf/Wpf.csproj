@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
+    <Folder Include="MapperProfiles\" />
   </ItemGroup>
 
 </Project>

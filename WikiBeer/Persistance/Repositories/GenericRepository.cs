@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    internal class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity, new()
     {
         private DbContext Context { get; } 
 

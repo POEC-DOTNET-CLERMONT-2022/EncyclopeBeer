@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Entities.Ingredients;
 
 namespace Ipme.WikiBeer.API.MapperProfiles
 {
