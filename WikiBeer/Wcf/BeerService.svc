@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Ipme.WikiBeer.Wcf.BeerService" CodeBehind="BeerService.svc.cs" %>
