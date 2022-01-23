@@ -85,7 +85,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.HasMany(br => br.Beers).WithOne(be => be.Brewery);
             typeBuilder.Navigation(br => br.Beers).AutoInclude();
             // Country 
-            typeBuilder.HasOne(br => br.Country).WithMany(c => c.Breweries);
+            typeBuilder.HasOne(br => br.Country).WithMany();// WithMany(c => c.Breweries);
             typeBuilder.Navigation(br => br.Country).AutoInclude();
             #endregion
         }
@@ -123,8 +123,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
-            typeBuilder.HasMany(c => c.Breweries).WithOne(br => br.Country);
-            typeBuilder.Navigation(c => c.Breweries).AutoInclude();
+            //typeBuilder.HasMany(c => c.Breweries).WithOne(br => br.Country);
+            //typeBuilder.Navigation(c => c.Breweries).AutoInclude();
             #endregion
         }
 
