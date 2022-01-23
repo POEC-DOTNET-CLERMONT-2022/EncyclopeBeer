@@ -1,25 +1,19 @@
 ﻿using Ipme.WikiBeer.Dtos.Ingredients;
-using Ipme.WikiBeer.Model.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Ipme.WikiBeer.Dtos
 {
-    [DataContract]
     public class BeerDto
     {
-        [DataMember]
         public Guid Id { get; set; }
-        [DataMember]
         public string Name { get; set; }
-        [DataMember]
         public float Ibu { get; set; }
-        [DataMember]
         public float Degree { get; set; }
-        //[DataMember]
-        //public List<Ingredient> Ingredients { get; set; } // Fonctionne jusqu'au wpf mais pose des problèmes au WCF Client Test
-        [DataMember]
-        public List<IngredientDto> Ingredients { get; set; } // Tentative de résolution du bug
+        public BreweryDto Brewery { get; set; }
+        public BeerStyleDto Style { get; set; }
+        public BeerColorDto Color { get; set; }
+        public IEnumerable<IngredientDto> Ingredients { get; set; }
     }
 }
