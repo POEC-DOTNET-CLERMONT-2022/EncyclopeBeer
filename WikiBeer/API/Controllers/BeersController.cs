@@ -6,7 +6,9 @@ using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+/// <summary>
+/// TODO : Coller des ActionResult Partout
+/// </summary>
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
@@ -29,7 +31,6 @@ namespace Ipme.WikiBeer.API.Controllers
             return allBeers;
         }
 
-        // GET api/<BeerController>/5
         [HttpGet("{id}")]
         public BeerDto Get(Guid id)
         {
@@ -44,5 +45,17 @@ namespace Ipme.WikiBeer.API.Controllers
             _ddbRepository.Create(beerEntity);
         }
 
+        [HttpPut("{id}")]
+        public void Put(Guid id, [FromBody] BeerDto beerDto)
+        {
+            var beerEntity = _mapper.Map<BeerEntity>(beerDto);
+            _ = _ddbRepository.UpdateById(id, beerEntity);
+        }
+
+        [HttpDelete("{id}")]
+        public bool Delete(Guid id) // on pourrait retourner un boléen ici
+        {
+            return _ddbRepository.DeleteById(id);
+        }
     }
 }

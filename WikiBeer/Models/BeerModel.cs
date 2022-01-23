@@ -19,7 +19,7 @@ namespace Ipme.WikiBeer.Models
 
         public BeerModel()
         {
-            Id = Guid.NewGuid();
+            //Id = Guid.NewGuid();
         }
 
         //public BeerModel(string name, float ibu, float degree, BeerStyleModel style, BeerColorModel color, BreweryModel brewery)

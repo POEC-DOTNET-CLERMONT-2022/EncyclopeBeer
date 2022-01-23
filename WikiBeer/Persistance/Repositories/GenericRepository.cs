@@ -34,6 +34,27 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
         }
 
+        /// <summary>
+        /// Update par remplacement (avec transfert de Guid)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual T? UpdateById(Guid id, T entity)
+        {
+            T? entityToUpdate = GetById(id);
+            if (entityToUpdate == null)
+                return null;
+
+            entity.Id = entityToUpdate.Id;
+
+            var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
+                                                              // mais ici comme on fait un Get avant 
+            Context.SaveChanges();
+
+            return updatedEntity;
+        }
+
         public virtual bool DeleteById(Guid id)
         {
             T? entity = GetById(id);

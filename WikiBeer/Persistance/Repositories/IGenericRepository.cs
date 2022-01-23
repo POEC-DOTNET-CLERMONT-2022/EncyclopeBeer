@@ -15,6 +15,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         T? GetById(Guid id);
 
+        T? UpdateById(Guid id, T entity);
         bool DeleteById(Guid id);
     }
 }

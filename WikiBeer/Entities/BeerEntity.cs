@@ -7,7 +7,7 @@ namespace Ipme.WikiBeer.Entities
         
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public float Ibu { get; set; }
+        public float? Ibu { get; set; }
         public float Degree { get; set; }
         public BreweryEntity Brewery { get; set; }
         public BeerStyleEntity Style { get; set; }
@@ -26,7 +26,7 @@ namespace Ipme.WikiBeer.Entities
         {
         }
 
-        public BeerEntity(Guid id, string name, float ibu, float degree, BeerStyleEntity style, BeerColorEntity color, BreweryEntity brewery)
+        public BeerEntity(Guid id, string name, float? ibu, float degree, BeerStyleEntity style, BeerColorEntity color, BreweryEntity brewery)
         {
             Id = id;
             Name = name;

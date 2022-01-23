@@ -14,13 +14,13 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 
         public string Description { get; set; }
 
-        public ICollection<BeerEntity> Beers { get; set; } // nécessaire pour la table d'association
+        public ICollection<BeerEntity>? Beers { get; set; } // nécessaire pour la table d'association
 
         protected IngredientEntity()
         {
         }
 
-        protected IngredientEntity(Guid id, string name, string description, ICollection<BeerEntity> beers)
+        protected IngredientEntity(Guid id, string name, string description, ICollection<BeerEntity>? beers)
         {
             Id = id;
             Name = name;
