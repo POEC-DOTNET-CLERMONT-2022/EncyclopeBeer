@@ -23,7 +23,7 @@
             Name = name;
             Description = description;
             Country = country;
-            Beers = Beers;
+            Beers = beers;
         }
     }
 }
