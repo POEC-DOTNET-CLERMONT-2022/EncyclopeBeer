@@ -5,7 +5,9 @@
     Il faut ensuite passer à JsonSerializerOptions un JsonConverter<T> qu'il faut implémenter soit même!
 https://stackoverflow.com/questions/58074304/is-polymorphic-deserialization-possible-in-system-text-json
 https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-converters-how-to?pivots=dotnet-6-0#support-polymorphic-deserialization
-https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-polymorphism
+https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-polymorphism.
+    On peut également resté sur NewtonSoft et gérer ensuite la tranformation coté angular via 
+https://github.com/typestack/class-transformer
  */
 using AutoFixture;
 using AutoFixture.Kernel;
