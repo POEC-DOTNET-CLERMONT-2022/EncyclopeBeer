@@ -8,6 +8,8 @@ https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-
 https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-polymorphism.
     On peut également resté sur NewtonSoft et gérer ensuite la tranformation coté angular via 
 https://github.com/typestack/class-transformer
+    Voir également
+https://github.com/manuc66/JsonSubTypes
  */
 using AutoFixture;
 using AutoFixture.Kernel;
