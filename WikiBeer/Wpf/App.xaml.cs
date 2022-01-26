@@ -1,9 +1,15 @@
-﻿using Ipme.WikiBeer.Persistance;
+﻿using AutoMapper;
+using Ipme.WikiBeer.ApiDatas;
+using Ipme.WikiBeer.ApiDatas.MapperProfiles;
+using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Persistance;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,16 +20,17 @@ namespace Ipme.WikiBeer.Wpf
     /// </summary>
     public partial class App : Application
     {
-//        public IBeerManager BeerManager { get; } // Pour créer des objets Beer directement
-        //public BeerServiceClient BeerServiceClient { get; } // pour passer via wcf
-        //public IngredientServiceClient IngredientServiceClient { get; } // pour passer via wcf
+        private const string ServerUrl = "https://localhost:7160";
+        public IDataManager<BeerModel, BeerDto> BeerDataManager { get; }
+        public HttpClient HttpClient{ get; set; }  
+        public IMapper Mapper { get; }
 
         public App()
         {
-        //    InitializeComponent();
-        //    BeerServiceClient = new BeerServiceClient();
-        //    IngredientServiceClient = new IngredientServiceClient();
-//            BeerManager = new BeerManager();
+            var configuration = new MapperConfiguration(config => config.AddProfile(typeof(DtoModelProfile)));
+            Mapper = new Mapper(configuration);
+            HttpClient = new HttpClient();
+            BeerDataManager = new BeerDataManager(HttpClient, Mapper, ServerUrl);
          }
     }
 }

@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{F5955089-F048-4711-9123-C985CBFB337A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppPopulateTest", "ConsoleAppPopulateTest\ConsoleAppPopulateTest.csproj", "{FBC0C2C2-97F7-4248-A9F6-B87DA92CFC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppPopulateTest", "ConsoleAppPopulateTest\ConsoleAppPopulateTest.csproj", "{FBC0C2C2-97F7-4248-A9F6-B87DA92CFC1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiDatas", "ApiDatas\ApiDatas.csproj", "{D6657D1A-8DC0-45DD-8923-9F91E4A9A6FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDatas", "ApiDatas\ApiDatas.csproj", "{D6657D1A-8DC0-45DD-8923-9F91E4A9A6FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +40,7 @@ Global
 		{BC1FE0FC-C926-4474-9F4C-78A5E46AB143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC1FE0FC-C926-4474-9F4C-78A5E46AB143}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADCAFF67-1204-477D-9E7B-57426876F4C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADCAFF67-1204-477D-9E7B-57426876F4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADCAFF67-1204-477D-9E7B-57426876F4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADCAFF67-1204-477D-9E7B-57426876F4C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E954417D-6BD5-4D78-A562-486BFA941739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -10,20 +10,20 @@ namespace Ipme.WikiBeer.Wpf.UC
     public partial class ListBeerUC : UserControl
     {
 
-        //public BeerServiceClient BeerServiceClient { get; }
+        //public beerserviceclient beerserviceclient { get; }
 
-        //public ListBeerUC()
+        //public listbeeruc()
         //{
-        //    InitializeComponent();
-        //    if (Application.Current is App app)
+        //    initializecomponent();
+        //    if (application.current is app app)
         //    {
-        //        //BeerManager = app.BeerManager;
-        //        BeerServiceClient = app.BeerServiceClient;
+        //        //beermanager = app.beermanager;
+        //        beerserviceclient = app.beerserviceclient;
         //    }
 
-        //    var beers = BeerServiceClient.GetBeers();
-        //    BeerList.ItemsSource = beers;
-        //    BeerServiceClient.Close();
+        //    var beers = beerserviceclient.getbeers();
+        //    beerlist.itemssource = beers;
+        //    beerserviceclient.close();
         //}
     }
 }
