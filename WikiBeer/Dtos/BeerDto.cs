@@ -1,7 +1,4 @@
 ﻿using Ipme.WikiBeer.Dtos.Ingredients;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Ipme.WikiBeer.Dtos
 {

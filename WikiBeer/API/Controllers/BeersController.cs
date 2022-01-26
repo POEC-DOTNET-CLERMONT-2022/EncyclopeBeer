@@ -25,17 +25,25 @@ namespace Ipme.WikiBeer.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BeerDto> Get()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BeerDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Get()
         {
+
             var allBeers = _mapper.Map<IEnumerable<BeerDto>>(_ddbRepository.GetAll());
-            return allBeers;
+            if (allBeers == null)
+                return NotFound();
+            return Ok(allBeers);
         }
 
         [HttpGet("{id}")]
-        public BeerDto Get(Guid id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BeerDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Get(Guid id)
         {
-            var beer = _ddbRepository.GetById(id);
-            return _mapper.Map<BeerDto>(beer);
+            var beer = _mapper.Map<BeerDto>(_ddbRepository.GetById(id));
+            if (beer == null) return NotFound();
+            return Ok(beer);
         }
 
         [HttpPost]
