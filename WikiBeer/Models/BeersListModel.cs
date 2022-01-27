@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BeersList : ObservableObject
+    public class BeersListModel : ObservableObject
     {
         private ObservableCollection<BeerModel> beers;
 

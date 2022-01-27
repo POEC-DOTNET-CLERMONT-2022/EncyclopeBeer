@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ipme.WikiBeer.Wpf.UserControls.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewBeers : UserControl
     {
+        private ListComponent List = new ListComponent();
         public ViewBeers()
         {
             InitializeComponent();
