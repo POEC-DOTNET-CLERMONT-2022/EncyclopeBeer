@@ -9,21 +9,23 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class HomeUC : UserControl
     {
-        public ListBeerUC ListBeerUC { get; set; } = new ListBeerUC();
-        public StatisticUC StatisticUC { get; set; } = new StatisticUC();
-        public BreweryUC BreweryUC { get; set; } = new BreweryUC();
-        public ListIngredientUC ListIngredientUC { get; set; } = new ListIngredientUC();
-        public ColorUC ColorUC { get; set; } = new ColorUC();
-        public FamilyUC FamilyUC { get; set; } = new FamilyUC();
-        public UserUC UserUC { get; set; } = new UserUC();
+        //public ListBeerUC ListBeerUC { get; set; } = new ListBeerUC();
+        //public StatisticUC StatisticUC { get; set; } = new StatisticUC();
+        //public BreweryUC BreweryUC { get; set; } = new BreweryUC();
+        //public ListIngredientUC ListIngredientUC { get; set; } = new ListIngredientUC();
+        //public ColorUC ColorUC { get; set; } = new ColorUC();
+        //public FamilyUC FamilyUC { get; set; } = new FamilyUC();
+        //public UserUC UserUC { get; set; } = new UserUC();
 
-        public INavigator Navigator { get; }
+        // Si l'on ne set pas ici le Navigator ne se comporte pas correctement ...
+        public INavigator Navigator { get; }// = new Navigator();
         public HomeUC()
         {
+            Navigator = new Navigator();
             InitializeComponent();
             // Initialisation du navigateur
-            Navigator = new Navigator();
-            DataContext = this;
+            //Navigator = new Navigator();
+            //DataContext = this;
         }
 
         /// <summary>

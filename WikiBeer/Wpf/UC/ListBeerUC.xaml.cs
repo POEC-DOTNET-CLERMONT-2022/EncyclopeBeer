@@ -29,6 +29,9 @@ namespace Ipme.WikiBeer.Wpf.UC
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Mémoire à implémenter ici pour éviter de recharger en permamence si la liste n'a pas bougé
+            // Utiliser les Observable pour sa? On pourrait load à la volé si changement dans la liste
+            // ou on pourriat load si changement et demande d'affichage...
             Beers = await _beerDataManager.GetAll();
             BeersList.Beers = new ObservableCollection<BeerModel>(Beers);
         }
