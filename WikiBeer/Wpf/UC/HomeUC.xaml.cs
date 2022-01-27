@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Ipme.WikiBeer.Wpf.UC
 {
     /// <summary>
-    /// Logique d'interaction pour HomeU.xaml
+    /// Logique d'interaction pour HomeU.xaml ; Ici instanciation d'un autre navigateur dédié aux sous fenêtres
     /// </summary>
     public partial class HomeUC : UserControl
     {

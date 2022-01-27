@@ -24,21 +24,23 @@ namespace Ipme.WikiBeer.Wpf.UC
     public partial class BeerDetailsUC : UserControl
     {
         // DependencyProperty qui sera passée dans les xaml
-        //private static readonly DependencyProperty CurrentBeerProperty =
-        //    DependencyProperty.Register("CurrentBeer", typeof(BeerModel), typeof(ListBeerUC));
+        private static readonly DependencyProperty CurrentBeerProperty =
+            DependencyProperty.Register("CurrentBeer", typeof(BeerModel), typeof(BeerDetailsUC));
 
         // Doit avoir le même nom que celui définie dans le register
-        //public BeerModel CurrentBeer
-        //{
-        //    get { return GetValue(CurrentBeerProperty) as BeerModel; }
-        //    set
-        //    {
-        //        if (CurrentBeer != value)
-        //        {
-        //            SetValue(CurrentBeerProperty, value);
-        //        }
-        //    }
-        //}
+        // Note importante : GetValue et SetValue comprennent le OnNotifiedChange qui fait qu'une DependencyProperty
+        // est un observable quoi qu'il arrive
+        public BeerModel CurrentBeer
+        {
+            get { return GetValue(CurrentBeerProperty) as BeerModel; }
+            set
+            {
+                if (CurrentBeer != value)
+                {
+                    SetValue(CurrentBeerProperty, value);
+                }
+            }
+        }
         public BeerDetailsUC()
         {
             InitializeComponent();

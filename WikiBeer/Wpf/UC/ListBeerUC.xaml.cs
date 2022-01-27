@@ -15,30 +15,22 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListBeerUC : UserControl
     {
-        private readonly IDataManager<BeerModel, BeerDto> _beerDataManager;
+        private readonly IDataManager<BeerModel, BeerDto> _beerDataManager
+           = ((App)Application.Current).BeerDataManager;
+
         public BeersList BeersList { get; set; } = new BeersList();
 
         private IEnumerable<BeerModel> Beers;
 
-
         public ListBeerUC()
         {
             InitializeComponent();
-            if (Application.Current is App app)
-            {
-                _beerDataManager = app.BeerDataManager;
-            }
-
-            DataContext = this;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Beers = await _beerDataManager.GetAll();
             BeersList.Beers = new ObservableCollection<BeerModel>(Beers);
-
-            //DataContext = BeersList;
-            //DataContext = this;
         }
 
         private void Update_Beer_Click(object sender, RoutedEventArgs e)

@@ -17,7 +17,7 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
                
-
+<!--On pourrait aussi bind directement sur Beer-->
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding BeersList.Beers}" SelectedItem="{Binding BeersList.CurrentBeer}" x:Name="ListBeers">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -29,7 +29,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <WrapPanel Grid.Column="1" Grid.Row="1">
-            <local:FamilyUC ></local:FamilyUC>
+            <local:BeerDetailsUC x:Name="SelectedBeerDetail" CurrentBeer="{Binding SelectedItem, ElementName=ListBeers}"></local:BeerDetailsUC>
         </WrapPanel>
     </Grid>
 </UserControl>
