@@ -1,4 +1,6 @@
-﻿using Ipme.WikiBeer.Wpf.UC;
+﻿using Ipme.WikiBeer.Wpf.UserControls;
+using Ipme.WikiBeer.Wpf.UserControls.Views;
+using Ipme.WikiBeer.Wpf.Utils;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf
@@ -8,13 +10,13 @@ namespace Ipme.WikiBeer.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public HomeUC HomeUC { get; set; } = new HomeUC();
+        public INavigator Navigator { get; set; } = ((App)Application.Current).Navigator;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            MainControl.Content = HomeUC;
+            DataContext = this;
+            Navigator.NavigateTo(typeof(ViewLogin));
         }
     }
 }

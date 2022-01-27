@@ -4,6 +4,8 @@ using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Persistance;
+using Ipme.WikiBeer.Wpf.UserControls.Views;
+using Ipme.WikiBeer.Wpf.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,12 +27,20 @@ namespace Ipme.WikiBeer.Wpf
         public HttpClient HttpClient{ get; set; }  
         public IMapper Mapper { get; }
 
+        public INavigator Navigator { get; } = new Navigator();
+
         public App()
         {
             var configuration = new MapperConfiguration(config => config.AddProfile(typeof(DtoModelProfile)));
             Mapper = new Mapper(configuration);
             HttpClient = new HttpClient();
             BeerDataManager = new BeerDataManager(HttpClient, Mapper, ServerUrl);
-         }
+        }
+
+        private void App_OnStartup(object sender, StartupEventArgs e)
+        {
+            Navigator.RegisterView(new ViewLogin());
+            Navigator.RegisterView(new ViewHome());
+        }
     }
 }

@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
-    <ContentControl x:Name="MainControl"/>
+
+    <Grid>
+        <ContentControl x:Name="PrimaryContentControl" Content="{Binding Navigator.CurrentContentControl}"/>
+    </Grid>
 
 </Window>
