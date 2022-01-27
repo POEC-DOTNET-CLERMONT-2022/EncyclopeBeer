@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
-    public partial class tt1 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,7 +89,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                 {
                     BeerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ibu = table.Column<float>(type: "real", nullable: false),
+                    Ibu = table.Column<float>(type: "real", nullable: true),
                     Degree = table.Column<float>(type: "real", nullable: false),
                     BreweryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StyleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

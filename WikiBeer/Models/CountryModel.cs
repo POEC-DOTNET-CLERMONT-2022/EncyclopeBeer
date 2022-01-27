@@ -13,7 +13,6 @@ namespace Ipme.WikiBeer.Models
             Id = Guid.NewGuid();
         }
 
-
         public CountryModel(string name)
         {
             Id = Guid.NewGuid();
