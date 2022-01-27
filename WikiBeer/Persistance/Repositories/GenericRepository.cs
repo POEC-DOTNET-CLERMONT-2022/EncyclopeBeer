@@ -55,11 +55,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return updatedEntity;
         }
 
-        public virtual bool DeleteById(Guid id)
+        public virtual bool? DeleteById(Guid id)
         {
             T? entity = GetById(id);
             if (entity == null)
-                return false;
+                return null;
 
             Context.Set<T>().Remove(entity);
             
