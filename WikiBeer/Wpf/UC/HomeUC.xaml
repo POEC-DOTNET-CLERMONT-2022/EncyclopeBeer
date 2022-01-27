@@ -38,6 +38,7 @@
 
         <Grid Grid.Column="1">
             <ContentControl x:Name="HomeControl"></ContentControl>
+            
         </Grid>
     </Grid>
     

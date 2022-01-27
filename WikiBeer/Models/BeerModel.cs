@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerModel
+    public class BeerModel : ObservableObject
     {
         public string Name { get; set; }
         public float Ibu { get; set; }

@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Persistance;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,7 +18,8 @@ namespace Ipme.WikiBeer.Wpf.UC
         private readonly IDataManager<BeerModel, BeerDto> _beerDataManager;
         public BeersList BeersList { get; set; } = new BeersList();
 
-        private IEnumerable<BeerModel> Beer;
+        private IEnumerable<BeerModel> Beers;
+
 
         public ListBeerUC()
         {
@@ -26,14 +28,17 @@ namespace Ipme.WikiBeer.Wpf.UC
             {
                 _beerDataManager = app.BeerDataManager;
             }
+
+            DataContext = this;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Beer = await _beerDataManager.GetAll();
-            BeersList.Beers = new ObservableCollection<BeerModel>(Beer);
+            Beers = await _beerDataManager.GetAll();
+            BeersList.Beers = new ObservableCollection<BeerModel>(Beers);
 
-            DataContext = BeersList;
+            //DataContext = BeersList;
+            //DataContext = this;
         }
 
         private void Update_Beer_Click(object sender, RoutedEventArgs e)
@@ -57,5 +62,6 @@ namespace Ipme.WikiBeer.Wpf.UC
         {
 
         }
+
     }
 }
