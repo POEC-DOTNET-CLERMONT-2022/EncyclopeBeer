@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Ipme.WikiBeer.Wpf.Utilities
 {
-    internal class Navigator: ObservableObject, INavigator
+    internal class Navigator: ObservableObject, INavigator // Doit être Observable pour utiliser les binding
     {
         private List<Control> Views { get; set; } = new List<Control>();
 

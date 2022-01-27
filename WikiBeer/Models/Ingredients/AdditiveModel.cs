@@ -15,7 +15,7 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        public AdditiveModel(Guid id, string name, string description, string use) : base(name, description)
+        public AdditiveModel(Guid id, string name, string description, string use) : base(id, name, description)
         {
             Use = use;
         }
