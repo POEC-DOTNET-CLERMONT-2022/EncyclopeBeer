@@ -19,7 +19,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual T Create(T entityToCreate)
         {
-            T entity = Context.Add(entityToCreate).Entity;
+            //T entity = Context.Add(entityToCreate).Entity;
+            T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
         }

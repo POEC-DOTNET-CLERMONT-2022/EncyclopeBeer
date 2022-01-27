@@ -53,25 +53,34 @@ var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
 var ale = new BeerStyleModel(name: "Blonde Ale", description: "");
 
 // Ingredients
-var hop = new HopModel(name: "Houblon", description: "desc", alphaacid: 4);
+var hop = new HopModel(name: "Houblon", description: "desc", alphaAcid: 4);
 var malt = new CerealModel(name: "Malt d'orge", description: "desc", ebc: 4);
 var water = new AdditiveModel(name: "Eau", description: "de source", use: "pour rendre la bière liquide mon pote !");
 IEnumerable<IngredientModel> ingredients = new List<IngredientModel> { hop, malt, water };
 
 // Bières en elle même
 var pony = new BeerModel("DEAD PONY CLUB", 8, 4, apa, blonde, brewdog, ingredients);
-var peche = new BeerModel("La Pêcheresse", 10, 4, lambic, blonde, linderman, ingredients);
+//var peche = new BeerModel("La Pêcheresse", 10, 4, lambic, blonde, linderman, ingredients);
 
 #endregion
 
-// Création liste de bières
-var beers = new List<BeerModel> { pony, peche };
+// Test ajout beer avec ingredient (et Color) déjà en base
+//await beerManager.Add(pony);
+var beers = await beerManager.GetAll();
+var new_pony = await beerManager.GetById(beers.ToList()[0].Id);
+var peche = new BeerModel("La Pêcheresse", 10, 4, lambic, new_pony.Color, linderman, new_pony.Ingredients);
+await beerManager.Add(peche);
 
-// Injection bière dans la database
-foreach (var beer in beers)
-{
-    await beerManager.Add(beer);
-}
+// Création liste de bières 
+//var beers = new List<BeerModel> { pony, peche };
+
+// Injection bière dans la database. Attention en faisant comme sa on duplique plusieurs objets en bdd
+// Pour éviter sa il faudrait injecter une bière, récupérer les Guid des objets communs à tt (ingrédient, couleur), 
+// les donner aux modèles, puis faire un add de la beer en question (serait un bon test pour voir si la base est bien branlé!)
+//foreach (var beer in beers)
+//{
+//    await beerManager.Add(beer);
+//}
 
 
 Console.WriteLine("Execution terminée");
