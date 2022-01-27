@@ -28,19 +28,23 @@ var url = "https://localhost:7160";
 var client = new HttpClient();
 var beerManager = new BeerDataManager(client, mapper, url);
 
-// Création d'une bière
+#region Création d'une bière
+// Pays
 var belgique = new CountryModel(name: "Belgique");
 var france = new CountryModel(name: "France");
 var ecosse = new CountryModel(name: "Ecosse");
 
+// Brasseries
 var brewdog = new BreweryModel(name: "Brewdog", description: "Des chiens qui brassent", country: ecosse);
 var linderman = new BreweryModel(name: "Brasserie Lindemans", description: "...", country: belgique);
 var ninkasi = new BreweryModel(name: "Ninkasi", description: "...", country: france);
 
+// Couleurs
 var blonde = new BeerColorModel(name: "Blonde");
 var brune = new BeerColorModel(name: "Brune");
 var blanche = new BeerColorModel(name: "Blanche");
 
+// Styles
 var ipa = new BeerStyleModel(name: "IPA", description: "");
 var lambic = new BeerStyleModel(name: "Lambic", description: "");
 var speciale = new BeerStyleModel(name: "Spéciale", description: "");
@@ -48,12 +52,32 @@ var apa = new BeerStyleModel(name: "American pale ale", description: "");
 var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
 var ale = new BeerStyleModel(name: "Blonde Ale", description: "");
 
+// Ingredients
 var hop = new HopModel(name: "Houblon", description: "desc", alphaacid: 4);
 var malt = new CerealModel(name: "Malt d'orge", description: "desc", ebc: 4);
 var water = new AdditiveModel(name: "Eau", description: "de source", use: "pour rendre la bière liquide mon pote !");
+IEnumerable<IngredientModel> ingredients = new List<IngredientModel> { hop, malt, water };
 
-IEnumerable<IngredientModel> ingredient = new[] { hop };
+// Bières en elle même
+var pony = new BeerModel("DEAD PONY CLUB", 8, 4, apa, blonde, brewdog, ingredients);
+var peche = new BeerModel("La Pêcheresse", 10, 4, lambic, blonde, linderman, ingredients);
 
+#endregion
+
+// Création liste de bières
+var beers = new List<BeerModel> { pony, peche };
+
+// Injection bière dans la database
+foreach (var beer in beers)
+{
+    await beerManager.Add(beer);
+}
+
+
+Console.WriteLine("Execution terminée");
+Console.ReadLine();
+
+//
 //var punk = new BeerModel();
 //punk.Name = "Punk IPA";
 //punk.Brewery = brewdog;
@@ -82,18 +106,6 @@ IEnumerable<IngredientModel> ingredient = new[] { hop };
 //pony.Degree = 4;
 //pony.Color = blonde;
 //pony.Style = apa;
-
-//await beerManager.Add(pony);
-
-var peche = new BeerModel();
-peche.Name = "La Pêcheresse";
-peche.Brewery = linderman;
-peche.Ibu = 8;
-peche.Degree = 4;
-peche.Color = blonde;
-peche.Style = lambic;
-
-await beerManager.Add(peche);
 
 //var kriek = new BeerModel();
 //kriek.Name = "Lindemans Kriek";
@@ -124,10 +136,3 @@ await beerManager.Add(peche);
 //mango.Style = ale;
 
 //await beerManager.Add(mango);
-
-
-
-var beers = await beerManager.GetAll();
-
-Console.WriteLine("Execution terminée");
-Console.ReadLine();

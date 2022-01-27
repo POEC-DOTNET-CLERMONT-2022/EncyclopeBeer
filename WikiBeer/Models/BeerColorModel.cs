@@ -14,15 +14,14 @@ namespace Ipme.WikiBeer.Models
         public Guid Id { get; }
         public string Name { get; internal set; }
 
-        private readonly Fixture _fixture = new Fixture();
-
-        public BeerColorModel(string name)
+        public BeerColorModel(string name) : this(Guid.Empty, name)
         {
-            // Définitifs
-            Id = Guid.NewGuid();
-            Name = name;
+        }
 
-            ////Fixture
+        public BeerColorModel(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
         }
     }
 }
