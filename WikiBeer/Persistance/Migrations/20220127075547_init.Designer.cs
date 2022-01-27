@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    [Migration("20220126223547_init")]
+    [Migration("20220127075547_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

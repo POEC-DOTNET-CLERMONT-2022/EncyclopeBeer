@@ -7,6 +7,7 @@ namespace Ipme.WikiBeer.Models
 {
     public class BeerModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public float Ibu { get; set; }
         public float Degree { get; set; }

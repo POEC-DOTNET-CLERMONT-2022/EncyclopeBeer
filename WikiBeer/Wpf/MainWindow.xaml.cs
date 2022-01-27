@@ -1,10 +1,4 @@
-﻿//using BeerServiceReference;
-//using Ipme.WikiBeer.Persistance;
-using Ipme.WikiBeer.ApiDatas;
-using Ipme.WikiBeer.Dtos;
-using Ipme.WikiBeer.Models;
-using Ipme.WikiBeer.Wpf.UC;
-using System.Collections.Generic;
+﻿using Ipme.WikiBeer.Wpf.UC;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf

@@ -10,7 +10,5 @@
         Task<IEnumerable<TModel>> GetAll();
         Task<TModel> GetById(Guid id);
         Task Update(Guid id, TModel model);
-
-
     }
 }

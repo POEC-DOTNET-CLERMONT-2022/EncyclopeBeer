@@ -32,8 +32,6 @@ namespace Ipme.WikiBeer.Wpf.UC
         {
             Beer = await _beerDataManager.GetAll();
             BeersList.Beers = new ObservableCollection<BeerModel>(Beer);
-
-            DataContext = BeersList;
         }
 
         private void Update_Beer_Click(object sender, RoutedEventArgs e)
