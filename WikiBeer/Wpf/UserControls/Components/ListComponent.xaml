@@ -7,7 +7,14 @@
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="450" d:DesignWidth="250">
     <Grid DataContext="{Binding ., ElementName=root}">
-        <ListBox ItemsSource="{Binding BeersList}" SelectedItem="{Binding CurrentBeer}">
+        <StackPanel>
+            <Label Content="Pouet" Width="200" Height="50"/>
+            <Label Content="Pouet" Width="200" Height="50"/>
+            <Label Content="Pouet" Width="200" Height="50"/>
+            <Label Content="Pouet" Width="200" Height="50"/>
+            <Label Content="Pouet" Width="200" Height="50"/>
+        </StackPanel>
+        <!--<ListBox ItemsSource="{Binding BeersList}" SelectedItem="{Binding CurrentBeer}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Background="WhiteSmoke" Width="200" Height="50">
@@ -15,6 +22,6 @@
                     </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
     </Grid>
 </UserControl>

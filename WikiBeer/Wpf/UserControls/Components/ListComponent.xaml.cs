@@ -25,7 +25,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
 
         public ListComponent()
         {
-
+            InitializeComponent();
         }
 
         public ListComponent(BeersListModel beersList)
@@ -33,9 +33,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             InitializeComponent();
             this.BeersList = new BeersListModel();
             this.BeersList = beersList;
-            var beer = new BeerModel();
-            beer.Name = "Punk";
-            this.BeersList.Beers.Add(beer);
         }
     }
 }
