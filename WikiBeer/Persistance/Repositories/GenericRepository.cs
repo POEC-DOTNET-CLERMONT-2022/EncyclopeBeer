@@ -19,7 +19,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual T Create(T entityToCreate)
         {
-            T entity = Context.Add(entityToCreate).Entity;
+            //T entity = Context.Add(entityToCreate).Entity;
+            T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
         }
@@ -55,11 +56,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return updatedEntity;
         }
 
-        public virtual bool DeleteById(Guid id)
+        public virtual bool? DeleteById(Guid id)
         {
             T? entity = GetById(id);
             if (entity == null)
-                return false;
+                return null;
 
             Context.Set<T>().Remove(entity);
             

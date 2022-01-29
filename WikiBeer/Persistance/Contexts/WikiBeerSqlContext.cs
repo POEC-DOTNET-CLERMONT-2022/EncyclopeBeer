@@ -8,6 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// TODO : s'intéresser au splitting de requete pour optimiser les performances : 
+/// voir : https://docs.microsoft.com/fr-fr/ef/core/querying/single-split-queries
+/// Sur la différence entre Attach et Add : (important pour de l'insertion d'une enity qui conteint des sous objets déjà en base!)
+/// voir : https://stackoverflow.com/questions/65401099/entity-framework-5-adding-existing-entity-to-nested-collection
+/// Pour les différents Etats d'une entité (relié au point précédent)
+/// coir : https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entitystate?view=efcore-5.0#microsoft-entityframeworkcore-entitystate-added
+/// </summary>
 namespace Ipme.WikiBeer.Persistance.Contexts
 {
     public class WikiBeerSqlContext : DbContext
@@ -53,7 +61,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
             #region Configuration relations
             // Brewery
-            typeBuilder.HasOne(be => be.Brewery).WithMany(br => br.Beers);
+            typeBuilder.HasOne(be => be.Brewery).WithMany();
             typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
             typeBuilder.HasOne(be => be.Style).WithMany();
@@ -81,9 +89,6 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(br => br.Id).HasColumnName(idName).ValueGeneratedOnAdd();
 
             #region Configuration relations
-            // Beers
-            typeBuilder.HasMany(br => br.Beers).WithOne(be => be.Brewery);
-            typeBuilder.Navigation(br => br.Beers).AutoInclude();
             // Country 
             typeBuilder.HasOne(br => br.Country).WithMany();// WithMany(c => c.Breweries);
             typeBuilder.Navigation(br => br.Country).AutoInclude();

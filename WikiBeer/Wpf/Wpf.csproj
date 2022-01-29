@@ -5,8 +5,8 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Ipme.WikiBeer.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Ipme.WikiBeer.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <!--<AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>-->
+    <!--<RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApiDatas\ApiDatas.csproj" />
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
   </ItemGroup>
 

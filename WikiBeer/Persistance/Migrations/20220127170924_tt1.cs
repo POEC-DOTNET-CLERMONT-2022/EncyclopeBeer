@@ -4,7 +4,7 @@
 
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
-    public partial class tt4 : Migration
+    public partial class tt1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

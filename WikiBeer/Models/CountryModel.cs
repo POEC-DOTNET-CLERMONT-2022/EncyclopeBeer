@@ -8,15 +8,13 @@ namespace Ipme.WikiBeer.Models
 
         public string Name { get; set; }
 
-        public CountryModel()
+        public CountryModel(string name): this(Guid.Empty, name)
         {
-            Id = Guid.NewGuid();
         }
 
-
-        public CountryModel(string name)
+        public CountryModel(Guid id, string name)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
         }
     }

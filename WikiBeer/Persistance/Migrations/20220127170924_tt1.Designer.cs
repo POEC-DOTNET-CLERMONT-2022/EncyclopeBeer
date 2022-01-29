@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    [Migration("20220122164616_tt1")]
+    [Migration("20220127170924_tt1")]
     partial class tt1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                     b.Property<float>("Degree")
                         .HasColumnType("real");
 
-                    b.Property<float>("Ibu")
+                    b.Property<float?>("Ibu")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")

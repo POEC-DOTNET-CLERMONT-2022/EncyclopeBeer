@@ -12,15 +12,15 @@ namespace Ipme.WikiBeer.Models
         public string Name { get; internal set; }
         public string Description { get; internal set; }
 
-        public BeerStyleModel(string name, string description)
+        public BeerStyleModel(string name, string description) : this(Guid.Empty, name, description)
         {
-            // Définitifs
-            Id = Guid.NewGuid();
+        }
+
+        public BeerStyleModel(Guid id, string name, string description)
+        {
+            Id = id;
             Name = name;
             Description = description;
-
-            //Fixture
-            //CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
         }
     }
 }

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 /// <summary>
-/// TODO : Coller des ActionResult Partout
+/// TODO : affiner les block catch (renvoyer autre chose que du 500)
+/// liste des codes d'erreurs possibles : https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
 /// </summary>
 namespace Ipme.WikiBeer.API.Controllers
 {
@@ -37,23 +38,32 @@ namespace Ipme.WikiBeer.API.Controllers
             catch (Exception e)
             {
                 // toutes les exceptions non géré passe en 500
-                return StatusCode(500); 
+                return StatusCode(500);
             }
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BeerDto), 200)]
-        [ProducesResponseType(404)] 
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public IActionResult Get(Guid id)
         {
-            var beer = _ddbRepository.GetById(id);
-            if (beer == null)
-                return NotFound();
-            return Ok(_mapper.Map<BeerDto>(beer));
+            try
+            {
+                var beer = _ddbRepository.GetById(id);
+                if (beer == null)
+                    return NotFound();
+                return Ok(_mapper.Map<BeerDto>(beer));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+
         }
 
         [HttpPost]
-        [ProducesResponseType(201)] 
+        [ProducesResponseType(201)]
         [ProducesResponseType(500)]
         public IActionResult Post([FromBody] BeerDto beerDto)
         {
@@ -63,7 +73,7 @@ namespace Ipme.WikiBeer.API.Controllers
                 var beerEntityCreated = _ddbRepository.Create(beerEntity);
                 return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated); ;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 // On peut gérer les problèmes de mapping ici
                 return StatusCode(500);
@@ -92,9 +102,26 @@ namespace Ipme.WikiBeer.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool Delete(Guid id) // on pourrait retourner un boléen ici
-        {
-            return _ddbRepository.DeleteById(id);
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Delete(Guid id) // on pourrait retourner un boléen ici
+        {   
+            try
+            {
+                var response = _ddbRepository.DeleteById(id);
+                if (response == null)  // id non trouvé en base
+                    return NotFound();
+                // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
+                if (response == true) // si vrai le delete à fonctionné
+                    return Ok();
+                // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
+                return StatusCode(500);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

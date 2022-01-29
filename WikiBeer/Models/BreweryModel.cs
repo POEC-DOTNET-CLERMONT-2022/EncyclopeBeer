@@ -14,13 +14,16 @@ namespace Ipme.WikiBeer.Models
         public CountryModel Country { get; internal set; }
 
         public BreweryModel(string name, string description, CountryModel country)
+            : this(Guid.Empty, name, description, country)
         {
-            // Définitifs
-            Id = Guid.NewGuid();
+        }
+
+        public BreweryModel(Guid id, string name, string description, CountryModel country)
+        {
+            Id = id;
             Name = name;
             Description = description;
             Country = country;
         }
-
     }
 }

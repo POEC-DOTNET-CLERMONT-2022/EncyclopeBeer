@@ -3,9 +3,13 @@ using Ipme.WikiBeer.Models.Ingredients;
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Pour de la deep copy 
+/// voir : // voir : https://docs.microsoft.com/en-us/dotnet/api/system.object.memberwiseclone?redirectedfrom=MSDN&view=net-6.0#System_Object_MemberwiseClone
+/// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerModel
+    public class BeerModel : ObservableObject
     {
         public Guid Id { get; }
         public string Name { get; set; }
@@ -14,40 +18,47 @@ namespace Ipme.WikiBeer.Models
         public BeerStyleModel Style { get; set; }
         public BeerColorModel Color { get; set; }
         public BreweryModel Brewery { get; set; }
-        //public Image Image { get; internal set; } 
         public IEnumerable<IngredientModel> Ingredients { get; set; }
 
-        public BeerModel()
+        public BeerModel(string name, float ibu, float degree, BeerStyleModel style,
+            BeerColorModel color, BreweryModel brewery, IEnumerable<IngredientModel> ingredients)
+            : this(Guid.Empty, name, ibu, degree, style, color, brewery, ingredients)
         {
-            //Id = Guid.NewGuid();
         }
 
-        //public BeerModel(string name, float ibu, float degree, BeerStyleModel style, BeerColorModel color, BreweryModel brewery)
-        //{
-        //    //// Définitif
-        //    //Id = Guid.NewGuid();
-        //    //Name = name;
-        //    //Ibu = ibu;
-        //    //Degree = degree;
-        //    //Style = style;
-        //    //Color = color;
-        //    //Brewery = brewery;
+        public BeerModel(Guid id, string name, float ibu, float degree, BeerStyleModel style, 
+            BeerColorModel color, BreweryModel brewery, IEnumerable<IngredientModel> ingredients)
+        {
+            Id = id;
+            Name = name;
+            Ibu = ibu;
+            Degree = degree;
+            Style = style;
+            Color = color;
+            Brewery = brewery;
+            Ingredients = ingredients;
+        }
 
-        //    // Fixture            
-        //    //Ingredients = new List<Ingredient>(); // marche même si Ingredient est abstract
-        //    //Ingredients.AddRange(_fixture.CreateMany<Hops>(FixtureDefaultMagic.DEFAULT_HOP_NUMBER));
-        //    //Ingredients.AddRange(_fixture.CreateMany<Additive>(FixtureDefaultMagic.DEFAULT_ADDITIVE_NUMBER));
-        //    //Ingredients.AddRange(_fixture.CreateMany<Cereal>(FixtureDefaultMagic.DEFAULT_CEREAL_NUMBER));
-        //}
-
-        ///// <summary>
-        ///// TODO : à refaire complètement
-        ///// </summary>
-        ///// <returns></returns>
-        //public override string ToString()
-        //{
-        //    return $" Name: {Name} - IBU: {Ibu} - Degree: {Degree}%";
-        //}
-
+        /// <summary>
+        /// copy constructor (pour BeerList du Wpf -> a revoir en profondeur ce truc...)
+        /// </summary>
+        /// <param name="beer"></param>
+        public BeerModel(BeerModel beer)
+        {
+            Id = beer.Id;
+            Name = beer.Name; // attention string est aussi un type référence... mais changer string
+                              // revient à en créer une nouvelle donc peut etre traité ici comme un type value
+            Ibu = beer.Ibu;
+            Degree = beer.Degree;
+            // Attention ce n'est pas de la deep copy, 
+            // juste de la copy par référence.
+            // On devrait passer par new et avoir des copy constructor
+            // pour ces objet aussi
+            
+            Style = beer.Style;
+            Color = beer.Color;
+            Brewery = beer.Brewery;
+            Ingredients = beer.Ingredients;
+        }
     }
 }
