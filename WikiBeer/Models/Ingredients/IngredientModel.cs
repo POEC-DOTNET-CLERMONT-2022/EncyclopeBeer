@@ -15,10 +15,14 @@ namespace Ipme.WikiBeer.Models.Ingredients
         public string Description { get; internal set; }
         public string TypeOfIngredient { get; private set; } // Pour test pour l'instant 
 
-        public IngredientModel(string name, string desription)
+        public IngredientModel(string name, string desription) : this(Guid.Empty, name, desription)
+        {
+        }
+
+        public IngredientModel(Guid id, string name, string desription)
         {
             // Définitif
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;            
             Description = desription;
 

@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Persistance;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,26 +15,25 @@ namespace Ipme.WikiBeer.Wpf.UC
     /// </summary>
     public partial class ListBeerUC : UserControl
     {
-        private readonly IDataManager<BeerModel, BeerDto> _beerDataManager;
+        private readonly IDataManager<BeerModel, BeerDto> _beerDataManager
+           = ((App)Application.Current).BeerDataManager;
+
         public BeersList BeersList { get; set; } = new BeersList();
 
-        private IEnumerable<BeerModel> Beer;
+        private IEnumerable<BeerModel> Beers;
 
         public ListBeerUC()
         {
             InitializeComponent();
-            if (Application.Current is App app)
-            {
-                _beerDataManager = app.BeerDataManager;
-            }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Beer = await _beerDataManager.GetAll();
-            BeersList.Beers = new ObservableCollection<BeerModel>(Beer);
-
-            DataContext = BeersList;
+            // Mémoire à implémenter ici pour éviter de recharger en permamence si la liste n'a pas bougé
+            // Utiliser les Observable pour sa? On pourrait load à la volé si changement dans la liste
+            // ou on pourriat load si changement et demande d'affichage...
+            Beers = await _beerDataManager.GetAll();
+            BeersList.Beers = new ObservableCollection<BeerModel>(Beers);
         }
 
         private void Update_Beer_Click(object sender, RoutedEventArgs e)
@@ -57,5 +57,6 @@ namespace Ipme.WikiBeer.Wpf.UC
         {
 
         }
+
     }
 }
