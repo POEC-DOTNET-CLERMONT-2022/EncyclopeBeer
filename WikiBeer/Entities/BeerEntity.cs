@@ -1,5 +1,8 @@
 ﻿using Ipme.WikiBeer.Entities.Ingredients;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Ipme.WikiBeer.Persistance")]
+[assembly: InternalsVisibleTo("Ipme.WikiBeer.API")]
 namespace Ipme.WikiBeer.Entities
 {
     public class BeerEntity : IEntity
@@ -26,7 +29,7 @@ namespace Ipme.WikiBeer.Entities
         {
         }
 
-        public BeerEntity(Guid id, string name, float? ibu, float degree, BeerStyleEntity style, BeerColorEntity color, BreweryEntity brewery)
+        internal BeerEntity(Guid id, string name, float? ibu, float degree, BeerStyleEntity style, BeerColorEntity color, BreweryEntity brewery)
         {
             Id = id;
             Name = name;

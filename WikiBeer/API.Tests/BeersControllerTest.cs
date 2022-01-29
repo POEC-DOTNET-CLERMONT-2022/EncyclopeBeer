@@ -16,7 +16,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace API.Tests
+/// <summary>
+/// Pour donner l'accès à une classe internal voir les friends assemblies : 
+/// https://docs.microsoft.com/en-us/dotnet/standard/assembly/friend
+/// </summary>
+namespace Ipme.WikiBeer.API.Tests
 {
     [TestClass]
     public class BeersControllerTest
