@@ -17,10 +17,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             InitializeComponent();
         }
 
-        private void Button_Click_Stats(object sender, RoutedEventArgs e)
-        {
-            Navigator.NavigateTo(typeof(ViewStats));
-        }
+
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
         {
@@ -33,6 +30,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
                 SubMenuManager.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void Button_Click_Stats(object sender, RoutedEventArgs e)
+        {
+            Navigator.NavigateTo(typeof(ViewStats));
         }
 
         private void Button_Click_Beer(object sender, RoutedEventArgs e)

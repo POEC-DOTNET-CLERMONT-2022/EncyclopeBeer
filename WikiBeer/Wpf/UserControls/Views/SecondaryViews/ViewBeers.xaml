@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:control = "clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Components"
              xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
+             d:DesignHeight="700" d:DesignWidth="800">
+    <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
@@ -35,10 +35,10 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" Margin="20,0,0,10">
-                <control:ListComponent />
+                <control:ListComponent x:Name="ListBeer" BeersList="{Binding BeersList}"/>
             </DockPanel>
             <DockPanel Grid.Column="1" Margin="5,0,20,10">
-                <control:BeerDetailsComponent Loaded="BeerDetailsComponent_Loaded"/>
+                <control:BeerDetailsComponent />
             </DockPanel>
         </Grid>
     </Grid>

@@ -9,16 +9,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class ListComponent : UserControl
     {
-        public static readonly DependencyProperty ListProperty =
-            DependencyProperty.Register("List", typeof(BeersListModel), typeof(ListComponent));
-        private BeersListModel BeersList
+        public static readonly DependencyProperty BeersListProperty =
+            DependencyProperty.Register("BeersList", typeof(BeersListModel), typeof(ListComponent));
+
+        public BeersListModel BeersList
         {
-            get { return GetValue(ListProperty) as BeersListModel; }
+            get { return GetValue(BeersListProperty) as BeersListModel; }
             set
             { 
                 if(value != null)
                 {
-                    SetValue(ListProperty, value);
+                    SetValue(BeersListProperty, value);
                 }
             }
         }
@@ -26,13 +27,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         public ListComponent()
         {
             InitializeComponent();
-        }
-
-        public ListComponent(BeersListModel beersList)
-        {
-            InitializeComponent();
-            this.BeersList = new BeersListModel();
-            this.BeersList = beersList;
         }
     }
 }

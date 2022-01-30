@@ -47,12 +47,10 @@
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Style" FontWeight="Bold"/>
                         <ComboBox TextBoxBase.TextChanged="StyleComboBox_TextChanged"  VerticalAlignment="Top" Name="StyleComboBox" IsEditable="True" StaysOpenOnEdit="True" SelectionChanged="StyleComboBox_SelectionChanged">
-                            <ComboBox>
-                                <ComboBoxItem>Choice</ComboBoxItem>
-                                <ComboBoxItem>Choice</ComboBoxItem>
-                                <ComboBoxItem>Choice</ComboBoxItem>
-                                <ComboBoxItem>Choice</ComboBoxItem>
-                            </ComboBox>
+                            <ComboBoxItem>Choice</ComboBoxItem>
+                            <ComboBoxItem>Choice</ComboBoxItem>
+                            <ComboBoxItem>Choice</ComboBoxItem>
+                            <ComboBoxItem>Choice</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center">
@@ -118,7 +116,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
-                    <Label  Grid.Row="0"  Content="Description" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     <TextBox Grid.Row="1"  
                              Margin="10,0,10,20" 
                              Text="Ajouter une descrition..." 

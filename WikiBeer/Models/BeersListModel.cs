@@ -15,19 +15,6 @@ namespace Ipme.WikiBeer.Models
 
         private BeerModel beerToModify;
 
-        public BeerModel BeerToModify
-        {
-            get
-            {
-                return beerToModify;
-            }
-            set
-            {
-                beerToModify = value;
-                OnNotifyPropertyChanged();
-            }
-        }
-
         public ObservableCollection<BeerModel> Beers
         {
             get { return beers; }
@@ -52,6 +39,19 @@ namespace Ipme.WikiBeer.Models
                     OnNotifyPropertyChanged();
                     BeerToModify = new BeerModel(CurrentBeer);
                 }
+            }
+        }
+
+        public BeerModel BeerToModify
+        {
+            get
+            {
+                return beerToModify;
+            }
+            set
+            {
+                beerToModify = value;
+                OnNotifyPropertyChanged();
             }
         }
     }

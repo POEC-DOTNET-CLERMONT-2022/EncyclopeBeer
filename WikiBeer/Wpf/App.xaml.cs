@@ -3,16 +3,9 @@ using Ipme.WikiBeer.ApiDatas;
 using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
-using Ipme.WikiBeer.Persistance;
 using Ipme.WikiBeer.Wpf.UserControls.Views;
 using Ipme.WikiBeer.Wpf.Utils;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf
@@ -31,6 +24,7 @@ namespace Ipme.WikiBeer.Wpf
 
         public App()
         {
+            // Création du BeerDataManager
             var configuration = new MapperConfiguration(config => config.AddProfile(typeof(DtoModelProfile)));
             Mapper = new Mapper(configuration);
             HttpClient = new HttpClient();
@@ -39,6 +33,7 @@ namespace Ipme.WikiBeer.Wpf
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
+            // Définition des deux vues principales
             Navigator.RegisterView(new ViewLogin());
             Navigator.RegisterView(new ViewHome());
         }

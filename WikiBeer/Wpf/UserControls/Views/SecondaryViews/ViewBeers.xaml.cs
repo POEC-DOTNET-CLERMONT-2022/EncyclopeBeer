@@ -1,6 +1,10 @@
-﻿using Ipme.WikiBeer.Wpf.UserControls.Components;
+﻿using Ipme.WikiBeer.ApiDatas;
+using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Wpf.UserControls.Components;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +25,25 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewBeers : UserControl
     {
-        private ListComponent List = new ListComponent();
+        private IDataManager<BeerModel, BeerDto> _beerDataManager = ((App)Application.Current).BeerDataManager;
+
+        private BeersListModel BeersList { get; set; } = new BeersListModel();
+
         public ViewBeers()
         {
+            LoadBeer();
             InitializeComponent();
         }
 
-        private void BeerDetailsComponent_Loaded(object sender, RoutedEventArgs e)
+        private async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadBeer();
+        }
 
+        public async void LoadBeer()
+        {
+            var beerModels = await _beerDataManager.GetAll();
+            BeersList.Beers = new ObservableCollection<BeerModel>(beerModels);
         }
     }
 }

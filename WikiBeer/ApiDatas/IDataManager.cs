@@ -4,11 +4,10 @@
         where TModel : class
         where TDto : class
     {
-
-        Task Add(TModel model);
-        Task<bool> DeleteById(Guid id);
         Task<IEnumerable<TModel>> GetAll();
         Task<TModel> GetById(Guid id);
+        Task Add(TModel model);
         Task Update(Guid id, TModel model);
+        Task<bool> DeleteById(Guid id);
     }
 }
