@@ -10,20 +10,17 @@
 
         public CountryEntity Country { get; set; }
 
-        public ICollection<BeerEntity>? Beers { get; set; }
-
         private BreweryEntity()
         {
         }
 
         public BreweryEntity(Guid id, string name, String description, 
-            CountryEntity country, ICollection<BeerEntity>? beers)
+            CountryEntity country)
         {
             Id = id;
             Name = name;
             Description = description;
             Country = country;
-            Beers = beers;
         }
     }
 }

@@ -3,9 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// A vérifier : de l'intrêt du repository : (est-ce une bonne idée???)
+/// voir : https://rob.conery.io/2014/03/04/repositories-and-unitofwork-are-not-a-good-idea/
+/// Sur une alternative pour les CRUD : 
+/// voir : https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud?view=aspnetcore-6.0#alternative-httppost-edit-code-create-and-attach
+/// TODO : vérifier si c'est une bonne idée de passer par du générique.
+/// Cela force nos entities à avoir un constructeur public si on veut pouvoir en instancier de 
+/// nouvelles ici!
+/// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity, new()
@@ -19,7 +29,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual T Create(T entityToCreate)
         {
-            T entity = Context.Add(entityToCreate).Entity;
+            //T entity = Context.Add(entityToCreate).Entity;
+            T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
         }
@@ -46,6 +57,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entityToUpdate == null)
                 return null;
 
+            //var tt = new T() { Id = id };
             entity.Id = entityToUpdate.Id;
 
             var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
@@ -55,12 +67,13 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return updatedEntity;
         }
 
-        public virtual bool DeleteById(Guid id)
+        public virtual bool? DeleteById(Guid id)
         {
             T? entity = GetById(id);
             if (entity == null)
-                return false;
+                return null;
 
+            //var entity = new T() { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
             Context.Set<T>().Remove(entity);
             
             return Context.SaveChanges() >= 1;

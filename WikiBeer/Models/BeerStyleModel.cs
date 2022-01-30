@@ -6,21 +6,54 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerStyleModel
+    public class BeerStyleModel : ObservableObject
     {
         public Guid Id { get; }
-        public string Name { get; internal set; }
-        public string Description { get; internal set; }
 
-        public BeerStyleModel(string name, string description)
+        private string _name;
+        public string Name 
         {
-            // Définitifs
-            Id = Guid.NewGuid();
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
+        private string _description;
+        public string Description 
+        {
+            get { return _description; }
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
+        public BeerStyleModel(string name, string description) : this(Guid.Empty, name, description)
+        {
+        }
+
+        public BeerStyleModel(Guid id, string name, string description)
+        {
+            Id = id;
             Name = name;
             Description = description;
+        }
 
-            //Fixture
-            //CorrespondingBeers.AddRange(_fixture.CreateMany<Beer>(FixtureDefaultMagic.DEFAULT_BEERSTYLE_NUMBER));
+        public BeerStyleModel(BeerStyleModel style)
+        {
+            Id = style.Id;
+            Name = style.Name;
+            Description = style.Description;
         }
     }
 }

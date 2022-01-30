@@ -9,20 +9,39 @@ using System.Text;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerColorModel
+    public class BeerColorModel : ObservableObject
     {
         public Guid Id { get; }
-        public string Name { get; internal set; }
 
-        private readonly Fixture _fixture = new Fixture();
-
-        public BeerColorModel(string name)
+        private string _name;
+        public string Name 
         {
-            // Définitifs
-            Id = Guid.NewGuid();
-            Name = name;
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
 
-            ////Fixture
+
+        public BeerColorModel(string name) : this(Guid.Empty, name)
+        {
+        }
+
+        public BeerColorModel(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public BeerColorModel(BeerColorModel color)
+        {
+            Id = color.Id;
+            Name = color.Name;
         }
     }
 }

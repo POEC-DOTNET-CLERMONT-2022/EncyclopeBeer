@@ -4,11 +4,16 @@ using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 /// <summary>
-/// TODO : Coller des ActionResult Partout
+/// TODO : affiner les block catch (renvoyer autre chose que du 500)
+/// liste des codes d'erreurs possibles : https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
 /// </summary>
+/// 
+
+//[assembly: InternalsVisibleTo(typeof(BeerEntity).Assembly.GetName().Name)]
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
@@ -22,40 +27,107 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             _ddbRepository = ddbRepository;
             _mapper = mapper;
+            //var tt = typeof(BeerEntity).Assembly.GetName().Name;
+            //var tt = new BeerEntity();
         }
 
         [HttpGet]
-        public IEnumerable<BeerDto> Get()
+        [ProducesResponseType(typeof(IEnumerable<BeerDto>), 200)]
+        [ProducesResponseType(500)]
+        public IActionResult Get()
         {
-            var allBeers = _mapper.Map<IEnumerable<BeerDto>>(_ddbRepository.GetAll());
-            return allBeers;
+            try
+            {
+                var allBeers = _mapper.Map<IEnumerable<BeerDto>>(_ddbRepository.GetAll());
+                return Ok(allBeers);
+            }
+            catch (Exception e)
+            {
+                // toutes les exceptions non géré passe en 500
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
-        public BeerDto Get(Guid id)
+        [ProducesResponseType(typeof(BeerDto), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Get(Guid id)
         {
-            var beer = _ddbRepository.GetById(id);
-            return _mapper.Map<BeerDto>(beer);
+            try
+            {
+                var beer = _ddbRepository.GetById(id);
+                if (beer == null)
+                    return NotFound();
+                return Ok(_mapper.Map<BeerDto>(beer));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+
         }
 
         [HttpPost]
-        public void Post([FromBody] BeerDto beerDto)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(500)]
+        public IActionResult Post([FromBody] BeerDto beerDto)
         {
-            var beerEntity = _mapper.Map<BeerEntity>(beerDto);
-            _ddbRepository.Create(beerEntity);
+            try
+            {
+                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
+                var beerEntityCreated = _ddbRepository.Create(beerEntity);
+                return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated); ;
+            }
+            catch (Exception e)
+            {
+                // On peut gérer les problèmes de mapping ici
+                return StatusCode(500);
+            }
+
         }
 
         [HttpPut("{id}")]
-        public void Put(Guid id, [FromBody] BeerDto beerDto)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto)
         {
-            var beerEntity = _mapper.Map<BeerEntity>(beerDto);
-            _ = _ddbRepository.UpdateById(id, beerEntity);
+            try
+            {
+                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
+                var updatedBeerEntity = _ddbRepository.UpdateById(id, beerEntity);
+                if (updatedBeerEntity == null)
+                    return NotFound();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("{id}")]
-        public bool Delete(Guid id) // on pourrait retourner un boléen ici
-        {
-            return _ddbRepository.DeleteById(id);
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Delete(Guid id) // on pourrait retourner un boléen ici
+        {   
+            try
+            {
+                var response = _ddbRepository.DeleteById(id);
+                if (response == null)  // id non trouvé en base
+                    return NotFound();
+                // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
+                if (response == true) // si vrai le delete à fonctionné
+                    return Ok();
+                // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
+                return StatusCode(500);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

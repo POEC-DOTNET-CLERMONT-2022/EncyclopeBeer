@@ -31,8 +31,8 @@ namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
             CreateMap<IngredientModel, IngredientDto>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
             #region Dérivées
             CreateMap<HopDto, HopModel>().ReverseMap();
-            //CreateMap<CerealDto, CerealModel>().ReverseMap();
-            //CreateMap<AdditiveDto, AdditiveModel>().ReverseMap();
+            CreateMap<CerealDto, CerealModel>().ReverseMap();
+            CreateMap<AdditiveDto, AdditiveModel>().ReverseMap();
             #endregion
             #endregion
 

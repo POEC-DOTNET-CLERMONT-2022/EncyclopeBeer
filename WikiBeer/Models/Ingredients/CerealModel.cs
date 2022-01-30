@@ -8,10 +8,43 @@ namespace Ipme.WikiBeer.Models.Ingredients
 {
     public class CerealModel : IngredientModel
     {
-        public float Ebc { get; internal set; }
-        public CerealModel(string name, string description, float ebc) : base(name, description)
+        private float _ebc;
+        public float Ebc 
+        {
+            get { return _ebc; }
+            set
+            {
+                if (_ebc != value)
+                {
+                    _ebc = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+        public CerealModel(string name, string description, float ebc)
+            :this(Guid.Empty, name, description, ebc)
+        {
+        }
+
+        public CerealModel(Guid id, string name, string description, float ebc) : base(id, name, description)
         {
             Ebc = ebc;
         }
+
+        /// <summary>
+        /// Nécessaire???
+        /// </summary>
+        /// <param name="hop"></param>
+        public CerealModel(CerealModel cereal) : base(cereal.Id, cereal.Name, cereal.Description)
+        {
+            Ebc = cereal.Ebc;
+        }
+
+        public override object Clone()
+        {
+            return new CerealModel(this);
+            //return this.MemberwiseClone();
+        }
+
     }
 }
