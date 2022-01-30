@@ -27,7 +27,7 @@ namespace Ipme.WikiBeer.Entities
         {
         }
 
-        internal BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity style,
+        public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity style,
             BeerColorEntity color, BreweryEntity brewery, IEnumerable<IngredientEntity> ingredients)
         {
             Id = id;
