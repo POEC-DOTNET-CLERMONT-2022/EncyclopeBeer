@@ -1,5 +1,5 @@
 ﻿using Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews;
-using Ipme.WikiBeer.Wpf.Utils;
+using Ipme.WikiBeer.Wpf.Utilities;
 using System.Windows;
 using System.Windows.Controls;
 

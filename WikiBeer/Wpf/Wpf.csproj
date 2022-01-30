@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>
-    <RootNamespace>Ipme.WikiBeer.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

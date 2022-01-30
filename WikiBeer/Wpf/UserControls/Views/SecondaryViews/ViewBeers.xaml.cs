@@ -31,16 +31,15 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public ViewBeers()
         {
-            LoadBeer();
             InitializeComponent();
         }
 
         private async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadBeer();
+            LoadBeers();
         }
 
-        public async void LoadBeer()
+        public async void LoadBeers()
         {
             var beerModels = await _beerDataManager.GetAll();
             BeersList.Beers = new ObservableCollection<BeerModel>(beerModels);

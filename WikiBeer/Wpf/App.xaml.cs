@@ -4,7 +4,7 @@ using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Wpf.UserControls.Views;
-using Ipme.WikiBeer.Wpf.Utils;
+using Ipme.WikiBeer.Wpf.Utilities;
 using System.Net.Http;
 using System.Windows;
 
