@@ -49,6 +49,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entityToUpdate == null)
                 return null;
 
+            //var tt = new T() { Id = id };
             entity.Id = entityToUpdate.Id;
 
             var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
@@ -64,6 +65,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entity == null)
                 return null;
 
+            //var entity = new T() { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public...
             Context.Set<T>().Remove(entity);
             
             return Context.SaveChanges() >= 1;
