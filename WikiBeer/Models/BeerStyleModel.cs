@@ -6,11 +6,37 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerStyleModel
+    public class BeerStyleModel : ObservableObject
     {
         public Guid Id { get; }
-        public string Name { get; internal set; }
-        public string Description { get; internal set; }
+
+        private string _name;
+        public string Name 
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
+        private string _description;
+        public string Description 
+        {
+            get { return _description; }
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
 
         public BeerStyleModel(string name, string description) : this(Guid.Empty, name, description)
         {
@@ -21,6 +47,13 @@ namespace Ipme.WikiBeer.Models
             Id = id;
             Name = name;
             Description = description;
+        }
+
+        public BeerStyleModel(BeerStyleModel style)
+        {
+            Id = style.Id;
+            Name = style.Name;
+            Description = style.Description;
         }
     }
 }

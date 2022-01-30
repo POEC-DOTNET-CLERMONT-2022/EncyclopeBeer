@@ -9,10 +9,24 @@ using System.Text;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerColorModel
+    public class BeerColorModel : ObservableObject
     {
         public Guid Id { get; }
-        public string Name { get; internal set; }
+
+        private string _name;
+        public string Name 
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
 
         public BeerColorModel(string name) : this(Guid.Empty, name)
         {
@@ -22,6 +36,12 @@ namespace Ipme.WikiBeer.Models
         {
             Id = id;
             Name = name;
+        }
+
+        public BeerColorModel(BeerColorModel color)
+        {
+            Id = color.Id;
+            Name = color.Name;
         }
     }
 }

@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 /// voir : https://stackoverflow.com/questions/65401099/entity-framework-5-adding-existing-entity-to-nested-collection
 /// Pour les différents Etats d'une entité (relié au point précédent)
 /// coir : https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entitystate?view=efcore-5.0#microsoft-entityframeworkcore-entitystate-added
+/// Pour faire de la validation (sur les valeur numériques par exemple)
+/// voir : https://github.com/FluentValidation/FluentValidation
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Contexts
 {
@@ -29,6 +31,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<BeerStyleEntity> BeerStyles { get; set; }
         public DbSet<CountryEntity> Countrys { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
+        // TODO : vérifier si ces DbSet la sont vraiment nécessaire...
         public DbSet<HopEntity> Hops { get; set; }
         public DbSet<CerealEntity> Cereal { get; set; }
         public DbSet<AdditiveEntity> Additive { get; set; }
