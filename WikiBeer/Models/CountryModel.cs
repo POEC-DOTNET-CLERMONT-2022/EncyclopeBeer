@@ -2,21 +2,38 @@
 
 namespace Ipme.WikiBeer.Models
 {
-    public class CountryModel
+    public class CountryModel : ObservableObject
     {
         public Guid Id { get;}
 
-        public string Name { get; set; }
-
-        public CountryModel()
+        private string _name;
+        public string Name
         {
-            Id = Guid.NewGuid();
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
         }
 
-        public CountryModel(string name)
+        public CountryModel(string name): this(Guid.Empty, name)
         {
-            Id = Guid.NewGuid();
+        }
+
+        public CountryModel(Guid id, string name)
+        {
+            Id = id;
             Name = name;
+        }
+
+        public CountryModel(CountryModel country)
+        {
+            Id = country.Id;
+            Name = country.Name;
         }
     }
 }

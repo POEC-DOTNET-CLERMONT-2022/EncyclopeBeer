@@ -62,7 +62,7 @@ namespace Ipme.WikiBeer.ApiDatas
 
         public async Task<TModel> GetById(Guid id)
         {
-            var response = await Client.GetAsync(Uri.AbsoluteUri+"/id");
+            var response = await Client.GetAsync(Uri.AbsoluteUri+$"/{id}");
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             // Sérialisation 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -86,7 +86,7 @@ namespace Ipme.WikiBeer.ApiDatas
 
         public async Task<bool> DeleteById(Guid id)
         {
-            var response = await Client.DeleteAsync(Uri.AbsoluteUri+"/id");
+            var response = await Client.DeleteAsync(Uri.AbsoluteUri+$"/{id}");
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var success = JsonConvert.DeserializeObject<bool>(responseString,

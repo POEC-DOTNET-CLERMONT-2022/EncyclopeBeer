@@ -6,7 +6,7 @@
         public string Name { get; set; }
         //public IEnumerable<BreweryEntity> Breweries { get; set; }
 
-        private CountryEntity()
+        public CountryEntity()
         {
         }
 

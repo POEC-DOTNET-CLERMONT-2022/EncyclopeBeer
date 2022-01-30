@@ -8,10 +8,42 @@ namespace Ipme.WikiBeer.Models.Ingredients
 {
     public class AdditiveModel : IngredientModel
     {
-        public string Use { get; internal set; }
-        public AdditiveModel(string name, string description, string use) : base(name, description)
+        private string _use;
+        public string Use
+        {
+            get { return _use; }
+            set
+            {
+                if (_use != value)
+                {
+                    _use = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
+        public AdditiveModel(string name, string description, string use)
+            : this(Guid.Empty, name, description, use)
+        {
+        }
+
+        public AdditiveModel(Guid id, string name, string description, string use) : base(id, name, description)
         {
             Use = use;
+        }
+
+        /// <summary>
+        /// Nécessaire???
+        /// </summary>
+        /// <param name="hop"></param>
+        public AdditiveModel(AdditiveModel additive) : base(additive.Id, additive.Name, additive.Description)
+        {
+            Use = additive.Use;
+        }
+
+        public override object Clone()
+        {
+            return new AdditiveModel(this);
         }
     }
 }

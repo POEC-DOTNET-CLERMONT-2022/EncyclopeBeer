@@ -3,10 +3,12 @@ using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Entities.Ingredients;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Ipme.WikiBeer.API.Tests")]
 namespace Ipme.WikiBeer.API.MapperProfiles
 {
-    public class DtoEntityProfile : Profile
+    internal class DtoEntityProfile : Profile
     {
         public DtoEntityProfile()
         {

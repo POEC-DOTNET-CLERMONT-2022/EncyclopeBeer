@@ -5,9 +5,20 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Ipme.WikiBeer.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Ipme.WikiBeer.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <!--<AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>-->
+    <!--<RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>-->
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Connected Services\**" />
+    <Compile Remove="MapperProfiles\**" />
+    <EmbeddedResource Remove="Connected Services\**" />
+    <EmbeddedResource Remove="MapperProfiles\**" />
+    <None Remove="Connected Services\**" />
+    <None Remove="MapperProfiles\**" />
+    <Page Remove="Connected Services\**" />
+    <Page Remove="MapperProfiles\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
@@ -19,11 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ApiDatas\ApiDatas.csproj" />
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Connected Services\" />
-    <Folder Include="MapperProfiles\" />
   </ItemGroup>
 
 </Project>
