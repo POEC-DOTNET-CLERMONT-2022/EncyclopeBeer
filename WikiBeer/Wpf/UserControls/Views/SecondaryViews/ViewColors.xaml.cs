@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Ipme.WikiBeer.Wpf.UC
+namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
     /// <summary>
-    /// Logique d'interaction pour BreweryUC.xaml
+    /// Logique d'interaction pour ViewColors.xaml
     /// </summary>
-    public partial class BreweryUC : UserControl
+    public partial class ViewColors : UserControl
     {
-        public BreweryUC()
+        public ViewColors()
         {
             InitializeComponent();
         }

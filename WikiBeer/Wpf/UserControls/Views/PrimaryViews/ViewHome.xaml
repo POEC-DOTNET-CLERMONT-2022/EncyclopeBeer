@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="Ipme.WikiBeer.Wpf.UC.HomeUC"
+﻿<UserControl x:Class="Ipme.WikiBeer.Wpf.UserControls.Views.ViewHome"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             Loaded="OnLoaded" 
-             x:Name="homeUc"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Views"
              mc:Ignorable="d" 
+             x:Name="root"
+             Loaded="root_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid DataContext="{Binding ., ElementName=homeUc}">
+    <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -30,17 +31,15 @@
                     <Button Content="Brewery" Click="Button_Click_Brewery"/>
                     <Button Content="Ingredient" Click="Button_Click_Ingredient"/>
                     <Button Content="Color" Click="Button_Click_Color"/>
-                    <Button Content="Family" Click="Button_Click_Family"/>
-                  
+                    <Button Content="Family" Click="Button_Click_Style"/>
+
                 </StackPanel>
                 <Button Content="Utilisateur" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Column="1">
-            <!--Binding sur la fenêtre en cours du naviguateur de HomeUC-->            
-            <ContentControl x:Name="SubContentControl" Content="{Binding Navigator.CurrentContentControl}"></ContentControl>
+            <ContentControl x:Name="SecondaryContentControl" Content="{Binding Navigator.CurrentContentControl}"/>
         </Grid>
     </Grid>
-    
 </UserControl>

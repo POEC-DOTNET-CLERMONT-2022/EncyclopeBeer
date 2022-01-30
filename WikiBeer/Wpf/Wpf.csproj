@@ -5,8 +5,8 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <!--<AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>-->
-    <!--<RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>-->
+    <AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>
+    <RootNamespace>Ipme.WikiBeer.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

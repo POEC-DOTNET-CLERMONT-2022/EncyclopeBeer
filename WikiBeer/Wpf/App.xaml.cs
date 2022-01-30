@@ -3,16 +3,9 @@ using Ipme.WikiBeer.ApiDatas;
 using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
-using Ipme.WikiBeer.Persistance;
-using Ipme.WikiBeer.Wpf.UC;
-using Ipme.WikiBeer.Wpf.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+using Ipme.WikiBeer.Wpf.UserControls.Views;
+using Ipme.WikiBeer.Wpf.Utils;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf
@@ -29,24 +22,23 @@ namespace Ipme.WikiBeer.Wpf
         public HttpClient HttpClient{ get; set; } 
         // Même chose
         public IMapper Mapper { get; }
-        // Nécessaire par contre
+
         public INavigator Navigator { get; } = new Navigator();
+
         public App()
         {
+            // Création du BeerDataManager
             var configuration = new MapperConfiguration(config => config.AddProfile(typeof(DtoModelProfile)));
             Mapper = new Mapper(configuration);
             HttpClient = new HttpClient();
             BeerDataManager = new BeerDataManager(HttpClient, Mapper, ServerUrl);
         }
 
-        /// <summary>
-        /// Se lance au démarage de l'app (voir Startup dans le xaml)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnStartup(object sender, StartupEventArgs e)
+        private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            Navigator.RegisterView(new HomeUC());
+            // Définition des deux vues principales
+            Navigator.RegisterView(new ViewLogin());
+            Navigator.RegisterView(new ViewHome());
         }
     }
 }

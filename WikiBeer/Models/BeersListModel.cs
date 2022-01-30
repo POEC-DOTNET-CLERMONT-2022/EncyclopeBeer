@@ -7,26 +7,13 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BeersList : ObservableObject
+    public class BeersListModel : ObservableObject
     {
         private ObservableCollection<BeerModel> beers;
 
         private BeerModel currentBeer;
 
         private BeerModel beerToModify;
-
-        public BeerModel BeerToModify
-        {
-            get
-            {
-                return beerToModify;
-            }
-            set
-            {
-                beerToModify = value;
-                OnNotifyPropertyChanged();
-            }
-        }
 
         public ObservableCollection<BeerModel> Beers
         {
@@ -52,6 +39,19 @@ namespace Ipme.WikiBeer.Models
                     OnNotifyPropertyChanged();
                     BeerToModify = new BeerModel(CurrentBeer);
                 }
+            }
+        }
+
+        public BeerModel BeerToModify
+        {
+            get
+            {
+                return beerToModify;
+            }
+            set
+            {
+                beerToModify = value;
+                OnNotifyPropertyChanged();
             }
         }
     }

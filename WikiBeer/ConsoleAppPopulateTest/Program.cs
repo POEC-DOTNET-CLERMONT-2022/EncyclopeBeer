@@ -101,25 +101,32 @@ Console.ReadLine();
 //punk.Style = ipa;
 //punk.Ingredients = ingredient;
 
-//await beerManager.Add(punk);
+await beerManager.Add(punk);
+Console.WriteLine("punk ajouté");
 
-//var tokyo = new BeerModel();
-//tokyo.Name = "Tokyo";
-//tokyo.Brewery = brewdog;
-//tokyo.Ibu = 5;
-//tokyo.Degree = 6;
-//tokyo.Color = brune;
-//tokyo.Style = speciale;
 
-//await beerManager.Add(tokyo);
+var tokyo = new BeerModel();
+tokyo.Name = "Tokyo";
+tokyo.Brewery = brewdog;
+tokyo.Ibu = 5;
+tokyo.Degree = 6;
+tokyo.Color = brune;
+tokyo.Style = speciale;
 
-//var pony = new BeerModel();
-//pony.Name = "DEAD PONY CLUB";
-//pony.Brewery = brewdog;
-//pony.Ibu = 8;
-//pony.Degree = 4;
-//pony.Color = blonde;
-//pony.Style = apa;
+await beerManager.Add(tokyo);
+Console.WriteLine("tokyo ajouté");
+
+
+var pony = new BeerModel();
+pony.Name = "DEAD PONY CLUB";
+pony.Brewery = brewdog;
+pony.Ibu = 8;
+pony.Degree = 4;
+pony.Color = blonde;
+pony.Style = apa;
+
+await beerManager.Add(pony);
+Console.WriteLine("pony ajouté");
 
 //var kriek = new BeerModel();
 //kriek.Name = "Lindemans Kriek";
@@ -129,24 +136,17 @@ Console.ReadLine();
 //kriek.Color = blonde;
 //kriek.Style = lambic;
 
-//await beerManager.Add(kriek);
 
-//var smoky = new BeerModel();
-//smoky.Name = "Smoky Oak Ale";
-//smoky.Brewery = ninkasi;
-//smoky.Ibu = 8;
-//smoky.Degree = 4;
-//smoky.Color = brune;
-//smoky.Style = smok;
+var smoky = new BeerModel();
+smoky.Name = "Smoky Oak Ale";
+smoky.Brewery = ninkasi;
+smoky.Ibu = 8;
+smoky.Degree = 4;
+smoky.Color = brune;
+smoky.Style = smok;
 
-//await beerManager.Add(smoky);
+await beerManager.Add(smoky);
+Console.WriteLine("smoky ajouté");
 
-//var mango = new BeerModel();
-//mango.Name = "Mango No°5";
-//mango.Brewery = ninkasi;
-//mango.Ibu = 8;
-//mango.Degree = 4;
-//mango.Color = blonde;
-//mango.Style = ale;
 
 //await beerManager.Add(mango);

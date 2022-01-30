@@ -1,11 +1,6 @@
-﻿//using BeerServiceReference;
-//using Ipme.WikiBeer.Persistance;
-using Ipme.WikiBeer.ApiDatas;
-using Ipme.WikiBeer.Dtos;
-using Ipme.WikiBeer.Models;
-using Ipme.WikiBeer.Wpf.UC;
-using Ipme.WikiBeer.Wpf.Utilities;
-using System.Collections.Generic;
+﻿using Ipme.WikiBeer.Wpf.UserControls;
+using Ipme.WikiBeer.Wpf.UserControls.Views;
+using Ipme.WikiBeer.Wpf.Utils;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf
@@ -15,13 +10,13 @@ namespace Ipme.WikiBeer.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Récupération du navigateur globale de l'application
-        public INavigator Navigator { get; set; } = ((App) Application.Current).Navigator;
+        public INavigator Navigator { get; set; } = ((App)Application.Current).Navigator;
 
         public MainWindow()
         {
             InitializeComponent();
-            Navigator.NavigateTo(typeof(HomeUC));
+            DataContext = this;
+            Navigator.NavigateTo(typeof(ViewLogin));
         }
     }
 }
