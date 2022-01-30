@@ -26,5 +26,10 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             InitializeComponent();
         }
+
+        private void BeerDetailsComponent_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
