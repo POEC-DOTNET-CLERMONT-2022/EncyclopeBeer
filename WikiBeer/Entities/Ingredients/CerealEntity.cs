@@ -14,7 +14,7 @@ namespace Ipme.WikiBeer.Entities.Ingredients
         {
         }
 
-        public CerealEntity(Guid id, string name, string description, ICollection<BeerEntity> beers
+        public CerealEntity(Guid id, string name, string description, IEnumerable<BeerEntity> beers
             , float ebc)
             : base(id, name, description, beers)
         {
