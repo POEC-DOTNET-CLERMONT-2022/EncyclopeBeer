@@ -14,7 +14,7 @@ namespace Ipme.WikiBeer.Entities.Ingredients
         {
         }
 
-        public AdditiveEntity(Guid id, string name, string description, ICollection<BeerEntity> beers
+        public AdditiveEntity(Guid id, string name, string description, IEnumerable<BeerEntity> beers
             ,string use) 
             : base(id, name, description, beers)
         {

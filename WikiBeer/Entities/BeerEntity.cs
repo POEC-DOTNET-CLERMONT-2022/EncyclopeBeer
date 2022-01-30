@@ -19,17 +19,19 @@ namespace Ipme.WikiBeer.Entities
         /// ICollection car on aura peut être envie de faire des add ou delete dessus (par rapport à IEnumerable
         /// ou l'on ne peut que itérer)
         /// </summary>
-        public ICollection<IngredientEntity> Ingredients { get; set; } 
+        public IEnumerable<IngredientEntity> Ingredients { get; set; } 
 
         /// <summary>
-        /// Constructeur par défaut nécessaire pour héritage du BeerRepository à partir 
-        /// du GenericBddRepository (d'ou le public) et pour utilisation de EFCore
+        /// Constructeur par défaut nécessaire pour utilisation du new dans le 
+        /// GenericBddRepository (d'ou le public -> que l'on devrait passer en internal)
+        /// et pour utilisation de EFCore (pas certain de la validité de ce truc)
         /// </summary>            
         public BeerEntity()
         {
         }
 
-        internal BeerEntity(Guid id, string name, float? ibu, float degree, BeerStyleEntity style, BeerColorEntity color, BreweryEntity brewery)
+        internal BeerEntity(Guid id, string name, float? ibu, float degree, BeerStyleEntity style,
+            BeerColorEntity color, BreweryEntity brewery, IEnumerable<IngredientEntity> ingredients)
         {
             Id = id;
             Name = name;
@@ -38,6 +40,7 @@ namespace Ipme.WikiBeer.Entities
             Style = style;
             Color = color;
             Brewery = brewery;
+            Ingredients = ingredients;
         }       
     }
 }
