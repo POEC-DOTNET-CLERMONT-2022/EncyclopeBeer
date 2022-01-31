@@ -18,6 +18,10 @@ using System.Threading.Tasks;
 /// coir : https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entitystate?view=efcore-5.0#microsoft-entityframeworkcore-entitystate-added
 /// Pour faire de la validation (sur les valeur numériques par exemple)
 /// voir : https://github.com/FluentValidation/FluentValidation
+/// Pour des précisions sur les includes (dans les requêtes) et AutoInclude (dans le modelBuilder)
+/// voir : https://docs.microsoft.com/fr-fr/ef/core/querying/related-data/eager
+/// Sur les potentiel bug d'automapper concernant les références circulaire
+/// https://docs.microsoft.com/fr-fr/ef/core/querying/related-data/serialization
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Contexts
 {
@@ -204,9 +208,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
         public override DbSet<TEntity> Set<TEntity>()
         {
-            ChangeTracker.LazyLoadingEnabled = false;
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes version d'EF (5 et moins)
+            ChangeTracker.AutoDetectChangesEnabled = false; // a gratter et à changer
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking; // également
 
             return base.Set<TEntity>();
         }

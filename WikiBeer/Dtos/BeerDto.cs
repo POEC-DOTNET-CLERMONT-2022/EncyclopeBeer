@@ -9,7 +9,8 @@ namespace Ipme.WikiBeer.Dtos
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public float Ibu { get; set; }
+        public string? Description { get; set; }
+        public float? Ibu { get; set; }
         public float Degree { get; set; }
         public BreweryDto Brewery { get; set; }
         public BeerStyleDto Style { get; set; }

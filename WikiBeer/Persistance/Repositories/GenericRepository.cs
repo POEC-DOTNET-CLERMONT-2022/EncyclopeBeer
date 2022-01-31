@@ -40,13 +40,21 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return Context.Set<T>().ToList();
         }
 
+        /// <summary>
+        /// TODO : remplacer définitivement par un find (qui renvoie également un null si non trouvé
+        /// mais pas si il en trouve plusieurs)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual T? GetById(Guid id)
         {
-            return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
+            return Context.Set<T>().Find(id);
+            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
         }
 
         /// <summary>
         /// Update par remplacement (avec transfert de Guid)
+        /// TODO : à remplacer par un update simple
         /// </summary>
         /// <param name="id"></param>
         /// <param name="entity"></param>
@@ -57,6 +65,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entityToUpdate == null)
                 return null;
 
+            
             //var tt = new T() { Id = id };
             entity.Id = entityToUpdate.Id;
 
@@ -72,9 +81,9 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             T? entity = GetById(id);
             if (entity == null)
                 return null;
-
-            //var entity = new T() { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
-            Context.Set<T>().Remove(entity);
+            // Il faut passer par un activator pour faire ce genre de chose
+            //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
+            Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
             
             return Context.SaveChanges() >= 1;
         }

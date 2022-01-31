@@ -25,8 +25,8 @@ var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 //var cs = "Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = WikiBeer; Integrated Security = True;";
 // Injection de dépendance
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<DbContext, WikiBeerSqlContext>();
-builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(cs));
+builder.Services.AddScoped<DbContext, WikiBeerSqlContext>(); // pour utilisation dans le GenericRepository
+builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(cs)); // le AddDbContext enregistre plus que le AddScoped (comme les classes d'options)
 
 var app = builder.Build();
 

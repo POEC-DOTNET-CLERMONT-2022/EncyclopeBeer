@@ -161,7 +161,7 @@ namespace Ipme.WikiBeer.API.Tests
         }
 
         [TestMethod]
-        public void Test_Post_Ok201()
+        public void Test_Post_Created201()
         {
             // Arrange 
             var new_beerDto = _fixture.Create<BeerDto>();
@@ -176,9 +176,9 @@ namespace Ipme.WikiBeer.API.Tests
             createdResult.Should().NotBeNull();
             createdResult.StatusCode.Should().Be((int)HttpStatusCode.Created);
             //Assert (Objet retourné)
-            var postedEntity = createdResult.Value as BeerEntity;
+            var postedEntity = createdResult.Value as BeerDto;
             postedEntity.Should().NotBeNull();
-            postedEntity.Should().BeEquivalentTo(new_beerEntity);
+            postedEntity.Should().BeEquivalentTo(new_beerDto);
         }
 
         [TestMethod]

@@ -32,13 +32,9 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Use = use;
         }
 
-        /// <summary>
-        /// Nécessaire???
-        /// </summary>
-        /// <param name="hop"></param>
-        public AdditiveModel(AdditiveModel additive) : base(additive.Id, additive.Name, additive.Description)
+        public AdditiveModel(AdditiveModel additive) 
+            : this(additive.Id, additive.Name, additive.Description, additive.Use)
         {
-            Use = additive.Use;
         }
 
         public override object Clone()

@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Runtime.CompilerServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -68,6 +69,11 @@ namespace Ipme.WikiBeer.API.Controllers
 
         }
 
+        /// <summary>
+        /// CreatedAtAction doit retourner ici l'équivalent d'une méthode Get (cad un Dto!)!
+        /// </summary>
+        /// <param name="beerDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
@@ -77,7 +83,8 @@ namespace Ipme.WikiBeer.API.Controllers
             {
                 var beerEntity = _mapper.Map<BeerEntity>(beerDto);
                 var beerEntityCreated = _ddbRepository.Create(beerEntity);
-                return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated); ;
+                var correspondingBeerDto = _mapper.Map<BeerDto>(beerEntityCreated);
+                return CreatedAtAction(nameof(Get), new { id = correspondingBeerDto.Id }, correspondingBeerDto);
             }
             catch (Exception e)
             {

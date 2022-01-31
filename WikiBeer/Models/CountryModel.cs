@@ -30,10 +30,9 @@ namespace Ipme.WikiBeer.Models
             Name = name;
         }
 
-        public CountryModel(CountryModel country)
+        public CountryModel(CountryModel country) 
+            : this(country.Id, country.Name)
         {
-            Id = country.Id;
-            Name = country.Name;
         }
     }
 }

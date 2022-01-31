@@ -30,13 +30,9 @@ namespace Ipme.WikiBeer.Models.Ingredients
             AlphaAcid = alphaAcid;
         }
 
-        /// <summary>
-        /// Nécessaire???
-        /// </summary>
-        /// <param name="hop"></param>
-        public HopModel(HopModel hop) : base(hop.Id, hop.Name, hop.Description)
+        public HopModel(HopModel hop)             
+            : this(hop.Id, hop.Name, hop.Description, hop.AlphaAcid)
         {
-            AlphaAcid = hop.AlphaAcid;
         }
 
         public override object Clone()

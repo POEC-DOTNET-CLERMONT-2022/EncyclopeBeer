@@ -1,6 +1,5 @@
-﻿using Ipme.WikiBeer.Wpf.UserControls;
-using Ipme.WikiBeer.Wpf.UserControls.Views;
-using Ipme.WikiBeer.Wpf.Utils;
+﻿using Ipme.WikiBeer.Wpf.UserControls.Views;
+using Ipme.WikiBeer.Wpf.Utilities;
 using System.Windows;
 
 namespace Ipme.WikiBeer.Wpf
