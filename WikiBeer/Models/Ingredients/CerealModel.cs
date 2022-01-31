@@ -31,13 +31,9 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Ebc = ebc;
         }
 
-        /// <summary>
-        /// Nécessaire???
-        /// </summary>
-        /// <param name="hop"></param>
-        public CerealModel(CerealModel cereal) : base(cereal.Id, cereal.Name, cereal.Description)
+        public CerealModel(CerealModel cereal) 
+            : this(cereal.Id, cereal.Name, cereal.Description, cereal.Ebc)
         {
-            Ebc = cereal.Ebc;
         }
 
         public override object Clone()

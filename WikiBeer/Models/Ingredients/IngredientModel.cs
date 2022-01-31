@@ -7,7 +7,7 @@ namespace Ipme.WikiBeer.Models.Ingredients
 {
     public abstract class IngredientModel : ObservableObject, ICloneable
     {
-        public Guid Id { get; }
+        public Guid Id { get; init; }
 
         private string _name;
         public string Name
@@ -49,12 +49,10 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Description = desription;
         }
 
-        //public IngredientModel(IngredientModel ingredient)
-        //{
-        //    Id = ingredient.Id;
-        //    Name = ingredient.Name;
-        //    Description = ingredient.Description;
-        //}
+        public IngredientModel(IngredientModel ingredient)
+            : this(ingredient.Id, ingredient.Name, ingredient.Description)
+        {
+        }
 
         ///// <summary>
         ///// this.MemberWiseClone() car on a que des type valeurs. A modifier en cas de type références ajoutées

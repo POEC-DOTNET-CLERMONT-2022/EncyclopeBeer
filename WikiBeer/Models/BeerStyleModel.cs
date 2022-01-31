@@ -50,10 +50,8 @@ namespace Ipme.WikiBeer.Models
         }
 
         public BeerStyleModel(BeerStyleModel style)
+            : this(style.Id, style.Name, style.Description)
         {
-            Id = style.Id;
-            Name = style.Name;
-            Description = style.Description;
         }
     }
 }

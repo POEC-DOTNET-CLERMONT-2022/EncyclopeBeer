@@ -39,9 +39,8 @@ namespace Ipme.WikiBeer.Models
         }
 
         public BeerColorModel(BeerColorModel color)
+            : this(color.Id, color.Name)
         {
-            Id = color.Id;
-            Name = color.Name;
         }
     }
 }

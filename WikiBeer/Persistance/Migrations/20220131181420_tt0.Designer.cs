@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    [Migration("20220131074955_ttx")]
-    partial class ttx
+    [Migration("20220131181420_tt0")]
+    partial class tt0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
