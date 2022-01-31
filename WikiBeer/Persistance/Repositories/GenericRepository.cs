@@ -40,13 +40,21 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return Context.Set<T>().ToList();
         }
 
+        /// <summary>
+        /// TODO : remplacer définitivement par un find (qui renvoie également un null si non trouvé
+        /// mais pas si il en trouve plusieurs)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual T? GetById(Guid id)
         {
-            return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
+            return Context.Set<T>().Find(id);
+            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
         }
 
         /// <summary>
         /// Update par remplacement (avec transfert de Guid)
+        /// TODO : à remplacer par un update simple
         /// </summary>
         /// <param name="id"></param>
         /// <param name="entity"></param>
@@ -57,6 +65,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entityToUpdate == null)
                 return null;
 
+            var tt = new T();
             //var tt = new T() { Id = id };
             entity.Id = entityToUpdate.Id;
 
