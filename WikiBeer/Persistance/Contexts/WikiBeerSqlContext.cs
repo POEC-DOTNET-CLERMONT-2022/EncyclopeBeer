@@ -209,8 +209,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public override DbSet<TEntity> Set<TEntity>()
         {
             ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes version d'EF (5 et moins)
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false; // a gratter et à changer
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking; // également
 
             return base.Set<TEntity>();
         }
