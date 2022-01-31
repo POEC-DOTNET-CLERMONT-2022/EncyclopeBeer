@@ -70,7 +70,7 @@ namespace Ipme.WikiBeer.API.Controllers
         }
 
         /// <summary>
-        /// TODO : CreatedAtAction pose un problème ici, régler sa!
+        /// CreatedAtAction doit retourner ici l'équivalent d'une méthode Get (cad un Dto!)!
         /// </summary>
         /// <param name="beerDto"></param>
         /// <returns></returns>
@@ -79,18 +79,18 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(500)]
         public IActionResult Post([FromBody] BeerDto beerDto)
         {
-            //try
-            //{
+            try
+            {
                 var beerEntity = _mapper.Map<BeerEntity>(beerDto);
                 var beerEntityCreated = _ddbRepository.Create(beerEntity);
-//                return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated);
-                  return Ok();
-            //}
-            //catch (Exception e)
-            //{
-            //    // On peut gérer les problèmes de mapping ici
-            //    return StatusCode(500);
-            //}
+                var correspondingBeerDto = _mapper.Map<BeerDto>(beerEntityCreated);
+                return CreatedAtAction(nameof(Get), new { id = correspondingBeerDto.Id }, correspondingBeerDto);
+            }
+            catch (Exception e)
+            {
+                // On peut gérer les problèmes de mapping ici
+                return StatusCode(500);
+            }
 
         }
 

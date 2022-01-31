@@ -70,7 +70,7 @@ var pony = new BeerModel("DEAD PONY CLUB","", 8, 4, apa, blonde, brewdog, ingred
 #endregion
 
 // Test ajout beer avec ingredient (et Color) déjà en base
-//await beerManager.Add(pony);
+await beerManager.Add(pony);
 var beers = await beerManager.GetAll();
 var new_pony = await beerManager.GetById(beers.ToList()[0].Id);
 var peche = new BeerModel("La Pêcheresse","", 10, 4, lambic, new_pony.Color, linderman, new_pony.Ingredients);
