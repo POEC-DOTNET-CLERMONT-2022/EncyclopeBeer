@@ -23,7 +23,7 @@ namespace Ipme.WikiBeer.Entities
         /// GenericBddRepository (d'ou le public -> que l'on devrait passer en internal)
         /// et pour utilisation de EFCore (pas certain de la validité de ce truc)
         /// </summary>            
-        public BeerEntity()
+        internal BeerEntity()
         {
         }
 

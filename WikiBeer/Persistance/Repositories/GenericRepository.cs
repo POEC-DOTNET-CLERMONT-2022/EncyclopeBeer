@@ -65,7 +65,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entityToUpdate == null)
                 return null;
 
-            var tt = new T();
+            
             //var tt = new T() { Id = id };
             entity.Id = entityToUpdate.Id;
 
