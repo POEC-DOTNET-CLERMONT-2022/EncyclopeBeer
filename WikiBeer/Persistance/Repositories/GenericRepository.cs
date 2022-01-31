@@ -72,9 +72,9 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             T? entity = GetById(id);
             if (entity == null)
                 return null;
-
-            //var entity = new T() { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
-            Context.Set<T>().Remove(entity);
+            // Il faut passer par un activator pour faire ce genre de chose
+            //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
+            Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
             
             return Context.SaveChanges() >= 1;
         }

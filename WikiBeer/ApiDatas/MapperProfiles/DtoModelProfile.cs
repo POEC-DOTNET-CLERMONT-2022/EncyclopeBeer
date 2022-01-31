@@ -9,6 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/// <summary>
+/// Voir comment spécifier un constructeur particulier à AutoMapper via 
+/// https://docs.automapper.org/en/stable/Construction.html
+/// Pour choisir le constructeur à utiliser : 
+/// https://stackoverflow.com/questions/2239143/automapper-how-to-map-to-constructor-parameters-instead-of-property-setters
+///</summary>
 namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
 {
     public class DtoModelProfile : Profile

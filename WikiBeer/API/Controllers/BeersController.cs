@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Runtime.CompilerServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -68,22 +69,28 @@ namespace Ipme.WikiBeer.API.Controllers
 
         }
 
+        /// <summary>
+        /// TODO : CreatedAtAction pose un problème ici, régler sa!
+        /// </summary>
+        /// <param name="beerDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
         public IActionResult Post([FromBody] BeerDto beerDto)
         {
-            try
-            {
+            //try
+            //{
                 var beerEntity = _mapper.Map<BeerEntity>(beerDto);
                 var beerEntityCreated = _ddbRepository.Create(beerEntity);
-                return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated); ;
-            }
-            catch (Exception e)
-            {
-                // On peut gérer les problèmes de mapping ici
-                return StatusCode(500);
-            }
+//                return CreatedAtAction(nameof(Get), new { id = beerEntityCreated.Id }, beerEntityCreated);
+                  return Ok();
+            //}
+            //catch (Exception e)
+            //{
+            //    // On peut gérer les problèmes de mapping ici
+            //    return StatusCode(500);
+            //}
 
         }
 

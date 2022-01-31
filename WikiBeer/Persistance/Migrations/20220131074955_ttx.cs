@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
-    public partial class init : Migration
+    public partial class ttx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
