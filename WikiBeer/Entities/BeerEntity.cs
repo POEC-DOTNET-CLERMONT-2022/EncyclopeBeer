@@ -10,6 +10,7 @@ namespace Ipme.WikiBeer.Entities
         
         public Guid Id { get; set; }
         public string Name { get; private set; }
+        //public string? ALACON { get; private set; }
         public string? Description { get; private set; }
         public float? Ibu { get; private set; }
         public float Degree { get; private set; }
@@ -23,8 +24,9 @@ namespace Ipme.WikiBeer.Entities
         /// GenericBddRepository (d'ou le public -> que l'on devrait passer en internal)
         /// et pour utilisation de EFCore (pas certain de la validité de ce truc)
         /// </summary>            
-        public BeerEntity()
+        internal BeerEntity(Guid id)
         {
+            Id = id;
         }
 
         public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity style,
