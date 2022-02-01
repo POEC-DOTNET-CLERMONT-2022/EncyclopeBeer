@@ -61,7 +61,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             OnColorCreating(modelBuilder);
             OnCountryCreating(modelBuilder);
 
-            // Enity Abstract et dérivée            
+            // Enity Abstract et dérivées            
             OnIngredientCreating(modelBuilder);
             OnHopCreating(modelBuilder);
             OnCerealCreating(modelBuilder);

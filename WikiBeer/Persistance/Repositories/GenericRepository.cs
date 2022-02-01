@@ -38,8 +38,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         public virtual T Create(T entityToCreate)
         {
             //b18de927-2251-4c2b-198d-08d9e560afa1
-            T entity = Context.Add(entityToCreate).Entity;
-            //T entity = Context.Attach(entityToCreate).Entity;
+            //T entity = Context.Set<T>().Add(entityToCreate).Entity;
+            T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
         }
