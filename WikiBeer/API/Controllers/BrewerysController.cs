@@ -1,45 +1,41 @@
-﻿
-using AutoMapper;
-using Ipme.WikiBeer.Dtos;
-using Ipme.WikiBeer.Entities;
-using Ipme.WikiBeer.Persistance.Repositories;
+﻿#nullable disable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
+using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Persistance.Contexts;
+using AutoMapper;
+using Ipme.WikiBeer.Persistance.Repositories;
+using Ipme.WikiBeer.Dtos;
 
-/// <summary>
-/// TODO : affiner les block catch (renvoyer autre chose que du 500)
-/// liste des codes d'erreurs possibles : https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
-/// </summary>
-/// 
-
-//[assembly: InternalsVisibleTo(typeof(BeerEntity).Assembly.GetName().Name)]
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BeersController : ControllerBase
+    public class BrewerysController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepository<BeerEntity> _ddbRepository;
+        private readonly IGenericRepository<BreweryEntity> _ddbRepository;
 
-        public BeersController(IGenericRepository<BeerEntity> ddbRepository, IMapper mapper)
+        public BrewerysController(IGenericRepository<BreweryEntity> ddbRepository, IMapper mapper)
         {
             _ddbRepository = ddbRepository;
             _mapper = mapper;
-            //var tt = typeof(BeerEntity).Assembly.GetName().Name;
-            //var tt = new BeerEntity();
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<BeerDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<BreweryDto>), 200)]
         [ProducesResponseType(500)]
         public IActionResult Get()
         {
             try
             {
-                var allBeers = _mapper.Map<IEnumerable<BeerDto>>(_ddbRepository.GetAll());
-                return Ok(allBeers);
+                var allBrewery = _mapper.Map<IEnumerable<BreweryDto>>(_ddbRepository.GetAll());
+                return Ok(allBrewery);
             }
             catch (Exception e)
             {
@@ -49,17 +45,17 @@ namespace Ipme.WikiBeer.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(BeerDto), 200)]
+        [ProducesResponseType(typeof(BreweryDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public IActionResult Get(Guid id)
         {
             try
             {
-                var beer = _ddbRepository.GetById(id);
-                if (beer == null)
+                var brewery = _ddbRepository.GetById(id);
+                if (brewery == null)
                     return NotFound();
-                return Ok(_mapper.Map<BeerDto>(beer));
+                return Ok(_mapper.Map<BreweryDto>(brewery));
             }
             catch (Exception e)
             {
@@ -71,19 +67,19 @@ namespace Ipme.WikiBeer.API.Controllers
         /// <summary>
         /// CreatedAtAction doit retourner ici l'équivalent d'une méthode Get (cad un Dto!)!
         /// </summary>
-        /// <param name="beerDto"></param>
+        /// <param name="breweryDto"></param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
-        public IActionResult Post([FromBody] BeerDto beerDto)
+        public IActionResult Post([FromBody] BreweryDto breweryDto)
         {
             try
             {
-                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
-                var beerEntityCreated = _ddbRepository.Create(beerEntity);
-                var correspondingBeerDto = _mapper.Map<BeerDto>(beerEntityCreated);
-                return CreatedAtAction(nameof(Get), new { id = correspondingBeerDto.Id }, correspondingBeerDto);
+                var breweryEntity = _mapper.Map<BreweryEntity>(breweryDto);
+                var breweryEntityCreated = _ddbRepository.Create(breweryEntity);
+                var correspondingBreweryDto = _mapper.Map<BreweryDto>(breweryEntityCreated);
+                return CreatedAtAction(nameof(Get), new { id = correspondingBreweryDto.Id }, correspondingBreweryDto);
             }
             catch (Exception e)
             {
@@ -97,13 +93,13 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto)
+        public IActionResult Put(Guid id, [FromBody] BreweryDto breweryDto)
         {
             try
             {
-                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
-                var updatedBeerEntity = _ddbRepository.UpdateById(id, beerEntity);
-                if (updatedBeerEntity == null)
+                var breweryEntity = _mapper.Map<BreweryEntity>(breweryDto);
+                var updatedBreweryEntity = _ddbRepository.UpdateById(id, breweryEntity);
+                if (updatedBreweryEntity == null)
                     return NotFound();
                 return Ok();
             }
@@ -118,7 +114,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public IActionResult Delete(Guid id) // on pourrait retourner un boléen ici
-        {   
+        {
             try
             {
                 var response = _ddbRepository.DeleteById(id);
@@ -130,7 +126,7 @@ namespace Ipme.WikiBeer.API.Controllers
                 // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
                 return StatusCode(500);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500);
             }

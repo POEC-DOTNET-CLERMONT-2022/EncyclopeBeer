@@ -8,7 +8,7 @@
 
         public string Description { get; set; }
 
-        private BeerStyleEntity()
+        public BeerStyleEntity()
         {
         }
 
