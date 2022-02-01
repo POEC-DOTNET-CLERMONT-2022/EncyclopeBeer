@@ -3,6 +3,7 @@ using AutoMapper;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -35,6 +36,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<BeerDto>), 200)]
         [ProducesResponseType(500)]
+        [EnableCors("LocalPolicy")]
         public IActionResult Get()
         {
             try
@@ -53,6 +55,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(typeof(BeerDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [EnableCors("LocalPolicy")]
         public IActionResult Get(Guid id)
         {
             try

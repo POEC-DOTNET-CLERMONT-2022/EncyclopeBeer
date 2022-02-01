@@ -5,7 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// voir : https://docs.microsoft.com/fr-fr/aspnet/core/security/cors?view=aspnetcore-6.0 pour les police à allouer
+builder.Services.AddCors(
+    options => options.AddPolicy("LocalPolicy",
+                    builder =>
+        {
+            builder.WithOrigins("http://localhost:4200");
+        })
+    );
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
 builder.Services.AddControllers().AddNewtonsoftJson(
@@ -29,6 +36,7 @@ builder.Services.AddScoped<DbContext, WikiBeerSqlContext>(); // pour utilisation
 builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(cs)); // le AddDbContext enregistre plus que le AddScoped (comme les classes d'options)
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
