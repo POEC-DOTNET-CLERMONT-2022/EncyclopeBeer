@@ -15,23 +15,23 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     {
         private IDataManager<BeerModel, BeerDto> _beerDataManager = ((App)Application.Current).BeerDataManager;
 
-        public BeersListModel BeersList { get; set; } 
+        public BeersListModel BeersListModel { get; set; } 
 
         public ViewBeers()
         {
-            BeersList = new BeersListModel();
+            BeersListModel = new BeersListModel();
             InitializeComponent();
         }
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadBeers();
+            await LoadBeers();
         }
 
         public async Task LoadBeers()
         {
             var beerModels = await _beerDataManager.GetAll();
-            BeersList.Beers = new ObservableCollection<BeerModel>(beerModels);
+            BeersListModel.Beers = new ObservableCollection<BeerModel>(beerModels);
         }
     }
 }
