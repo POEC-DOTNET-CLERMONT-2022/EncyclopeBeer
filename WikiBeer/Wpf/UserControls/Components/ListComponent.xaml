@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Components"
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="450" d:DesignWidth="250">
-    <Grid DataContext="{Binding ., ElementName=root}">
+    <Grid DataContext="{Binding ., ElementName=root}" MinWidth="154">
         <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-            <StackPanel Margin="5" CanHorizontallyScroll="True">
+            <StackPanel Margin="2" CanHorizontallyScroll="True">
                 <ListBox ItemsSource="{Binding BeersList.Beers}" SelectedItem="{Binding BeersList.CurrentBeer}" x:Name="ListBeers">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,5">
+                            <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
                                 <StackPanel Background="WhiteSmoke" Width="150" Height="50" HorizontalAlignment="Center">
                                     <TextBlock Text="{Binding Name}" Margin="5,5,0,0" />
                                     <TextBlock Text="{Binding Brewery.Name}" Margin="5,5,0,0" />

@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using Ipme.WikiBeer.Models;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Components
 {
@@ -7,6 +9,21 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
+        public static readonly DependencyProperty BeerDetailsProperty =
+            DependencyProperty.Register("BeerDetails", typeof(BeerModel), typeof(BeerDetailsComponent));
+
+        public BeersListModel BeerDetails
+        {
+            get { return GetValue(BeerDetailsProperty) as BeersListModel; }
+            set 
+            { 
+                if(value != null)
+                {
+                    SetValue(BeerDetailsProperty, value);
+                }
+            }
+        }
+
         public BeerDetailsComponent()
         {
             InitializeComponent();

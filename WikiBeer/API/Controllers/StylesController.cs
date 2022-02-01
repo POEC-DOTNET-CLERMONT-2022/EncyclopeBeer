@@ -37,11 +37,6 @@ namespace Ipme.WikiBeer.API.Controllers
             }
         }
 
-        private IActionResult Ok(object allCountry)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BeerStyleDto), 200)]
         [ProducesResponseType(404)]

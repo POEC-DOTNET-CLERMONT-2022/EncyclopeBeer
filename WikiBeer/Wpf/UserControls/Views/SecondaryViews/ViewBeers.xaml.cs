@@ -25,7 +25,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadBeers();
+            await LoadBeers();
         }
 
         public async Task LoadBeers()
