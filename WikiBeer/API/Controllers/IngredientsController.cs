@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 /// A creuser via les notions de covariance et contravariances : 
 /// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/
 /// On voudra donc un controller par type d'ingrédient!
+/// 
 /// </summary>
 namespace Ipme.WikiBeer.API.Controllers
 {

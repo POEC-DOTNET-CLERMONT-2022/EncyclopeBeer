@@ -3,12 +3,6 @@ using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 /// <summary>
 /// Voir comment spécifier un constructeur particulier à AutoMapper via 

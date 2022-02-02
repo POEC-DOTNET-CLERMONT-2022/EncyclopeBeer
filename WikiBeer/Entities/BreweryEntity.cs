@@ -10,7 +10,7 @@
 
         public CountryEntity Country { get; set; }
 
-        private BreweryEntity()
+        public BreweryEntity()
         {
         }
 

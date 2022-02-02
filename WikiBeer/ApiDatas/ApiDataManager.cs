@@ -40,6 +40,7 @@ namespace Ipme.WikiBeer.ApiDatas
             postRequest.Headers.Add("Accept", "*/*");
             postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(postRequest);
+            var toto = "mes grosses couilles";
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             //await HttpClient.PostAsJsonAsync(Uri, dto);
         }
@@ -53,7 +54,7 @@ namespace Ipme.WikiBeer.ApiDatas
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             // Sérialisation 
             var responseString = await response.Content.ReadAsStringAsync();
-            var dtos = JsonConvert.DeserializeObject<IEnumerable<BeerDto>>(responseString,
+            var dtos = JsonConvert.DeserializeObject<IEnumerable<TDto>>(responseString,
                 GetJsonSettings());
             //var result = await HttpClient.GetFromJsonAsync<IEnumerable<TDto>>(Uri);
             return Mapper.Map<IEnumerable<TModel>>(dtos);
@@ -65,7 +66,7 @@ namespace Ipme.WikiBeer.ApiDatas
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             // Sérialisation 
             var responseString = await response.Content.ReadAsStringAsync();
-            var dto = JsonConvert.DeserializeObject<BeerDto>(responseString,
+            var dto = JsonConvert.DeserializeObject<TDto>(responseString,
                 GetJsonSettings());
             
             return Mapper.Map<TModel>(dto);

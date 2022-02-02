@@ -4,8 +4,6 @@ using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
@@ -19,8 +17,6 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             _ddbRepository = ddbRepository;
             _mapper = mapper;
-            //var tt = typeof(BeerEntity).Assembly.GetName().Name;
-            //var tt = new BeerEntity();
         }
 
         [HttpGet]
@@ -63,7 +59,7 @@ namespace Ipme.WikiBeer.API.Controllers
         /// <summary>
         /// CreatedAtAction doit retourner ici l'équivalent d'une méthode Get (cad un Dto!)!
         /// </summary>
-        /// <param name="beerDto"></param>
+        /// <param name="beerStyleDto"></param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]

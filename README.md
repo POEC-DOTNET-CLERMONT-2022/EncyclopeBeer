@@ -1,8 +1,4 @@
-Dans CodeFirstDB les tests en cours pour remplacer wcf par l'api rest. 
-Pour l'instant la migration et une partie des controllers de l'api fonctionnent mais on a encore des problèmes de sérialisation avec l'api sur les collection de classes abstraites.
-En bonne voie cependant.
-
-# EncyclopeBeer
+# EncyclopeBeer/WikiBeer
 
 Projet fil rouge POEC DEVOPS .Net  
 
@@ -37,7 +33,7 @@ L'encyclopebeer est une application permettant aux amateurs de bières de recher
   
 Pour un professionnel, elle permet de connaître le profil des utilisateurs : leur goûts et préférences afin de pouvoir faire des suggestions personnalisées ou générales en fonction de la communauté.
 
-## Fonctionnalité  
+## Fonctionnalités
 
 L'objet principal de l'application sera "Beer".  
 
@@ -45,20 +41,33 @@ Il existera trois type d'utilisateur :
 
 - **Utilisateur Standard**: utilisateurs principaux de l'application, ils pourront :  
 
-  - Se connecter a l'application
   - Consutlter la liste des bières et effectuer une recherche
-  - Noter une bière  
-  - Ajouter une bière a ses favoris  
+  - Se connecter a l'application pour : 
+    - Noter une bière  
+    - Ajouter une bière a ses favoris  
 
 - **Utilisateur Vérifié**: utilisateurs qui disposerons de droits supplémentaires :  
-  
-  - Proposer l'ajout d'une bière  
+   
   - Rediger un commentaire sur une bière
 
 - **Administateur**: Capable de gérer l'application via le client lourd.
 
   - Effectuer des oppérations CRUD sur les bières et leurs sous objets
   - Administrer les utilisateurs (gestion des rôles, supprésion de compte, ...)
-  - Consutler différents statistiques sur les utilisateurs, les bières ...  
 
+## Ce que l'on aimerait rajouter
+
+- **Utilisateur Standart** :
+
+  - Rechercher d'autre utilisateurs pour : 
+    - Les ajouter en amis
+    - Leur proposer une bière
+
+- **Utilisateur Vérifié**
+
+  - Proposer l'ajout d'une bière aux Administrateurs 
+
+- **Administateur**: Capable de gérer l'application via le client lourd.
+
+  - Consutler différents statistiques sur les utilisateurs, les bières ...  
 

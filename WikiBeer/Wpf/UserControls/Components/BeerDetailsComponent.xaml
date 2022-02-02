@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Components"
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="600" d:DesignWidth="800">
-    <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-        <Grid DataContext="{Binding ., ElementName=root}">
+    <Border DataContext="{Binding ., ElementName=root}" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
+        <Grid DataContext="{Binding BeersList.BeerToModify}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <Grid x:Name="Details" Grid.Row="0" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -28,7 +28,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Name" FontWeight="Bold"/>
-                        <TextBox Text="{Binding Name}"/>
+                        <TextBox Text="{Binding Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Brewery" FontWeight="Bold"/>
@@ -37,6 +37,7 @@
                                   IsEditable="True" StaysOpenOnEdit="True" 
                                   TextBoxBase.TextChanged="BreweryComboBox_TextChanged" 
                                   SelectionChanged="BreweryComboBox_SelectionChanged"
+                                  SelectedItem="{Binding Brewery.Name ,UpdateSourceTrigger=PropertyChanged}"
                             >
                             <ComboBoxItem> Choice </ComboBoxItem>
                             <ComboBoxItem> Choice </ComboBoxItem>
@@ -46,7 +47,11 @@
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Style" FontWeight="Bold"/>
-                        <ComboBox TextBoxBase.TextChanged="StyleComboBox_TextChanged"  VerticalAlignment="Top" Name="StyleComboBox" IsEditable="True" StaysOpenOnEdit="True" SelectionChanged="StyleComboBox_SelectionChanged">
+                        <ComboBox TextBoxBase.TextChanged="StyleComboBox_TextChanged"  
+                                  VerticalAlignment="Top" Name="StyleComboBox" 
+                                  IsEditable="True" StaysOpenOnEdit="True" 
+                                  SelectionChanged="StyleComboBox_SelectionChanged"
+                                  SelectedItem="{Binding Style.Name, UpdateSourceTrigger=PropertyChanged}">
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
@@ -60,6 +65,7 @@
                                   IsEditable="True" StaysOpenOnEdit="True" 
                                   TextBoxBase.TextChanged="ColorComboBox_TextChanged" 
                                   SelectionChanged="ColorComboBox_SelectionChanged"
+                                  SelectedItem="{Binding Color, UpdateSourceTrigger=PropertyChanged}"
                             >
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
@@ -81,17 +87,18 @@
                     </Grid.RowDefinitions>
                     <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="Degree (ABV) " FontWeight="Bold"/>
-                        <TextBox Text="{Binding Name}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding Degree ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="IBU" FontWeight="Bold"/>
-                        <TextBox Text="{Binding Name}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Ingredients" FontWeight="Bold"/>
                         <ComboBox Name="IngredientsComboBox"
                                   VerticalAlignment="Top"  
-                                  IsEditable="True" StaysOpenOnEdit="True" 
+                                  IsEditable="True" 
+                                  StaysOpenOnEdit="True" 
                                   TextBoxBase.TextChanged="IngredientsComboBox_TextChanged" 
                                   SelectionChanged="IngredientsComboBox_SelectionChanged"
                             >
@@ -104,45 +111,49 @@
                 </Grid>
                 <Grid Grid.Column="2">
                     <WrapPanel Margin="10,10">
-                        <Image Height="200" Width="200"/>
+                        <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,5">
+                            <Image Height="200" Width="244"/>
+                        </Border>
                         <Button Content="Change picture" Margin="10" Height="25" Width="100"/>
                     </WrapPanel>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="50"/>
-                    </Grid.RowDefinitions>
-                    <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Row="1"  
-                             Margin="10,0,10,20" 
-                             Text="Ajouter une descrition..." 
-                             HorizontalAlignment="Stretch" 
-                             VerticalAlignment="Stretch" 
-                             VerticalScrollBarVisibility="Auto" 
-                             AcceptsReturn="True"
-                             />
-                    <Button Grid.Row="2" 
-                            Height="30" 
-                            Width="100" 
-                            VerticalAlignment="Bottom" 
-                            HorizontalAlignment="Right" 
-                            Margin="10"
-                            Content="Update"
-                            />
-                    <Button Grid.Row="2" 
-                            Height="30" 
-                            Width="100" 
-                            VerticalAlignment="Bottom" 
-                            HorizontalAlignment="Left" 
-                            Margin="10"
-                            Content="Delete"
-                            />
+            <Grid x:Name="Description" Grid.Row="1">
+                <!--#region Grid Definitions-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <!--#endregion-->
+                <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="1"  
+                         Margin="10,0,10,20" 
+                         Text="{Binding Description ,UpdateSourceTrigger=PropertyChanged}" 
+                         HorizontalAlignment="Stretch" 
+                         VerticalAlignment="Stretch" 
+                         VerticalScrollBarVisibility="Auto" 
+                         AcceptsReturn="True"
+                         />
+                <Button x:Name="Update"
+                        Grid.Row="2" 
+                        Height="30" 
+                        Width="100" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Right" 
+                        Margin="10"
+                        Content="Update"
+                        />
+                <Button x:Name="Delete"
+                        Grid.Row="2" 
+                        Height="30" 
+                        Width="100" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Left" 
+                        Margin="10"
+                        Content="Delete"
+                        />
                 </Grid>
-            </Grid>
         </Grid>
     </Border>
 </UserControl>
