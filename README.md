@@ -58,7 +58,7 @@ Il existera trois type d'utilisateur :
 ## Ce que l'on aimerait rajouter
 
 - **Utilisateur Standart** :
--
+
   - Rechercher d'autre utilisateurs pour : 
     - Les ajouter en amis
     - Leur proposer une bière
