@@ -27,7 +27,6 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-
         public BeerColorModel(string name) : this(Guid.Empty, name)
         {
         }
