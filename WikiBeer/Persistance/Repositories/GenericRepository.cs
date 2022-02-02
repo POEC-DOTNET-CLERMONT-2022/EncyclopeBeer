@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 /// nouvelles ici!
 /// TODO voir les Activator : 
 /// voir : https://docs.microsoft.com/en-us/dotnet/api/system.activator?view=net-6.0
+/// TODO : enelver définitivement le new et compléter IEntity par une BaseEntity (avec constructeur internal)
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -85,6 +86,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return updatedEntity;
         }
 
+        /// <summary>
+        /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual bool? DeleteById(Guid id)
         {
             T? entity = GetById(id);
@@ -92,7 +98,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 return null;
             // Il faut passer par un activator pour faire ce genre de chose
             //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
-            var entity2 = (T)Activator.CreateInstance(typeof(T), id);
+            //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
             Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
             
             return Context.SaveChanges() >= 1;

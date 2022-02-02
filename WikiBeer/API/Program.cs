@@ -10,7 +10,7 @@ builder.Services.AddCors(
     options => options.AddPolicy("LocalPolicy",
                     builder =>
         {
-            builder.WithOrigins("http://localhost:4200");
+            builder.WithOrigins("http://localhost:4200"); // ici l'adresse du front Angular
         })
     );
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
