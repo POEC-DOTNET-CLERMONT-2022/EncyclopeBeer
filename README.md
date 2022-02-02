@@ -33,7 +33,7 @@ L'encyclopebeer est une application permettant aux amateurs de bières de recher
   
 Pour un professionnel, elle permet de connaître le profil des utilisateurs : leur goûts et préférences afin de pouvoir faire des suggestions personnalisées ou générales en fonction de la communauté.
 
-## Fonctionnalité  
+## Fonctionnalités
 
 L'objet principal de l'application sera "Beer".  
 
