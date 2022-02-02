@@ -19,50 +19,50 @@ namespace Ipme.WikiBeer.API.Controllers
     [ApiController]
     public class IngredientsController : ControllerBase
     {
-        //private readonly IMapper _mapper;
-        //private readonly IGenericRepository<IngredientEntity> _dbRepository;
+        private readonly IMapper _mapper;
+        private readonly IGenericRepository<IngredientEntity> _dbRepository;
 
-        //public IngredientsController(IGenericRepository<IngredientEntity> dbRepository, IMapper mapper)
-        //{
-        //    _dbRepository = dbRepository;
-        //    _mapper = mapper;
-        //}
+        public IngredientsController(IGenericRepository<IngredientEntity> dbRepository, IMapper mapper)
+        {
+            _dbRepository = dbRepository;
+            _mapper = mapper;
+        }
 
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<IngredientDto>), 200)]
-        //[ProducesResponseType(500)]
-        //public IActionResult Get()
-        //{
-        //    try
-        //    {
-        //        var allIngredients = _mapper.Map<IEnumerable<IngredientDto>>(_dbRepository.GetAll());
-        //        return Ok(allIngredients);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        // toutes les exceptions non géré passe en 500
-        //        return StatusCode(500);
-        //    }
-        //}
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<IngredientDto>), 200)]
+        [ProducesResponseType(500)]
+        public IActionResult Get()
+        {
+            try
+            {
+                var allIngredients = _mapper.Map<IEnumerable<IngredientDto>>(_dbRepository.GetAll());
+                return Ok(allIngredients);
+            }
+            catch (Exception e)
+            {
+                // toutes les exceptions non géré passe en 500
+                return StatusCode(500);
+            }
+        }
 
-        //[HttpGet("{id}")]
-        //[ProducesResponseType(typeof(IngredientDto), 200)]
-        //[ProducesResponseType(404)]
-        //[ProducesResponseType(500)]
-        //public IActionResult Get(Guid id)
-        //{
-        //    try
-        //    {
-        //        var ingredient = _dbRepository.GetById(id);
-        //        if (ingredient == null)
-        //            return NotFound();
-        //        return Ok(_mapper.Map<IngredientDto>(ingredient));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500);
-        //    }
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(IngredientDto), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Get(Guid id)
+        {
+            try
+            {
+                var ingredient = _dbRepository.GetById(id);
+                if (ingredient == null)
+                    return NotFound();
+                return Ok(_mapper.Map<IngredientDto>(ingredient));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
 
-        //}
+        }
     }
 }

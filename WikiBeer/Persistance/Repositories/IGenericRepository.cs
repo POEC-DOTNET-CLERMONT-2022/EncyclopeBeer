@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    public interface IGenericRepository<T> where T : class, IEntity, new()
+    public interface IGenericRepository<T> where T : class, IEntity//, new()
     {
         T Create(T entityToCreate);
 

@@ -29,6 +29,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Tests", "4 - Tests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Tests", "API.Tests\API.Tests.csproj", "{DBA58709-918F-4678-BA41-71EC3B984B4A}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Web", "Web\", "{F6D89890-5B1D-4610-9E43-9BD1590A57E8}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61858"
+		Debug.AspNetCompiler.PhysicalPath = "Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61858\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61858"
+		Release.AspNetCompiler.PhysicalPath = "Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61858\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "61858"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +91,10 @@ Global
 		{DBA58709-918F-4678-BA41-71EC3B984B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBA58709-918F-4678-BA41-71EC3B984B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBA58709-918F-4678-BA41-71EC3B984B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D89890-5B1D-4610-9E43-9BD1590A57E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D89890-5B1D-4610-9E43-9BD1590A57E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D89890-5B1D-4610-9E43-9BD1590A57E8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D89890-5B1D-4610-9E43-9BD1590A57E8}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

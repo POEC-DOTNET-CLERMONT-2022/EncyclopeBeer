@@ -12,6 +12,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         public static readonly DependencyProperty BeersListProperty =
             DependencyProperty.Register("BeersList", typeof(BeersListModel), typeof(ListComponent));
 
+        // La DepencyProperty renvoie forcément une property qui est Observable
+        // par construction donc ce n'est pas la peine de lui affecter IObservable
         public BeersListModel BeersList
         {
             get { return GetValue(BeersListProperty) as BeersListModel; }

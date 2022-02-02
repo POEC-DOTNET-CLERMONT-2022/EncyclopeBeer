@@ -20,7 +20,6 @@ namespace Ipme.WikiBeer.ApiDatas
         private IMapper Mapper { get; }
         private string ServerUrl { get; }
         private string ResourceUrl { get; }
-
         private Uri Uri { get; }
 
         public ApiDataManager(HttpClient client, IMapper mapper, string serverUrl, string resourceUrl)

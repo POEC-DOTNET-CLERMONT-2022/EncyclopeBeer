@@ -4,7 +4,6 @@ using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
@@ -45,10 +44,10 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             try
             {
-                var country = _ddbRepository.GetById(id);
-                if (country == null)
+                var style = _ddbRepository.GetById(id);
+                if (style == null)
                     return NotFound();
-                return Ok(_mapper.Map<BeerStyleDto>(country));
+                return Ok(_mapper.Map<BeerStyleDto>(style));
             }
             catch (Exception e)
             {
@@ -65,11 +64,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
-        public IActionResult Post([FromBody] BeerStyleDto beerStyleDto)
+        public IActionResult Post([FromBody] BeerStyleDto styleDto)
         {
             try
             {
-                var styleEntity = _mapper.Map<BeerStyleEntity>(beerStyleDto);
+                var styleEntity = _mapper.Map<BeerStyleEntity>(styleDto);
                 var styleEntityCreated = _ddbRepository.Create(styleEntity);
                 var correspondingStyleDto = _mapper.Map<BeerStyleDto>(styleEntityCreated);
                 return CreatedAtAction(nameof(Get), new { id = correspondingStyleDto.Id }, correspondingStyleDto);
@@ -86,11 +85,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(Guid id, [FromBody] BeerStyleDto beerStyleDto)
+        public IActionResult Put(Guid id, [FromBody] BeerStyleDto styleDto)
         {
             try
             {
-                var styleEntity = _mapper.Map<BeerStyleEntity>(beerStyleDto);
+                var styleEntity = _mapper.Map<BeerStyleEntity>(styleDto);
                 var updatedStyleEntity = _ddbRepository.UpdateById(id, styleEntity);
                 if (updatedStyleEntity == null)
                     return NotFound();

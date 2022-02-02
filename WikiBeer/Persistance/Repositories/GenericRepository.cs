@@ -15,10 +15,13 @@ using System.Threading.Tasks;
 /// TODO : vérifier si c'est une bonne idée de passer par du générique.
 /// Cela force nos entities à avoir un constructeur public si on veut pouvoir en instancier de 
 /// nouvelles ici!
+/// TODO voir les Activator : 
+/// voir : https://docs.microsoft.com/en-us/dotnet/api/system.activator?view=net-6.0
+/// TODO : enelver définitivement le new et compléter IEntity par une BaseEntity (avec constructeur internal)
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity//, new()
     {
         private DbContext Context { get; } 
 
@@ -27,9 +30,16 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
+        /// <summary>
+        /// TODO : check les id des contenues, s'occuper de ceux ci (vérifier leur existance ou non [via Get] pour les 
+        /// ramener dans le Context) avant de s'occuper avant de s'occuper du contenant puis en dernier faire le Add sur le contenant.
+        /// </summary>
+        /// <param name="entityToCreate"></param>
+        /// <returns></returns>
         public virtual T Create(T entityToCreate)
         {
-            //T entity = Context.Add(entityToCreate).Entity;
+            //b18de927-2251-4c2b-198d-08d9e560afa1
+            //T entity = Context.Set<T>().Add(entityToCreate).Entity;
             T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
@@ -76,6 +86,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return updatedEntity;
         }
 
+        /// <summary>
+        /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual bool? DeleteById(Guid id)
         {
             T? entity = GetById(id);
@@ -83,6 +98,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 return null;
             // Il faut passer par un activator pour faire ce genre de chose
             //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
+            //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
             Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
             
             return Context.SaveChanges() >= 1;
