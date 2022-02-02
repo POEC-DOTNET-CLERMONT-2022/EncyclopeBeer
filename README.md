@@ -54,16 +54,20 @@ Il existera trois type d'utilisateur :
 
   - Effectuer des oppérations CRUD sur les bières et leurs sous objets
   - Administrer les utilisateurs (gestion des rôles, supprésion de compte, ...)
-  - Consutler différents statistiques sur les utilisateurs, les bières ...  
 
 ## Ce que l'on aimerait rajouter
 
 - **Utilisateur Standart** :
+-
   - Rechercher d'autre utilisateurs pour : 
     - Les ajouter en amis
     - Leur proposer une bière
 
 - **Utilisateur Vérifié**
+
   - Proposer l'ajout d'une bière aux Administrateurs 
 
+- **Administateur**: Capable de gérer l'application via le client lourd.
+
+  - Consutler différents statistiques sur les utilisateurs, les bières ...  
 
