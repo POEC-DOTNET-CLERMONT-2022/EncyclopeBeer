@@ -50,7 +50,11 @@ countryList.Add(france);
 countryList.Add(ecosse);
 
 //Ajout des countries en base
-countryList.ForEach(async country => await countryManager.Add(country));
+//countryList.ForEach(country => await countryManager.Add(country));
+foreach(var country in countryList)
+{
+    await countryManager.Add(country);
+}
 
 //Récupération
 var bddcountry = await countryManager.GetAll();
