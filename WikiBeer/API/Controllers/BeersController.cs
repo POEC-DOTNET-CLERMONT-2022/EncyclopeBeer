@@ -1,11 +1,8 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Runtime.CompilerServices;
 
 /// <summary>
 /// TODO : affiner les block catch (renvoyer autre chose que du 500)

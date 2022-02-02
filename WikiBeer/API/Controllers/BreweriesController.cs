@@ -1,35 +1,34 @@
-﻿using AutoMapper;
-using Ipme.WikiBeer.Dtos;
-using Ipme.WikiBeer.Entities;
-using Ipme.WikiBeer.Persistance.Repositories;
+﻿#nullable disable
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Ipme.WikiBeer.Entities;
+using AutoMapper;
+using Ipme.WikiBeer.Persistance.Repositories;
+using Ipme.WikiBeer.Dtos;
 
 namespace Ipme.WikiBeer.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoutriesController : ControllerBase
+    public class BreweriesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepository<CountryEntity> _ddbRepository;
+        private readonly IGenericRepository<BreweryEntity> _ddbRepository;
 
-        public CoutriesController(IGenericRepository<CountryEntity> ddbRepository, IMapper mapper)
+        public BreweriesController(IGenericRepository<BreweryEntity> ddbRepository, IMapper mapper)
         {
             _ddbRepository = ddbRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<CountryDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<BreweryDto>), 200)]
         [ProducesResponseType(500)]
         public IActionResult Get()
         {
             try
             {
-                var allCountries = _mapper.Map<IEnumerable<CountryDto>>(_ddbRepository.GetAll());
-                return Ok(allCountries);
+                var allBrewery = _mapper.Map<IEnumerable<BreweryDto>>(_ddbRepository.GetAll());
+                return Ok(allBrewery);
             }
             catch (Exception e)
             {
@@ -39,17 +38,17 @@ namespace Ipme.WikiBeer.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(CountryDto), 200)]
+        [ProducesResponseType(typeof(BreweryDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public IActionResult Get(Guid id)
         {
             try
             {
-                var country = _ddbRepository.GetById(id);
-                if (country == null)
+                var brewery = _ddbRepository.GetById(id);
+                if (brewery == null)
                     return NotFound();
-                return Ok(_mapper.Map<CountryDto>(country));
+                return Ok(_mapper.Map<BreweryDto>(brewery));
             }
             catch (Exception e)
             {
@@ -66,14 +65,14 @@ namespace Ipme.WikiBeer.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
-        public IActionResult Post([FromBody] CountryDto countryDto)
+        public IActionResult Post([FromBody] BreweryDto breweryDto)
         {
             try
             {
-                var countryEntity = _mapper.Map<CountryEntity>(countryDto);
-                var countryEntityCreated = _ddbRepository.Create(countryEntity);
-                var correspondingCountryDto = _mapper.Map<CountryDto>(countryEntityCreated);
-                return CreatedAtAction(nameof(Get), new { id = correspondingCountryDto.Id }, correspondingCountryDto);
+                var breweryEntity = _mapper.Map<BreweryEntity>(breweryDto);
+                var breweryEntityCreated = _ddbRepository.Create(breweryEntity);
+                var correspondingBreweryDto = _mapper.Map<BreweryDto>(breweryEntityCreated);
+                return CreatedAtAction(nameof(Get), new { id = correspondingBreweryDto.Id }, correspondingBreweryDto);
             }
             catch (Exception e)
             {
@@ -87,13 +86,13 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(Guid id, [FromBody] CountryDto CountryDto)
+        public IActionResult Put(Guid id, [FromBody] BreweryDto breweryDto)
         {
             try
             {
-                var countryEntity = _mapper.Map<CountryEntity>(CountryDto);
-                var updatedCountryEntity = _ddbRepository.UpdateById(id, countryEntity);
-                if (updatedCountryEntity == null)
+                var breweryEntity = _mapper.Map<BreweryEntity>(breweryDto);
+                var updatedBreweryEntity = _ddbRepository.UpdateById(id, breweryEntity);
+                if (updatedBreweryEntity == null)
                     return NotFound();
                 return Ok();
             }

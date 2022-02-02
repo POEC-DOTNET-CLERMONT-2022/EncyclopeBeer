@@ -9,17 +9,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty BeerDetailsProperty =
-            DependencyProperty.Register("BeerDetails", typeof(BeerModel), typeof(BeerDetailsComponent));
+        public static readonly DependencyProperty BeersListProperty =
+            DependencyProperty.Register("BeersList", typeof(BeersListModel), typeof(BeerDetailsComponent));
 
-        public BeersListModel BeerDetails
+        public BeersListModel BeersList
         {
-            get { return GetValue(BeerDetailsProperty) as BeersListModel; }
+            get { return GetValue(BeersListProperty) as BeersListModel; }
             set 
             { 
                 if(value != null)
                 {
-                    SetValue(BeerDetailsProperty, value);
+                    SetValue(BeersListProperty, value);
                 }
             }
         }

@@ -38,7 +38,7 @@
                 <control:ListComponent x:Name="List" BeersList="{Binding BeersList}"/>
             </DockPanel>
             <DockPanel Grid.Column="1" Margin="5,0,20,10">
-                <control:BeerDetailsComponent x:Name="Details" BeerDetails="{Binding BeersList.CurrentBeer}"/>
+                <control:BeerDetailsComponent x:Name="Details" BeersList="{Binding BeersList}"/>
             </DockPanel>
         </Grid>
     </Grid>
