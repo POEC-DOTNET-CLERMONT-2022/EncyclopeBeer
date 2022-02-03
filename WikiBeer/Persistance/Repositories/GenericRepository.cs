@@ -88,6 +88,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         /// <summary>
         /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
+        /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
+        ///  -> pasque c'est la merde coté controller!
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -99,6 +101,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             // Il faut passer par un activator pour faire ce genre de chose
             //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
             //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
+            Context.Set<T>().Attach(entity);
             Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
             
             return Context.SaveChanges() >= 1;

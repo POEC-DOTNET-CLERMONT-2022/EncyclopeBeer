@@ -156,8 +156,16 @@ beers.ForEach(async beer => await beerManager.Add(beer));
 AddAndWait<BeerModel, BeerDto>(beers, beerManager);
 // Récupération pour check dans le debuger
 var bddBeers = await beerManager.GetAll();
+#endregion
+
+#region Tests divers
+var toDeleteStyle = bddAle;
+styleManager.DeleteById(bddAle.Id).Wait();
+var modified_bddBeers = await beerManager.GetAll();
 
 #endregion
+
+
 
 #region Méthode(s) locale(s)
 /// <summary>

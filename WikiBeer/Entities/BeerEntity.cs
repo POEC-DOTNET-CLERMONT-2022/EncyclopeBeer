@@ -13,11 +13,13 @@ namespace Ipme.WikiBeer.Entities
         //public string? ALACON { get; private set; }
         public string? Description { get; private set; }
         public float? Ibu { get; private set; }
-        public float Degree { get; private set; }
-        public BreweryEntity Brewery { get; private set; }
-        public BeerStyleEntity Style { get; private set; }
-        public BeerColorEntity Color { get; private set; }
-        public IEnumerable<IngredientEntity> Ingredients { get; private set; } 
+        public float Degree { get; private set; }        
+        public BreweryEntity? Brewery { get; private set; }
+
+        public Guid? StyleId { get; private set; }
+        public BeerStyleEntity? Style { get; private set; }
+        public BeerColorEntity? Color { get; private set; }
+        public IEnumerable<IngredientEntity>? Ingredients { get; private set; } 
 
         /// <summary>
         /// Constructeur par défaut nécessaire pour utilisation du new dans le 
@@ -29,8 +31,8 @@ namespace Ipme.WikiBeer.Entities
             Id = id;
         }
 
-        public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity style,
-            BeerColorEntity color, BreweryEntity brewery, IEnumerable<IngredientEntity> ingredients)
+        public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
+            BeerColorEntity? color, BreweryEntity? brewery, IEnumerable<IngredientEntity>? ingredients)
         {
             Id = id;
             Name = name;

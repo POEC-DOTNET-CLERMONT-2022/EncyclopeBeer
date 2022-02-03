@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    partial class WikiBeerSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220203225416_tt11")]
+    partial class tt11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +64,9 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("BeerId");
 
+                    b.Property<Guid?>("BeerStyleEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("BreweryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -88,6 +93,8 @@ namespace Ipme.WikiBeer.Persistance.Migrations
 
                     b.HasKey("Id")
                         .HasName("BeerId");
+
+                    b.HasIndex("BeerStyleEntityId");
 
                     b.HasIndex("BreweryId");
 
@@ -245,6 +252,10 @@ namespace Ipme.WikiBeer.Persistance.Migrations
 
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerEntity", b =>
                 {
+                    b.HasOne("Ipme.WikiBeer.Entities.BeerStyleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("BeerStyleEntityId");
+
                     b.HasOne("Ipme.WikiBeer.Entities.BreweryEntity", "Brewery")
                         .WithMany()
                         .HasForeignKey("BreweryId");

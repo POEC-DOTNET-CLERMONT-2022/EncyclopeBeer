@@ -82,14 +82,14 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Configuration longueur des nvarchar 
             typeBuilder.Property(be => be.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
             typeBuilder.Property(be => be.Description).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
-
+            
             #region Configuration relations
             // Brewery
             typeBuilder.HasOne(be => be.Brewery).WithMany();
             typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
-            typeBuilder.HasOne(be => be.Style).WithMany();
-            typeBuilder.Navigation(be => be.Style).AutoInclude();
+            //typeBuilder.HasOne(be => be.Style).WithMany().IsRequired(false);//.OnDelete(DeleteBehavior.ClientSetNull);
+            //typeBuilder.Navigation(be => be.Style).AutoInclude();
             // Color
             typeBuilder.HasOne(be => be.Color).WithMany();
             typeBuilder.Navigation(be => be.Color).AutoInclude();
@@ -134,6 +134,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(s => s.Description).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
 
             #region Configuration relations
+            typeBuilder.HasMany<BeerEntity>().WithOne(b => b.Style);
+            //typeBuilder.Navigation(be => be.Style).AutoInclude();
             #endregion
         }
 
