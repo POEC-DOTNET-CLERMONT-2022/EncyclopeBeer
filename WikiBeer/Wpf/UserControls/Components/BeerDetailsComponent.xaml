@@ -7,7 +7,7 @@
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="600" d:DesignWidth="800">
     <Border DataContext="{Binding ., ElementName=root}" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-        <Grid DataContext="{Binding BeersList.BeerToModify}">
+        <Grid DataContext="{Binding Beers.ToModify}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -37,12 +37,10 @@
                                   IsEditable="True" StaysOpenOnEdit="True" 
                                   TextBoxBase.TextChanged="BreweryComboBox_TextChanged" 
                                   SelectionChanged="BreweryComboBox_SelectionChanged"
-                                  SelectedItem="{Binding Brewery.Name ,UpdateSourceTrigger=PropertyChanged}"
-                            >
-                            <ComboBoxItem> Choice </ComboBoxItem>
-                            <ComboBoxItem> Choice </ComboBoxItem>
-                            <ComboBoxItem> Choice </ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
+                                  SelectedItem="{Binding Brewery.Name ,UpdateSourceTrigger=PropertyChanged}">
+                            <ListBox DataContext="{Binding Breweries.List}" ItemsSource="{Binding .}">
+                                <ComboBoxItem>Choice</ComboBoxItem>
+                            </ListBox>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
@@ -119,13 +117,11 @@
                 </Grid>
             </Grid>
             <Grid x:Name="Description" Grid.Row="1">
-                <!--#region Grid Definitions-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <!--#endregion-->
                 <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 <TextBox Grid.Row="1"  
                          Margin="10,0,10,20" 
@@ -143,6 +139,7 @@
                         HorizontalAlignment="Right" 
                         Margin="10"
                         Content="Update"
+                        Click="Update_Click"
                         />
                 <Button x:Name="Delete"
                         Grid.Row="2" 
@@ -152,6 +149,7 @@
                         HorizontalAlignment="Left" 
                         Margin="10"
                         Content="Delete"
+                        Click="Delete_Click"
                         />
                 </Grid>
         </Grid>

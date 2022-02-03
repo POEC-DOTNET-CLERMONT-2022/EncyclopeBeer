@@ -9,18 +9,34 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty BeersListProperty =
-            DependencyProperty.Register("BeersList", typeof(BeersListModel), typeof(BeerDetailsComponent));
+        
+        public static readonly DependencyProperty BeersProperty =
+            DependencyProperty.Register("Beers", typeof(GenericListModel<BeerModel>), typeof(BeerDetailsComponent));
 
-        public BeersListModel BeersList
+        public GenericListModel<BeerModel> Beers
         {
-            get { return GetValue(BeersListProperty) as BeersListModel; }
+            get { return GetValue(BeersProperty) as GenericListModel<BeerModel>; }
             set 
             { 
                 if(value != null)
                 {
-                    SetValue(BeersListProperty, value);
+                    SetValue(BeersProperty, value);
                 }
+            }
+        }
+
+        public static readonly DependencyProperty BreweriesProperty = 
+            DependencyProperty.Register("Breweries", typeof(GenericListModel<BreweryModel>), typeof(BeerDetailsComponent));
+
+        public  GenericListModel<BreweryModel> Breweries
+        {
+            get { return GetValue(BreweriesProperty) as GenericListModel<BreweryModel>; }
+            set 
+            {
+                if(value != null)
+                {
+                    SetValue(BreweriesProperty, value);
+                } 
             }
         }
 
@@ -65,6 +81,16 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         }
 
         private void IngredientsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
         {
 
         }

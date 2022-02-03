@@ -24,7 +24,7 @@ using System.Net;
 /// On utilise Fluent assertions 
 /// voir : https://fluentassertions.com/objectgraphs/ pour les détails d'utilisation
 /// </summary>
-namespace Ipme.WikiBeer.API.Tests
+namespace API.Tests
 {
     [TestClass]
     public class BeersControllerUnitTests
@@ -36,21 +36,21 @@ namespace Ipme.WikiBeer.API.Tests
         private IEnumerable<BeerDto> BeersDto { get; set; }
         private IEnumerable<BeerEntity> BeersEntity { get; set; }
         private Mock<IGenericRepository<BeerEntity>> BeerRepository { get; set; }
-        private BeersController BeersController { get; set;} 
+        private BeersController BeersController { get; set; }
 
         public BeersControllerUnitTests()
         {
             // Config fixture
             _fixture = new Fixture();
-                // Type Hop à la place de type Ingrédient
+            // Type Hop à la place de type Ingrédient
             _fixture.Customizations.Add(new TypeRelay(typeof(IngredientEntity), typeof(HopEntity)));
             _fixture.Customizations.Add(new TypeRelay(typeof(IngredientDto), typeof(HopDto)));
             // Ignorer les références circulaires dans les Entities
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
             .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-                // Forcer autofixture à utiliser le constructeur le plus gourmand (pour remplir les property avec
-                // setter privés)
+            // Forcer autofixture à utiliser le constructeur le plus gourmand (pour remplir les property avec
+            // setter privés)
             _fixture.Customize<BeerEntity>(c => c.FromFactory(
                 new MethodInvoker(
                 new GreedyConstructorQuery())));
@@ -115,7 +115,7 @@ namespace Ipme.WikiBeer.API.Tests
             var guid = beerEntityToFind.Id;
             BeerRepository.Setup(repo => repo.GetById(It.IsAny<Guid>())).Returns(beerEntityToFind);
             var beerDtoToFind = _mapper.Map<BeerDto>(beerEntityToFind);
-            
+
             //Act
             var result = BeersController.Get(guid);
 
@@ -185,7 +185,7 @@ namespace Ipme.WikiBeer.API.Tests
         public void Test_Post_ServerError500()
         {
             //Arrange
-            var new_beerDto = _fixture.Create<BeerDto>();            
+            var new_beerDto = _fixture.Create<BeerDto>();
             BeerRepository.Setup(repo => repo.Create(It.IsAny<BeerEntity>())).Throws(new Exception());
 
             //Act
@@ -203,10 +203,10 @@ namespace Ipme.WikiBeer.API.Tests
             // Arrange 
             var new_beerDto = _fixture.Create<BeerDto>();
             var new_beerEntity = _mapper.Map<BeerEntity>(new_beerDto);
-            BeerRepository.Setup(repo => repo.UpdateById(It.IsAny<Guid>(),It.IsAny<BeerEntity>())).Returns(new_beerEntity);
+            BeerRepository.Setup(repo => repo.UpdateById(It.IsAny<Guid>(), It.IsAny<BeerEntity>())).Returns(new_beerEntity);
 
             // Action 
-            var result = BeersController.Put(Guid.NewGuid(),new_beerDto);
+            var result = BeersController.Put(Guid.NewGuid(), new_beerDto);
 
             // Assert (Status Code)
             var okResult = result as OkResult;

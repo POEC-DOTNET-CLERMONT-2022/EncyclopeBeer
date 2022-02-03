@@ -10,8 +10,8 @@
              >
     <Grid DataContext="{Binding ., ElementName=root}">
         <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-            <StackPanel Margin="2" CanHorizontallyScroll="True">
-                <ListBox ItemsSource="{Binding BeersList.Beers}" SelectedItem="{Binding BeersList.CurrentBeer}" x:Name="ListBeers">
+            <StackPanel Margin="2" CanVerticallyScroll="True">
+                <ListBox ItemsSource="{Binding BeersList.List}" SelectedItem="{Binding BeersList.Current}" x:Name="ListBeers">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">

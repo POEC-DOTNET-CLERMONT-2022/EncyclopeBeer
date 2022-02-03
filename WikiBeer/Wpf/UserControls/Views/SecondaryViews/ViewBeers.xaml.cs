@@ -14,24 +14,38 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     public partial class ViewBeers : UserControl
     {
         private IDataManager<BeerModel, BeerDto> _beerDataManager = ((App)Application.Current).BeerDataManager;
+        private IDataManager<BreweryModel, BreweryDto> _breweryDataManager = ((App)Application.Current).BreweryDataManager;
+        private IDataManager<BeerColorModel, BeerColorDto> _colorDataManager = ((App)Application.Current).ColorDataManager;
+        private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
 
-        public BeersListModel BeersListModel { get; set; } 
+        public GenericListModel<BeerModel> Beers { get; } 
+        public GenericListModel<BreweryModel> Breweries { get; }
+        public GenericListModel<BeerStyleModel> Styles { get; } 
+        public GenericListModel<BeerColorModel> Colors { get; }
 
         public ViewBeers()
         {
-            BeersListModel = new BeersListModel();
+            Beers = new GenericListModel<BeerModel>();
+            Breweries = new GenericListModel<BreweryModel>();
             InitializeComponent();
         }
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadBeers();
+            await LoadBreweries();
         }
 
         public async Task LoadBeers()
         {
-            var beerModels = await _beerDataManager.GetAll();
-            BeersListModel.Beers = new ObservableCollection<BeerModel>(beerModels);
+            var beers = await _beerDataManager.GetAll();
+            Beers.List = new ObservableCollection<BeerModel>(beers);
+        }
+
+        public async Task LoadBreweries()
+        {
+            var breweries = await _breweryDataManager.GetAll();
+            Breweries.List = new ObservableCollection<BreweryModel>(breweries);
         }
     }
 }
