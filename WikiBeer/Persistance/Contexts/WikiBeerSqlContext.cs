@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 /// voir : https://docs.microsoft.com/fr-fr/ef/core/querying/related-data/eager
 /// Sur les potentiel bug d'automapper concernant les références circulaire
 /// https://docs.microsoft.com/fr-fr/ef/core/querying/related-data/serialization
+/// Pour implémenter la barre de recherche voir les query filter 
+/// https://docs.microsoft.com/en-us/ef/core/querying/filters
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Contexts
 {

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace TestWindowsDriver
 {
     [TestClass]
-    internal class WPFTest : TestSession
+    public class WPFTest : TestSession
     {
         /// <summary>
         /// A l'ouverture de l'appli
