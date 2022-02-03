@@ -51,10 +51,10 @@ countryList.Add(ecosse);
 
 //Ajout des countries en base
 //countryList.ForEach(country => await countryManager.Add(country));
-foreach(var country in countryList)
-{
-    await countryManager.Add(country);
-}
+//foreach(var country in countryList)
+//{
+//    await countryManager.Add(country);
+//}
 
 //Récupération
 var bddcountry = await countryManager.GetAll();
@@ -74,7 +74,7 @@ breweryList.Add(brewdog);
 breweryList.Add(linderman);
 
 ////Ajout des breweries en base
-breweryList.ForEach(async brewery => await breweryManager.Add(brewery));
+//breweryList.ForEach(async brewery => await breweryManager.Add(brewery));
 
 //Récupération
 var bddCountry = await breweryManager.GetAll();
@@ -96,7 +96,7 @@ colorList.Add(blanche);
 colorList.Add(fruitee);
 
 ////Ajout des colors en base
-colorList.ForEach(async color => await colorManager.Add(color));
+//colorList.ForEach(async color => await colorManager.Add(color));
 
 //Récupération
 var bddColor = await colorManager.GetAll();
@@ -124,7 +124,7 @@ styleList.Add(lambic);
 styleList.Add(ipa);
 
 ////Ajout des styles en base
-styleList.ForEach(async style => await styleManager.Add(style));
+//styleList.ForEach(async style => await styleManager.Add(style));
 
 //Récupération
 var bddStyle = await styleManager.GetAll();
