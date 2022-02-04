@@ -18,6 +18,9 @@ using System.Threading.Tasks;
 /// TODO voir les Activator : 
 /// voir : https://docs.microsoft.com/en-us/dotnet/api/system.activator?view=net-6.0
 /// TODO : enelver définitivement le new et compléter IEntity par une BaseEntity (avec constructeur internal)
+/// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
+/// entier n'est pas chargé)
+/// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -90,6 +93,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
         /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
         ///  -> pasque c'est la merde coté controller!
+        /// En fait on est obligé de faire un getById car on doit récupérer les
+        /// dépendances pour faire la suppression des relations optionneles
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -103,7 +108,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
             Context.Set<T>().Attach(entity);
             Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
-            
+            Context.Attach(entity);
+            Context.Remove(entity);
             return Context.SaveChanges() >= 1;
         }
     }
