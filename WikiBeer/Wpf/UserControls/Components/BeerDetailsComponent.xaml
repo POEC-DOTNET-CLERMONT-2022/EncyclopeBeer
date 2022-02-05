@@ -7,7 +7,7 @@
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="600" d:DesignWidth="800">
     <Border DataContext="{Binding ., ElementName=root}" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-        <Grid DataContext="{Binding Beers.ToModify}">
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -28,47 +28,33 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Name" FontWeight="Bold"/>
-                        <TextBox Text="{Binding Name ,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Text="{Binding BeerToModify.Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Brewery" FontWeight="Bold"/>
-                        <ComboBox Name="BreweryComboBox"
-                                  VerticalAlignment="Top"  
-                                  IsEditable="True" StaysOpenOnEdit="True" 
-                                  TextBoxBase.TextChanged="BreweryComboBox_TextChanged" 
-                                  SelectionChanged="BreweryComboBox_SelectionChanged"
-                                  SelectedItem="{Binding Brewery.Name ,UpdateSourceTrigger=PropertyChanged}">
-                            <ListBox DataContext="{Binding Breweries.List}" ItemsSource="{Binding .}">
-                                <ComboBoxItem>Choice</ComboBoxItem>
-                            </ListBox>
+                        <ComboBox x:Name="ComboBoxBreweries"
+                                  ItemsSource="{Binding Breweries.List}"
+                                  Text="{Binding BeerToModify.Brewery.Name}"
+                                  DisplayMemberPath="Name"
+                                  IsEditable="True">
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Style" FontWeight="Bold"/>
-                        <ComboBox TextBoxBase.TextChanged="StyleComboBox_TextChanged"  
-                                  VerticalAlignment="Top" Name="StyleComboBox" 
-                                  IsEditable="True" StaysOpenOnEdit="True" 
-                                  SelectionChanged="StyleComboBox_SelectionChanged"
-                                  SelectedItem="{Binding Style.Name, UpdateSourceTrigger=PropertyChanged}">
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
+                        <ComboBox Name="StyleComboBox" 
+                                  ItemsSource="{Binding Styles.List}"
+                                  Text="{Binding BeerToModify.Style.Name}"
+                                  DisplayMemberPath="Name"
+                                  IsEditable="True" StaysOpenOnEdit="True" >
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Color" FontWeight="Bold"/>
                         <ComboBox Name="ColorComboBox"
-                                  VerticalAlignment="Top"  
-                                  IsEditable="True" StaysOpenOnEdit="True" 
-                                  TextBoxBase.TextChanged="ColorComboBox_TextChanged" 
-                                  SelectionChanged="ColorComboBox_SelectionChanged"
-                                  SelectedItem="{Binding Color, UpdateSourceTrigger=PropertyChanged}"
-                            >
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
+                                  ItemsSource="{Binding Colors.List}"
+                                  Text="{Binding BeerToModify.Color.Name}"
+                                  DisplayMemberPath="Name"
+                                  IsEditable="True" StaysOpenOnEdit="True" >
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="4" Margin="10,0" VerticalAlignment="Center">
@@ -85,11 +71,11 @@
                     </Grid.RowDefinitions>
                     <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="Degree (ABV) " FontWeight="Bold"/>
-                        <TextBox Text="{Binding Degree ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding BeerToModify.Degree ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="IBU" FontWeight="Bold"/>
-                        <TextBox Text="{Binding Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding BeerToModify.Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Ingredients" FontWeight="Bold"/>
@@ -98,8 +84,7 @@
                                   IsEditable="True" 
                                   StaysOpenOnEdit="True" 
                                   TextBoxBase.TextChanged="IngredientsComboBox_TextChanged" 
-                                  SelectionChanged="IngredientsComboBox_SelectionChanged"
-                            >
+                                  SelectionChanged="IngredientsComboBox_SelectionChanged">
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
@@ -125,7 +110,7 @@
                 <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 <TextBox Grid.Row="1"  
                          Margin="10,0,10,20" 
-                         Text="{Binding Description ,UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding ToModify.Description ,UpdateSourceTrigger=PropertyChanged}" 
                          HorizontalAlignment="Stretch" 
                          VerticalAlignment="Stretch" 
                          VerticalScrollBarVisibility="Auto" 

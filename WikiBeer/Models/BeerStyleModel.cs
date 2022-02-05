@@ -24,7 +24,7 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private string _description;
+        private string? _description;
         public string Description 
         {
             get { return _description; }
@@ -38,11 +38,11 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public BeerStyleModel(string name, string description) : this(Guid.Empty, name, description)
+        public BeerStyleModel(string name, string? description) : this(Guid.Empty, name, description)
         {
         }
 
-        public BeerStyleModel(Guid id, string name, string description)
+        public BeerStyleModel(Guid id, string name, string? description)
         {
             Id = id;
             Name = name;

@@ -9,19 +9,19 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class ListComponent : UserControl
     {
-        public static readonly DependencyProperty BeersListProperty =
-            DependencyProperty.Register("BeersList", typeof(GenericListModel<BeerModel>), typeof(ListComponent));
+        public static readonly DependencyProperty DataListProperty =
+            DependencyProperty.Register("DataList", typeof(GenericListModel<ObservableObject>), typeof(ListComponent));
 
         // La DepencyProperty renvoie forcément une property qui est Observable
         // par construction donc ce n'est pas la peine de lui affecter IObservable
-        public GenericListModel<BeerModel> BeersList
+        public GenericListModel<ObservableObject> DataList
         {
-            get { return GetValue(BeersListProperty) as GenericListModel<BeerModel>; }
+            get { return GetValue(DataListProperty) as GenericListModel<ObservableObject>; }
             set
             { 
                 if(value != null)
                 {
-                    SetValue(BeersListProperty, value);
+                    SetValue(DataListProperty, value);
                 }
             }
         }

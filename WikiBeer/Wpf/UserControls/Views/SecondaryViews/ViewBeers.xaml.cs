@@ -18,15 +18,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         private IDataManager<BeerColorModel, BeerColorDto> _colorDataManager = ((App)Application.Current).ColorDataManager;
         private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
 
-        public GenericListModel<BeerModel> Beers { get; } 
-        public GenericListModel<BreweryModel> Breweries { get; }
-        public GenericListModel<BeerStyleModel> Styles { get; } 
-        public GenericListModel<BeerColorModel> Colors { get; }
+        public IGenericListModel<BeerModel> Beers { get; } 
+        public IGenericListModel<BreweryModel> Breweries { get; }
+        public IGenericListModel<BeerStyleModel> Styles { get; }
+        public IGenericListModel<BeerColorModel> Colors { get; }
 
         public ViewBeers()
         {
             Beers = new GenericListModel<BeerModel>();
             Breweries = new GenericListModel<BreweryModel>();
+            Styles = new GenericListModel<BeerStyleModel>();
+            Colors = new GenericListModel<BeerColorModel>();
             InitializeComponent();
         }
 
@@ -34,6 +36,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             await LoadBeers();
             await LoadBreweries();
+            await LoadStyles();
+            await LoadColors();
         }
 
         public async Task LoadBeers()
@@ -47,5 +51,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             var breweries = await _breweryDataManager.GetAll();
             Breweries.List = new ObservableCollection<BreweryModel>(breweries);
         }
+        public async Task LoadStyles()
+        {
+            var styles = await _styleDataManager.GetAll();
+            Styles.List = new ObservableCollection<BeerStyleModel>(styles);
+        }
+
+        public async Task LoadColors()
+        {
+            var colors = await _colorDataManager.GetAll();
+            Colors.List = new ObservableCollection<BeerColorModel>(colors);
+        }
+
     }
 }

@@ -10,17 +10,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     public partial class BeerDetailsComponent : UserControl
     {
         
-        public static readonly DependencyProperty BeersProperty =
-            DependencyProperty.Register("Beers", typeof(GenericListModel<BeerModel>), typeof(BeerDetailsComponent));
+        public static readonly DependencyProperty BeerToModifyProperty =
+            DependencyProperty.Register("BeerToModify", typeof(BeerModel), typeof(BeerDetailsComponent));
 
-        public GenericListModel<BeerModel> Beers
+        public BeerModel BeerToModify
         {
-            get { return GetValue(BeersProperty) as GenericListModel<BeerModel>; }
+            get { return GetValue(BeerToModifyProperty) as BeerModel; }
             set 
             { 
                 if(value != null)
                 {
-                    SetValue(BeersProperty, value);
+                    SetValue(BeerToModifyProperty, value);
                 }
             }
         }
@@ -36,7 +36,37 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
                 if(value != null)
                 {
                     SetValue(BreweriesProperty, value);
-                } 
+                }
+            }
+        }
+
+        public static readonly DependencyProperty StylesProperty =
+            DependencyProperty.Register("Styles", typeof(GenericListModel<BeerStyleModel>), typeof(BeerDetailsComponent));
+
+        public GenericListModel<BeerStyleModel> Styles
+        {
+            get { return GetValue(StylesProperty) as GenericListModel<BeerStyleModel>; }
+            set
+            {
+                if (value != null)
+                {
+                    SetValue(StylesProperty, value);
+                }
+            }
+        }
+
+        public static readonly DependencyProperty ColorsProperty =
+           DependencyProperty.Register("Colors", typeof(GenericListModel<BeerColorModel>), typeof(BeerDetailsComponent));
+
+        public GenericListModel<BeerColorModel> Colors
+        {
+            get { return GetValue(ColorsProperty) as GenericListModel<BeerColorModel>; }
+            set
+            {
+                if (value != null)
+                {
+                    SetValue(ColorsProperty, value);
+                }
             }
         }
 

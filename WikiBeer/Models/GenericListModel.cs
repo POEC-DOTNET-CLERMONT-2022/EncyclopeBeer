@@ -32,7 +32,10 @@ namespace Ipme.WikiBeer.Models
                 {
                     _current = value;
                     OnNotifyPropertyChanged();
-                    T ToModify = (T)Activator.CreateInstance(typeof(T), Current);
+                    if(_current != null)
+                    {
+                        ToModify = (T)Activator.CreateInstance(typeof(T), Current);
+                    }
                 }
             }
         }
