@@ -83,8 +83,7 @@
                                   VerticalAlignment="Top"  
                                   IsEditable="True" 
                                   StaysOpenOnEdit="True" 
-                                  TextBoxBase.TextChanged="IngredientsComboBox_TextChanged" 
-                                  SelectionChanged="IngredientsComboBox_SelectionChanged">
+                                  >
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
                             <ComboBoxItem>Choice</ComboBoxItem>
@@ -110,7 +109,7 @@
                 <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 <TextBox Grid.Row="1"  
                          Margin="10,0,10,20" 
-                         Text="{Binding ToModify.Description ,UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding BeerToModify.Description ,UpdateSourceTrigger=PropertyChanged}" 
                          HorizontalAlignment="Stretch" 
                          VerticalAlignment="Stretch" 
                          VerticalScrollBarVisibility="Auto" 

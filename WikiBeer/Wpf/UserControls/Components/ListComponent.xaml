@@ -54,10 +54,12 @@
         </DataTemplate>
 
     </UserControl.Resources>
+    
     <Grid DataContext="{Binding ., ElementName=root}">
+        
         <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
             <StackPanel Margin="2" CanVerticallyScroll="True">
-                <ListBox ItemsSource="{Binding DataList}" SelectedItem="{Binding List}" x:Name="List"/>
+                <ListBox ItemsSource="{Binding DataList.List}" SelectedItem="{Binding DataList.Current}" x:Name="List"/>
             </StackPanel>
         </Border>
        

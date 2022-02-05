@@ -72,7 +72,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         {
             Navigator.RegisterView(new ViewStats());
             Navigator.RegisterView(new ViewBeers());
-            Navigator.RegisterView(new ViewBreweries());
+            //Navigator.RegisterView(new ViewBreweries());
             Navigator.RegisterView(new ViewColors());
             Navigator.RegisterView(new ViewStyles());
             Navigator.RegisterView(new ViewIngredients());

@@ -33,6 +33,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             await LoadBreweries();
             await LoadBeers();
+            await LoadCountry();
         }
 
         public async Task LoadBreweries()
