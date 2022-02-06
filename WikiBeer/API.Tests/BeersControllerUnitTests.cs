@@ -203,7 +203,7 @@ namespace Ipme.WikiBeer.API.Tests
             // Arrange 
             var new_beerDto = _fixture.Create<BeerDto>();
             var new_beerEntity = _mapper.Map<BeerEntity>(new_beerDto);
-            BeerRepository.Setup(repo => repo.UpdateById(It.IsAny<Guid>(),It.IsAny<BeerEntity>())).Returns(new_beerEntity);
+            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Returns(new_beerEntity);
 
             // Action 
             var result = BeersController.Put(Guid.NewGuid(),new_beerDto);
@@ -219,7 +219,7 @@ namespace Ipme.WikiBeer.API.Tests
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();
-            BeerRepository.Setup(repo => repo.UpdateById(It.IsAny<Guid>(), It.IsAny<BeerEntity>())).Returns((BeerEntity?)null);
+            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Returns((BeerEntity?)null);
 
             //Act
             var result = BeersController.Put(Guid.NewGuid(), new_beerDto);
@@ -235,7 +235,7 @@ namespace Ipme.WikiBeer.API.Tests
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();
-            BeerRepository.Setup(repo => repo.UpdateById(It.IsAny<Guid>(), It.IsAny<BeerEntity>())).Throws(new Exception());
+            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Throws(new Exception());
 
             //Act
             var result = BeersController.Put(Guid.NewGuid(), new_beerDto);

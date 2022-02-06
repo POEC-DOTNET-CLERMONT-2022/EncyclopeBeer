@@ -63,6 +63,6 @@ namespace Ipme.WikiBeer.Models.Ingredients
         //    return this.MemberwiseClone();
         //}
 
-        public abstract IngredientModel Clone();
+        public abstract Object Clone();
     }
 }

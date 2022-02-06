@@ -166,9 +166,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
 
             #region Configuration relations
-            typeBuilder.Navigation(c => c.Breweries).AutoInclude();
-            //typeBuilder.HasMany(c => c.Breweries).WithOne(br => br.Country);
-            //typeBuilder.Navigation(c => c.Breweries).AutoInclude();
+            typeBuilder.Navigation(c => c.Breweries).AutoInclude();            
             #endregion
         }
 
@@ -215,10 +213,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
         public override DbSet<TEntity> Set<TEntity>()
         {
-            ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes version d'EF (5 et moins)
-            //ChangeTracker.AutoDetectChangesEnabled = false; // a gratter et à changer
-            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking; // également
-
+            ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes version d'EF (5 et moins)            
             return base.Set<TEntity>();
         }
 
