@@ -10,7 +10,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     public partial class BreweryDetailsComponent : UserControl
     {
         public static readonly DependencyProperty BreweryToModifyProperty =
-                    DependencyProperty.Register("BreweryToModify", typeof(BreweryModel), typeof(BeerDetailsComponent));
+                    DependencyProperty.Register("BreweryToModify", typeof(BreweryModel), typeof(BreweryDetailsComponent));
 
         public BreweryModel BreweryToModify
         {
@@ -25,7 +25,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         }
 
         public static readonly DependencyProperty CountriesProperty =
-            DependencyProperty.Register("Countries", typeof(GenericListModel<CountryModel>), typeof(BeerDetailsComponent));
+            DependencyProperty.Register("Countries", typeof(GenericListModel<CountryModel>), typeof(BreweryDetailsComponent));
 
         public GenericListModel<CountryModel> Countries
         {

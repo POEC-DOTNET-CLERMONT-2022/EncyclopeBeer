@@ -83,5 +83,10 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         {
 
         }
+
+        private void StyleComboBox_SelectionChanged()
+        {
+
+        }
     }
 }

@@ -3,8 +3,10 @@ using Ipme.WikiBeer.ApiDatas;
 using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Wpf.Test;
 using Ipme.WikiBeer.Wpf.UserControls.Views;
 using Ipme.WikiBeer.Wpf.Utilities;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
 
@@ -48,6 +50,16 @@ namespace Ipme.WikiBeer.Wpf
             // Définition des deux vues principales
             Navigator.RegisterView(new ViewLogin());
             Navigator.RegisterView(new ViewHome());
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+
+            base.OnStartup(e);
+
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
+
         }
     }
 }
