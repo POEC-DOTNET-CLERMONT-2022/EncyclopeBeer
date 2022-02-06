@@ -177,10 +177,13 @@ updatedBeer.Style = bddStyles.ToList()[0];
 beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
 updatedBeer.Name = "A nouveau modifée";
 updatedBeer.Ingredients.RemoveAt(0);
+beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
+var newUpdatedBeer = await beerManager.GetById(updatedBeer.Id);
 var updatedStyle = updatedBeer.Style;
 updatedStyle.Description = "Un gout fumé";
 styleManager.Update(updatedBeer.Style.Id, updatedStyle).Wait();
 styleManager.DeleteById(updatedStyle.Id).Wait();
+
 #endregion
 
 

@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity//, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
         private DbContext Context { get; } 
 
@@ -35,17 +35,21 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        /// <summary>
-        /// TODO : check les id des contenues, s'occuper de ceux ci (vérifier leur existance ou non [via Get] pour les 
-        /// ramener dans le Context) avant de s'occuper avant de s'occuper du contenant puis en dernier faire le Add sur le contenant.
-        /// </summary>
-        /// <param name="entityToCreate"></param>
-        /// <returns></returns>
         public virtual T Create(T entityToCreate)
         {
-            T entity = Context.Attach(entityToCreate).Entity;
+            var newEntry = Context.Attach(entityToCreate);
+            
+            var entries = Context.ChangeTracker.Entries().ToList();
+            entries.Remove(newEntry);
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                    throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
+                        $"d'un composé n'est pas authorisée. (composé : {entityToCreate})"); 
+            }
+
             Context.SaveChanges(); 
-            return entity;
+            return newEntry.Entity;
         }
 
         public virtual IEnumerable<T> GetAll()
@@ -53,60 +57,30 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return Context.Set<T>().ToList();
         }
 
-        /// <summary>
-        /// TODO : remplacer définitivement par un find (qui renvoie également un null si non trouvé
-        /// mais pas si il en trouve plusieurs)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public virtual T? GetById(Guid id)
         {
-            return Context.Set<T>().Find(id); // attention le find Attachge l'entité au contexte ce qui peut poser problème
-            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id); // semble faire apreil magrès tt...
+            return Context.Set<T>().Find(id);       
         }
 
-        /// <summary>
-        /// Update par remplacement (avec transfert de Guid)
-        /// TODO : à remplacer par un update simple
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public virtual T? UpdateById(Guid id, T entity)
+        public virtual T? Update(T entity)
         {
             var updatedEntry = Context.Attach(entity); 
             if (updatedEntry.State == EntityState.Added)
-                return null; // ressource non trouvé
+                return null; // ressource non trouvé car marqué Added
 
             updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
 
             // Pour test des effets de bords
-            //var entries = Context.ChangeTracker.Entries().ToList();
-            //entries.Remove(updatedEntry);
-            //foreach(var entry in entries)
-            //{
-            //    if (entry.State == EntityState.Added || entity.State == EntityState.Modified)
-            //        throw UpdateBorderEffectException; // modifications non voulue
-            //}
+            var entries = Context.ChangeTracker.Entries().ToList();
+            entries.Remove(updatedEntry);
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                    throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
+                        $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
+            }
             Context.SaveChanges();            
             return updatedEntry.Entity;
-        }
-
-
-        public virtual T? Update(T entity)
-        {
-            //T? entityToUpdate = GetById(entity.Id);
-            //if (entityToUpdate == null)
-            //    return null;
-
-            //Context.Entry(entityToUpdate).CurrentValues
-
-
-            var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
-                                                              // mais ici comme on fait un Get avant 
-            Context.SaveChanges();
-
-            return updatedEntity;
         }
 
         /// <summary>
@@ -114,23 +88,19 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
         ///  -> pasque c'est la merde coté controller!
         /// En fait on est obligé de faire un getById car on doit récupérer les
-        /// dépendances pour faire la suppression propre des relations optionneles
+        /// dépendances pour faire la suppression propre des relations optionnelles
+        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public virtual bool? DeleteById(Guid id)
         {
-
             T? entity = GetById(id);
             if (entity == null)
                 return null;
-            // Il faut passer par un activator pour faire ce genre de chose
-            //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
-            //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
-            //Context.Set<T>().Attach(entity);
-            //Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
-            //Context.Attach(entity);
+  
             Context.Remove(entity);
+
             return Context.SaveChanges() >= 1;
         }
     }

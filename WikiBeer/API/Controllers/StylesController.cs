@@ -90,7 +90,7 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var styleEntity = _mapper.Map<BeerStyleEntity>(styleDto);
-                var updatedStyleEntity = _ddbRepository.UpdateById(id, styleEntity);
+                var updatedStyleEntity = _ddbRepository.Update(styleEntity);
                 if (updatedStyleEntity == null)
                     return NotFound();
                 return Ok();
