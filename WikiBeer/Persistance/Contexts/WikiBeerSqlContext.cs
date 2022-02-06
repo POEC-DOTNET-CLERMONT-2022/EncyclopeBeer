@@ -119,7 +119,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Beer
             typeBuilder.Navigation(br => br.Beers).AutoInclude();
             // Country 
-            typeBuilder.HasOne(br => br.Country).WithMany();// WithMany(c => c.Breweries);
+            typeBuilder.HasOne(br => br.Country).WithMany(c => c.Breweries);// WithMany(c => c.Breweries);
             typeBuilder.Navigation(br => br.Country).AutoInclude();
             #endregion
         }

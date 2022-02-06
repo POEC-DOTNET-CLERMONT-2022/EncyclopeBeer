@@ -4,6 +4,7 @@ using Ipme.WikiBeer.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    partial class WikiBeerSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220206131643_tt1")]
+    partial class tt1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,6 +129,9 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("BreweryId");
 
+                    b.Property<Guid?>("CountryEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -142,6 +147,8 @@ namespace Ipme.WikiBeer.Persistance.Migrations
 
                     b.HasKey("Id")
                         .HasName("BreweryId");
+
+                    b.HasIndex("CountryEntityId");
 
                     b.HasIndex("CountryId");
 
@@ -266,8 +273,12 @@ namespace Ipme.WikiBeer.Persistance.Migrations
 
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BreweryEntity", b =>
                 {
-                    b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
+                    b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", null)
                         .WithMany("Breweries")
+                        .HasForeignKey("CountryEntityId");
+
+                    b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
+                        .WithMany()
                         .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
