@@ -43,8 +43,6 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual T Create(T entityToCreate)
         {
-            //b18de927-2251-4c2b-198d-08d9e560afa1
-            //T entity = Context.Set<T>().Add(entityToCreate).Entity;
             T entity = Context.Attach(entityToCreate).Entity;
             Context.SaveChanges(); 
             return entity;
@@ -63,8 +61,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual T? GetById(Guid id)
         {
-            //return Context.Set<T>().Find(id); // attention le find Attachge l'entité au contexte ce qui peut poser problème
-            return Context.Set<T>().SingleOrDefault(entity => entity.Id == id); // semble faire apreil magrès tt...
+            return Context.Set<T>().Find(id); // attention le find Attachge l'entité au contexte ce qui peut poser problème
+            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id); // semble faire apreil magrès tt...
         }
 
         /// <summary>
@@ -76,10 +74,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual T? UpdateById(Guid id, T entity)
         {
-            //T? entityToUpdate = GetById(id);            
-            //if (entityToUpdate == null)
-            //    return null;            
-            var updatedEntry = Context.Attach(entity); // track et mets tt les sous entitées dans l'état Unchanged (jette une nulle Exception si null)
+            var updatedEntry = Context.Attach(entity); 
             if (updatedEntry.State == EntityState.Added)
                 return null; // ressource non trouvé
 
@@ -95,102 +90,6 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             //}
             Context.SaveChanges();            
             return updatedEntry.Entity;
-
-            //return entityToUpdate;
-
-            //var updatedEntity = Context.Update(entity).Entity; // si l'on track la bière comme sa alors tt sera mis ss forme de Added!
-            //var updatedEntity = Context.Attach(entity).Entity;
-
-            //var updatedEntry = Context.Update(entity);
-            //var allEntries = Context.ChangeTracker.Entries();
-            ////var entityEntry = Context.Entry(entity);
-            //updatedEntry.State = EntityState.Modified;
-            //PropertyInfo[] props = entity.GetType().GetProperties();
-            //PropertyInfo[] entityToUpdateInfos = entityToUpdate.GetType().GetProperties();
-            // changement de tt les propriété par réflexion
-            //foreach (var prop in props)
-            //{
-            //    prop.SetValue(entityToUpdate,prop.GetValue(entity),null);               
-            //}
-
-            //Context.ChangeTracker.DetectChanges();
-
-
-            //var entityEntry = Context.Entry(entity);
-            //var entityToUpdateEntry = Context.Entry(entityToUpdate);
-
-            //var propEntityEntry = entityEntry.Properties;
-            //var propEntityToUpdateEntry = entityToUpdateEntry.Properties;
-
-            //var navEntityEntry = entityEntry.Navigations;
-            //var navEntityToUpdateEntry = entityToUpdateEntry.Navigations;
-
-            //var memberEntityEntry = entityEntry.Members.ToList();
-            //var memberEntityToUpdateEntry = entityToUpdateEntry.Members;
-
-            ////var colEntityEntry = entityEntry.Collection;
-            ////var colEntityToUpdateEntry = entityToUpdateEntry.Collection;
-            ////var i = 0;
-            ////foreach(var member in memberEntityToUpdateEntry)
-            ////{
-            ////    member.CurrentValue = memberEntityEntry[i].CurrentValue;
-            ////    i++;
-            ////}
-
-            //Context.ChangeTracker.DetectChanges();
-
-            //var valuesEntity = entityEntry.CurrentValues;
-            //var valuesEntityToUpdate = entityToUpdateEntry.CurrentValues;
-
-            //entityToUpdateEntry.CurrentValues.SetValues(valuesEntity);
-            //Context.ChangeTracker.DetectChanges();
-            //////navEntityToUpdateEntry = navEntityEntry;
-            //////Context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
-            ////////var tt = Context.Entry(entity);
-            ////////Context.Entry(updatedEntity).CurrentValues.SetValues(entity);
-            ////////var tt = Context.Entry(entityToUpdate);
-            //foreach (var navObj in navEntityEntry)
-            //{
-            //    foreach (var navExist in navEntityToUpdateEntry)
-            //    {
-            //        var nameExist = navExist.Metadata.Name;
-            //        var nameObj = navObj.Metadata.Name;
-            //        if (navObj.Metadata.Name == navExist.Metadata.Name)
-            //        {
-            //            if (navObj.CurrentValue != navExist.CurrentValue)
-            //                navExist.CurrentValue = navObj.CurrentValue;
-            //        }
-            //    }
-            //}
-
-            //entityToUpdate = entity;
-            //Context.ChangeTracker.DetectChanges();
-
-            //var properties = Context.Entry(entityToUpdate).Properties;
-
-            //foreach (var property in properties)
-            //{
-            //    var x = property.CurrentValue;
-            //}
-
-
-            //Context.SaveChanges();
-
-            ////return entityToUpdate;
-            //return entity;
-            //T? entityToUpdate = GetById(id);
-            //if (entityToUpdate == null)
-            //    return null;
-
-
-            ////var tt = new T() { Id = id };
-            //entity.Id = entityToUpdate.Id;
-
-            //var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
-            //                                                  // mais ici comme on fait un Get avant 
-            //Context.SaveChanges();
-
-            //return updatedEntity;
         }
 
 
