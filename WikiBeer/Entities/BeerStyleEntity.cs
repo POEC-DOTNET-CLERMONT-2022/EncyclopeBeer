@@ -10,15 +10,16 @@
 
         public IEnumerable<BeerEntity>? Beers { get; private set; } 
 
-        public BeerStyleEntity()
-        {
-        }
-
-        public BeerStyleEntity(Guid id, string name, string description, IEnumerable<BeerEntity>? beers)
+        private BeerStyleEntity(Guid id, string name, string description)
         {
             Id = id;
             Name = name;
-            Description = description;            
+            Description = description;
+        }
+
+        public BeerStyleEntity(Guid id, string name, string description, IEnumerable<BeerEntity>? beers)
+            : this(id, name, description)
+        {                
             Beers = beers;
         }
     }

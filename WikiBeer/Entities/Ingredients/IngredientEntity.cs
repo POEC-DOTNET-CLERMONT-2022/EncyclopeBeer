@@ -16,15 +16,16 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 
         public IEnumerable<BeerEntity>? Beers { get; protected set; } // nécessaire pour la table d'association
 
-        protected IngredientEntity()
-        {
-        }
-
-        protected IngredientEntity(Guid id, string name, string description, IEnumerable<BeerEntity>? beers)
+        protected IngredientEntity(Guid id, string name, string description)
         {
             Id = id;
             Name = name;
             Description = description;
+        }
+
+        public IngredientEntity(Guid id, string name, string description, IEnumerable<BeerEntity>? beers)
+            : this(id, name, description)
+        {            
             Beers = beers;
         }
     }
