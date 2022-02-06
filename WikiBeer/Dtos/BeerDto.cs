@@ -13,6 +13,7 @@ namespace Ipme.WikiBeer.Dtos
         public float? Ibu { get; set; }
         public float Degree { get; set; }
         public BreweryDto Brewery { get; set; }
+        public Guid StyleId { get; set; }
         public BeerStyleDto Style { get; set; }
         public BeerColorDto Color { get; set; }
         public IEnumerable<IngredientDto> Ingredients { get; set; }

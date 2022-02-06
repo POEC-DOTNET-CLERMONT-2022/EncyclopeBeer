@@ -97,11 +97,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto)
+        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto) // Guid à passer en FromQuerry???
         {
             try
             {
-                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
+                var beerEntity = _mapper.Map<BeerEntity>(beerDto); // automapper plante si la forme du Dto n'est pas bonne -> BadRequest
                 var updatedBeerEntity = _ddbRepository.UpdateById(id, beerEntity);
                 if (updatedBeerEntity == null)
                     return NotFound();
@@ -126,7 +126,7 @@ namespace Ipme.WikiBeer.API.Controllers
                     return NotFound();
                 // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
                 if (response == true) // si vrai le delete à fonctionné
-                    return Ok();
+                    return Ok(true);
                 // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
                 return StatusCode(500);
             }

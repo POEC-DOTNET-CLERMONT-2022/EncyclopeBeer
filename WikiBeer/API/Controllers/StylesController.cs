@@ -114,9 +114,9 @@ namespace Ipme.WikiBeer.API.Controllers
                     return NotFound();
                 // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
                 if (response == true) // si vrai le delete à fonctionné
-                    return Ok();
+                    return Ok(true);
                 // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
-                return StatusCode(500);
+                return StatusCode(304); // Not Modified
             }
             catch (Exception e)
             {

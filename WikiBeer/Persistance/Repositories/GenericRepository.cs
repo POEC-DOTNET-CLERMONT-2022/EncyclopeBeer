@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using System.Threading.Tasks;
 /// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
 /// entier n'est pas chargé)
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
+/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objest en base  
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -61,8 +63,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual T? GetById(Guid id)
         {
-            return Context.Set<T>().Find(id);
-            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
+            //return Context.Set<T>().Find(id); // attention le find Attachge l'entité au contexte ce qui peut poser problème
+            return Context.Set<T>().SingleOrDefault(entity => entity.Id == id); // semble faire apreil magrès tt...
         }
 
         /// <summary>
@@ -74,13 +76,132 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual T? UpdateById(Guid id, T entity)
         {
-            T? entityToUpdate = GetById(id);
-            if (entityToUpdate == null)
-                return null;
+            //T? entityToUpdate = GetById(id);            
+            //if (entityToUpdate == null)
+            //    return null;            
+            var updatedEntry = Context.Attach(entity); // track et mets tt les sous entitées dans l'état Unchanged (jette une nulle Exception si null)
+            if (updatedEntry.State == EntityState.Added)
+                return null; // ressource non trouvé
 
-            
-            //var tt = new T() { Id = id };
-            entity.Id = entityToUpdate.Id;
+            updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
+
+            // Pour test des effets de bords
+            //var entries = Context.ChangeTracker.Entries().ToList();
+            //entries.Remove(updatedEntry);
+            //foreach(var entry in entries)
+            //{
+            //    if (entry.State == EntityState.Added || entity.State == EntityState.Modified)
+            //        throw UpdateBorderEffectException; // modifications non voulue
+            //}
+            Context.SaveChanges();            
+            return updatedEntry.Entity;
+
+            //return entityToUpdate;
+
+            //var updatedEntity = Context.Update(entity).Entity; // si l'on track la bière comme sa alors tt sera mis ss forme de Added!
+            //var updatedEntity = Context.Attach(entity).Entity;
+
+            //var updatedEntry = Context.Update(entity);
+            //var allEntries = Context.ChangeTracker.Entries();
+            ////var entityEntry = Context.Entry(entity);
+            //updatedEntry.State = EntityState.Modified;
+            //PropertyInfo[] props = entity.GetType().GetProperties();
+            //PropertyInfo[] entityToUpdateInfos = entityToUpdate.GetType().GetProperties();
+            // changement de tt les propriété par réflexion
+            //foreach (var prop in props)
+            //{
+            //    prop.SetValue(entityToUpdate,prop.GetValue(entity),null);               
+            //}
+
+            //Context.ChangeTracker.DetectChanges();
+
+
+            //var entityEntry = Context.Entry(entity);
+            //var entityToUpdateEntry = Context.Entry(entityToUpdate);
+
+            //var propEntityEntry = entityEntry.Properties;
+            //var propEntityToUpdateEntry = entityToUpdateEntry.Properties;
+
+            //var navEntityEntry = entityEntry.Navigations;
+            //var navEntityToUpdateEntry = entityToUpdateEntry.Navigations;
+
+            //var memberEntityEntry = entityEntry.Members.ToList();
+            //var memberEntityToUpdateEntry = entityToUpdateEntry.Members;
+
+            ////var colEntityEntry = entityEntry.Collection;
+            ////var colEntityToUpdateEntry = entityToUpdateEntry.Collection;
+            ////var i = 0;
+            ////foreach(var member in memberEntityToUpdateEntry)
+            ////{
+            ////    member.CurrentValue = memberEntityEntry[i].CurrentValue;
+            ////    i++;
+            ////}
+
+            //Context.ChangeTracker.DetectChanges();
+
+            //var valuesEntity = entityEntry.CurrentValues;
+            //var valuesEntityToUpdate = entityToUpdateEntry.CurrentValues;
+
+            //entityToUpdateEntry.CurrentValues.SetValues(valuesEntity);
+            //Context.ChangeTracker.DetectChanges();
+            //////navEntityToUpdateEntry = navEntityEntry;
+            //////Context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+            ////////var tt = Context.Entry(entity);
+            ////////Context.Entry(updatedEntity).CurrentValues.SetValues(entity);
+            ////////var tt = Context.Entry(entityToUpdate);
+            //foreach (var navObj in navEntityEntry)
+            //{
+            //    foreach (var navExist in navEntityToUpdateEntry)
+            //    {
+            //        var nameExist = navExist.Metadata.Name;
+            //        var nameObj = navObj.Metadata.Name;
+            //        if (navObj.Metadata.Name == navExist.Metadata.Name)
+            //        {
+            //            if (navObj.CurrentValue != navExist.CurrentValue)
+            //                navExist.CurrentValue = navObj.CurrentValue;
+            //        }
+            //    }
+            //}
+
+            //entityToUpdate = entity;
+            //Context.ChangeTracker.DetectChanges();
+
+            //var properties = Context.Entry(entityToUpdate).Properties;
+
+            //foreach (var property in properties)
+            //{
+            //    var x = property.CurrentValue;
+            //}
+
+
+            //Context.SaveChanges();
+
+            ////return entityToUpdate;
+            //return entity;
+            //T? entityToUpdate = GetById(id);
+            //if (entityToUpdate == null)
+            //    return null;
+
+
+            ////var tt = new T() { Id = id };
+            //entity.Id = entityToUpdate.Id;
+
+            //var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
+            //                                                  // mais ici comme on fait un Get avant 
+            //Context.SaveChanges();
+
+            //return updatedEntity;
+        }
+
+
+        public virtual T? Update(T entity)
+        {
+            //T? entityToUpdate = GetById(entity.Id);
+            //if (entityToUpdate == null)
+            //    return null;
+
+            //Context.Entry(entityToUpdate).CurrentValues
+
 
             var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
                                                               // mais ici comme on fait un Get avant 
@@ -94,21 +215,22 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
         ///  -> pasque c'est la merde coté controller!
         /// En fait on est obligé de faire un getById car on doit récupérer les
-        /// dépendances pour faire la suppression des relations optionneles
+        /// dépendances pour faire la suppression propre des relations optionneles
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public virtual bool? DeleteById(Guid id)
         {
+
             T? entity = GetById(id);
             if (entity == null)
                 return null;
             // Il faut passer par un activator pour faire ce genre de chose
             //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
             //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
-            Context.Set<T>().Attach(entity);
-            Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
-            Context.Attach(entity);
+            //Context.Set<T>().Attach(entity);
+            //Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
+            //Context.Attach(entity);
             Context.Remove(entity);
             return Context.SaveChanges() >= 1;
         }

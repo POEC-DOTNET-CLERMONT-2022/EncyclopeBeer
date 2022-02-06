@@ -88,7 +88,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.HasOne(be => be.Brewery).WithMany();
             typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
-            typeBuilder.HasOne(be => be.Style).WithMany(s => s.Beers).IsRequired(false).OnDelete(DeleteBehavior.ClientSetNull);
+            typeBuilder.HasOne(be => be.Style).WithMany(s => s.Beers);
             typeBuilder.Navigation(be => be.Style).AutoInclude();
             // Color
             typeBuilder.HasOne(be => be.Color).WithMany();

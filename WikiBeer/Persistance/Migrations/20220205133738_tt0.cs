@@ -27,7 +27,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                 {
                     StyleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,9 +92,9 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                     Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
                     Ibu = table.Column<float>(type: "real", nullable: true),
                     Degree = table.Column<float>(type: "real", nullable: false),
-                    BreweryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StyleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ColorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BreweryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StyleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ColorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -103,20 +103,17 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         name: "FK_Beer_BeerColor_ColorId",
                         column: x => x.ColorId,
                         principalTable: "BeerColor",
-                        principalColumn: "ColorId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ColorId");
                     table.ForeignKey(
                         name: "FK_Beer_BeerStyle_StyleId",
                         column: x => x.StyleId,
                         principalTable: "BeerStyle",
-                        principalColumn: "StyleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StyleId");
                     table.ForeignKey(
                         name: "FK_Beer_Brewery_BreweryId",
                         column: x => x.BreweryId,
                         principalTable: "Brewery",
-                        principalColumn: "BreweryId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BreweryId");
                 });
 
             migrationBuilder.CreateTable(
