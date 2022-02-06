@@ -8,13 +8,13 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 {
     public abstract class IngredientEntity : IEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; protected set; }
 
-        public string Name { get; set; }
+        public string Name { get; protected set; }
 
-        public string Description { get; set; }
+        public string Description { get; protected set; }
 
-        public IEnumerable<BeerEntity>? Beers { get; set; } // nécessaire pour la table d'association
+        public IEnumerable<BeerEntity>? Beers { get; protected set; } // nécessaire pour la table d'association
 
         protected IngredientEntity()
         {

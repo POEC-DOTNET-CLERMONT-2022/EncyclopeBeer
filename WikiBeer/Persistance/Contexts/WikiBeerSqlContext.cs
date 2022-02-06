@@ -85,13 +85,13 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             
             #region Configuration relations
             // Brewery
-            typeBuilder.HasOne(be => be.Brewery).WithMany();
+            typeBuilder.HasOne(be => be.Brewery).WithMany(br => br.Beers);
             typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
             typeBuilder.HasOne(be => be.Style).WithMany(s => s.Beers);
             typeBuilder.Navigation(be => be.Style).AutoInclude();
             // Color
-            typeBuilder.HasOne(be => be.Color).WithMany();
+            typeBuilder.HasOne(be => be.Color).WithMany(c => c.Beers);
             typeBuilder.Navigation(be => be.Color).AutoInclude();
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
@@ -116,6 +116,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(br => br.Description).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
 
             #region Configuration relations
+            // Beer
+            typeBuilder.Navigation(br => br.Beers).AutoInclude();
             // Country 
             typeBuilder.HasOne(br => br.Country).WithMany();// WithMany(c => c.Breweries);
             typeBuilder.Navigation(br => br.Country).AutoInclude();
@@ -135,8 +137,6 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
             #region Configuration relations
             typeBuilder.Navigation(s => s.Beers).AutoInclude();
-            //typeBuilder.HasMany<BeerEntity>().WithOne(b => b.Style);
-            //typeBuilder.Navigation(be => be.Style).AutoInclude();
             #endregion
         }
 
@@ -149,8 +149,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
             // Configuration longueur des nvarchar 
             typeBuilder.Property(c => c.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
-            
+
             #region Configuration relations
+            typeBuilder.Navigation(s => s.Beers).AutoInclude();
             #endregion
         }
 
@@ -163,8 +164,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Id).HasColumnName(idName).ValueGeneratedOnAdd();
             // Configuration longueur des nvarchar 
             typeBuilder.Property(c => c.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
-            
+
             #region Configuration relations
+            typeBuilder.Navigation(c => c.Breweries).AutoInclude();
             //typeBuilder.HasMany(c => c.Breweries).WithOne(br => br.Country);
             //typeBuilder.Navigation(c => c.Breweries).AutoInclude();
             #endregion

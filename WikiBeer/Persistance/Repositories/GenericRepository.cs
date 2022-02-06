@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 /// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
 /// entier n'est pas chargé)
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
-/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objest en base  
+/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objet en base  
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -52,14 +52,28 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return newEntry.Entity;
         }
 
+        /// <summary>
+        /// TODO : rajouter la pagination
+        /// </summary>
+        /// <returns></returns>
         public virtual IEnumerable<T> GetAll()
         {
             return Context.Set<T>().ToList();
         }
 
+        public virtual IEnumerable<T> GetAllNoInclude()
+        {
+            return Context.Set<T>().IgnoreAutoIncludes().ToList();
+        }
+
         public virtual T? GetById(Guid id)
         {
             return Context.Set<T>().Find(id);       
+        }
+
+        public virtual T? GetByIdNoInclude(Guid id)
+        {
+            return Context.Set<T>().IgnoreAutoIncludes().SingleOrDefault(obj => obj.Id == id);
         }
 
         public virtual T? Update(T entity)
@@ -70,7 +84,6 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
 
-            // Pour test des effets de bords
             var entries = Context.ChangeTracker.Entries().ToList();
             entries.Remove(updatedEntry);
             foreach (var entry in entries)
@@ -89,7 +102,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         ///  -> pasque c'est la merde coté controller!
         /// En fait on est obligé de faire un getById car on doit récupérer les
         /// dépendances pour faire la suppression propre des relations optionnelles
-        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore)
+        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
+        /// uniquement)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

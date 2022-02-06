@@ -94,7 +94,7 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var colorEntity = _mapper.Map<BeerColorEntity>(colorDto);
-                var updatedColorEntity = _ddbRepository.UpdateById(id, colorEntity);
+                var updatedColorEntity = _ddbRepository.Update(colorEntity);
                 if (updatedColorEntity == null)
                     return NotFound();
                 return Ok();

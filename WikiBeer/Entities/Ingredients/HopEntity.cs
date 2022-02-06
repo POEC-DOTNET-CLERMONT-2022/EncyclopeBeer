@@ -8,13 +8,13 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 {
     public class HopEntity : IngredientEntity
     {
-        public float AlphaAcid { get; set; }
+        public float AlphaAcid { get; private set; }
 
         private HopEntity()
         {
         }
 
-        public HopEntity(Guid id, string name, string description, IEnumerable<BeerEntity> beers
+        public HopEntity(Guid id, string name, string description, IEnumerable<BeerEntity>? beers
             , float alphaAcid)
             : base(id, name, description, beers)
         {
