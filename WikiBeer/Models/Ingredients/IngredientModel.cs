@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Models.Ingredients
 {
-    public abstract class IngredientModel : ObservableObject, ICloneable
+    public abstract class IngredientModel : ObservableObject, IDeepClonable<IngredientModel>
     {
         public Guid Id { get; init; }
 
@@ -54,15 +54,6 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        ///// <summary>
-        ///// this.MemberWiseClone() car on a que des type valeurs. A modifier en cas de type références ajoutées
-        ///// </summary>
-        ///// <returns></returns>
-        //public virtual Object Clone()
-        //{
-        //    return this.MemberwiseClone();
-        //}
-
-        public abstract Object Clone();
+        public abstract IngredientModel DeepClone();
     }
 }

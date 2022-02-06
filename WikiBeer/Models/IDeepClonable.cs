@@ -8,6 +8,6 @@ namespace Ipme.WikiBeer.Models
 {
     public interface IDeepClonable<T> where T : class
     {
-        T DeepClone(T obj);        
+        T DeepClone();        
     }
 }

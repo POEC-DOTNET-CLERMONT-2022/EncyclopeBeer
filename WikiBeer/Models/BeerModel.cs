@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerModel : ObservableObject
+    public class BeerModel : ObservableObject, IDeepClonable<BeerModel>
     {
         public Guid Id { get; } // en readOnly car provient de la base
 
@@ -180,8 +180,13 @@ namespace Ipme.WikiBeer.Models
             Ingredients = new ObservableCollection<IngredientModel>();
             foreach (var ingredient in beer.Ingredients)
             {                
-                Ingredients.Add((IngredientModel)ingredient.Clone()); // Test via Clone
+                Ingredients.Add((IngredientModel)ingredient.DeepClone()); // Test via Clone
             }
+        }
+
+        public BeerModel DeepClone()
+        {
+            return new BeerModel(this);
         }
     }
 }

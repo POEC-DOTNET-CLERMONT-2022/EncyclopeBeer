@@ -35,10 +35,9 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        public override object Clone()
+        public override HopModel DeepClone()
         {            
             return new HopModel(this);
         }
-
     }
 }
