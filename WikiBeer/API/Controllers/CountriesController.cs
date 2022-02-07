@@ -92,7 +92,7 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var countryEntity = _mapper.Map<CountryEntity>(CountryDto);
-                var updatedCountryEntity = _ddbRepository.UpdateById(id, countryEntity);
+                var updatedCountryEntity = _ddbRepository.Update(countryEntity);
                 if (updatedCountryEntity == null)
                     return NotFound();
                 return Ok();

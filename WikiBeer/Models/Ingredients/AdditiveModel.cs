@@ -37,7 +37,7 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        public override object Clone()
+        public override AdditiveModel DeepClone()
         {
             return new AdditiveModel(this);
         }

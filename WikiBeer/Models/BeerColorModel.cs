@@ -9,7 +9,7 @@ using System.Text;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerColorModel : ObservableObject
+    public class BeerColorModel : ObservableObject, IDeepClonable<BeerColorModel>
     {
         public Guid Id { get; }
 
@@ -40,6 +40,11 @@ namespace Ipme.WikiBeer.Models
         public BeerColorModel(BeerColorModel color)
             : this(color.Id, color.Name)
         {
+        }
+
+        public BeerColorModel DeepClone()
+        {
+            return new BeerColorModel(this);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,14 @@ using System.Threading.Tasks;
 /// TODO voir les Activator : 
 /// voir : https://docs.microsoft.com/en-us/dotnet/api/system.activator?view=net-6.0
 /// TODO : enelver définitivement le new et compléter IEntity par une BaseEntity (avec constructeur internal)
+/// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
+/// entier n'est pas chargé)
+/// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
+/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objet en base  
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity//, new()
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
         private DbContext Context { get; } 
 
@@ -30,64 +35,75 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        /// <summary>
-        /// TODO : check les id des contenues, s'occuper de ceux ci (vérifier leur existance ou non [via Get] pour les 
-        /// ramener dans le Context) avant de s'occuper avant de s'occuper du contenant puis en dernier faire le Add sur le contenant.
-        /// </summary>
-        /// <param name="entityToCreate"></param>
-        /// <returns></returns>
         public virtual T Create(T entityToCreate)
         {
-            //b18de927-2251-4c2b-198d-08d9e560afa1
-            //T entity = Context.Set<T>().Add(entityToCreate).Entity;
-            T entity = Context.Attach(entityToCreate).Entity;
+            var newEntry = Context.Attach(entityToCreate);
+            
+            var entries = Context.ChangeTracker.Entries().ToList();
+            entries.Remove(newEntry);
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                    throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
+                        $"d'un composé n'est pas authorisée. (composé : {entityToCreate})"); 
+            }
+
             Context.SaveChanges(); 
-            return entity;
+            return newEntry.Entity;
         }
 
+        /// <summary>
+        /// TODO : rajouter la pagination
+        /// </summary>
+        /// <returns></returns>
         public virtual IEnumerable<T> GetAll()
         {
             return Context.Set<T>().ToList();
         }
 
-        /// <summary>
-        /// TODO : remplacer définitivement par un find (qui renvoie également un null si non trouvé
-        /// mais pas si il en trouve plusieurs)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual T? GetById(Guid id)
+        public virtual IEnumerable<T> GetAllNoInclude()
         {
-            return Context.Set<T>().Find(id);
-            //return Context.Set<T>().SingleOrDefault(entity => entity.Id == id);
+            return Context.Set<T>().IgnoreAutoIncludes().ToList();
         }
 
-        /// <summary>
-        /// Update par remplacement (avec transfert de Guid)
-        /// TODO : à remplacer par un update simple
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public virtual T? UpdateById(Guid id, T entity)
+        public virtual T? GetById(Guid id)
         {
-            T? entityToUpdate = GetById(id);
-            if (entityToUpdate == null)
-                return null;
+            return Context.Set<T>().Find(id);       
+        }
 
-            
-            //var tt = new T() { Id = id };
-            entity.Id = entityToUpdate.Id;
+        public virtual T? GetByIdNoInclude(Guid id)
+        {
+            return Context.Set<T>().IgnoreAutoIncludes().SingleOrDefault(obj => obj.Id == id);
+        }
 
-            var updatedEntity = Context.Update(entity).Entity;// Faire un .Entity pourrait être une bonne pratique
-                                                              // mais ici comme on fait un Get avant 
-            Context.SaveChanges();
+        public virtual T? Update(T entity)
+        {
+            var updatedEntry = Context.Attach(entity); 
+            if (updatedEntry.State == EntityState.Added)
+                return null; // ressource non trouvé car marqué Added
 
-            return updatedEntity;
+            updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
+
+            var entries = Context.ChangeTracker.Entries().ToList();
+            entries.Remove(updatedEntry);
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                    throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
+                        $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
+            }
+            Context.SaveChanges();            
+            return updatedEntry.Entity;
         }
 
         /// <summary>
         /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
+        /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
+        ///  -> pasque c'est la merde coté controller!
+        /// En fait on est obligé de faire un getById car on doit récupérer les
+        /// dépendances pour faire la suppression propre des relations optionnelles
+        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
+        /// uniquement)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -96,11 +112,9 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             T? entity = GetById(id);
             if (entity == null)
                 return null;
-            // Il faut passer par un activator pour faire ce genre de chose
-            //var entity = new { Id = id }; // ne fonctionne que sur le fait que l'on a un setter public... c'est moche
-            //var entity2 = (T)Activator.CreateInstance(typeof(T), id);
-            Context.Set<T>().Remove(entity); // on peut enlever le Set<T> ici...
-            
+  
+            Context.Remove(entity);
+
             return Context.SaveChanges() >= 1;
         }
     }

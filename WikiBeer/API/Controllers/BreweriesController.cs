@@ -91,7 +91,7 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var breweryEntity = _mapper.Map<BreweryEntity>(breweryDto);
-                var updatedBreweryEntity = _ddbRepository.UpdateById(id, breweryEntity);
+                var updatedBreweryEntity = _ddbRepository.Update(breweryEntity);
                 if (updatedBreweryEntity == null)
                     return NotFound();
                 return Ok();

@@ -36,11 +36,9 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        public override object Clone()
+        public override CerealModel DeepClone()
         {
             return new CerealModel(this);
-            //return this.MemberwiseClone();
         }
-
     }
 }

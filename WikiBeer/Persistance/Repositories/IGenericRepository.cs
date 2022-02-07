@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
-    public interface IGenericRepository<T> where T : class, IEntity//, new()
+    public interface IGenericRepository<T> where T : class, IEntity
     {
         T Create(T entityToCreate);
 
         IEnumerable<T> GetAll();
 
+        IEnumerable<T> GetAllNoInclude();
+
         T? GetById(Guid id);
 
-        T? UpdateById(Guid id, T entity);
+        T? GetByIdNoInclude(Guid id);
+
+        T? Update(T entity);
+
         bool? DeleteById(Guid id);
     }
 }
