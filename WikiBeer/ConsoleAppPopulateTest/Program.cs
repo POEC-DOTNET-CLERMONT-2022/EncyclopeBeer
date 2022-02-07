@@ -15,12 +15,13 @@ using AutoMapper;
 using Ipme.WikiBeer.ApiDatas;
 using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
 using System.Collections.ObjectModel;
 
 // Config program
-bool generate = false; // génère ou non de nouvelles entrées en base
+bool generate = true; // génère ou non de nouvelles entrées en base
 
 // Config Automappeur 
 var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
@@ -37,6 +38,7 @@ var breweryManager = new BreweryDataManager(client, mapper, url);
 var countryManager = new CountryDataManager(client, mapper, url);
 var styleManager = new StyleDataManager(client, mapper, url);
 var colorManager = new ColorDataManager(client, mapper, url);
+var ingredientManager = new IngredientDataManager(client, mapper, url);
 
 #region Génération et mise en bdd
 if (generate)
@@ -123,42 +125,26 @@ if (generate)
     var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
     var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
     ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+    AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
-    //Beers
-    //var randomFloat = new RandomFloat();
-    //var randomABV = randomFloat.RandABV();
-    //var randomIBU = randomFloat.RandIBU();
-    var ibu = 35F;
-    var abv = 5.5F;
+    //Récupérations ingredients
+    ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 
-    var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", abv, ibu, bddIPA, bddBlonde, bddBrewdog, ingredients);
-    beerManager.Add(punk).Wait();
-
-    //Récupération ingrédients pour bière
-    var bddBeer = await beerManager.GetAll();
-    var bddPunk = await beerManager.GetById(bddBeer.ToList()[0].Id);
-
+    // Beers
+    float abv = 10;
+    float ibu = (float)5.5;
     // Suite Beers
-    var hazy = new BeerModel("HAZY JANE", "", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddPunk.Ingredients);
-    var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "", abv, ibu, bddAle, bddBlonde, bddBrewdog, bddPunk.Ingredients);
-    var elvis = new BeerModel("ELVIS JUICE", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddPunk.Ingredients);
-    var kriek = new BeerModel("KRIEK", "", abv, ibu, bddLambic, bddFruitee, bddLinderman, bddPunk.Ingredients);
-    var gueuze = new BeerModel("GUEUZE", "", abv, ibu, bddLambic, bddBlonde, bddLinderman, bddPunk.Ingredients);
-    var faro = new BeerModel("FARO LAMBIC", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddPunk.Ingredients);
-    var nipa = new BeerModel("NINKASI IPA", "", abv, ibu, bddIPA, bddBlonde, bddNinkasi, bddPunk.Ingredients);
-    var nblance = new BeerModel("NINKASI BLANCHE", "", abv, ibu, bddAle, bddBlanche, bddNinkasi, bddPunk.Ingredients);
-    var npa = new BeerModel("NINKASI PALE ALE", "", abv, ibu, bddAle, bddBrune, bddNinkasi, bddPunk.Ingredients);
-    List<BeerModel> beers = new List<BeerModel>();
-    beers.Add(hazy);
-    beers.Add(cloud);
-    beers.Add(elvis);
-    beers.Add(kriek);
-    beers.Add(gueuze);
-    beers.Add(faro);
-    beers.Add(nipa);
-    beers.Add(nblance);
-    beers.Add(npa);
-    beers.ForEach(async beer => await beerManager.Add(beer));
+    var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
+    var hazy = new BeerModel("HAZY JANE", "", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
+    var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "", abv, ibu, bddAle, bddBlonde, bddBrewdog, bddingredients);
+    var elvis = new BeerModel("ELVIS JUICE", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
+    var kriek = new BeerModel("KRIEK", "", abv, ibu, bddLambic, bddFruitee, bddLinderman, bddingredients);
+    var gueuze = new BeerModel("GUEUZE", "", abv, ibu, bddLambic, bddBlonde, bddLinderman, bddingredients);
+    var faro = new BeerModel("FARO LAMBIC", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
+    var nipa = new BeerModel("NINKASI IPA", "", abv, ibu, bddIPA, bddBlonde, bddNinkasi, bddingredients);
+    var nblance = new BeerModel("NINKASI BLANCHE", "", abv, ibu, bddAle, bddBlanche, bddNinkasi, bddingredients);
+    var npa = new BeerModel("NINKASI PALE ALE", "", abv, ibu, bddAle, bddBrune, bddNinkasi, bddingredients);
+    List<BeerModel> beers = new List<BeerModel>() { punk, hazy, cloud, elvis, kriek, gueuze, faro, nipa, nblance, npa};
     AddAndWait<BeerModel, BeerDto>(beers, beerManager);
     // Récupération pour check dans le debuger
     var bddBeers = await beerManager.GetAll();
@@ -194,7 +180,7 @@ styleManager.DeleteById(updatedStyle.Id).Wait();
 /// tt en attendant la fin des taches avant de lacher la main
 /// Equivalent d'un foreach manager.Add(item).RunAsynchronously() au final
 /// </summary>
-void AddAndWait<TModel, TDto>(List<TModel> list, IDataManager<TModel, TDto> manager)
+void AddAndWait<TModel, TDto>(IEnumerable<TModel> list, IDataManager<TModel, TDto> manager)
     where TModel : class where TDto : class
 {
     var tasks = new List<Task>();
