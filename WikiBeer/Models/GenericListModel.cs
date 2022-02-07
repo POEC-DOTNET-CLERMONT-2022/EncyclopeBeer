@@ -2,7 +2,7 @@
 
 namespace Ipme.WikiBeer.Models
 {
-    public class GenericListModel<T> : ObservableObject, IGenericListModel<T>  where T : ObservableObject
+    public class GenericListModel<T> : ObservableObject, IGenericListModel<T>  where T : ObservableObject, IDeepClonable<T>
     {
         private ObservableCollection<T> _list;
 
@@ -34,7 +34,7 @@ namespace Ipme.WikiBeer.Models
                     OnNotifyPropertyChanged();
                     if(_current != null)
                     {
-                        ToModify = (T)Activator.CreateInstance(typeof(T), Current);
+                        ToModify = Current.DeepClone();
                     }
                 }
             }
