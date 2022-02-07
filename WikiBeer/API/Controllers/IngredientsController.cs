@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 /// A creuser via les notions de covariance et contravariances : 
 /// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/
 /// On voudra donc un controller par type d'ingrédient!
-/// 
+/// https://mrczetty.houseofczetty.com/2013/10/31/abstract-classes-controller-params/
 /// </summary>
 namespace Ipme.Wiki.API.Controllers
 {
@@ -74,6 +74,7 @@ namespace Ipme.Wiki.API.Controllers
         {
             try
             {
+                var tt = IngredientDto;
                 var IngredientEntity = _mapper.Map<IngredientEntity>(IngredientDto);
                 var IngredientEntityCreated = _ddbRepository.Create(IngredientEntity);
                 var correspondingIngredientDto = _mapper.Map<IngredientDto>(IngredientEntityCreated);

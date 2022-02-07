@@ -62,6 +62,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual IEnumerable<T> GetAll()
         {
+            var tt = Context.Set<T>().ToList();
             return Context.Set<T>().ToList();
         }
 
@@ -112,6 +113,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// dépendances pour faire la suppression propre des relations optionnelles
         /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
         /// uniquement)
+        /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

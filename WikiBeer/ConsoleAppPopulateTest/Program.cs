@@ -81,11 +81,7 @@ if (generate)
     var brune = new BeerColorModel(name: "Brune");
     var blanche = new BeerColorModel(name: "Blanche");
     var fruitee = new BeerColorModel(name: "Fruitée");
-    List<BeerColorModel> colors = new List<BeerColorModel>();
-    colors.Add(blonde);
-    colors.Add(brune);
-    colors.Add(blanche);
-    colors.Add(fruitee);
+    List<BeerColorModel> colors = new List<BeerColorModel>() { blonde, brune, blanche, fruitee};
     AddAndWait<BeerColorModel, BeerColorDto>(colors, colorManager);
 
     //Récupération couleur pour bières
@@ -102,13 +98,7 @@ if (generate)
     var apa = new BeerStyleModel(name: "American pale ale", description: "");
     var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
     var ale = new BeerStyleModel(name: "Ale", description: "");
-    List<BeerStyleModel> styles = new List<BeerStyleModel>();
-    styles.Add(ale);
-    styles.Add(speciale);
-    styles.Add(apa);
-    styles.Add(smok);
-    styles.Add(lambic);
-    styles.Add(ipa);
+    List<BeerStyleModel> styles = new List<BeerStyleModel>() { ale, speciale, apa, smok, lambic, ipa};
     AddAndWait<BeerStyleModel, BeerStyleDto>(styles, styleManager);
 
     //Récupération styles pour bières
