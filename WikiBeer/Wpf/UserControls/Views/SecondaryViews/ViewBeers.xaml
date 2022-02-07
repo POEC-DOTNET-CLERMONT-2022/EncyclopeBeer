@@ -35,10 +35,10 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" Margin="20,0,0,10">
-                <control:ListComponent x:Name="List" BeersList="{Binding BeersListModel}"/>
+                <control:BeerListComponent x:Name="BeerList" DataList="{Binding Beers}"/>
             </DockPanel>
             <DockPanel Grid.Column="1" Margin="5,0,20,10">
-                <control:BeerDetailsComponent x:Name="Details" BeersList="{Binding BeersListModel}"/>
+                <control:BeerDetailsComponent x:Name="BeerDetails" BeerToModify="{Binding DataList.ToModify, ElementName=BeerList}" Breweries="{Binding Breweries}" Styles="{Binding Styles}" Colors="{Binding Colors}"/>
             </DockPanel>
         </Grid>
     </Grid>

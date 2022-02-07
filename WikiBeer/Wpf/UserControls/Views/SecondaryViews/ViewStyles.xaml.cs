@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Ipme.WikiBeer.ApiDatas;
+using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Models;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
@@ -20,9 +13,25 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewStyles : UserControl
     {
+        private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
+
+        public IGenericListModel<BeerStyleModel> Styles { get; }
+
         public ViewStyles()
         {
+            Styles = new GenericListModel<BeerStyleModel>();
             InitializeComponent();
+        }
+
+        public async void Windows_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadColor();
+        }
+
+        public async Task LoadColor()
+        {
+            var styles = await _styleDataManager.GetAll();
+            Styles.List = new ObservableCollection<BeerStyleModel>(styles);
         }
     }
 }
