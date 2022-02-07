@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" Margin="20,0,0,10">
-                <control:ListComponent x:Name="ListComponent" DataList="{Binding Breweries}"/>
+                <control:BreweryListComponent x:Name="ListComponent" DataList="{Binding Breweries}"/>
             </DockPanel>
             <DockPanel Grid.Column="1" Margin="5,0,20,10">
                 <control:BreweryDetailsComponent x:Name="BreweryDetails" BreweryToModify="{Binding DataList.ToModify, ElementName=ListComponent}" Countries="{Binding Countries}"/>
