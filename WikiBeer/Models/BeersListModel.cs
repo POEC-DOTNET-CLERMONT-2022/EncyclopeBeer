@@ -38,6 +38,7 @@ namespace Ipme.WikiBeer.Models
                     currentBeer = value;
                     OnNotifyPropertyChanged();
                     BeerToModify = new BeerModel(CurrentBeer);
+                    //BeerToModify = currentBeer.DeepClone();
                 }
             }
         }

@@ -8,17 +8,18 @@ namespace Ipme.WikiBeer.Entities.Ingredients
 {
     public class AdditiveEntity :IngredientEntity
     {
-        public string Use { get; set; }
+        public string Use { get; private set; }
 
-        private AdditiveEntity()
-        {
-        }
-
-        public AdditiveEntity(Guid id, string name, string description, IEnumerable<BeerEntity> beers
-            ,string use) 
-            : base(id, name, description, beers)
+        private AdditiveEntity(Guid id, string name, string description, string use)
+            : base(id, name, description)
         {
             Use = use;
+        }
+
+        public AdditiveEntity(Guid id, string name, string description, string use, IEnumerable<BeerEntity>? beers) 
+            : this(id, name, description, use)
+        {
+            Beers = beers;
         }
     }
 }

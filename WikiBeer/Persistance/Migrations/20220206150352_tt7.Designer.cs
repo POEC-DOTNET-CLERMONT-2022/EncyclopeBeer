@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipme.WikiBeer.Persistance.Migrations
 {
     [DbContext(typeof(WikiBeerSqlContext))]
-    [Migration("20220201100736_tt3")]
-    partial class tt3
+    [Migration("20220206150352_tt7")]
+    partial class tt7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,13 +64,10 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("BeerId");
 
-                    b.Property<string>("ALACON")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("BreweryId")
+                    b.Property<Guid?>("BreweryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ColorId")
+                    b.Property<Guid?>("ColorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Degree")
@@ -88,7 +85,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<Guid>("StyleId")
+                    b.Property<Guid?>("StyleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id")
@@ -111,7 +108,6 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnName("StyleId");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
@@ -133,7 +129,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("BreweryId");
 
-                    b.Property<Guid>("CountryId")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -252,22 +248,16 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerEntity", b =>
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.BreweryEntity", "Brewery")
-                        .WithMany()
-                        .HasForeignKey("BreweryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Beers")
+                        .HasForeignKey("BreweryId");
 
                     b.HasOne("Ipme.WikiBeer.Entities.BeerColorEntity", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Beers")
+                        .HasForeignKey("ColorId");
 
                     b.HasOne("Ipme.WikiBeer.Entities.BeerStyleEntity", "Style")
-                        .WithMany()
-                        .HasForeignKey("StyleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Beers")
+                        .HasForeignKey("StyleId");
 
                     b.Navigation("Brewery");
 
@@ -279,12 +269,30 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BreweryEntity", b =>
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Breweries")
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerColorEntity", b =>
+                {
+                    b.Navigation("Beers");
+                });
+
+            modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerStyleEntity", b =>
+                {
+                    b.Navigation("Beers");
+                });
+
+            modelBuilder.Entity("Ipme.WikiBeer.Entities.BreweryEntity", b =>
+                {
+                    b.Navigation("Beers");
+                });
+
+            modelBuilder.Entity("Ipme.WikiBeer.Entities.CountryEntity", b =>
+                {
+                    b.Navigation("Breweries");
                 });
 #pragma warning restore 612, 618
         }

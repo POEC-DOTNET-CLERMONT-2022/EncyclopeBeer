@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ipme.WikiBeer.Models
 {
-    public class BreweryModel : ObservableObject
+    public class BreweryModel : ObservableObject, IDeepClonable<BreweryModel>
     {
         public Guid Id { get;}
 
@@ -71,6 +71,11 @@ namespace Ipme.WikiBeer.Models
             Name = brewery.Name;
             Description = brewery.Description;
             Country = new CountryModel(brewery.Country);
+        }
+
+        public BreweryModel DeepClone()
+        {
+            return new BreweryModel(this);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Ipme.WikiBeer.ApiDatas
             postRequest.Headers.Add("Accept", "*/*");
             postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(postRequest);
-            var toto = "mes grosses couilles";
+            
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             //await HttpClient.PostAsJsonAsync(Uri, dto);
         }
@@ -77,12 +77,24 @@ namespace Ipme.WikiBeer.ApiDatas
             var dto = Mapper.Map<TDto>(model);
             var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
 
-            var putRequest = new HttpRequestMessage(HttpMethod.Put, Uri.AbsoluteUri);
+            var putRequest = new HttpRequestMessage(HttpMethod.Put, Uri.AbsoluteUri+$"/{id}");
             putRequest.Headers.Add("Accept", "*/*");
             putRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(putRequest);
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
         }
+
+        //public async Task Update(TModel model)
+        //{
+        //    var dto = Mapper.Map<TDto>(model);
+        //    var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
+
+        //    var putRequest = new HttpRequestMessage(HttpMethod.Put, Uri.AbsoluteUri+dto.Id);
+        //    putRequest.Headers.Add("Accept", "*/*");
+        //    putRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
+        //    var response = await Client.SendAsync(putRequest);
+        //    response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
+        //}
 
         public async Task<bool> DeleteById(Guid id)
         {

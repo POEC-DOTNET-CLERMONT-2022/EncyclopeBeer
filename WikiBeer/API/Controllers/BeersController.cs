@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 /// <summary>
 /// TODO : affiner les block catch (renvoyer autre chose que du 500)
 /// liste des codes d'erreurs possibles : https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
+/// Un truc sympa : sur des controller génériques : 
+/// https://www.strathweb.com/2018/04/generic-and-dynamically-generated-controllers-in-asp-net-core-mvc/
 /// </summary>
 /// 
-
 //[assembly: InternalsVisibleTo(typeof(BeerEntity).Assembly.GetName().Name)]
 namespace Ipme.WikiBeer.API.Controllers
 {
@@ -25,8 +26,6 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             _ddbRepository = ddbRepository;
             _mapper = mapper;
-            //var tt = typeof(BeerEntity).Assembly.GetName().Name;
-            //var tt = new BeerEntity();
         }
 
         [HttpGet]
@@ -41,8 +40,7 @@ namespace Ipme.WikiBeer.API.Controllers
                 return Ok(allBeers);
             }
             catch (Exception e)
-            {
-                // toutes les exceptions non géré passe en 500
+            {               
                 return StatusCode(500);
             }
         }
@@ -68,13 +66,9 @@ namespace Ipme.WikiBeer.API.Controllers
 
         }
 
-        /// <summary>
-        /// CreatedAtAction doit retourner ici l'équivalent d'une méthode Get (cad un Dto!)!
-        /// </summary>
-        /// <param name="beerDto"></param>
-        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public IActionResult Post([FromBody] BeerDto beerDto)
         {
@@ -85,9 +79,12 @@ namespace Ipme.WikiBeer.API.Controllers
                 var correspondingBeerDto = _mapper.Map<BeerDto>(beerEntityCreated);
                 return CreatedAtAction(nameof(Get), new { id = correspondingBeerDto.Id }, correspondingBeerDto);
             }
+            catch (UndesiredBorderEffectException ubee)
+            {                
+                return BadRequest();
+            }
             catch (Exception e)
-            {
-                // On peut gérer les problèmes de mapping ici
+            {                
                 return StatusCode(500);
             }
 
@@ -95,17 +92,22 @@ namespace Ipme.WikiBeer.API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto)
+        public IActionResult Put(Guid id, [FromBody] BeerDto beerDto) // Guid à passer en FromQuerry???
         {
             try
             {
-                var beerEntity = _mapper.Map<BeerEntity>(beerDto);
-                var updatedBeerEntity = _ddbRepository.UpdateById(id, beerEntity);
+                var beerEntity = _mapper.Map<BeerEntity>(beerDto); // automapper plante si la forme du Dto n'est pas bonne -> BadRequest?
+                var updatedBeerEntity = _ddbRepository.Update(beerEntity);
                 if (updatedBeerEntity == null)
                     return NotFound();
                 return Ok();
+            }
+            catch (UndesiredBorderEffectException ubee)
+            {
+                return BadRequest();
             }
             catch (Exception e)
             {
@@ -126,9 +128,10 @@ namespace Ipme.WikiBeer.API.Controllers
                     return NotFound();
                 // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
                 if (response == true) // si vrai le delete à fonctionné
-                    return Ok();
+                    return Ok(true);
                 // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
-                return StatusCode(500);
+                //return StatusCode(500);
+                return Ok(false); // serait peut être mieux...
             }
             catch(Exception e)
             {

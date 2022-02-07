@@ -2,7 +2,7 @@
 
 namespace Ipme.WikiBeer.Models
 {
-    public class CountryModel : ObservableObject
+    public class CountryModel : ObservableObject, IDeepClonable<CountryModel>
     {
         public Guid Id { get;}
 
@@ -34,5 +34,11 @@ namespace Ipme.WikiBeer.Models
             : this(country.Id, country.Name)
         {
         }
+
+        public CountryModel DeepClone()
+        {
+            return new CountryModel(this);
+        }
+
     }
 }
