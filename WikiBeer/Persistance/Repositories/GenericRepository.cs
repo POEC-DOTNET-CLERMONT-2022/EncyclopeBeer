@@ -1,5 +1,6 @@
 ﻿using Ipme.WikiBeer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,13 +40,16 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         {
             var newEntry = Context.Attach(entityToCreate);
             
-            var entries = Context.ChangeTracker.Entries().ToList();
-            entries.Remove(newEntry);
-            foreach (var entry in entries)
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate);            
+
+            if (entries.Any())
             {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                    throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
-                        $"d'un composé n'est pas authorisée. (composé : {entityToCreate})"); 
+                foreach (var entry in entries)
+                {
+                    if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                        throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
+                            $"d'un composé n'est pas authorisée. (composé : {entityToCreate})");
+                }
             }
 
             Context.SaveChanges(); 
@@ -84,14 +88,18 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
 
-            var entries = Context.ChangeTracker.Entries().ToList();
-            entries.Remove(updatedEntry);
-            foreach (var entry in entries)
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity);            
+
+            if (entries.Any())
             {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                    throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
-                        $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
+                foreach (var entry in entries)
+                {
+                    if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                        throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
+                            $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
+                }
             }
+
             Context.SaveChanges();            
             return updatedEntry.Entity;
         }
