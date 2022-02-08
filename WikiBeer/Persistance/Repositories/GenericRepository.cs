@@ -87,7 +87,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (updatedEntry.State == EntityState.Added)
                 return null; // ressource non trouvé car marqué Added
 
-            updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
+            updatedEntry.State = EntityState.Modified; 
 
             var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity);            
 
@@ -97,7 +97,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 {
                     if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                         throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
-                            $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
+                            $"d'un composé n'est pas authorisée. (composé : {entity})"); 
                 }
             }
 

@@ -85,13 +85,13 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             
             #region Configuration relations
             // Brewery
-            typeBuilder.HasOne(be => be.Brewery).WithMany(br => br.Beers);
+            typeBuilder.HasOne(be => be.Brewery).WithMany();
             typeBuilder.Navigation(be => be.Brewery).AutoInclude();
             // Style
             typeBuilder.HasOne(be => be.Style).WithMany();
             typeBuilder.Navigation(be => be.Style).AutoInclude();
             // Color
-            typeBuilder.HasOne(be => be.Color).WithMany(c => c.Beers);
+            typeBuilder.HasOne(be => be.Color).WithMany();
             typeBuilder.Navigation(be => be.Color).AutoInclude();
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
@@ -117,9 +117,10 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
             #region Configuration relations
             // Beer
-            //typeBuilder.Navigation(br => br.Beers).AutoInclude();
+            typeBuilder.HasMany(br => br.Beers).WithOne();
+            typeBuilder.Navigation(br => br.Beers).AutoInclude();
             // Country 
-            typeBuilder.HasOne(br => br.Country).WithMany(c => c.Breweries);
+            typeBuilder.HasOne(br => br.Country).WithMany();
             typeBuilder.Navigation(br => br.Country).AutoInclude();
             #endregion
         }
@@ -136,10 +137,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(s => s.Description).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
 
             #region Configuration relations
-            typeBuilder.HasMany(s => s.Beers).WithOne(be => be.Style);
-            typeBuilder.Navigation(s => s.Beers).AutoInclude();
-            //typeBuilder.HasMany(s => s.Beers).WithOne(be => be.Style);
-            //typeBuilder.Navigation(be => be.Style).AutoInclude();
+            typeBuilder.HasMany(s => s.Beers).WithOne();
+            typeBuilder.Navigation(s => s.Beers).AutoInclude();            
             #endregion
         }
 
@@ -154,7 +153,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
 
             #region Configuration relations
-            //typeBuilder.Navigation(s => s.Beers).AutoInclude();
+            typeBuilder.HasMany(c => c.Beers).WithOne();
+            typeBuilder.Navigation(c => c.Beers).AutoInclude();
             #endregion
         }
 
@@ -169,7 +169,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(c => c.Name).HasMaxLength(Rules.DEFAULT_NAME_MAX_LENGHT);
 
             #region Configuration relations
-            //typeBuilder.Navigation(c => c.Breweries).AutoInclude();            
+            typeBuilder.HasMany(c => c.Breweries).WithOne();
+            typeBuilder.Navigation(c => c.Breweries).AutoInclude();
             #endregion
         }
 
