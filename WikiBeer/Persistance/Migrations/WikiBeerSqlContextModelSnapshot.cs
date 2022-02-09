@@ -255,7 +255,8 @@ namespace Ipme.WikiBeer.Persistance.Migrations
 
                     b.HasOne("Ipme.WikiBeer.Entities.BeerStyleEntity", "Style")
                         .WithMany("Beers")
-                        .HasForeignKey("StyleId");
+                        .HasForeignKey("StyleId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Brewery");
 

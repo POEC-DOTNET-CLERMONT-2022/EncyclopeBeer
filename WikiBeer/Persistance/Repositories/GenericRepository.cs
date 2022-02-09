@@ -122,7 +122,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             T? entity = GetById(id);
             if (entity == null)
                 return null;
-  
+
+            //var toDeleteEntry = Context.Attach(entity);
+            //if (updatedEntry.State == EntityState.Added)
+            //    return null; // ressource non trouvé car marqué Added
+
             Context.Remove(entity);
 
             return Context.SaveChanges() >= 1;

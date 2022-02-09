@@ -31,7 +31,7 @@ namespace Ipme.WikiBeer.ApiDatas
             Uri = new Uri(ServerUrl + ResourceUrl);
         }
 
-        public async Task Add(TModel model)
+        public virtual async Task Add(TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
             var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
@@ -39,13 +39,14 @@ namespace Ipme.WikiBeer.ApiDatas
             var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
             postRequest.Headers.Add("Accept", "*/*");
             postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
+            
             var response = await Client.SendAsync(postRequest);
             
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
             //await HttpClient.PostAsJsonAsync(Uri, dto);
         }
 
-        public async Task<IEnumerable<TModel>> GetAll()
+        public virtual async Task<IEnumerable<TModel>> GetAll()
         {
             //var request = new HttpRequestMessage(HttpMethod.Get, Uri);
             //request.Headers.Add("Accept", "application/json");
@@ -60,7 +61,7 @@ namespace Ipme.WikiBeer.ApiDatas
             return Mapper.Map<IEnumerable<TModel>>(dtos);
         }
 
-        public async Task<TModel> GetById(Guid id)
+        public virtual async Task<TModel> GetById(Guid id)
         {
             var response = await Client.GetAsync(Uri.AbsoluteUri+$"/{id}");
             response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
@@ -72,7 +73,7 @@ namespace Ipme.WikiBeer.ApiDatas
             return Mapper.Map<TModel>(dto);
         }
 
-        public async Task Update(Guid id, TModel model)
+        public virtual async Task Update(Guid id, TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
             var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
@@ -81,22 +82,10 @@ namespace Ipme.WikiBeer.ApiDatas
             putRequest.Headers.Add("Accept", "*/*");
             putRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(putRequest);
-            response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
+            response.EnsureSuccessStatusCode(); 
         }
 
-        //public async Task Update(TModel model)
-        //{
-        //    var dto = Mapper.Map<TDto>(model);
-        //    var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
-
-        //    var putRequest = new HttpRequestMessage(HttpMethod.Put, Uri.AbsoluteUri+dto.Id);
-        //    putRequest.Headers.Add("Accept", "*/*");
-        //    putRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
-        //    var response = await Client.SendAsync(putRequest);
-        //    response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
-        //}
-
-        public async Task<bool> DeleteById(Guid id)
+        public virtual async Task<bool> DeleteById(Guid id)
         {
             var response = await Client.DeleteAsync(Uri.AbsoluteUri+$"/{id}");
             response.EnsureSuccessStatusCode();
@@ -106,10 +95,9 @@ namespace Ipme.WikiBeer.ApiDatas
             return success;
         }
  
-
-        protected JsonSerializerSettings GetJsonSettings()
+        protected virtual JsonSerializerSettings GetJsonSettings()
         {
-            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         }
 
     }

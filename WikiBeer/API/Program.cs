@@ -4,6 +4,11 @@ using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Notes sur de la désérialisation polymorphic en typescript : 
+/// https://www.npmjs.com/package/json2typescript
+/// </summary>
+
 var builder = WebApplication.CreateBuilder(args);
 // voir : https://docs.microsoft.com/fr-fr/aspnet/core/security/cors?view=aspnetcore-6.0 pour les police à allouer
 builder.Services.AddCors(
@@ -17,7 +22,9 @@ builder.Services.AddCors(
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
 builder.Services.AddControllers().AddNewtonsoftJson(
-    opt => opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto);
+    opt => opt.SerializerSettings.TypeNameHandling = TypeNameHandling.All);
+//builder.Services.AddControllers().AddNewtonsoftJson(
+//    opt => opt.);
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -16,7 +16,7 @@
         }
 
         public BreweryEntity(Guid id, string name, String description, 
-            CountryEntity country, IEnumerable<BeerEntity>? beers)
+            CountryEntity? country, IEnumerable<BeerEntity>? beers)
             : this(id, name, description)
         {            
             Country = country;
