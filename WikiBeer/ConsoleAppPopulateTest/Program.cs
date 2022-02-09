@@ -8,6 +8,7 @@ https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-
 https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-polymorphism.
     On peut également resté sur NewtonSoft et gérer ensuite la tranformation coté angular via 
 https://github.com/typestack/class-transformer
+https://www.npmjs.com/package/json2typescript
     Voir également
 https://github.com/manuc66/JsonSubTypes
  */
@@ -47,7 +48,7 @@ var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nour
 var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
 ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 var tempDdbHop = bddingredients[0];
-var ddbHop = await ingredientManager.GetById(tempDdbHop.Id);
+//var ddbHop = await ingredientManager.GetById(tempDdbHop.Id); // nécessite de passer TypeNameHandling.All ( ou .Object) au lieu de .Auto au niveau de l'api et sa c'est chiant...
 ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
 AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 

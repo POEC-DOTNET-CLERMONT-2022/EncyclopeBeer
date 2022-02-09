@@ -22,7 +22,7 @@ builder.Services.AddCors(
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
 builder.Services.AddControllers().AddNewtonsoftJson(
-    opt => opt.SerializerSettings.TypeNameHandling = TypeNameHandling.All);
+    opt => opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto);
 //builder.Services.AddControllers().AddNewtonsoftJson(
 //    opt => opt.);
 
