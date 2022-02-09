@@ -9,6 +9,14 @@ https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-
     On peut également resté sur NewtonSoft et gérer ensuite la tranformation coté angular via 
 https://github.com/typestack/class-transformer
 https://www.npmjs.com/package/json2typescript
+
+Pour plus d'info sur comment faire proprement avec NewtonSoft
+https://www.newtonsoft.com/json/help/html/SerializationAttributes.htm
+https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_JsonConverterAttribute.htm
+https://www.newtonsoft.com/json/help/html/SerializeSerializationBinder.htm
+https://www.newtonsoft.com/json/help/html/CustomJsonConverterGeneric.htm
+https://www.newtonsoft.com/json/help/html/CustomJsonConverter.htm
+
     Voir également
 https://github.com/manuc66/JsonSubTypes
  */
