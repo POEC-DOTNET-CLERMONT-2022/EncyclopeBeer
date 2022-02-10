@@ -63,7 +63,6 @@ namespace Ipme.WikiBeer.API.Controllers
             {
                 return StatusCode(500);
             }
-
         }
 
         [HttpPost]
@@ -87,7 +86,6 @@ namespace Ipme.WikiBeer.API.Controllers
             {
                 return StatusCode(500);
             }
-
         }
 
         [HttpPut("{id}")]

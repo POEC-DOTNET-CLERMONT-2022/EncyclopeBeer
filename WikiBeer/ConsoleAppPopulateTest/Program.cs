@@ -50,15 +50,15 @@ var colorManager = new ColorDataManager(client, mapper, url);
 var ingredientManager = new IngredientDataManager(client, mapper, url);
 
 //---------------------------------------------------------------------------------------------------------------------------------
-// Ingredients 
-//var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
-//var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
-//var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
-//ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
-//var tempDdbHop = bddingredients[0];
-////var ddbHop = await ingredientManager.GetById(tempDdbHop.Id); // nécessite de passer TypeNameHandling.All ( ou .Object) au lieu de .Auto au niveau de l'api et sa c'est chiant...
-//ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
-//AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
+//Ingredients
+var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
+var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
+var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
+ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
+var tempDdbHop = bddingredients[0];
+var ddbHop = await ingredientManager.GetById(tempDdbHop.Id); // nécessite de passer TypeNameHandling.All ( ou .Object) au lieu de .Auto au niveau de l'api et sa c'est chiant...
+ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
 //Récupérations ingredients
 //ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
@@ -131,14 +131,14 @@ if (generate)
     var bddAle = bddStyle.FirstOrDefault(c => c.Name == "Ale");
 
     // Ingredients
-    var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
-    var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
-    var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
-    ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
-    AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
+    //var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
+    //var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
+    //var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
+    //ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+    //AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
-    //Récupérations ingredients
-    ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
+    ////Récupérations ingredients
+    //ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 
     // Beers
     float abv = 10;

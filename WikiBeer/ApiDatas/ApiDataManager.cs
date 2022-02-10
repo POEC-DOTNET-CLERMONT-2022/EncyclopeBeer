@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tools;
 
 /// <summary>
 /// Liens utiles pour les méthode de HttpClient : 
@@ -21,6 +23,14 @@ namespace Ipme.WikiBeer.ApiDatas
         private string ServerUrl { get; }
         private string ResourceUrl { get; }
         private Uri Uri { get; }
+        //private JsonSerializerSettings NewtonOptions { get; }
+
+        //protected JsonSerializerSettings _defaultOptions = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+        private KnownTypesBinder knownTypesBinder = new KnownTypesBinder
+        {
+            KnownTypes = new List<Type> { typeof(HopDto), typeof(AdditiveDto), typeof(CerealDto) }
+        };
+
 
         public ApiDataManager(HttpClient client, IMapper mapper, string serverUrl, string resourceUrl)
         {
@@ -29,6 +39,7 @@ namespace Ipme.WikiBeer.ApiDatas
             ServerUrl = serverUrl;
             ResourceUrl = resourceUrl;
             Uri = new Uri(ServerUrl + ResourceUrl);
+            //NewtonOptions = options;
         }
 
         public virtual async Task Add(TModel model)
@@ -97,7 +108,9 @@ namespace Ipme.WikiBeer.ApiDatas
  
         protected virtual JsonSerializerSettings GetJsonSettings()
         {
-            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects,
+            SerializationBinder = knownTypesBinder
+        };
         }
 
     }
