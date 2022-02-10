@@ -34,6 +34,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(
     opt => { 
         opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
         opt.SerializerSettings.SerializationBinder = knownTypesBinder;
+        opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+        opt.SerializerSettings.Formatting = Formatting.Indented;
     });
 //builder.Services.AddControllers().AddNewtonsoftJson(
 //    opt => opt.);

@@ -26,7 +26,7 @@ namespace Ipme.WikiBeer.ApiDatas
         //private JsonSerializerSettings NewtonOptions { get; }
 
         //protected JsonSerializerSettings _defaultOptions = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
-        private KnownTypesBinder knownTypesBinder = new KnownTypesBinder
+        protected KnownTypesBinder knownTypesBinder = new KnownTypesBinder
         {
             KnownTypes = new List<Type> { typeof(HopDto), typeof(AdditiveDto), typeof(CerealDto) }
         };
@@ -108,7 +108,7 @@ namespace Ipme.WikiBeer.ApiDatas
  
         protected virtual JsonSerializerSettings GetJsonSettings()
         {
-            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects,
+            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = knownTypesBinder
         };
         }

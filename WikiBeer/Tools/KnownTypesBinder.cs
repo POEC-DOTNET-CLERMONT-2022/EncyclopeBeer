@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Ipme.WikiBeer.Dtos.Ingredients;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Tools
         {
             assemblyName = null;
             typeName = serializedType.Name;
+            //typeName = null;
         }
     }
 }
