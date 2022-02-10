@@ -247,11 +247,13 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.BreweryEntity", "Brewery")
                         .WithMany("Beers")
-                        .HasForeignKey("BreweryId");
+                        .HasForeignKey("BreweryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Ipme.WikiBeer.Entities.BeerColorEntity", "Color")
                         .WithMany("Beers")
-                        .HasForeignKey("ColorId");
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Ipme.WikiBeer.Entities.BeerStyleEntity", "Style")
                         .WithMany("Beers")
@@ -269,7 +271,8 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
                         .WithMany("Breweries")
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Country");
                 });

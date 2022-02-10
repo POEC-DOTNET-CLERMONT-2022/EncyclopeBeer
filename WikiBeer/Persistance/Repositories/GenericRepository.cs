@@ -38,9 +38,10 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual T Create(T entityToCreate)
         {
-            var newEntry = Context.Attach(entityToCreate);
+            // Attach pose un proiblème sur les tables d'associations
+            var newEntry = Context.Attach(entityToCreate);     
             
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate);            
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate && e.Entity is not Dictionary<string,object>);            
 
             if (entries.Any())
             {
@@ -89,7 +90,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             updatedEntry.State = EntityState.Modified; 
 
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity);            
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);            
 
             if (entries.Any())
             {
