@@ -25,7 +25,7 @@
                 <Label Content="SearchBar" FontSize="18" FontWeight="Bold"/>
             </DockPanel>
             <DockPanel Grid.Row="2" HorizontalAlignment="Right" Margin="20, 0">
-                <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Click"/>
+                <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Button_Click"/>
             </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -34,22 +34,22 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="20,0,0,10" >
-                <Button x:Name="Edit_Button" Content="Edit" Width="Auto" Height="30" Click="Edit_Click" />
-                <control:StyleListComponent x:Name="ListComponent" Height="Auto" DataList="{Binding Styles}"/>
+                <Button x:Name="Edit_Button" Content="Edit" Width="Auto" Height="30" Click="Edit_Button_Click" />
+                <control:StyleListComponent x:Name="ListComponent" Height="Auto" DataList="{Binding Styles, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <Grid Grid.Column="1" Margin="5,0,20,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <control:StyleDetailsComponent x:Name="StyleDetailsComponent" StyleDetails="{Binding DataList.ToModify, ElementName=ListComponent}" Grid.Row="0" Loaded="StyleDetailsComponent_Loaded"/>
+                <control:StyleDetailsComponent x:Name="StyleDetailsComponent" StyleDetails="{Binding DataList.ToModify, ElementName=ListComponent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Loaded="StyleDetailsComponent_Loaded"/>
                 <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button x:Name="Delete_Button"
                     Height="30" 
                     Width="100" 
                     Margin="10"
                     Content="Delete"
-                    Click="Delete_Click"
+                    Click="Delete_Button_Click"
                     Visibility="Visible"
                     />
                     <Button x:Name="Update_Button"
@@ -57,7 +57,7 @@
                     Width="100" 
                     Margin="10"
                     Content="Update"
-                    Click="Update_Click"
+                    Click="Update_Button_Click"
                     Visibility="Visible"
                     />
                     <Button x:Name="Create_Button"
@@ -65,7 +65,7 @@
                     Width="100" 
                     Margin="10"
                     Content="Create"
-                    Click="Delete_Click"
+                    Click="Create_Button_Click"
                     Visibility="Collapsed"
                     />
                 </DockPanel>

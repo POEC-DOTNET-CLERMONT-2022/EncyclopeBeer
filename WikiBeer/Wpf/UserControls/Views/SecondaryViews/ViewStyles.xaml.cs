@@ -28,35 +28,41 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            await LoadColor();
+            await LoadStyles();
         }
 
-        public async Task LoadColor()
+        public async Task LoadStyles()
         {
             var styles = await _styleDataManager.GetAll();
             Styles.List = new ObservableCollection<BeerStyleModel>(styles);
         }
 
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void Update_Button_Click(object sender, RoutedEventArgs e)
         {
             _styleDataManager.Update(Styles.ToModify.Id, Styles.ToModify);
-            Styles.Current = Styles.ToModify;
-
-
+            var index = Styles.List.IndexOf(Styles.Current);
+            Styles.List[index] = Styles.ToModify.DeepClone();
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Delete_Button_Click(object sender, RoutedEventArgs e)
         {
             _styleDataManager.DeleteById(Styles.ToModify.Id);
+            Styles.List.Remove(Styles.Current);
         }
 
-        private void Edit_Click(object sender, RoutedEventArgs e)
+        private void Create_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _styleDataManager.Add(_newBeer);
+            LoadStyles();
+        }
+
+        private void Edit_Button_Click(object sender, RoutedEventArgs e)
         {
             Update_Button.Visibility = Visibility.Visible;
             Create_Button.Visibility = Visibility.Collapsed;
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void Add_Button_Click(object sender, RoutedEventArgs e)
         {
             Update_Button.Visibility = Visibility.Collapsed;
             Create_Button.Visibility = Visibility.Visible;
@@ -66,7 +72,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private void StyleDetailsComponent_Loaded(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }
