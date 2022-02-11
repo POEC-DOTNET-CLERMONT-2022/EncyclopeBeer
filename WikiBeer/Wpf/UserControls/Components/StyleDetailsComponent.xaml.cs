@@ -1,6 +1,8 @@
-﻿using Ipme.WikiBeer.Models;
+﻿using Ipme.WikiBeer.ApiDatas;
+using Ipme.WikiBeer.Models;
 using System.Windows;
 using System.Windows.Controls;
+using Ipme.WikiBeer.Dtos;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Components
 {
@@ -9,17 +11,19 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class StyleDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty StyleToModifyProperty =
-                    DependencyProperty.Register("StyleToModify", typeof(BeerStyleModel), typeof(StyleDetailsComponent));
+        //private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
 
-        public BeerStyleModel StyleToModify
+        public static readonly DependencyProperty StyleDetailsProperty =
+                    DependencyProperty.Register("StyleDetails", typeof(BeerStyleModel), typeof(StyleDetailsComponent));
+
+        public BeerStyleModel StyleDetails
         {
-            get { return GetValue(StyleToModifyProperty) as BeerStyleModel; }
+            get { return GetValue(StyleDetailsProperty) as BeerStyleModel; }
             set
             {
                 if (value != null)
                 {
-                    SetValue(StyleToModifyProperty, value);
+                    SetValue(StyleDetailsProperty, value);
                 }
             }
         }
@@ -27,16 +31,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         public StyleDetailsComponent()
         {
             InitializeComponent();
-        }
-
-        private void Update_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

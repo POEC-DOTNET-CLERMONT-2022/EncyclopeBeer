@@ -27,11 +27,11 @@
                 <Button Content="Manager" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Manager" Background="#D5D8DC"/>
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
 
-                    <Button Content="Beer" Click="Button_Click_Beer"/>
-                    <Button Content="Brewery" Click="Button_Click_Brewery"/>
-                    <Button Content="Ingredient" Click="Button_Click_Ingredient"/>
-                    <Button Content="Color" Click="Button_Click_Color"/>
-                    <Button Content="Family" Click="Button_Click_Style"/>
+                    <Button Content="Beers" Click="Button_Click_Beer"/>
+                    <Button Content="Brewerie" Click="Button_Click_Brewery"/>
+                    <Button Content="Ingredients" Click="Button_Click_Ingredient"/>
+                    <Button Content="Colors" Click="Button_Click_Color"/>
+                    <Button Content="Styles" Click="Button_Click_Style"/>
 
                 </StackPanel>
                 <Button Content="Utilisateur" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>
