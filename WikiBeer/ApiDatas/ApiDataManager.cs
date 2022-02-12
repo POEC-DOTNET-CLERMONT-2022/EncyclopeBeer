@@ -51,7 +51,7 @@ namespace Ipme.WikiBeer.ApiDatas
         public virtual async Task<TModel> AddAndReturn(TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
-            var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
+            var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
 
             var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
             postRequest.Headers.Add("Accept", "*/*");
@@ -61,7 +61,7 @@ namespace Ipme.WikiBeer.ApiDatas
                       
             var responseString = await response.Content.ReadAsStringAsync();
             var responseDto = JsonConvert.DeserializeObject<TDto>(responseString,
-                GetJsonSettings());
+                JsonSerializerSettings);
             
             return Mapper.Map<TModel>(responseDto);
         }

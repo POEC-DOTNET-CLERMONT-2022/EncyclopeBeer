@@ -81,7 +81,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Get();
 
             //Assert (Status Code)
-            var okResult = result as OkObjectResult;
+            var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
             //Assert (Objet retourné)
@@ -102,7 +102,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Get();
 
             //Assert (Status Code)
-            var badResult = result as StatusCodeResult;
+            var badResult = result.Result as StatusCodeResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
@@ -120,7 +120,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Get(guid);
 
             //Assert (Status Code)
-            var okResult = result as OkObjectResult;
+            var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
             //Assert (Objet retourné)
@@ -140,7 +140,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Get(Guid.NewGuid());
 
             //Assert (Status Code)
-            var badResult = result as NotFoundResult;
+            var badResult = result.Result as NotFoundResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }
@@ -155,7 +155,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Get(Guid.NewGuid());
 
             //Assert (Status Code)
-            var badResult = result as StatusCodeResult;
+            var badResult = result.Result as StatusCodeResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
@@ -209,7 +209,7 @@ namespace Ipme.WikiBeer.API.Tests
             var result = BeersController.Put(Guid.NewGuid(),new_beerDto);
 
             // Assert (Status Code)
-            var okResult = result as OkResult;
+            var okResult = result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
         }
