@@ -41,7 +41,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        public virtual T? Create(T entityToCreate)
+        public virtual async Task<T?> CreateAsync(T entityToCreate)
         {
             if (entityToCreate.Id != Guid.Empty)
                 return null; 
@@ -50,31 +50,31 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             CheckBorderEffectAdded(entityToCreate);
 
-            Context.SaveChangesAsync(); 
+            await Context.SaveChangesAsync(); 
             return newEntry.Entity;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await Context.Set<T>().ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAllNoIncludeAsync()
+        {
+            return await Context.Set<T>().IgnoreAutoIncludes().ToListAsync();
+        }
+
+        public virtual async Task<T?> GetByIdAsync(Guid id)
         {            
-            return Context.Set<T>().ToList();
+            return await Context.Set<T>().FindAsync(id);       
         }
 
-        public virtual IEnumerable<T> GetAllNoInclude()
+        public virtual async Task<T?> GetByIdNoIncludeAsync(Guid id)
         {
-            return Context.Set<T>().IgnoreAutoIncludes().ToList();
+            return await Context.Set<T>().IgnoreAutoIncludes().SingleOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public virtual T? GetById(Guid id)
-        {
-            return Context.Set<T>().Find(id);       
-        }
-
-        public virtual T? GetByIdNoInclude(Guid id)
-        {
-            return Context.Set<T>().IgnoreAutoIncludes().SingleOrDefault(obj => obj.Id == id);
-        }
-
-        public virtual T? Update(T entity)
+        public virtual async Task<T?> UpdateAsync(T entity)
         {
             var updatedEntry = Context.Attach(entity);
             if (!Context.Set<T>().Any(e => e.Id == entity.Id))
@@ -84,7 +84,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             CheckBorderEffectAdded(entity);
 
-            Context.SaveChanges();            
+            await Context.SaveChangesAsync();            
             return updatedEntry.Entity;
         }
 
@@ -101,15 +101,15 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual bool? DeleteById(Guid id)
+        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
         {
-            T? entity = GetById(id);
+            T? entity = await GetByIdAsync(id);
             if (entity == null)
                 return null;
 
             Context.Remove(entity);
 
-            return Context.SaveChanges() >= 1;
+            return await Context.SaveChangesAsync() >= 1;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <exception cref="UndesiredBorderEffectException"></exception>
-        protected virtual void CheckBorderEffectAdded(T entity)
+        private void CheckBorderEffectAdded(T entity)
         {
             var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
 
