@@ -16,8 +16,7 @@ https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_JsonConverterAttribu
 https://www.newtonsoft.com/json/help/html/SerializeSerializationBinder.htm
 https://www.newtonsoft.com/json/help/html/CustomJsonConverterGeneric.htm
 https://www.newtonsoft.com/json/help/html/CustomJsonConverter.htm
-
-    Voir également
+Voir également
 https://github.com/manuc66/JsonSubTypes
  */
 using AutoMapper;
@@ -50,15 +49,15 @@ var colorManager = new ColorDataManager(client, mapper, url);
 var ingredientManager = new IngredientDataManager(client, mapper, url);
 
 //---------------------------------------------------------------------------------------------------------------------------------
-// Ingredients 
-var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
-var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
-var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
-ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
-var tempDdbHop = bddingredients[0];
+//Ingredients
+//var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
+//var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
+//var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
+//ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
+//var tempDdbHop = bddingredients[0];
 //var ddbHop = await ingredientManager.GetById(tempDdbHop.Id); // nécessite de passer TypeNameHandling.All ( ou .Object) au lieu de .Auto au niveau de l'api et sa c'est chiant...
-ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
-AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
+//ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+//AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
 //Récupérations ingredients
 //ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
@@ -66,8 +65,7 @@ AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
 #region Génération et mise en bdd
 if (generate)
-{
-    
+{   
     // Pays
     var belgique = new CountryModel(name: "Belgique");
     var france = new CountryModel(name: "France");
@@ -131,15 +129,15 @@ if (generate)
     var bddSmoked = bddStyle.FirstOrDefault(c => c.Name == "Smoked Beer");
     var bddAle = bddStyle.FirstOrDefault(c => c.Name == "Ale");
 
-    // Ingredients
-    //var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
-    //var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
-    //var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
-    //ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
-    //AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
+    ////Ingredients
+    var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
+    var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
+    var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
+    ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+    AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
-    ////Récupérations ingredients
-    //ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
+    //Récupérations ingredients
+    ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 
     // Beers
     float abv = 10;
@@ -156,7 +154,7 @@ if (generate)
     var nblance = new BeerModel("NINKASI BLANCHE", "", abv, ibu, bddAle, bddBlanche, bddNinkasi, bddingredients);
     var npa = new BeerModel("NINKASI PALE ALE", "", abv, ibu, bddAle, bddBrune, bddNinkasi, bddingredients);
     List<BeerModel> beers = new List<BeerModel>() { punk, hazy, cloud, elvis, kriek, gueuze, faro, nipa, nblance, npa};
-    //AddAndWait<BeerModel, BeerDto>(beers, beerManager);
+    AddAndWait<BeerModel, BeerDto>(beers, beerManager);
     // Récupération pour check dans le debuger
     var bddBeers = await beerManager.GetAll();
     
@@ -169,18 +167,24 @@ if (generate)
 var modifiedbddBeers = await beerManager.GetAll();
 var bddStyles = await styleManager.GetAll();
 var updatedBeer = modifiedbddBeers.ToList()[0];
-//updatedBeer.Name = "Biere azeaze modifiée";
-//updatedBeer.Style = bddStyles.ToList()[0];
-//beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
-//updatedBeer.Name = "A nouveau modifée";
+updatedBeer.Name = "Biere azeaze modifiée";
+updatedBeer.Style = bddStyles.ToList()[0];
+beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
+updatedBeer.Name = "Bière amère";
 //updatedBeer.Ingredients.RemoveAt(0);
+var newhop = new HopModel(name: "Super Houblon", description: "Super amer!", alphaAcid: (float)0.5);
+ingredientManager.Add(newhop);
+//var bddhop = ingredientManager.GetById()
+//updatedBeer.Ingredients.Add(newhop);
 //beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
 //var newUpdatedBeer = await beerManager.GetById(updatedBeer.Id);
-var updatedStyle = bddStyles.ToList()[bddStyles.Count()-1];// updatedBeer.Style;
-updatedStyle.Description = "Un gout étrange";
-styleManager.Update(updatedStyle.Id, updatedStyle).Wait();
-styleManager.DeleteById(updatedStyle.Id).Wait();
-styleManager.Add(updatedStyle).Wait();
+
+//ingredientManager.DeleteById(bddhop.Id).Wait();
+//var updatedStyle = bddStyles.ToList()[bddStyles.Count()-1];// updatedBeer.Style;
+//updatedStyle.Description = "Un gout étrange";
+//styleManager.Update(updatedStyle.Id, updatedStyle).Wait();
+//styleManager.DeleteById(updatedStyle.Id).Wait();
+//styleManager.Add(updatedStyle).Wait();
 #endregion
 
 

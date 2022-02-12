@@ -1,8 +1,13 @@
 using Ipme.WikiBeer.API.MapperProfiles;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Persistance.Contexts;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Reflection;
+
+using Ipme.WikiBeer.API;
+using Ipme.WikiBeer.Dtos.SerializerSettings;
 
 /// <summary>
 /// Notes sur de la désérialisation polymorphic en typescript : 
@@ -22,7 +27,13 @@ builder.Services.AddCors(
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
 builder.Services.AddControllers().AddNewtonsoftJson(
-    opt => opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto);
+    opt => {
+        //opt.SerializerSettings. = SettingsFactory.GetDefaultSettings();
+        //opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
+        //opt.SerializerSettings.SerializationBinder = knownTypesBinder;
+        //opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        opt.SerializerSettings.Converters.Add(DtoSettings.Converter);
+    });
 //builder.Services.AddControllers().AddNewtonsoftJson(
 //    opt => opt.);
 

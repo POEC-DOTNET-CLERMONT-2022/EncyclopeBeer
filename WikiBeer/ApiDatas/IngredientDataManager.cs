@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models.Ingredients;
+using Newtonsoft.Json;
 
 namespace Ipme.WikiBeer.ApiDatas
 {

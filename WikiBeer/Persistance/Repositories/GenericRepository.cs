@@ -23,7 +23,10 @@ using System.Threading.Tasks;
 /// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
 /// entier n'est pas chargé)
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
-/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objet en base  
+/// Note importante : On fait le choix de la sécurité sur les Update, Create. On vérifie systématiquement l'existence des objets en base  
+/// TODO : revoir les vérification qui au final ne servent à rien (passer plutôt par GetDatabaseValue ou bien via Any)
+/// https://docs.microsoft.com/en-us/ef/core/change-tracking/entity-entries
+/// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.entityentry.getdatabasevalues?view=efcore-6.0#microsoft-entityframeworkcore-changetracking-entityentry-getdatabasevalues
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -36,11 +39,14 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        public virtual T Create(T entityToCreate)
+        public virtual T? Create(T entityToCreate)
         {
+            if (entityToCreate.Id != Guid.Empty)
+                return null; // impossible d'ajouter une ressource avec un Guid déjà définie
+
             var newEntry = Context.Attach(entityToCreate);
             
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate);            
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate && e.Entity is not Dictionary<string,object>);            
 
             if (entries.Any())
             {
@@ -48,7 +54,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 {
                     if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                         throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
-                            $"d'un composé n'est pas authorisée. (composé : {entityToCreate})");
+                            $"d'un composé n'est pas autorisée. (composé : {entityToCreate})");
                 }
             }
 
@@ -83,13 +89,16 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual T? Update(T entity)
         {
-            var updatedEntry = Context.Attach(entity); 
-            if (updatedEntry.State == EntityState.Added)
-                return null; // ressource non trouvé car marqué Added
+            var updatedEntry = Context.Attach(entity);
+            if (!Context.Set<T>().Any(e => e.Id == entity.Id))
+                return null;
+            //var updatedEntry = Context.Update(entity);
+            //if (updatedEntry.State == EntityState.Added)
+            //    return null; // ressource non trouvé car marqué Added -> Non ne marquera Added que si le Guid est nulle! Il faut tester l'existence du guid en base...
 
             updatedEntry.State = EntityState.Modified; 
 
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity);            
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);            
 
             if (entries.Any())
             {
@@ -97,7 +106,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 {
                     if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                         throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
-                            $"d'un composé n'est pas authorisée. (composé : {entity})"); 
+                            $"d'un composé n'est pas autorisée. (composé : {entity})"); 
                 }
             }
 
