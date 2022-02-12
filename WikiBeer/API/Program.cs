@@ -5,7 +5,6 @@ using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Reflection;
-using Tools;
 
 using Ipme.WikiBeer.API;
 using Ipme.WikiBeer.Dtos.SerializerSettings;
@@ -27,17 +26,6 @@ builder.Services.AddCors(
 
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
-var assemblyName = "Ipme.WikiBeer.Dtos";
-var asm = Assembly.Load(assemblyName);
-KnownTypesBinder knownTypesBinder = new KnownTypesBinder
-{
-    KnownTypes = asm.GetTypes().ToList()
-};
-
-var standartSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, SerializationBinder = knownTypesBinder };
-var specialSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects, SerializationBinder = knownTypesBinder };
-var dtoConverter = new DtoConverter(standartSettings, specialSettings);
-
 builder.Services.AddControllers().AddNewtonsoftJson(
     opt => {
         //opt.SerializerSettings. = SettingsFactory.GetDefaultSettings();

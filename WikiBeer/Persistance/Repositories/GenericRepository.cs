@@ -39,8 +39,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        public virtual T Create(T entityToCreate)
-        {            
+        public virtual T? Create(T entityToCreate)
+        {
+            if (entityToCreate.Id != Guid.Empty)
+                return null; // impossible d'ajouter une ressource avec un Guid déjà définie
+
             var newEntry = Context.Attach(entityToCreate);
             
             var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate && e.Entity is not Dictionary<string,object>);            
@@ -87,10 +90,11 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         public virtual T? Update(T entity)
         {
             var updatedEntry = Context.Attach(entity);
-
+            if (!Context.Set<T>().Any(e => e.Id == entity.Id))
+                return null;
             //var updatedEntry = Context.Update(entity);
-            if (updatedEntry.State == EntityState.Added)
-                return null; // ressource non trouvé car marqué Added -> Non ne marquera Added que si le Guid est nulle! Il faut tester l'existence du guid en base...
+            //if (updatedEntry.State == EntityState.Added)
+            //    return null; // ressource non trouvé car marqué Added -> Non ne marquera Added que si le Guid est nulle! Il faut tester l'existence du guid en base...
 
             updatedEntry.State = EntityState.Modified; 
 
