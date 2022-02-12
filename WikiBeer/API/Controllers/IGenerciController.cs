@@ -7,9 +7,9 @@ namespace Ipme.WikiBeer.API.Controllers
     public interface IGenerciController<TDto>        
         where TDto : class, IDto
     {
-        public ActionResult<IEnumerable<TDto>> Get();
-        public ActionResult<TDto> Get(Guid id);
-        public IActionResult Post([FromBody] TDto dto);
-        public IActionResult Put(Guid id, [FromBody] TDto dto);
+        public Task<ActionResult<IEnumerable<TDto>>> GetAsync();
+        public Task<ActionResult<TDto>> GetAsync(Guid id);
+        public Task<IActionResult> PostAsync([FromBody] TDto dto);
+        public Task<IActionResult> PutAsync(Guid id, [FromBody] TDto dto);
     }
 }

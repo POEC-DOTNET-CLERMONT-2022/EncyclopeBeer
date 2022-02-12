@@ -42,11 +42,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)] // si on avait une classe BaseDto on pourrait la mettre là
         [ProducesResponseType(500)]
         [EnableCors("LocalPolicy")]
-        public virtual ActionResult<IEnumerable<TDto>> Get()
+        public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAsync()
         {
             try
             {
-                var allDtos = _mapper.Map<IEnumerable<TDto>>(_dbRepository.GetAll());
+                var allDtos = _mapper.Map<IEnumerable<TDto>>(await _dbRepository.GetAllAsync());
                 return Ok(allDtos);
             }
             catch (Exception e)
@@ -60,11 +60,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [EnableCors("LocalPolicy")]
-        public virtual ActionResult<TDto> Get(Guid id)
+        public virtual async Task<ActionResult<TDto>> GetAsync(Guid id)
         {
             try
             {
-                var entity = _dbRepository.GetById(id);
+                var entity = await _dbRepository.GetByIdAsync(id);
                 if (entity == null)
                     return NotFound();
                 return Ok(_mapper.Map<TDto>(entity));
@@ -85,16 +85,16 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public virtual IActionResult Post([FromBody] TDto dto)
+        public virtual async Task<IActionResult> PostAsync([FromBody] TDto dto)
         {
             try
             {
                 var entity = _mapper.Map<TEntity>(dto);
-                var createdEntity = _dbRepository.Create(entity);
+                var createdEntity = await _dbRepository.CreateAsync(entity);
                 if (createdEntity == null)
                     return BadRequest($"L'id du dto envoyé {dto} => Id = {dto.Id} est non null, impossible de l'insérer en base");
                 var correspondingDto = _mapper.Map<TDto>(createdEntity);
-                return CreatedAtAction(nameof(Get), new { id = correspondingDto.Id }, correspondingDto);
+                return CreatedAtAction(nameof(GetAsync), new { id = correspondingDto.Id }, correspondingDto);
             }
             catch (UndesiredBorderEffectException ubee)
             {
@@ -111,12 +111,12 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public virtual IActionResult Put(Guid id, [FromBody] TDto dto) // Guid à passer en FromQuerry???
+        public virtual async Task<IActionResult> PutAsync(Guid id, [FromBody] TDto dto) // Guid à passer en FromQuerry???
         {
             try
             {
                 var entity = _mapper.Map<TEntity>(dto); // automapper plante si la forme du Dto n'est pas bonne -> BadRequest?
-                var updatedEntity = _dbRepository.Update(entity);
+                var updatedEntity = await _dbRepository.UpdateAsync(entity);
                 if (updatedEntity == null)
                     return NotFound();
                 return Ok(_mapper.Map<TDto>(updatedEntity));
@@ -135,11 +135,11 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public virtual IActionResult Delete(Guid id) 
+        public virtual async Task<IActionResult> DeleteAsync(Guid id) 
         {
             try
             {
-                var response = _dbRepository.DeleteById(id);
+                var response = await _dbRepository.DeleteByIdAsync(id);
                 if (response == null)  // id non trouvé en base
                     return NotFound();
                 // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
