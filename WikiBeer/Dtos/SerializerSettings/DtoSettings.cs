@@ -12,7 +12,9 @@ namespace Ipme.WikiBeer.Dtos.SerializerSettings
     public static class DtoSettings
     {
         private static Assembly DtoAssembly { get; } = typeof(BeerDto).Assembly;
-        public static ISerializationBinder KnownTypesBinder { get; } = new KnownTypesBinder(DtoAssembly.GetTypes());
+
+        private static IEnumerable<Type> AllowedDtos = DtoAssembly.GetTypes().Where(dtoType => typeof(IDto).IsAssignableFrom(dtoType));
+        public static ISerializationBinder KnownTypesBinder { get; } = new KnownTypesBinder(AllowedDtos);
         public static JsonSerializerSettings StandartSettings { get; } =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, SerializationBinder = KnownTypesBinder };
         public static JsonSerializerSettings SpecialSettings =

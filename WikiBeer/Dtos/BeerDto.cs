@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Ipme.WikiBeer.Dtos
+namespace Ipme.WikiBeer.Dtos 
 {
-    public class BeerDto
+    public class BeerDto : IDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
