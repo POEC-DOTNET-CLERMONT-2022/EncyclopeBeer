@@ -41,10 +41,29 @@ namespace Ipme.WikiBeer.ApiDatas
             var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
             postRequest.Headers.Add("Accept", "*/*");
             postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
+
+            var response = await Client.SendAsync(postRequest);
+
+            response.EnsureSuccessStatusCode();
+        }
+
+
+        public virtual async Task<TModel> AddAndReturn(TModel model)
+        {
+            var dto = Mapper.Map<TDto>(model);
+            var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
+
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
+            postRequest.Headers.Add("Accept", "*/*");
+            postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             
             var response = await Client.SendAsync(postRequest);
+                      
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseDto = JsonConvert.DeserializeObject<TDto>(responseString,
+                GetJsonSettings());
             
-            response.EnsureSuccessStatusCode();
+            return Mapper.Map<TModel>(responseDto);
         }
 
         public virtual async Task<IEnumerable<TModel>> GetAll()
