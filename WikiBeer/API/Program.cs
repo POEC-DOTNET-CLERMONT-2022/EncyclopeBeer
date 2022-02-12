@@ -28,14 +28,8 @@ builder.Services.AddCors(
 // ---> Absoluement indispensable
 builder.Services.AddControllers().AddNewtonsoftJson(
     opt => {
-        //opt.SerializerSettings. = SettingsFactory.GetDefaultSettings();
-        //opt.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
-        //opt.SerializerSettings.SerializationBinder = knownTypesBinder;
-        //opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         opt.SerializerSettings.Converters.Add(DtoSettings.Converter);
     });
-//builder.Services.AddControllers().AddNewtonsoftJson(
-//    opt => opt.);
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -47,7 +41,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(DtoEntityProfile).Assembly);
 
 // Conection String 
-var cs = builder.Configuration.GetConnectionString("DefaultConnection");
+string cs;
+if (args.Any())
+{
+    cs = args[0];
+}
+else
+{
+    cs = builder.Configuration.GetConnectionString("DefaultConnection");
+}
 //var cs = "Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = WikiBeer; Integrated Security = True;";
 // Injection de dépendance
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

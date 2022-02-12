@@ -14,6 +14,9 @@ namespace Ipme.WikiBeer.Persistance.MigrationSpecific
     {
         public WikiBeerSqlContext CreateDbContext(string[] args)
         {
+            //var cc = args.ToList();
+            //cc.Add("bb");
+            //Console.WriteLine(cc[0]);
             IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile(@Directory.GetCurrentDirectory() + "/../API/appsettings.json").Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
