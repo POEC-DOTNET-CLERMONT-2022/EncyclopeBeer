@@ -9,7 +9,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public interface IGenericRepository<T> where T : class, IEntity
     {
-        T Create(T entityToCreate);
+        T? Create(T entityToCreate);
 
         IEnumerable<T> GetAll();
 

@@ -42,33 +42,18 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         public virtual T? Create(T entityToCreate)
         {
             if (entityToCreate.Id != Guid.Empty)
-                return null; // impossible d'ajouter une ressource avec un Guid déjà définie
+                return null; 
 
             var newEntry = Context.Attach(entityToCreate);
-            
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entityToCreate && e.Entity is not Dictionary<string,object>);            
 
-            if (entries.Any())
-            {
-                foreach (var entry in entries)
-                {
-                    if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                        throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
-                            $"d'un composé n'est pas autorisée. (composé : {entityToCreate})");
-                }
-            }
+            CheckBorderEffectAdded(entityToCreate);
 
             Context.SaveChanges(); 
             return newEntry.Entity;
         }
 
-        /// <summary>
-        /// TODO : rajouter la pagination
-        /// </summary>
-        /// <returns></returns>
         public virtual IEnumerable<T> GetAll()
-        {
-            var tt = Context.Set<T>().ToList();
+        {            
             return Context.Set<T>().ToList();
         }
 
@@ -92,23 +77,10 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             var updatedEntry = Context.Attach(entity);
             if (!Context.Set<T>().Any(e => e.Id == entity.Id))
                 return null;
-            //var updatedEntry = Context.Update(entity);
-            //if (updatedEntry.State == EntityState.Added)
-            //    return null; // ressource non trouvé car marqué Added -> Non ne marquera Added que si le Guid est nulle! Il faut tester l'existence du guid en base...
+  
+            updatedEntry.State = EntityState.Modified;
 
-            updatedEntry.State = EntityState.Modified; 
-
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);            
-
-            if (entries.Any())
-            {
-                foreach (var entry in entries)
-                {
-                    if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                        throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
-                            $"d'un composé n'est pas autorisée. (composé : {entity})"); 
-                }
-            }
+            CheckBorderEffectAdded(entity);
 
             Context.SaveChanges();            
             return updatedEntry.Entity;
@@ -123,6 +95,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
         /// uniquement)
         /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
+        /// Mais en fait non... revoir pour un activator?
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -132,13 +105,31 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (entity == null)
                 return null;
 
-            //var toDeleteEntry = Context.Attach(entity);
-            //if (updatedEntry.State == EntityState.Added)
-            //    return null; // ressource non trouvé car marqué Added
-
             Context.Remove(entity);
 
             return Context.SaveChanges() >= 1;
         }
+
+        /// <summary>
+        /// TODO : à retravailler pour tester aussi la modification par rapport à la base!
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="UndesiredBorderEffectException"></exception>
+        protected virtual void CheckBorderEffectAdded(T entity)
+        {
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
+
+            if (entries.Any())
+            {
+                foreach (var entry in entries)
+                {
+                    if (entry.State == EntityState.Added)
+                        throw new UndesiredBorderEffectException("L'ajout en base d'un composant lors de création/modification" +
+                            $"d'un composé n'est pas autorisée. (composé :{entity.Id} : {entity})");
+                }
+            }
+        }
+
+
     }
 }
