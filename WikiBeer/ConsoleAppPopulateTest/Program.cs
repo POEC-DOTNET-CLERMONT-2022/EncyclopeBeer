@@ -16,8 +16,7 @@ https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_JsonConverterAttribu
 https://www.newtonsoft.com/json/help/html/SerializeSerializationBinder.htm
 https://www.newtonsoft.com/json/help/html/CustomJsonConverterGeneric.htm
 https://www.newtonsoft.com/json/help/html/CustomJsonConverter.htm
-
-    Voir également
+Voir également
 https://github.com/manuc66/JsonSubTypes
  */
 using AutoMapper;
@@ -130,7 +129,7 @@ if (generate)
     var bddSmoked = bddStyle.FirstOrDefault(c => c.Name == "Smoked Beer");
     var bddAle = bddStyle.FirstOrDefault(c => c.Name == "Ale");
 
-    // Ingredients
+    ////Ingredients
     //var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
     //var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
     //var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");

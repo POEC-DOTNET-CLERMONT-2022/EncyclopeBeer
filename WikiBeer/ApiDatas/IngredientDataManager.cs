@@ -11,15 +11,5 @@ namespace Ipme.WikiBeer.ApiDatas
             : base(client, mapper, serverUrl, "/api/Ingredients")
         {
         }
-
-        protected override JsonSerializerSettings GetJsonSettings()
-        {
-            return new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects,
-                SerializationBinder = knownTypesBinder
-            };
-        }
-
     }
 }

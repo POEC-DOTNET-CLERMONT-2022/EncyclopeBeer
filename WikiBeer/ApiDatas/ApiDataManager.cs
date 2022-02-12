@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Ipme.WikiBeer.Dtos;
-using Ipme.WikiBeer.Dtos.Ingredients;
+using Ipme.WikiBeer.Dtos.SerializerSettings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,15 +21,8 @@ namespace Ipme.WikiBeer.ApiDatas
         private IMapper Mapper { get; }
         private string ServerUrl { get; }
         private string ResourceUrl { get; }
-        private Uri Uri { get; }
-        //private JsonSerializerSettings NewtonOptions { get; }
-
-        //protected JsonSerializerSettings _defaultOptions = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
-        protected KnownTypesBinder knownTypesBinder = new KnownTypesBinder
-        {
-            KnownTypes = new List<Type> { typeof(HopDto), typeof(AdditiveDto), typeof(CerealDto) }
-        };
-
+        private Uri Uri { get; }        
+        protected JsonSerializerSettings JsonSerializerSettings { get; set; }
 
         public ApiDataManager(HttpClient client, IMapper mapper, string serverUrl, string resourceUrl)
         {
@@ -39,13 +31,13 @@ namespace Ipme.WikiBeer.ApiDatas
             ServerUrl = serverUrl;
             ResourceUrl = resourceUrl;
             Uri = new Uri(ServerUrl + ResourceUrl);
-            //NewtonOptions = options;
+            JsonSerializerSettings = DtoSettings.DefaultSettings;
         }
 
         public virtual async Task Add(TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
-            var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
+            var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
 
             var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
             postRequest.Headers.Add("Accept", "*/*");
@@ -53,33 +45,29 @@ namespace Ipme.WikiBeer.ApiDatas
             
             var response = await Client.SendAsync(postRequest);
             
-            response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
-            //await HttpClient.PostAsJsonAsync(Uri, dto);
+            response.EnsureSuccessStatusCode();
         }
 
         public virtual async Task<IEnumerable<TModel>> GetAll()
         {
-            //var request = new HttpRequestMessage(HttpMethod.Get, Uri);
-            //request.Headers.Add("Accept", "application/json");
-            //var response = await Client.SendAsync(request);
             var response = await Client.GetAsync(Uri.AbsoluteUri);
-            response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
-            // Sérialisation 
+            response.EnsureSuccessStatusCode(); 
+
             var responseString = await response.Content.ReadAsStringAsync();
             var dtos = JsonConvert.DeserializeObject<IEnumerable<TDto>>(responseString,
-                GetJsonSettings());
-            //var result = await HttpClient.GetFromJsonAsync<IEnumerable<TDto>>(Uri);
+                JsonSerializerSettings);
+            
             return Mapper.Map<IEnumerable<TModel>>(dtos);
         }
 
         public virtual async Task<TModel> GetById(Guid id)
         {
             var response = await Client.GetAsync(Uri.AbsoluteUri+$"/{id}");
-            response.EnsureSuccessStatusCode(); // pète une exception en cas de problème
-            // Sérialisation 
+            response.EnsureSuccessStatusCode(); 
+
             var responseString = await response.Content.ReadAsStringAsync();
             var dto = JsonConvert.DeserializeObject<TDto>(responseString,
-                GetJsonSettings());
+                JsonSerializerSettings);
             
             return Mapper.Map<TModel>(dto);
         }
@@ -87,7 +75,7 @@ namespace Ipme.WikiBeer.ApiDatas
         public virtual async Task Update(Guid id, TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
-            var dtoString = JsonConvert.SerializeObject(dto, GetJsonSettings());
+            var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
 
             var putRequest = new HttpRequestMessage(HttpMethod.Put, Uri.AbsoluteUri+$"/{id}");
             putRequest.Headers.Add("Accept", "*/*");
@@ -102,16 +90,8 @@ namespace Ipme.WikiBeer.ApiDatas
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var success = JsonConvert.DeserializeObject<bool>(responseString,
-                GetJsonSettings());
+                JsonSerializerSettings);
             return success;
         }
- 
-        protected virtual JsonSerializerSettings GetJsonSettings()
-        {
-            return new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = knownTypesBinder
-        };
-        }
-
     }
 }
