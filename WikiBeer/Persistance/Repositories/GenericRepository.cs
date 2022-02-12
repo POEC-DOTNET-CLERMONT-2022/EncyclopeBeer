@@ -27,6 +27,8 @@ using System.Threading.Tasks;
 /// TODO : revoir les vérification qui au final ne servent à rien (passer plutôt par GetDatabaseValue ou bien via Any)
 /// https://docs.microsoft.com/en-us/ef/core/change-tracking/entity-entries
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.entityentry.getdatabasevalues?view=efcore-6.0#microsoft-entityframeworkcore-changetracking-entityentry-getdatabasevalues
+/// Sur l'implémentation d'une searchbar (expression-tree qu'il va falloir associer à de la réflexion!): 
+/// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/expression-trees/how-to-use-expression-trees-to-build-dynamic-queries
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -48,7 +50,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             CheckBorderEffectAdded(entityToCreate);
 
-            Context.SaveChanges(); 
+            Context.SaveChangesAsync(); 
             return newEntry.Entity;
         }
 

@@ -185,6 +185,7 @@ ingredientManager.Add(newhop);
 //styleManager.Update(updatedStyle.Id, updatedStyle).Wait();
 //styleManager.DeleteById(updatedStyle.Id).Wait();
 //styleManager.Add(updatedStyle).Wait();
+beerManager.DeleteById(modifiedbddBeers.ToList()[0].Id);
 #endregion
 
 

@@ -135,7 +135,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public virtual IActionResult Delete(Guid id) // on pourrait retourner un boléen ici
+        public virtual IActionResult Delete(Guid id) 
         {
             try
             {
@@ -147,7 +147,7 @@ namespace Ipme.WikiBeer.API.Controllers
                     return Ok(true);
                 // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
                 //return StatusCode(500);
-                return Ok(false); // serait peut être mieux...
+                return Ok(false); // serait peut être mieux... ou alors renvoyé une erreur custom?
             }
             catch (Exception e)
             {

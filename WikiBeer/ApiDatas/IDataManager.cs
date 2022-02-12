@@ -6,8 +6,8 @@
     {
         Task<IEnumerable<TModel>> GetAll();
         Task<TModel> GetById(Guid id);
-        Task Add(TModel model);
-        Task Update(Guid id, TModel model);
+        Task<TModel> Add(TModel model);
+        Task<TModel> Update(Guid id, TModel model);
         Task<bool> DeleteById(Guid id);
     }
 }

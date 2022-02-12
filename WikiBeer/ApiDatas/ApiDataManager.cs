@@ -33,22 +33,7 @@ namespace Ipme.WikiBeer.ApiDatas
             JsonSerializerSettings = DtoSettings.DefaultSettings;
         }
 
-        public virtual async Task Add(TModel model)
-        {
-            var dto = Mapper.Map<TDto>(model);
-            var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-
-            var postRequest = new HttpRequestMessage(HttpMethod.Post, Uri.AbsoluteUri);
-            postRequest.Headers.Add("Accept", "*/*");
-            postRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
-
-            var response = await Client.SendAsync(postRequest);
-
-            response.EnsureSuccessStatusCode();
-        }
-
-
-        public virtual async Task<TModel> AddAndReturn(TModel model)
+        public virtual async Task<TModel> Add(TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
             var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
@@ -90,7 +75,7 @@ namespace Ipme.WikiBeer.ApiDatas
             return Mapper.Map<TModel>(dto);
         }
 
-        public virtual async Task Update(Guid id, TModel model)
+        public virtual async Task<TModel> Update(Guid id, TModel model)
         {
             var dto = Mapper.Map<TDto>(model);
             var dtoString = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
@@ -99,7 +84,13 @@ namespace Ipme.WikiBeer.ApiDatas
             putRequest.Headers.Add("Accept", "*/*");
             putRequest.Content = new StringContent(dtoString, System.Text.Encoding.UTF8, "application/json-patch+json");
             var response = await Client.SendAsync(putRequest);
-            response.EnsureSuccessStatusCode(); 
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseDto = JsonConvert.DeserializeObject<TDto>(responseString,
+                JsonSerializerSettings);
+
+            return Mapper.Map<TModel>(responseDto);
         }
 
         public virtual async Task<bool> DeleteById(Guid id)

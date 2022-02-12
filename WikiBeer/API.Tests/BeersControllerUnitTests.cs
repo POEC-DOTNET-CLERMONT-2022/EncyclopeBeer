@@ -23,6 +23,9 @@ using System.Net;
 /// Note : On suppose dans ces test que Automappeur fonctionne correctement
 /// On utilise Fluent assertions 
 /// voir : https://fluentassertions.com/objectgraphs/ pour les détails d'utilisation
+/// Discussion interessante sur des Test génériques : 
+/// https://stackoverflow.com/questions/54048169/unit-test-with-generics-types
+/// https://codinghelmet.com/articles/how-to-write-unit-tests-for-generic-classes
 /// </summary>
 namespace Ipme.WikiBeer.API.Tests
 {

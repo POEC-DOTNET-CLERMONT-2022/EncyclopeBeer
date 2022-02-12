@@ -14,8 +14,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewStyles : UserControl
     {
-        //private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
-        private StyleDataManager _styleDataManager = (StyleDataManager)((App)Application.Current).StyleDataManager;
+        private IDataManager<BeerStyleModel, BeerStyleDto> _styleDataManager = ((App)Application.Current).StyleDataManager;
+        //private StyleDataManager _styleDataManager = (StyleDataManager)((App)Application.Current).StyleDataManager;
 
         public IGenericListModel<BeerStyleModel> Styles { get; }
 
@@ -53,7 +53,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
-            var newStyle = await _styleDataManager.AddAndReturn(Styles.ToModify);
+            var newStyle = await _styleDataManager.Add(Styles.ToModify);
             Styles.List.Add(newStyle);            
         }
 
@@ -67,8 +67,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             Update_Button.Visibility = Visibility.Collapsed;
             Create_Button.Visibility = Visibility.Visible;
-            //_newBeer = new BeerStyleModel(string.Empty, string.Empty);
-            //StyleDetailsComponent.StyleDetails = _newBeer;
             Styles.ToModify = new BeerStyleModel(string.Empty, string.Empty);
         }
 
