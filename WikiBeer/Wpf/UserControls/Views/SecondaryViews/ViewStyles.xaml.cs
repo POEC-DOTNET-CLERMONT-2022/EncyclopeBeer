@@ -40,9 +40,10 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Update_Button_Click(object sender, RoutedEventArgs e)
         {
-            await _styleDataManager.Update(Styles.ToModify.Id, Styles.ToModify);
+            var updatedStyle = await _styleDataManager.Update(Styles.ToModify.Id, Styles.ToModify);
             var index = Styles.List.IndexOf(Styles.Current);
-            Styles.List[index] = Styles.ToModify.DeepClone();
+            //Styles.List[index] = Styles.ToModify.DeepClone();
+            Styles.List[index] = updatedStyle;
         }
 
         private async void Delete_Button_Click(object sender, RoutedEventArgs e)
