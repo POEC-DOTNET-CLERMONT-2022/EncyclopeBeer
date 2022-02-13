@@ -29,7 +29,7 @@ namespace Ipme.WikiBeer.Tools
         public string ApiUrl { get; }
         public Mapper Mapper { get; }        
         public HttpClient Client { get; }
-        public string VerbatimConnectionString { get; }
+        //public string VerbatimConnectionString { get; }
         public string ConnectionString { get; }
 
         public BeerDataManager BeerManager { get; }
@@ -46,7 +46,7 @@ namespace Ipme.WikiBeer.Tools
         public IEnumerable<BeerColorModel> Colors { get; set; }
         public IEnumerable<IngredientModel> Ingredients { get; set; }
 
-        public DataBaseRessource(string dbName = "WikiBeerTest", string url = "https://localhost:7160", 
+        public DataBaseRessource(string dbName = "WikiBeerTest", string url = "https://localhost:5001", 
             string apiPath = @"C:\Users\armel\git\Formation_IPME_dot_net\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe")
         {
             // API
@@ -69,8 +69,7 @@ namespace Ipme.WikiBeer.Tools
 
             // DataBase            
             //"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = TestBase; Integrated Security = True;";
-            VerbatimConnectionString = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
-            ConnectionString = VerbatimConnectionString;//$"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = { dbName }; Integrated Security = True;";
+            ConnectionString = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
         }
 
         public void AutoFill()
@@ -113,8 +112,8 @@ namespace Ipme.WikiBeer.Tools
 
         public void FillDatabase()
         {
-            if (Api.HasExited)
-                StartApi();
+            //if (Api.HasExited)
+            //    StartApi();
             EnsureDatabaseCreation();
             Countries = InsertCountries();
             Breweries = InsertBreweries(Countries);
@@ -143,7 +142,7 @@ namespace Ipme.WikiBeer.Tools
         private DbContextOptions<WikiBeerSqlContext> GetContextOptions()
         {
             var contextOptionBuilder = new DbContextOptionsBuilder<WikiBeerSqlContext>();
-            contextOptionBuilder.UseSqlServer(VerbatimConnectionString);
+            contextOptionBuilder.UseSqlServer(ConnectionString);
             return contextOptionBuilder.Options;
         }
 
@@ -258,7 +257,8 @@ namespace Ipme.WikiBeer.Tools
             var dbModels = new List<TModel>();
             foreach (var model in models)
             {
-                dbModels.Add(manager.Add(model).Result);
+                var tt = manager.Add(model).Result;
+                dbModels.Add(tt);
             }
             return dbModels;
         }

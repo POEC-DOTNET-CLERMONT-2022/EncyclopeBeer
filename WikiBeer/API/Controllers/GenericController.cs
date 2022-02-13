@@ -5,6 +5,7 @@ using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 /// <summary>
 /// TODO : affiner les block catch (renvoyer autre chose que du 500)
@@ -20,6 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 /// Un peu plus sur les Formatter (pour se passer de NewtonSoft)
 /// https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/custom-formatters?view=aspnetcore-6.0
 /// Note : un service dédié au mapping (et validation) permettrai de vraiment découpler cette classe de l'assembly Entities!
+/// Sur un bug super étrange lié au nommage des controller et du CreatedAtAction
+/// https://stackoverflow.com/questions/59288259/asp-net-core-3-0-createdataction-returns-no-route-matches-the-supplied-values
 /// </summary>
 namespace Ipme.WikiBeer.API.Controllers
 {
@@ -82,6 +85,7 @@ namespace Ipme.WikiBeer.API.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
+        //[Consumes("application/json-patch+json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]

@@ -30,8 +30,10 @@ using System.Collections.ObjectModel;
 using Ipme.WikiBeer.Tools;
 
 var dBname = "WikiTest";
-var tester = new DataBaseRessource(dBname);
-tester.AutoFill();
+var port = "https://localhost:7160";
+var tester = new DataBaseRessource(dBname,port);
+//tester.AutoFill();
+tester.FillDatabase();
 
 //---------------------------------------------------------------------------------------------------------------------------------
 // Config program
