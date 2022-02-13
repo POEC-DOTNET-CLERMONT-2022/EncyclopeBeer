@@ -63,7 +63,6 @@ var app = builder.Build();
 //    //context.Database.Migrate();
 //}
 
-Console.WriteLine("post using");
 app.UseCors();
 
 // Configure the HTTP request pipeline.

@@ -27,12 +27,13 @@ export class ListBeersComponent implements OnInit {
     {
       this.beers = beerList;
       /* console.log(this.beers); */
-      for(let beer of beerList) /* Sa en revanche sa fonctionne */
+      /* Sa en revanche sa fonctionne */
+ /*      for(let beer of beerList)
       {
         this.beerService.getBeerById(beer.id).subscribe((b : Beer) => this.beerZ.push(b));
         console.log(this.beerZ);
         console.log(beer);
-      }
+      } */
     })
   }
 

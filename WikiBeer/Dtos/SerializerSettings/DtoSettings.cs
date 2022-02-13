@@ -14,13 +14,28 @@ namespace Ipme.WikiBeer.Dtos.SerializerSettings
         private static Assembly DtoAssembly { get; } = typeof(BeerDto).Assembly;
 
         private static IEnumerable<Type> AllowedDtos = DtoAssembly.GetTypes().Where(dtoType => typeof(IDto).IsAssignableFrom(dtoType));
+        
         public static ISerializationBinder KnownTypesBinder { get; } = new KnownTypesBinder(AllowedDtos);
-        public static JsonSerializerSettings StandartSettings { get; } =
-            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, SerializationBinder = KnownTypesBinder };
-        public static JsonSerializerSettings SpecialSettings =
-            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects, SerializationBinder = KnownTypesBinder };
+
+        public static DefaultContractResolver contractResolver { get; } = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy(),
+        };
+
+        public static JsonSerializerSettings StandartSettings { get; } = new JsonSerializerSettings { 
+            TypeNameHandling = TypeNameHandling.Auto, 
+            SerializationBinder = KnownTypesBinder,
+            ContractResolver = contractResolver};
+        
+        public static JsonSerializerSettings SpecialSettings = new JsonSerializerSettings { 
+            TypeNameHandling = TypeNameHandling.Objects, 
+            SerializationBinder = KnownTypesBinder,
+            ContractResolver = contractResolver};
+        
         public static IEnumerable<Type> SpecialTypes { get; } = new Type[] { typeof(IngredientDto) };
+        
         public static JsonConverter Converter { get; }= new DtoConverter(StandartSettings, SpecialSettings, SpecialTypes);
+        
         public static JsonSerializerSettings DefaultSettings
         {
             get

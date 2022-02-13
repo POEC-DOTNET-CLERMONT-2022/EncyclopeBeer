@@ -22,7 +22,7 @@ using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
 
 // Paramètres
-var dbName = "CrashTest";
+var dbName = "WikiBeer";
 var cs = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
 //var apiUrl = "https://localhost:7160";
 var apiUrl = "https://localhost:5001"; // valeur par défaut si lancée en Auto
@@ -34,7 +34,7 @@ var dbr = new DataBaseRessource(apiUrl);
 var manager = new DbManager(cs);
 var launcher = new ApiLauncher(apiUrl, apiPath, cs);
 
-manager.DropDataBase();
+//manager.DropDataBase();
 if (autoRunApi)
 {
     // Si l'API n'est pas lancée, la base non existente
@@ -46,6 +46,9 @@ else
     manager.EnsureDatabaseCreation();
     dbr.FillDatabase();
 }
+
+Console.WriteLine("Execution terminée");
+Console.ReadLine();
 
 // Méthodes utilitaires
 /// <summary>
@@ -69,7 +72,6 @@ void AutoFill(DataBaseRessource dbr, DbManager manager , ApiLauncher launcher)
     }
 }
 
-Console.WriteLine("Execution terminée");
-Console.ReadLine();
+
 
 
