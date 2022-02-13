@@ -4,33 +4,22 @@ using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
-using Ipme.WikiBeer.Persistance.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 /// <summary>
 /// Classe contenant les ressources que l'on veut utiliser pour les tests d'intégration
 /// Agit comme un client fictif qui remplirai une base vierge.
-/// Note : pour démarer une appli à partir d'une autre appli : (classe process)
-/// https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process?view=net-6.0
-/// https://stackoverflow.com/questions/70690219/net-6-0-configuration-files
-/// TODO : la gestion de l'Api doit être faite dans une classe séparé
 /// Note sur le Verbatim 
 /// https://stackoverflow.com/questions/556133/whats-the-in-front-of-a-string-in-c
 /// </summary>
-namespace Ipme.WikiBeer.Tools
+namespace Ipme.WikiBeer.Ressources
 {
     public class DataBaseRessource
     {
-        private Process Api { get; }
-        private string ApiPath { get; }
         public string ApiUrl { get; }
         public Mapper Mapper { get; }        
-        public HttpClient Client { get; }
-        //public string VerbatimConnectionString { get; }
-        public string ConnectionString { get; }
+        public HttpClient Client { get; }       
 
         public BeerDataManager BeerManager { get; }
         public BreweryDataManager BreweryManager { get; }
@@ -46,15 +35,10 @@ namespace Ipme.WikiBeer.Tools
         public IEnumerable<BeerColorModel> Colors { get; set; }
         public IEnumerable<IngredientModel> Ingredients { get; set; }
 
-        public DataBaseRessource(string dbName = "WikiBeerTest", string url = "https://localhost:5001", 
-            string apiPath = @"C:\Users\armel\git\Formation_IPME_dot_net\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe")
+        public DataBaseRessource(string url = "https://localhost:5001")
         {
-            // API
-            Api = new Process();
-            ApiPath = apiPath;
+            // Config Générale
             ApiUrl = url;
-
-            // Config Générale           
             var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
             Mapper = new Mapper(configuration);            
             Client = new HttpClient();
@@ -66,84 +50,16 @@ namespace Ipme.WikiBeer.Tools
             StyleManager = new StyleDataManager(Client, Mapper, ApiUrl);
             ColorManager = new ColorDataManager(Client, Mapper, ApiUrl);
             IngredientManager = new IngredientDataManager(Client, Mapper, ApiUrl);
-
-            // DataBase            
-            //"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = TestBase; Integrated Security = True;";
-            ConnectionString = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
-        }
-
-        public void AutoFill()
-        {
-            try
-            {
-                StartApi();
-                FillDatabase();
-            }
-            catch (Exception ex)
-            {
-            }
-            finally
-            {
-                StopApi();
-            }
-        }
-
-        public void StartApi()
-        {
-            ConfigureApi();
-            Api.Start();
-        }
-
-        public void StopApi()
-        {
-            Api.Dispose();
-            Api.Close();
-            //Api.Kill();
-        }
-
-        private void ConfigureApi()
-        {
-            Api.StartInfo = new ProcessStartInfo();
-            Api.StartInfo.UseShellExecute = false;
-            Api.StartInfo.RedirectStandardOutput = false;
-            Api.StartInfo.ArgumentList.Add(ConnectionString);
-            Api.StartInfo.FileName = ApiPath;
         }
 
         public void FillDatabase()
-        {
-            //if (Api.HasExited)
-            //    StartApi();
-            EnsureDatabaseCreation();
+        {            
             Countries = InsertCountries();
             Breweries = InsertBreweries(Countries);
             Colors = InsertColors();
             Styles = InsertStyles();
             Ingredients = InsertIngredients();
             Beers = InsertBeer(Breweries, Styles, Colors, Ingredients);
-        }
-
-        public void EnsureDatabaseCreation()
-        {
-            using (var context = new WikiBeerSqlContext(GetContextOptions()))
-            {
-                context.Database.EnsureCreated();
-            }
-        }
-
-        public void DropDataBase()
-        {            
-            using (var context = new WikiBeerSqlContext(GetContextOptions()))
-            {
-                context.Database.EnsureDeleted();
-            }
-        }
-
-        private DbContextOptions<WikiBeerSqlContext> GetContextOptions()
-        {
-            var contextOptionBuilder = new DbContextOptionsBuilder<WikiBeerSqlContext>();
-            contextOptionBuilder.UseSqlServer(ConnectionString);
-            return contextOptionBuilder.Options;
         }
 
         #region Valeurs en dur
@@ -153,6 +69,7 @@ namespace Ipme.WikiBeer.Tools
             var france = new CountryModel(name: "France");
             var ecosse = new CountryModel(name: "Ecosse");
             IEnumerable<CountryModel> countries = new CountryModel[] { belgique, france, ecosse };
+
             return AddAndWait(countries, CountryManager);
         }
 
@@ -168,6 +85,7 @@ namespace Ipme.WikiBeer.Tools
             var linderman = new BreweryModel(name: "Brasserie Lindemans", description: "Ils aiment les fruits", bddBelgique);
             var ninkasi = new BreweryModel(name: "Ninkasi", description: "A l'eau pure du Rhone", country: bddFrance);
             List<BreweryModel> breweries = new List<BreweryModel>() { brewdog, linderman, ninkasi };
+
             return AddAndWait(breweries, BreweryManager);
         }
 
@@ -178,6 +96,7 @@ namespace Ipme.WikiBeer.Tools
             var blanche = new BeerColorModel(name: "Blanche");
             var fruitee = new BeerColorModel(name: "Fruitée");
             IEnumerable<BeerColorModel> colors = new BeerColorModel[] { blonde, brune, blanche, fruitee };
+
             return AddAndWait(colors, ColorManager);
         }
 
@@ -190,6 +109,7 @@ namespace Ipme.WikiBeer.Tools
             var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
             var ale = new BeerStyleModel(name: "Ale", description: "");
             IEnumerable<BeerStyleModel> styles = new BeerStyleModel[] { ale, speciale, apa, smok, lambic, ipa };
+
             return AddAndWait(styles, StyleManager);
         }
 
@@ -200,6 +120,7 @@ namespace Ipme.WikiBeer.Tools
             var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
             var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
             IEnumerable<IngredientModel> ingredients = new IngredientModel[] { hop, malt, water };
+
             return AddAndWait(ingredients, IngredientManager);
         }
 
