@@ -27,26 +27,32 @@ using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
 using System.Collections.ObjectModel;
+using Ipme.WikiBeer.Tools;
 
+var dBname = "WikiTest";
+var tester = new DataBaseRessource(dBname);
+tester.AutoFill();
+
+//---------------------------------------------------------------------------------------------------------------------------------
 // Config program
-bool generate = true; // génère ou non de nouvelles entrées en base
+//bool generate = true; // génère ou non de nouvelles entrées en base
 
-// Config Automappeur 
-var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
-var mapper = new Mapper(configuration);
+//// Config Automappeur 
+//var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
+//var mapper = new Mapper(configuration);
 
-// Config Database : TODO si l'on veut -> Drop puis recréer la table comme un gros sale
+//// Config Database : TODO si l'on veut -> Drop puis recréer la table comme un gros sale
 
 
-// Configuration BeerManager
-var url = "https://localhost:7160";
-var client = new HttpClient();
-var beerManager = new BeerDataManager(client, mapper, url);
-var breweryManager = new BreweryDataManager(client, mapper, url);
-var countryManager = new CountryDataManager(client, mapper, url);
-var styleManager = new StyleDataManager(client, mapper, url);
-var colorManager = new ColorDataManager(client, mapper, url);
-var ingredientManager = new IngredientDataManager(client, mapper, url);
+//// Configuration BeerManager
+//var url = "https://localhost:7160";
+//var client = new HttpClient();
+//var beerManager = new BeerDataManager(client, mapper, url);
+//var breweryManager = new BreweryDataManager(client, mapper, url);
+//var countryManager = new CountryDataManager(client, mapper, url);
+//var styleManager = new StyleDataManager(client, mapper, url);
+//var colorManager = new ColorDataManager(client, mapper, url);
+//var ingredientManager = new IngredientDataManager(client, mapper, url);
 
 //---------------------------------------------------------------------------------------------------------------------------------
 //Ingredients
@@ -63,117 +69,117 @@ var ingredientManager = new IngredientDataManager(client, mapper, url);
 //ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 //---------------------------------------------------------------------------------------------------------------------------------
 
-#region Génération et mise en bdd
-if (generate)
-{   
-    // Pays
-    var belgique = new CountryModel(name: "Belgique");
-    var france = new CountryModel(name: "France");
-    var ecosse = new CountryModel(name: "Ecosse");
-    List<CountryModel> countries = new List<CountryModel>();
-    countries.Add(belgique);
-    countries.Add(france);
-    countries.Add(ecosse);
-    AddAndWait<CountryModel, CountryDto>(countries, countryManager);
+//#region Génération et mise en bdd
+//if (generate)
+//{   
+//    // Pays
+//    var belgique = new CountryModel(name: "Belgique");
+//    var france = new CountryModel(name: "France");
+//    var ecosse = new CountryModel(name: "Ecosse");
+//    List<CountryModel> countries = new List<CountryModel>();
+//    countries.Add(belgique);
+//    countries.Add(france);
+//    countries.Add(ecosse);
+//    AddAndWait<CountryModel, CountryDto>(countries, countryManager);
 
-    //Récupération pays pour brasseries
-    var bddcountry = await countryManager.GetAll();
-    var bddFrance = bddcountry.FirstOrDefault(c => c.Name == "France");
-    var bddBelgique = bddcountry.FirstOrDefault(c => c.Name == "Belgique");
-    var bddEcosse = bddcountry.FirstOrDefault(c => c.Name == "Ecosse");
+//    //Récupération pays pour brasseries
+//    var bddcountry = await countryManager.GetAll();
+//    var bddFrance = bddcountry.FirstOrDefault(c => c.Name == "France");
+//    var bddBelgique = bddcountry.FirstOrDefault(c => c.Name == "Belgique");
+//    var bddEcosse = bddcountry.FirstOrDefault(c => c.Name == "Ecosse");
 
-    // Brasseries
-    var brewdog = new BreweryModel(name: "Brewdog", description: "Des chiens qui brassent", bddEcosse);
-    var linderman = new BreweryModel(name: "Brasserie Lindemans", description: "Ils aiment les fruits", bddBelgique);
-    var ninkasi = new BreweryModel(name: "Ninkasi", description: "A l'eau pure du Rhone", country: bddFrance);
-    List<BreweryModel> breweries = new List<BreweryModel>() { brewdog, linderman, ninkasi};
-    AddAndWait<BreweryModel, BreweryDto>(breweries, breweryManager);
+//    // Brasseries
+//    var brewdog = new BreweryModel(name: "Brewdog", description: "Des chiens qui brassent", bddEcosse);
+//    var linderman = new BreweryModel(name: "Brasserie Lindemans", description: "Ils aiment les fruits", bddBelgique);
+//    var ninkasi = new BreweryModel(name: "Ninkasi", description: "A l'eau pure du Rhone", country: bddFrance);
+//    List<BreweryModel> breweries = new List<BreweryModel>() { brewdog, linderman, ninkasi};
+//    AddAndWait<BreweryModel, BreweryDto>(breweries, breweryManager);
 
-    //Récupération brasseries pour bières
-    var bddBreweries = await breweryManager.GetAll();
-    var bddBrewdog = bddBreweries.FirstOrDefault(c => c.Name == "Brewdog");
-    var bddLinderman = bddBreweries.FirstOrDefault(c => c.Name == "Brasserie Lindemans");
-    var bddNinkasi = bddBreweries.FirstOrDefault(c => c.Name == "Ninkasi");
+//    //Récupération brasseries pour bières
+//    var bddBreweries = await breweryManager.GetAll();
+//    var bddBrewdog = bddBreweries.FirstOrDefault(c => c.Name == "Brewdog");
+//    var bddLinderman = bddBreweries.FirstOrDefault(c => c.Name == "Brasserie Lindemans");
+//    var bddNinkasi = bddBreweries.FirstOrDefault(c => c.Name == "Ninkasi");
 
-    // Couleurs
-    var blonde = new BeerColorModel(name: "Blonde");
-    var brune = new BeerColorModel(name: "Brune");
-    var blanche = new BeerColorModel(name: "Blanche");
-    var fruitee = new BeerColorModel(name: "Fruitée");
-    List<BeerColorModel> colors = new List<BeerColorModel>() { blonde, brune, blanche, fruitee};
-    AddAndWait<BeerColorModel, BeerColorDto>(colors, colorManager);
+//    // Couleurs
+//    var blonde = new BeerColorModel(name: "Blonde");
+//    var brune = new BeerColorModel(name: "Brune");
+//    var blanche = new BeerColorModel(name: "Blanche");
+//    var fruitee = new BeerColorModel(name: "Fruitée");
+//    List<BeerColorModel> colors = new List<BeerColorModel>() { blonde, brune, blanche, fruitee};
+//    AddAndWait<BeerColorModel, BeerColorDto>(colors, colorManager);
 
-    //Récupération couleur pour bières
-    var bddColor = await colorManager.GetAll();
-    var bddBlonde = bddColor.FirstOrDefault(c => c.Name == "Blonde");
-    var bddBrune = bddColor.FirstOrDefault(c => c.Name == "Brune");
-    var bddBlanche = bddColor.FirstOrDefault(c => c.Name == "Blanche");
-    var bddFruitee = bddColor.FirstOrDefault(c => c.Name == "Fruitée");
+//    //Récupération couleur pour bières
+//    var bddColor = await colorManager.GetAll();
+//    var bddBlonde = bddColor.FirstOrDefault(c => c.Name == "Blonde");
+//    var bddBrune = bddColor.FirstOrDefault(c => c.Name == "Brune");
+//    var bddBlanche = bddColor.FirstOrDefault(c => c.Name == "Blanche");
+//    var bddFruitee = bddColor.FirstOrDefault(c => c.Name == "Fruitée");
 
-    // Styles
-    var ipa = new BeerStyleModel(name: "IPA", description: "");
-    var lambic = new BeerStyleModel(name: "Lambic", description: "");
-    var speciale = new BeerStyleModel(name: "Spéciale", description: "");
-    var apa = new BeerStyleModel(name: "American pale ale", description: "");
-    var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
-    var ale = new BeerStyleModel(name: "Ale", description: "");
-    List<BeerStyleModel> styles = new List<BeerStyleModel>() { ale, speciale, apa, smok, lambic, ipa};
-    AddAndWait<BeerStyleModel, BeerStyleDto>(styles, styleManager);
+//    // Styles
+//    var ipa = new BeerStyleModel(name: "IPA", description: "");
+//    var lambic = new BeerStyleModel(name: "Lambic", description: "");
+//    var speciale = new BeerStyleModel(name: "Spéciale", description: "");
+//    var apa = new BeerStyleModel(name: "American pale ale", description: "");
+//    var smok = new BeerStyleModel(name: "Smoked Beer", description: "");
+//    var ale = new BeerStyleModel(name: "Ale", description: "");
+//    List<BeerStyleModel> styles = new List<BeerStyleModel>() { ale, speciale, apa, smok, lambic, ipa};
+//    AddAndWait<BeerStyleModel, BeerStyleDto>(styles, styleManager);
 
-    //Récupération styles pour bières
-    var bddStyle = await styleManager.GetAll();
-    var bddIPA = bddStyle.FirstOrDefault(c => c.Name == "IPA");
-    var bddLambic = bddStyle.FirstOrDefault(c => c.Name == "Lambic");
-    var bddSpeciale = bddStyle.FirstOrDefault(c => c.Name == "Spéciale");
-    var bddAPA = bddStyle.FirstOrDefault(c => c.Name == "American pale ale");
-    var bddSmoked = bddStyle.FirstOrDefault(c => c.Name == "Smoked Beer");
-    var bddAle = bddStyle.FirstOrDefault(c => c.Name == "Ale");
+//    //Récupération styles pour bières
+//    var bddStyle = await styleManager.GetAll();
+//    var bddIPA = bddStyle.FirstOrDefault(c => c.Name == "IPA");
+//    var bddLambic = bddStyle.FirstOrDefault(c => c.Name == "Lambic");
+//    var bddSpeciale = bddStyle.FirstOrDefault(c => c.Name == "Spéciale");
+//    var bddAPA = bddStyle.FirstOrDefault(c => c.Name == "American pale ale");
+//    var bddSmoked = bddStyle.FirstOrDefault(c => c.Name == "Smoked Beer");
+//    var bddAle = bddStyle.FirstOrDefault(c => c.Name == "Ale");
 
-    ////Ingredients
-    var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
-    var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
-    var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
-    ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
-    AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
+//    ////Ingredients
+//    var hop = new HopModel(name: "Houblon", description: "Pour l'amertume !", alphaAcid: 4);
+//    var malt = new CerealModel(name: "Malt d'orge", description: "Du sucre pour nourir les levures !", ebc: 4);
+//    var water = new AdditiveModel(name: "Eau", description: "Ben c'est de l'eau quoi", use: "Pour rendre la bière liquide mon pote !");
+//    ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel> { hop, malt, water };
+//    AddAndWait<IngredientModel, IngredientDto>(ingredients, ingredientManager);
 
-    //Récupérations ingredients
-    ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
+//    //Récupérations ingredients
+//    ObservableCollection<IngredientModel> bddingredients = new ObservableCollection<IngredientModel>(await ingredientManager.GetAll());
 
-    // Beers
-    float abv = 10;
-    float ibu = (float)5.5;
-    // Suite Beers
-    var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
-    var hazy = new BeerModel("HAZY JANE", "", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
-    var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "", abv, ibu, bddAle, bddBlonde, bddBrewdog, bddingredients);
-    var elvis = new BeerModel("ELVIS JUICE", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
-    var kriek = new BeerModel("KRIEK", "", abv, ibu, bddLambic, bddFruitee, bddLinderman, bddingredients);
-    var gueuze = new BeerModel("GUEUZE", "", abv, ibu, bddLambic, bddBlonde, bddLinderman, bddingredients);
-    var faro = new BeerModel("FARO LAMBIC", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
-    var nipa = new BeerModel("NINKASI IPA", "", abv, ibu, bddIPA, bddBlonde, bddNinkasi, bddingredients);
-    var nblance = new BeerModel("NINKASI BLANCHE", "", abv, ibu, bddAle, bddBlanche, bddNinkasi, bddingredients);
-    var npa = new BeerModel("NINKASI PALE ALE", "", abv, ibu, bddAle, bddBrune, bddNinkasi, bddingredients);
-    List<BeerModel> beers = new List<BeerModel>() { punk, hazy, cloud, elvis, kriek, gueuze, faro, nipa, nblance, npa};
-    AddAndWait<BeerModel, BeerDto>(beers, beerManager);
-    // Récupération pour check dans le debuger
-    var bddBeers = await beerManager.GetAll();
-    
-}
-#endregion
+//    // Beers
+//    float abv = 10;
+//    float ibu = (float)5.5;
+//    // Suite Beers
+//    var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
+//    var hazy = new BeerModel("HAZY JANE", "", abv, ibu, bddIPA, bddBlonde, bddBrewdog, bddingredients);
+//    var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "", abv, ibu, bddAle, bddBlonde, bddBrewdog, bddingredients);
+//    var elvis = new BeerModel("ELVIS JUICE", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
+//    var kriek = new BeerModel("KRIEK", "", abv, ibu, bddLambic, bddFruitee, bddLinderman, bddingredients);
+//    var gueuze = new BeerModel("GUEUZE", "", abv, ibu, bddLambic, bddBlonde, bddLinderman, bddingredients);
+//    var faro = new BeerModel("FARO LAMBIC", "", abv, ibu, bddAle, bddFruitee, bddBrewdog, bddingredients);
+//    var nipa = new BeerModel("NINKASI IPA", "", abv, ibu, bddIPA, bddBlonde, bddNinkasi, bddingredients);
+//    var nblance = new BeerModel("NINKASI BLANCHE", "", abv, ibu, bddAle, bddBlanche, bddNinkasi, bddingredients);
+//    var npa = new BeerModel("NINKASI PALE ALE", "", abv, ibu, bddAle, bddBrune, bddNinkasi, bddingredients);
+//    List<BeerModel> beers = new List<BeerModel>() { punk, hazy, cloud, elvis, kriek, gueuze, faro, nipa, nblance, npa};
+//    AddAndWait<BeerModel, BeerDto>(beers, beerManager);
+//    // Récupération pour check dans le debuger
+//    var bddBeers = await beerManager.GetAll();
+
+//}
+//#endregion
 
 #region Tests divers
 //var toDeleteStyle = bddAle;
 //styleManager.DeleteById(bddAle.Id).Wait();
-var modifiedbddBeers = await beerManager.GetAll();
-var bddStyles = await styleManager.GetAll();
-var updatedBeer = modifiedbddBeers.ToList()[0];
-updatedBeer.Name = "Biere azeaze modifiée";
-updatedBeer.Style = bddStyles.ToList()[0];
-beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
-updatedBeer.Name = "Bière amère";
-//updatedBeer.Ingredients.RemoveAt(0);
-var newhop = new HopModel(name: "Super Houblon", description: "Super amer!", alphaAcid: (float)0.5);
-ingredientManager.Add(newhop);
+//var modifiedbddBeers = await beerManager.GetAll();
+//var bddStyles = await styleManager.GetAll();
+//var updatedBeer = modifiedbddBeers.ToList()[0];
+//updatedBeer.Name = "Biere azeaze modifiée";
+//updatedBeer.Style = bddStyles.ToList()[0];
+//beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
+//updatedBeer.Name = "Bière amère";
+////updatedBeer.Ingredients.RemoveAt(0);
+//var newhop = new HopModel(name: "Super Houblon", description: "Super amer!", alphaAcid: (float)0.5);
+//ingredientManager.Add(newhop);
 //var bddhop = ingredientManager.GetById()
 //updatedBeer.Ingredients.Add(newhop);
 //beerManager.Update(updatedBeer.Id, updatedBeer).Wait();
@@ -185,7 +191,7 @@ ingredientManager.Add(newhop);
 //styleManager.Update(updatedStyle.Id, updatedStyle).Wait();
 //styleManager.DeleteById(updatedStyle.Id).Wait();
 //styleManager.Add(updatedStyle).Wait();
-beerManager.DeleteById(modifiedbddBeers.ToList()[0].Id);
+//beerManager.DeleteById(modifiedbddBeers.ToList()[0].Id);
 #endregion
 
 

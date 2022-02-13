@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
-    <ProjectReference Include="..\Tools\Tools.csproj" />
   </ItemGroup>
 
 </Project>

@@ -44,7 +44,7 @@ builder.Services.AddAutoMapper(typeof(DtoEntityProfile).Assembly);
 string cs;
 if (args.Any())
 {
-    cs = args[0];
+    cs = args[0];    
 }
 else
 {
@@ -55,9 +55,17 @@ else
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<DbContext, WikiBeerSqlContext>(); // pour utilisation dans le GenericRepository
 builder.Services.AddDbContext<WikiBeerSqlContext>(opt => opt.UseSqlServer(cs)); // le AddDbContext enregistre plus que le AddScoped (comme les classes d'options)
-
 var app = builder.Build();
 
+//using (var scope = app.Services.CreateScope())
+//{
+//    var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+//    //context.Database.EnsureDeleted();
+//    context.Database.EnsureCreated();
+//    //context.Database.Migrate();
+//}
+
+Console.WriteLine("post using");
 app.UseCors();
 
 // Configure the HTTP request pipeline.

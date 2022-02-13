@@ -16,16 +16,20 @@ using System.Linq;
 /// Note : pour démarer une appli à partir d'une autre appli : (classe process)
 /// https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process?view=net-6.0
 /// https://stackoverflow.com/questions/70690219/net-6-0-configuration-files
+/// TODO : la gestion de l'Api doit être faite dans une classe séparé
+/// Note sur le Verbatim 
+/// https://stackoverflow.com/questions/556133/whats-the-in-front-of-a-string-in-c
 /// </summary>
 namespace Ipme.WikiBeer.Tools
 {
     public class DataBaseRessource
     {
         private Process Api { get; }
-        public Mapper Mapper { get; }
+        private string ApiPath { get; }
         public string ApiUrl { get; }
+        public Mapper Mapper { get; }        
         public HttpClient Client { get; }
-
+        public string VerbatimConnectionString { get; }
         public string ConnectionString { get; }
 
         public BeerDataManager BeerManager { get; }
@@ -42,9 +46,15 @@ namespace Ipme.WikiBeer.Tools
         public IEnumerable<BeerColorModel> Colors { get; set; }
         public IEnumerable<IngredientModel> Ingredients { get; set; }
 
-        public DataBaseRessource(string dbName, string url = "https://localhost:7160")
+        public DataBaseRessource(string dbName = "WikiBeerTest", string url = "https://localhost:7160", 
+            string apiPath = @"C:\Users\armel\git\Formation_IPME_dot_net\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe")
         {
-            // Config            
+            // API
+            Api = new Process();
+            ApiPath = apiPath;
+            ApiUrl = url;
+
+            // Config Générale           
             var configuration = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoModelProfile)));
             Mapper = new Mapper(configuration);            
             Client = new HttpClient();
@@ -58,20 +68,53 @@ namespace Ipme.WikiBeer.Tools
             IngredientManager = new IngredientDataManager(Client, Mapper, ApiUrl);
 
             // DataBase            
-            ConnectionString = $"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
-            
-            // Démaragge automatique de l'api
-
+            //"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = TestBase; Integrated Security = True;";
+            VerbatimConnectionString = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
+            ConnectionString = VerbatimConnectionString;//$"Data Source = (LocalDb)\\MSSQLLocalDB; Initial Catalog = { dbName }; Integrated Security = True;";
         }
 
-        public void StartApi(string[] apiArgs)
+        public void AutoFill()
         {
-            Process
-            var api = Program.Main({ string[] apiArgs})
+            try
+            {
+                StartApi();
+                FillDatabase();
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                StopApi();
+            }
+        }
+
+        public void StartApi()
+        {
+            ConfigureApi();
+            Api.Start();
+        }
+
+        public void StopApi()
+        {
+            Api.Dispose();
+            Api.Close();
+            //Api.Kill();
+        }
+
+        private void ConfigureApi()
+        {
+            Api.StartInfo = new ProcessStartInfo();
+            Api.StartInfo.UseShellExecute = false;
+            Api.StartInfo.RedirectStandardOutput = false;
+            Api.StartInfo.ArgumentList.Add(ConnectionString);
+            Api.StartInfo.FileName = ApiPath;
         }
 
         public void FillDatabase()
         {
+            if (Api.HasExited)
+                StartApi();
             EnsureDatabaseCreation();
             Countries = InsertCountries();
             Breweries = InsertBreweries(Countries);
@@ -100,7 +143,7 @@ namespace Ipme.WikiBeer.Tools
         private DbContextOptions<WikiBeerSqlContext> GetContextOptions()
         {
             var contextOptionBuilder = new DbContextOptionsBuilder<WikiBeerSqlContext>();
-            contextOptionBuilder.UseSqlServer(ConnectionString);
+            contextOptionBuilder.UseSqlServer(VerbatimConnectionString);
             return contextOptionBuilder.Options;
         }
 
