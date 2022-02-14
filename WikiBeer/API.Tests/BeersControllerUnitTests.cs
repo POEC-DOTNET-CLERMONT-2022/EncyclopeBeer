@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Pour donner l'accès à une classe internal voir les friends assemblies : 
@@ -23,6 +24,9 @@ using System.Net;
 /// Note : On suppose dans ces test que Automappeur fonctionne correctement
 /// On utilise Fluent assertions 
 /// voir : https://fluentassertions.com/objectgraphs/ pour les détails d'utilisation
+/// Discussion interessante sur des Test génériques : 
+/// https://stackoverflow.com/questions/54048169/unit-test-with-generics-types
+/// https://codinghelmet.com/articles/how-to-write-unit-tests-for-generic-classes
 /// </summary>
 namespace Ipme.WikiBeer.API.Tests
 {
@@ -72,16 +76,16 @@ namespace Ipme.WikiBeer.API.Tests
         }
 
         [TestMethod]
-        public void Test_GetAllBeers_Ok200()
+        public async Task Test_GetAllBeersAsync_Ok200()
         {
             //Arrange
-            BeerRepository.Setup(repo => repo.GetAll()).Returns(BeersEntity);
+            BeerRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(BeersEntity);
 
             //Act
-            var result = BeersController.Get();
+            var result = await BeersController.GetAsync();
 
             //Assert (Status Code)
-            var okResult = result as OkObjectResult;
+            var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
             //Assert (Objet retourné)
@@ -89,87 +93,87 @@ namespace Ipme.WikiBeer.API.Tests
             dtos.Should().NotBeNull();
             dtos.Count().Should().Be(_initBeersLength);
             dtos.Should().BeEquivalentTo(BeersDto);
-            BeerRepository.Verify(repo => repo.GetAll(), Times.Exactly(1));
+            BeerRepository.Verify(repo => repo.GetAllAsync(), Times.Exactly(1));
         }
 
         [TestMethod]
-        public void Test_GetAllBeers_ServerError500()
+        public async Task Test_GetAllBeersAsync_ServerError500()
         {
             //Arrange
-            BeerRepository.Setup(repo => repo.GetAll()).Throws(new Exception());
+            BeerRepository.Setup(repo => repo.GetAllAsync()).ThrowsAsync(new Exception());
 
             //Act
-            var result = BeersController.Get();
+            var result = await BeersController.GetAsync();
 
             //Assert (Status Code)
-            var badResult = result as StatusCodeResult;
+            var badResult = result.Result as StatusCodeResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
 
         [TestMethod]
-        public void Test_GetBeerById_Ok200()
+        public async Task Test_GetBeerByIdAsync_Ok200()
         {
             //Arrange
             var beerEntityToFind = BeersEntity.First();
             var guid = beerEntityToFind.Id;
-            BeerRepository.Setup(repo => repo.GetById(It.IsAny<Guid>())).Returns(beerEntityToFind);
+            BeerRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(beerEntityToFind);
             var beerDtoToFind = _mapper.Map<BeerDto>(beerEntityToFind);
             
             //Act
-            var result = BeersController.Get(guid);
+            var result = await BeersController.GetAsync(guid);
 
             //Assert (Status Code)
-            var okResult = result as OkObjectResult;
+            var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
             //Assert (Objet retourné)
             var dto = okResult.Value as BeerDto;
             dto.Should().NotBeNull();
             dto.Should().BeEquivalentTo(beerDtoToFind);
-            BeerRepository.Verify(repo => repo.GetById(guid), Times.Exactly(1));
+            BeerRepository.Verify(repo => repo.GetByIdAsync(guid), Times.Exactly(1));
         }
 
         [TestMethod]
-        public void Test_GetBeerById_NotFound404()
+        public async Task Test_GetBeerByIdAsync_NotFound404()
         {
             //Arrange
-            BeerRepository.Setup(repo => repo.GetById(It.IsAny<Guid>())).Returns((BeerEntity?)null);
+            BeerRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BeerEntity?)null);
 
             //Act
-            var result = BeersController.Get(Guid.NewGuid());
+            var result = await BeersController.GetAsync(Guid.NewGuid());
 
             //Assert (Status Code)
-            var badResult = result as NotFoundResult;
+            var badResult = result.Result as NotFoundResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }
 
         [TestMethod]
-        public void Test_GetBeerById_ServerError500()
+        public async Task Test_GetBeerByIdAsync_ServerError500()
         {
             //Arrange
-            BeerRepository.Setup(repo => repo.GetById(It.IsAny<Guid>())).Throws(new Exception());
+            BeerRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ThrowsAsync(new Exception());
 
             //Act
-            var result = BeersController.Get(Guid.NewGuid());
+            var result = await BeersController.GetAsync(Guid.NewGuid());
 
             //Assert (Status Code)
-            var badResult = result as StatusCodeResult;
+            var badResult = result.Result as StatusCodeResult;
             badResult.Should().NotBeNull();
             badResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
 
         [TestMethod]
-        public void Test_Post_Created201()
+        public async Task Test_PostAsync_Created201()
         {
             // Arrange 
             var new_beerDto = _fixture.Create<BeerDto>();
             var new_beerEntity = _mapper.Map<BeerEntity>(new_beerDto);
-            BeerRepository.Setup(repo => repo.Create(It.IsAny<BeerEntity>())).Returns(new_beerEntity);
+            BeerRepository.Setup(repo => repo.CreateAsync(It.IsAny<BeerEntity>())).ReturnsAsync(new_beerEntity);
 
             // Action 
-            var result = BeersController.Post(new_beerDto);
+            var result = await BeersController.PostAsync(new_beerDto);
 
             // Assert (Status Code)
             var createdResult = result as CreatedAtActionResult;
@@ -182,14 +186,14 @@ namespace Ipme.WikiBeer.API.Tests
         }
 
         [TestMethod]
-        public void Test_Post_ServerError500()
+        public async Task Test_PostAsync_ServerError500()
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();            
-            BeerRepository.Setup(repo => repo.Create(It.IsAny<BeerEntity>())).Throws(new Exception());
+            BeerRepository.Setup(repo => repo.CreateAsync(It.IsAny<BeerEntity>())).ThrowsAsync(new Exception());
 
             //Act
-            var result = BeersController.Post(new_beerDto);
+            var result = await BeersController.PostAsync(new_beerDto);
 
             //Assert (Status Code)
             var badResult = result as StatusCodeResult;
@@ -198,31 +202,31 @@ namespace Ipme.WikiBeer.API.Tests
         }
 
         [TestMethod]
-        public void Test_Put_Ok200()
+        public async Task Test_PutAsync_Ok200()
         {
             // Arrange 
             var new_beerDto = _fixture.Create<BeerDto>();
             var new_beerEntity = _mapper.Map<BeerEntity>(new_beerDto);
-            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Returns(new_beerEntity);
+            BeerRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BeerEntity>())).ReturnsAsync(new_beerEntity);
 
             // Action 
-            var result = BeersController.Put(Guid.NewGuid(),new_beerDto);
+            var result = await BeersController.PutAsync(Guid.NewGuid(),new_beerDto);
 
             // Assert (Status Code)
-            var okResult = result as OkResult;
+            var okResult = result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
         }
 
         [TestMethod]
-        public void Test_Put_NotFound404()
+        public async Task Test_PutAsync_NotFound404()
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();
-            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Returns((BeerEntity?)null);
+            BeerRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BeerEntity>())).ReturnsAsync((BeerEntity?)null);
 
             //Act
-            var result = BeersController.Put(Guid.NewGuid(), new_beerDto);
+            var result = await BeersController.PutAsync(Guid.NewGuid(), new_beerDto);
 
             //Assert (Status Code)
             var badResult = result as NotFoundResult;
@@ -231,14 +235,14 @@ namespace Ipme.WikiBeer.API.Tests
         }
 
         [TestMethod]
-        public void Test_Put_ServerError500()
+        public async Task Test_PutAsync_ServerError500()
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();
-            BeerRepository.Setup(repo => repo.Update(It.IsAny<BeerEntity>())).Throws(new Exception());
+            BeerRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BeerEntity>())).ThrowsAsync(new Exception());
 
             //Act
-            var result = BeersController.Put(Guid.NewGuid(), new_beerDto);
+            var result = await BeersController.PutAsync(Guid.NewGuid(), new_beerDto);
 
             //Assert (Status Code)
             var badResult = result as StatusCodeResult;

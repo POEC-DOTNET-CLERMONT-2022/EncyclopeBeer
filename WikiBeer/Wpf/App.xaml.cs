@@ -2,7 +2,9 @@
 using Ipme.WikiBeer.ApiDatas;
 using Ipme.WikiBeer.ApiDatas.MapperProfiles;
 using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Wpf.Test;
 using Ipme.WikiBeer.Wpf.UserControls.Views;
 using Ipme.WikiBeer.Wpf.Utilities;
@@ -24,6 +26,7 @@ namespace Ipme.WikiBeer.Wpf
         public IDataManager<CountryModel, CountryDto> CountryDataManager { get; }
         public IDataManager<BeerStyleModel, BeerStyleDto> StyleDataManager { get; }
         public IDataManager<BeerColorModel, BeerColorDto> ColorDataManager { get; }
+        public IDataManager<IngredientModel, IngredientDto> IngredientDataManager { get; }
 
         // Pas nécessaire on pourrait juste faire un new HttpClient() [voir IHttpClientFactory aussi pour de meilleurs performances]
         public HttpClient HttpClient{ get; set; } 
@@ -43,6 +46,7 @@ namespace Ipme.WikiBeer.Wpf
             CountryDataManager = new CountryDataManager(HttpClient, Mapper, ServerUrl);
             StyleDataManager = new StyleDataManager(HttpClient, Mapper, ServerUrl);
             ColorDataManager = new ColorDataManager(HttpClient, Mapper, ServerUrl);
+            IngredientDataManager = new IngredientDataManager(HttpClient, Mapper, ServerUrl);
         }
 
         private void App_OnStartup(object sender, StartupEventArgs e)

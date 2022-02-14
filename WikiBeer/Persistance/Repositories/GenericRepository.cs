@@ -1,5 +1,6 @@
 ﻿using Ipme.WikiBeer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,12 @@ using System.Threading.Tasks;
 /// Pokur régler le problème de Delete (qui ne fonctionne pas car le Graph de l'objet
 /// entier n'est pas chargé)
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.changetracker.trackgraph?view=efcore-6.0
-/// Note importante : On fait le choix de la sécurité sur les Update, Delete. On vérifie systématiquement l'existence des objet en base  
+/// Note importante : On fait le choix de la sécurité sur les Update, Create. On vérifie systématiquement l'existence des objets en base  
+/// TODO : revoir les vérification qui au final ne servent à rien (passer plutôt par GetDatabaseValue ou bien via Any)
+/// https://docs.microsoft.com/en-us/ef/core/change-tracking/entity-entries
+/// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.entityentry.getdatabasevalues?view=efcore-6.0#microsoft-entityframeworkcore-changetracking-entityentry-getdatabasevalues
+/// Sur l'implémentation d'une searchbar (expression-tree qu'il va falloir associer à de la réflexion!): 
+/// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/expression-trees/how-to-use-expression-trees-to-build-dynamic-queries
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -35,64 +41,50 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             Context = context;
         }
 
-        public virtual T Create(T entityToCreate)
+        public virtual async Task<T?> CreateAsync(T entityToCreate)
         {
-            var newEntry = Context.Attach(entityToCreate);
-            
-            var entries = Context.ChangeTracker.Entries().ToList();
-            entries.Remove(newEntry);
-            foreach (var entry in entries)
-            {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                    throw new UndesiredBorderEffectException("La modification ou l'ajout d'un composant lors de création" +
-                        $"d'un composé n'est pas authorisée. (composé : {entityToCreate})"); 
-            }
+            if (entityToCreate.Id != Guid.Empty)
+                return null; 
 
-            Context.SaveChanges(); 
+            var newEntry = Context.Attach(entityToCreate);
+
+            CheckBorderEffectAdded(entityToCreate);
+
+            await Context.SaveChangesAsync(); 
             return newEntry.Entity;
         }
 
-        /// <summary>
-        /// TODO : rajouter la pagination
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<T> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            return Context.Set<T>().ToList();
+            return await Context.Set<T>().ToListAsync();
         }
 
-        public virtual IEnumerable<T> GetAllNoInclude()
+        public virtual async Task<IEnumerable<T>> GetAllNoIncludeAsync()
         {
-            return Context.Set<T>().IgnoreAutoIncludes().ToList();
+            return await Context.Set<T>().IgnoreAutoIncludes().ToListAsync();
         }
 
-        public virtual T? GetById(Guid id)
-        {
-            return Context.Set<T>().Find(id);       
+        public virtual async Task<T?> GetByIdAsync(Guid id)
+        {            
+            return await Context.Set<T>().FindAsync(id);       
         }
 
-        public virtual T? GetByIdNoInclude(Guid id)
+        public virtual async Task<T?> GetByIdNoIncludeAsync(Guid id)
         {
-            return Context.Set<T>().IgnoreAutoIncludes().SingleOrDefault(obj => obj.Id == id);
+            return await Context.Set<T>().IgnoreAutoIncludes().SingleOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public virtual T? Update(T entity)
+        public virtual async Task<T?> UpdateAsync(T entity)
         {
-            var updatedEntry = Context.Attach(entity); 
-            if (updatedEntry.State == EntityState.Added)
-                return null; // ressource non trouvé car marqué Added
+            var updatedEntry = Context.Attach(entity);
+            if (!Context.Set<T>().Any(e => e.Id == entity.Id))
+                return null;
+  
+            updatedEntry.State = EntityState.Modified;
 
-            updatedEntry.State = EntityState.Modified; // met entity et ses composants dans l'état modifié
+            CheckBorderEffectAdded(entity);
 
-            var entries = Context.ChangeTracker.Entries().ToList();
-            entries.Remove(updatedEntry);
-            foreach (var entry in entries)
-            {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                    throw new UndesiredBorderEffectException($"La modification ou l'ajout d'un composant lors de la modification " +
-                        $"d'un composé n'est pas authorisée. (composé : {entity})"); // modifications non voulue
-            }
-            Context.SaveChanges();            
+            await Context.SaveChangesAsync();            
             return updatedEntry.Entity;
         }
 
@@ -104,18 +96,42 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// dépendances pour faire la suppression propre des relations optionnelles
         /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
         /// uniquement)
+        /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
+        /// Mais en fait non... revoir pour un activator?
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual bool? DeleteById(Guid id)
+        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
         {
-            T? entity = GetById(id);
+            T? entity = await GetByIdAsync(id);
             if (entity == null)
                 return null;
-  
+
             Context.Remove(entity);
 
-            return Context.SaveChanges() >= 1;
+            return await Context.SaveChangesAsync() >= 1;
         }
+
+        /// <summary>
+        /// TODO : à retravailler pour tester aussi la modification par rapport à la base!
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="UndesiredBorderEffectException"></exception>
+        private void CheckBorderEffectAdded(T entity)
+        {
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
+
+            if (entries.Any())
+            {
+                foreach (var entry in entries)
+                {
+                    if (entry.State == EntityState.Added)
+                        throw new UndesiredBorderEffectException("L'ajout en base d'un composant lors de création/modification" +
+                            $"d'un composé n'est pas autorisée. (composé :{entity.Id} : {entity})");
+                }
+            }
+        }
+
+
     }
 }

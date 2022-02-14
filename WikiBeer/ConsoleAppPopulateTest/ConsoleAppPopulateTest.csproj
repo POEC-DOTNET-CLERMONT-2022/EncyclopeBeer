@@ -9,11 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
-    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApiDatas\ApiDatas.csproj" />
+    <ProjectReference Include="..\Ressources\Ressources.csproj" />
+    <ProjectReference Include="..\Tools\Tools.csproj" />
   </ItemGroup>
 
 </Project>

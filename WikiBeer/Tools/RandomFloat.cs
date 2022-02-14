@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleAppPopulateTest
+namespace Ipme.WikiBeer.Tools
 {
     public class RandomFloat
     {

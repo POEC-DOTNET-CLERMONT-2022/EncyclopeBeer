@@ -1,0 +1,13 @@
+
+.card-beer {
+  margin: 10px;
+  border-radius: 10%;
+  background-color: #cfcfcc;
+  border-color: #000000;
+  border-width: 100px;
+  color: #000000;
+  padding: 0%;
+
+  cursor: crosshair;
+  &:hover {transform: scale(1.2);}
+}
