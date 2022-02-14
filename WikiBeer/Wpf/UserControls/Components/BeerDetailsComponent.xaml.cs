@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Models.Ingredients;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,17 +10,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty BeerToModifyProperty =
-            DependencyProperty.Register("BeerToModify", typeof(BeerModel), typeof(BeerDetailsComponent));
+        public static readonly DependencyProperty BeerDetailsProperty =
+            DependencyProperty.Register("BeerDetails", typeof(BeerModel), typeof(BeerDetailsComponent));
 
-        public BeerModel BeerToModify
+        public BeerModel BeerDetails
         {
-            get { return GetValue(BeerToModifyProperty) as BeerModel; }
+            get { return GetValue(BeerDetailsProperty) as BeerModel; }
             set 
             { 
                 if(value != null)
                 {
-                    SetValue(BeerToModifyProperty, value);
+                    SetValue(BeerDetailsProperty, value);
                 }
             }
         }
@@ -69,24 +70,24 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             }
         }
 
+        public static readonly DependencyProperty IngredientsProperty =
+           DependencyProperty.Register("Ingredients", typeof(GenericListModel<IngredientModel>), typeof(BeerDetailsComponent));
+
+        public GenericListModel<IngredientModel> Ingredients
+        {
+            get { return GetValue(ColorsProperty) as GenericListModel<IngredientModel>; }
+            set
+            {
+                if (value != null)
+                {
+                    SetValue(ColorsProperty, value);
+                }
+            }
+        }
+
         public BeerDetailsComponent()
         {
             InitializeComponent();
-        }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Update_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void StyleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

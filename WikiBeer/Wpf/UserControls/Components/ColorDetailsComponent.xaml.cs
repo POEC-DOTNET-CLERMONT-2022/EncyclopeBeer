@@ -21,17 +21,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class ColorDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty ColorToModifyProperty =
-                    DependencyProperty.Register("ColorToModify", typeof(BeerColorModel), typeof(ColorDetailsComponent));
+        public static readonly DependencyProperty ColorDetailsProperty =
+                    DependencyProperty.Register("ColorDetails", typeof(BeerColorModel), typeof(ColorDetailsComponent));
 
-        public BreweryModel ColorToModify
+        public BreweryModel ColorDetails
         {
-            get { return GetValue(ColorToModifyProperty) as BreweryModel; }
+            get { return GetValue(ColorDetailsProperty) as BreweryModel; }
             set
             {
                 if (value != null)
                 {
-                    SetValue(ColorToModifyProperty, value);
+                    SetValue(ColorDetailsProperty, value);
                 }
             }
         }

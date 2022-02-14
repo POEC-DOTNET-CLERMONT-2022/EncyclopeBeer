@@ -28,33 +28,36 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Name" FontWeight="Bold"/>
-                        <TextBox Text="{Binding BeerToModify.Name ,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Text="{Binding BeerDetails.Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Brewery" FontWeight="Bold"/>
-                        <ComboBox x:Name="ComboBoxBreweries"
+                        <ComboBox x:Name="BreweriesComboBox"
                                   ItemsSource="{Binding Breweries.List}"
-                                  Text="{Binding BeerToModify.Brewery.Name}"
+                                  Text="{Binding BeerDetails.Brewery.Name}"
                                   DisplayMemberPath="Name"
-                                  IsEditable="True">
+                                  IsEditable="True"
+                                  StaysOpenOnEdit="True">
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Style" FontWeight="Bold"/>
-                        <ComboBox Name="StyleComboBox" 
+                        <ComboBox Name="StylesComboBox" 
                                   ItemsSource="{Binding Styles.List}"
-                                  Text="{Binding BeerToModify.Style.Name}"
+                                  Text="{Binding BeerDetails.Style.Name}"
                                   DisplayMemberPath="Name"
-                                  IsEditable="True" StaysOpenOnEdit="True" SelectionChanged="StyleComboBox_SelectionChanged" >
+                                  IsEditable="True" 
+                                  StaysOpenOnEdit="True">
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Color" FontWeight="Bold"/>
-                        <ComboBox Name="ColorComboBox"
+                        <ComboBox Name="ColorsComboBox"
                                   ItemsSource="{Binding Colors.List}"
-                                  Text="{Binding BeerToModify.Color.Name}"
+                                  Text="{Binding BeerDetails.Color.Name}"
                                   DisplayMemberPath="Name"
-                                  IsEditable="True" StaysOpenOnEdit="True" >
+                                  IsEditable="True" 
+                                  StaysOpenOnEdit="True">
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="4" Margin="10,0" VerticalAlignment="Center">
@@ -71,23 +74,19 @@
                     </Grid.RowDefinitions>
                     <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="Degree (ABV) " FontWeight="Bold"/>
-                        <TextBox Text="{Binding BeerToModify.Degree ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding BeerDetails.Degree ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="IBU" FontWeight="Bold"/>
-                        <TextBox Text="{Binding BeerToModify.Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding BeerDetails.Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Ingredients" FontWeight="Bold"/>
                         <ComboBox Name="IngredientsComboBox"
-                                  VerticalAlignment="Top"  
+                                  ItemsSource="{Binding Ingredients.List}"
+                                  DisplayMemberPath="Name"
                                   IsEditable="True" 
-                                  StaysOpenOnEdit="True" 
-                                  >
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
-                            <ComboBoxItem>Choice</ComboBoxItem>
+                                  StaysOpenOnEdit="True">
                         </ComboBox>
                     </StackPanel>
                 </Grid>
@@ -109,33 +108,13 @@
                 <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 <TextBox Grid.Row="1"  
                          Margin="10,0,10,20" 
-                         Text="{Binding BeerToModify.Description ,UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding BeerDetails.Description ,UpdateSourceTrigger=PropertyChanged}" 
                          HorizontalAlignment="Stretch" 
                          VerticalAlignment="Stretch" 
                          VerticalScrollBarVisibility="Auto" 
                          AcceptsReturn="True"
                          />
-                <Button x:Name="Update"
-                        Grid.Row="2" 
-                        Height="30" 
-                        Width="100" 
-                        VerticalAlignment="Bottom" 
-                        HorizontalAlignment="Right" 
-                        Margin="10"
-                        Content="Update"
-                        Click="Update_Click"
-                        />
-                <Button x:Name="Delete"
-                        Grid.Row="2" 
-                        Height="30" 
-                        Width="100" 
-                        VerticalAlignment="Bottom" 
-                        HorizontalAlignment="Left" 
-                        Margin="10"
-                        Content="Delete"
-                        Click="Delete_Click"
-                        />
-                </Grid>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

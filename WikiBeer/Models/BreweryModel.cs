@@ -38,7 +38,7 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private CountryModel _country;
+        private CountryModel? _country;
         public CountryModel Country 
         {
             get { return _country; }
