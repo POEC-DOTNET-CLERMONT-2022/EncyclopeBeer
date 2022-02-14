@@ -3,7 +3,6 @@ import { Observable } from "rxjs";
 import { Beer } from "src/models/beer";
 
 import { Injectable } from '@angular/core';
-import { IBeerList } from "src/models/i-beer-list";
 
 @Injectable({
   providedIn: 'root'
