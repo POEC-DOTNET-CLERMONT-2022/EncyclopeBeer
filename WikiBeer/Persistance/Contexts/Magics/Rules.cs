@@ -15,5 +15,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts.Magics
 
         // Ingredients
         internal const int INGREDIENT_TYPE_MAX_LENGTH = 20;
+
+        // User
+        internal const int DEFAULT_NICKNAME_MAX_LENGTH = 50;
+        internal const int DEFAULT_MAIL_MAX_LENGTH = 100;
     }
 }

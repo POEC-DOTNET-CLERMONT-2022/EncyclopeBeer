@@ -39,11 +39,10 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<BeerStyleEntity> BeerStyles { get; set; }
         public DbSet<CountryEntity> Countrys { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
-        // TODO : vérifier si ces DbSet la sont vraiment nécessaire...
         public DbSet<HopEntity> Hops { get; set; }
         public DbSet<CerealEntity> Cereal { get; set; }
         public DbSet<AdditiveEntity> Additive { get; set; }
-
+        public DbSet<UserEntity> Users { get; set; }
         #endregion
 
         /// <summary>
@@ -58,19 +57,41 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Entity de base
+            // Entities de base (Beer)
             OnBeerCreating(modelBuilder);
             OnBreweryCreating(modelBuilder);
             OnStyleCreating(modelBuilder);
             OnColorCreating(modelBuilder);
             OnCountryCreating(modelBuilder);
 
-            // Enity Abstract et dérivées            
+            // Enities Abstracts et dérivées (Beer)           
             OnIngredientCreating(modelBuilder);
             OnHopCreating(modelBuilder);
             OnCerealCreating(modelBuilder);
             OnAdditiveCreating(modelBuilder);
 
+            // Entities de base (User)
+            OnUserCreating(modelBuilder);
+
+            // Entities de base (Interractions User-Beer)
+        }
+
+        private void OnUserCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserEntity> typeBuilder = modelBuilder.Entity<UserEntity>();
+            var idName = "UserId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("User").HasKey(u => u.Id).HasName(idName);
+            typeBuilder.Property(u => u.Id).HasColumnName(idName).ValueGeneratedOnAdd();
+            // Configuration longueur des nvarchar 
+            typeBuilder.Property(u => u.NickName).HasMaxLength(Rules.DEFAULT_NICKNAME_MAX_LENGTH);
+            typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
+
+            #region Configuration relations
+            // FavoritesBeer
+            typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
+                .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
+            typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
         }
 
         #region Méthodes de configuration des models

@@ -20,6 +20,7 @@ namespace Ipme.WikiBeer.API.MapperProfiles
             CreateMap<BeerColorDto, BeerColorEntity>().ReverseMap();
             CreateMap<BeerStyleDto, BeerStyleEntity>().ReverseMap();
             CreateMap<CountryDto, CountryEntity>().ReverseMap();
+            CreateMap<UserDto, UserEntity>().ReverseMap();
             #endregion
 
             #region Ingredients : abstract puis dérivées

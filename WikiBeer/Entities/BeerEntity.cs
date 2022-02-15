@@ -22,7 +22,7 @@ namespace Ipme.WikiBeer.Entities
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
-
+        public IEnumerable<UserEntity>? Users { get; private set; }
         /// <summary>
         /// Pour EF Core uniquement : voir la note au dessus
         /// </summary>
@@ -41,13 +41,15 @@ namespace Ipme.WikiBeer.Entities
         }
 
         public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
-            BeerColorEntity? color, BreweryEntity? brewery, IEnumerable<IngredientEntity>? ingredients)
+            BeerColorEntity? color, BreweryEntity? brewery,
+            IEnumerable<IngredientEntity>? ingredients, IEnumerable<UserEntity>? users)
             : this(id, name, description, ibu, degree)
         {
             Style = style;
             Color = color;
             Brewery = brewery;
             Ingredients = ingredients;
-        }       
+            Users = users;
+        }
     }
 }
