@@ -9,9 +9,8 @@
              d:MinWidth="154" d:MaxWidth="160"
              >
     <Grid DataContext="{Binding ., ElementName=root}">
-        <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
-            <StackPanel Margin="2" CanVerticallyScroll="True">
-                <ListBox x:Name="List" ItemsSource="{Binding DataList.List}" SelectedItem="{Binding DataList.Current}" >
+            <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
+                <ListBox x:Name="List" ItemsSource="{Binding DataList.List}" SelectedItem="{Binding DataList.Current}" MaxHeight="440">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
@@ -24,6 +23,5 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-        </Border>
     </Grid>
 </UserControl>

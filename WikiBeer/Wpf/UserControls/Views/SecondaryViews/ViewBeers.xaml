@@ -49,11 +49,12 @@
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <control:BeerDetailsComponent x:Name="BreweryDetailsComponent" 
+                <control:BeerDetailsComponent x:Name="BeerDetailsComponent" 
                                                  BeerDetails="{Binding DataList.ToModify, ElementName=ListComponent, UpdateSourceTrigger=PropertyChanged}" 
                                                  Breweries="{Binding Breweries}"
                                                  Styles="{Binding Styles}"
                                                  Colors="{Binding Colors}"
+                                                 Ingredients="{Binding Ingredients}"
                                                  Grid.Row="0"/>
                 <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button x:Name="Delete_Button"
