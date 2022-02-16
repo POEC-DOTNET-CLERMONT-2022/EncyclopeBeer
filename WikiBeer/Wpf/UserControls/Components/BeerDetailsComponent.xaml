@@ -49,8 +49,7 @@
                         <Label Content="Name" FontWeight="Bold"/>
                         <TextBox Name="name_box" HorizontalAlignment="Stretch"
                                  Validation.ErrorTemplate="{StaticResource validationTemplate}"
-                                 Style="{StaticResource textStyleTextBox}"
-                                  >
+                                 Style="{StaticResource textStyleTextBox}">
                             <TextBox.Text>
                                 <Binding Path="BeerDetails.Name" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
@@ -108,7 +107,18 @@
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="IBU" FontWeight="Bold"/>
-                        <TextBox Text="{Binding BeerDetails.Ibu ,UpdateSourceTrigger=PropertyChanged}" Width="75" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Name="ibu_box" HorizontalAlignment="Stretch"
+                                 Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                                 Style="{StaticResource textStyleTextBox}"
+                                 Width="75" Margin="10,0">
+                            <TextBox.Text>
+                                <Binding Path="BeerDetails.Ibu" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validator:IbuRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </WrapPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
                         <Label Content="Ingredients" FontWeight="Bold"/>
