@@ -17,7 +17,7 @@ namespace Ipme.WikiBeer.Entities
 
         public CountryEntity? Country { get; private set; }
 
-        public IEnumerable<UserBeer>? UserBeers { get; private set; }
+        public IEnumerable<UserBeer> UserBeers { get; private set; }
 
         private UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified)
         {
@@ -30,7 +30,7 @@ namespace Ipme.WikiBeer.Entities
         }
 
         public UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified,
-            CountryEntity? country, IEnumerable<UserBeer>? userBeers)
+            CountryEntity? country, IEnumerable<UserBeer> userBeers)
             : this(id, nickName, birthDate, email, hashCode, isCertified)
         {
             Country = country;

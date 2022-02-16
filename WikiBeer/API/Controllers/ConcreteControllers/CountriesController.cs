@@ -10,9 +10,6 @@ namespace Ipme.WikiBeer.API.Controllers
 {
     public class CountriesController : GenericController<CountryEntity,CountryDto>
     {
-        private readonly IMapper _mapper;
-        private readonly IGenericRepository<CountryEntity> _ddbRepository;
-
         public CountriesController(IGenericRepository<CountryEntity> dbRepository, IMapper mapper)
            : base(dbRepository,mapper)
         {

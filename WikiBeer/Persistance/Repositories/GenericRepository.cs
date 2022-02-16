@@ -84,6 +84,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// <returns></returns>
         public virtual async Task<T?> UpdateAsync(T entity)
         {
+            //var entry = Context.Entry(entity);
+            //entry.State = EntityState.Modified;
             var updatedEntry = Context.Attach(entity);
             //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
                                                          // intermédiaire
@@ -91,7 +93,9 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 return null;
 
             //updatedEntry.State = EntityState.Modified;
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity && e.Entity is not Dictionary<string, object>);
+            var fullEntrie = Context.ChangeTracker.Entries();
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
+            //var compiletype = entries.ToList()[1].
             SetEntriesState(entries, EntityState.Modified);
             //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
             //CheckBorderEffectAdded(entity);

@@ -18,6 +18,7 @@
     Voir également
     https://github.com/manuc66/JsonSubTypes
  */
+using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
@@ -52,7 +53,8 @@ else
 
 // Test divers
 // delete d'une bière
-var beers = dbr.Beers.ToList();
+var bddbeers = await dbr.BeerManager.GetAll();
+var beers = new List<BeerModel>(bddbeers);
 var ingredients = dbr.Ingredients.ToList();
 dbr.BeerManager.DeleteById(beers[0].Id).Wait();
 var users = await dbr.UserManager.GetAll();

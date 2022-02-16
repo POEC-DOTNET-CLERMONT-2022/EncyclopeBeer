@@ -109,6 +109,9 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
 
             #region Configuration relations
+            // Country 
+            typeBuilder.HasOne(c => c.Country).WithMany();
+            typeBuilder.Navigation(u => u.Country).AutoInclude();
             // UserBeer
             typeBuilder.Navigation(u => u.UserBeers).AutoInclude();
             // FavoritesBeer
