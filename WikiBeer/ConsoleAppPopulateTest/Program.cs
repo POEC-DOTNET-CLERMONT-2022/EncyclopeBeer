@@ -34,7 +34,7 @@ var dbr = new DataBaseRessource(apiUrl);
 var manager = new DbManager(cs);
 var launcher = new ApiLauncher(apiUrl, apiPath, cs);
 
-//manager.DropDataBase();
+manager.DropDataBase();
 if (autoRunApi)
 {
     // Si l'API n'est pas lancée, la base non existente
@@ -43,7 +43,8 @@ if (autoRunApi)
 else
 {
     // Si l'API est lancé, la base existante ou non
-    manager.EnsureDatabaseCreation();
+    //manager.EnsureDatabaseCreation();
+    manager.EnsureDatabaseMigration();
     dbr.FillDatabase();
 }
 

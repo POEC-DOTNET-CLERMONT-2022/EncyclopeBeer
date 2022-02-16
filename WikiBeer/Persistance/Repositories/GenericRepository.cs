@@ -48,7 +48,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
             var newEntry = Context.Attach(entityToCreate);
 
-            CheckBorderEffectAdded(entityToCreate);
+            //CheckBorderEffectAdded(entityToCreate);
 
             await Context.SaveChangesAsync(); 
             return newEntry.Entity;

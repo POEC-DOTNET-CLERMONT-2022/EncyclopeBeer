@@ -107,22 +107,22 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private ObservableCollection<BeerModel> _favoriteBeers;
-        public ObservableCollection<BeerModel> FavoriteBeers
+        private ObservableCollection<Guid> _favoriteBeerIds;
+        public ObservableCollection<Guid> FavoriteBeerIds
         {
-            get { return _favoriteBeers; }
+            get { return _favoriteBeerIds; }
             set
             {
-                if (_favoriteBeers != value)
+                if (_favoriteBeerIds != value)
                 {
-                    _favoriteBeers = value;
+                    _favoriteBeerIds = value;
                     OnNotifyPropertyChanged();
                 }
             }
         }
 
         public UserModel(Guid id, string nickName, DateTime birthDate, string email, int hashCode, 
-            bool isCertified, CountryModel country, ObservableCollection<BeerModel> favotiteBeers)
+            bool isCertified, CountryModel country, ObservableCollection<Guid> favotiteBeerIds)
         {
             Id = id;
             NickName = nickName;
@@ -131,12 +131,12 @@ namespace Ipme.WikiBeer.Models
             HashCode = hashCode;
             IsCertified = isCertified;
             Country = country;
-            FavoriteBeers = favotiteBeers;
+            FavoriteBeerIds = favotiteBeerIds;
         }
 
         public UserModel(string nickName, DateTime birthDate, string email, int hashCode,
-            bool isCertified, CountryModel country, ObservableCollection<BeerModel> favotiteBeers)
-            : this(Guid.Empty, nickName, birthDate, email, hashCode, isCertified, country, favotiteBeers)
+            bool isCertified, CountryModel country, ObservableCollection<Guid> favoriteBeerIds)
+            : this(Guid.Empty, nickName, birthDate, email, hashCode, isCertified, country, favoriteBeerIds)
         {
         }
 
@@ -149,10 +149,10 @@ namespace Ipme.WikiBeer.Models
             HashCode = user.HashCode;
             IsCertified = user.IsCertified;
             Country = user.Country.DeepClone();
-            FavoriteBeers = new ObservableCollection<BeerModel>();
-            foreach (var beer in user.FavoriteBeers)
+            FavoriteBeerIds = new ObservableCollection<Guid>();
+            foreach (var beerId in user.FavoriteBeerIds)
             {
-                FavoriteBeers.Add(beer.DeepClone()); 
+                FavoriteBeerIds.Add(beerId); 
             }
         }
 

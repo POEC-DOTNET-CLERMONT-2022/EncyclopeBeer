@@ -22,15 +22,8 @@ namespace Ipme.WikiBeer.Entities
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
-        public IEnumerable<UserEntity>? Users { get; private set; }
-        /// <summary>
-        /// Pour EF Core uniquement : voir la note au dessus
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="ibu"></param>
-        /// <param name="degree"></param>
+        public IEnumerable<UserBeer>? UserBeers { get; private set; }
+ 
         private BeerEntity(Guid id, string name, string? description, float? ibu, float degree)
         {
             Id = id;
@@ -42,14 +35,14 @@ namespace Ipme.WikiBeer.Entities
 
         public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
             BeerColorEntity? color, BreweryEntity? brewery,
-            IEnumerable<IngredientEntity>? ingredients, IEnumerable<UserEntity>? users)
+            IEnumerable<IngredientEntity>? ingredients, IEnumerable<UserBeer>? userBeers)
             : this(id, name, description, ibu, degree)
         {
             Style = style;
             Color = color;
             Brewery = brewery;
             Ingredients = ingredients;
-            Users = users;
+            UserBeers = userBeers;
         }
     }
 }

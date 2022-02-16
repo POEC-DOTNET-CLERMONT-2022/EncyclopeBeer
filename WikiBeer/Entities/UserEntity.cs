@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Entities
 {
-    public class UserEntity
+    public class UserEntity : IEntity
     {
         public Guid Id { get; private set; }
         public string NickName { get; private set; }
@@ -17,12 +17,11 @@ namespace Ipme.WikiBeer.Entities
 
         public CountryEntity? Country { get; private set; }
 
-        public IEnumerable<BeerEntity>? FavoriteBeers { get; private set; }
+        public IEnumerable<UserBeer>? UserBeers { get; private set; }
 
         private UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified)
         {
             Id = id;
-            //if (String.IsNullOrEmpty(nickName)) throw new NullReferenceException("");
             NickName = nickName;
             BirthDate = birthDate;
             Email = email;
@@ -31,11 +30,11 @@ namespace Ipme.WikiBeer.Entities
         }
 
         public UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified,
-            CountryEntity? country, IEnumerable<BeerEntity>? favoriteBeers)
+            CountryEntity? country, IEnumerable<UserBeer>? userBeers)
             : this(id, nickName, birthDate, email, hashCode, isCertified)
         {
             Country = country;
-            FavoriteBeers = favoriteBeers;
+            UserBeers = userBeers;
         }
 
     }

@@ -15,6 +15,6 @@ namespace Ipme.WikiBeer.Dtos
         public int HashCode { get; set; } 
         public bool IsCertified { get; set; }
         public CountryDto? Country { get; set; }
-        public IEnumerable<BeerDto>? FavoriteBeers { get; set; }
+        public IEnumerable<Guid>? FavoriteBeerIds { get; set; }
     }
 }

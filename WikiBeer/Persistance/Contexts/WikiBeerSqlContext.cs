@@ -74,6 +74,27 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             OnUserCreating(modelBuilder);
 
             // Entities de base (Interractions User-Beer)
+            OnUserBeerCreating(modelBuilder);
+        }
+
+        private void OnUserBeerCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserBeer> typeBuilder = modelBuilder.Entity<UserBeer>();
+            var userIdName = "UserId";
+            var beerIdName = "BeerId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("UserBeer").HasKey(ub => new { ub.UserId, ub.BeerId });
+            typeBuilder.Property(ub => ub.UserId).HasColumnName(userIdName);
+            typeBuilder.Property(ub => ub.BeerId).HasColumnName(beerIdName);
+
+            #region Configuration relations
+            typeBuilder.HasOne(ub => ub.User).WithMany(u => u.UserBeers).HasForeignKey(u => u.UserId);
+            typeBuilder.HasOne(ub => ub.Beer).WithMany(b => b.UserBeers).HasForeignKey(u => u.BeerId);
+            // FavoritesBeer
+            //typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
+            //    .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
+            //typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
+            #endregion
         }
 
         private void OnUserCreating(ModelBuilder modelBuilder)
@@ -88,10 +109,13 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
 
             #region Configuration relations
+            // UserBeer
+            typeBuilder.Navigation(u => u.UserBeers).AutoInclude();
             // FavoritesBeer
-            typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
-                .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
-            typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
+            //typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
+            //    .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
+            //typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
+            #endregion
         }
 
         #region Méthodes de configuration des models
@@ -243,6 +267,6 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes versions d'EF (5 et moins)            
             return base.Set<TEntity>();
         }
-
+        
     }
 }
