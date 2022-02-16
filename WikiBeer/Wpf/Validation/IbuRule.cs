@@ -6,10 +6,10 @@ namespace Ipme.WikiBeer.Wpf.Validation
 {
     public class IbuRule : ValidationRule
     {
-        private float _MaxValue = 150;
-        private float _MinValue = 1;
-
         private String _errorMessage = String.Empty;
+
+        private float _maxValue = 150;
+        private float _minValue = 0;
         public string ErrorMessage
         {
             get { return _errorMessage; }
@@ -18,10 +18,19 @@ namespace Ipme.WikiBeer.Wpf.Validation
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            var ibu = (float)value;
+            var valueAsString = value as string;
+            float ibu;
 
-            if (ibu !>= _MinValue && ibu !<= _MinValue)
-            //if (str == null || str == string.Empty)
+            if (valueAsString == String.Empty || valueAsString == null)
+            {
+                ibu = float.NaN;
+            }
+            else
+            {
+                ibu = float.Parse(valueAsString);
+            }
+
+            if (ibu <= _minValue || ibu >= _maxValue)
             {
                 return new ValidationResult(false, this.ErrorMessage);
             }
