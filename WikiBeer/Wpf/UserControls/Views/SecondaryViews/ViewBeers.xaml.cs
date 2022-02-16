@@ -133,7 +133,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             Delete_Button.Visibility = Visibility.Collapsed;
             Create_Button.Visibility = Visibility.Visible;
             ListOverlay.Visibility = Visibility.Visible;
-            Beers.ToModify = new BeerModel(string.Empty, string.Empty, 0, 0, null, null, null, null);
+            Beers.ToModify = new BeerModel();
         }
     }
 }

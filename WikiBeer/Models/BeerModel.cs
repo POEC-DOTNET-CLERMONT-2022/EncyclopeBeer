@@ -3,6 +3,8 @@ using Ipme.WikiBeer.Models.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Pour de la deep copy 
@@ -12,7 +14,7 @@ using System.Collections.ObjectModel;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerModel : ObservableObject, IDeepClonable<BeerModel>
+    public class BeerModel : ObservableObject, IDeepClonable<BeerModel> /*IDataErrorInfo*/
     {
         public Guid Id { get; } // en readOnly car provient de la base
 
@@ -128,6 +130,10 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
+        public BeerModel()
+        {
+        }
+
         public BeerModel(string name, string? description, float ibu, float degree, BeerStyleModel? style,
             BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel>? ingredients)
             : this(Guid.Empty, name, description, ibu, degree, style, color, brewery, ingredients)
@@ -191,5 +197,32 @@ namespace Ipme.WikiBeer.Models
         {
             return new BeerModel(this);
         }
+
+        //public string Error
+        //{
+        //    get
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        //public string this[string name]
+        //{
+        //    get
+        //    {
+        //        string result = null;
+                
+        //        if (name == "Name")
+        //        {
+        //            if (this.Name == null || this.Name == string.Empty)
+        //            {
+        //                result = "Name cannot be empty";
+        //            }
+        //        }
+
+        //        return result;
+        //    }
+
+        //}
     }
 }
