@@ -21,6 +21,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
         {
+            //TODO see DataTrigger
             if (SubMenuManager.Visibility != Visibility.Visible)
             {
                 SubMenuManager.Visibility = Visibility.Visible;

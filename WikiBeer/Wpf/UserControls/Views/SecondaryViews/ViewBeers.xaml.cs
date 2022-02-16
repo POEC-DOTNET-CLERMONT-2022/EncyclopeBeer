@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Fare;
+using Microsoft.Data.SqlClient;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
@@ -39,6 +41,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
+            //TODO traitement parallele => Task.WaitAll
             await LoadBeers();
             await LoadBreweries();
             await LoadStyles();
@@ -97,6 +100,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             Delete_Button.Visibility = Visibility.Visible;
             Create_Button.Visibility = Visibility.Collapsed;
             ListOverlay.Visibility = Visibility.Collapsed;
+
+            //TODO Binding ?  
         }
 
         private async void Update_Button_Click(object sender, RoutedEventArgs e)
@@ -125,10 +130,14 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             Delete_Button.Visibility = Visibility.Visible;
             Create_Button.Visibility = Visibility.Collapsed;
             ListOverlay.Visibility = Visibility.Collapsed;
+            
+            //TODO Visual State ? 
         }
 
         private void Add_Button_Click(object sender, RoutedEventArgs e)
         {
+            //TODO Visual State ? 
+
             Update_Button.Visibility = Visibility.Collapsed;
             Delete_Button.Visibility = Visibility.Collapsed;
             Create_Button.Visibility = Visibility.Visible;

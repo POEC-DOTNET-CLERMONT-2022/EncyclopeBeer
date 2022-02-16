@@ -16,6 +16,7 @@ namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
     {
         public DtoModelProfile()
         {
+            //TODO Pas de région => plutôt faire d'autres profiles 
             CreateMap<BeerDto, BeerModel>().ReverseMap();
 
             /// Exemples implicites : 

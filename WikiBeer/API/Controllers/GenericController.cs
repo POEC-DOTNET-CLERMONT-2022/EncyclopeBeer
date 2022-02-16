@@ -32,9 +32,9 @@ namespace Ipme.WikiBeer.API.Controllers
         where TEntity : class, IEntity
         where TDto : class, IDto
     {
-        private readonly IMapper _mapper;
-        private readonly IGenericRepository<TEntity> _dbRepository;
-  
+        private readonly IMapper _mapper;//TODO protected 
+        private readonly IGenericRepository<TEntity> _dbRepository;//TODO protected 
+
         public GenericController(IGenericRepository<TEntity> dbRepository, IMapper mapper)
         {
             _dbRepository = dbRepository;
@@ -54,6 +54,7 @@ namespace Ipme.WikiBeer.API.Controllers
             }
             catch (Exception e)
             {
+                //TODO logger
                 return StatusCode(500);
             }
         }
@@ -67,6 +68,7 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             try
             {
+                //TODO logger
                 var entity = await _dbRepository.GetByIdAsync(id);
                 if (entity == null)
                     return NotFound();

@@ -8,6 +8,7 @@ namespace Ipme.WikiBeer.Models
 {
     public interface IDeepClonable<T> where T : class
     {
+        //TODO : Impl Generique 
         T DeepClone();        
     }
 }

@@ -61,6 +61,7 @@ namespace Ipme.WikiBeer.Wpf
 
             base.OnStartup(e);
 
+            //TODO à suprimer / commenter  
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
             PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
 

@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 /// https://stackoverflow.com/questions/54048169/unit-test-with-generics-types
 /// https://codinghelmet.com/articles/how-to-write-unit-tests-for-generic-classes
 /// </summary>
+
 namespace Ipme.WikiBeer.API.Tests
 {
     [TestClass]
