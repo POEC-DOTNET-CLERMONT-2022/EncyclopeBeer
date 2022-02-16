@@ -18,8 +18,10 @@
     Voir également
     https://github.com/manuc66/JsonSubTypes
  */
+using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
+using System.Collections.ObjectModel;
 
 // Paramètres
 var dbName = "WikiBeer";
@@ -48,6 +50,19 @@ else
     dbr.FillDatabase();
 }
 
+// Test divers
+// delete d'une bière
+var beers = dbr.Beers.ToList();
+var ingredients = dbr.Ingredients.ToList();
+dbr.BeerManager.DeleteById(beers[0].Id).Wait();
+var users = await dbr.UserManager.GetAll();
+var momo = users.FirstOrDefault(u => u.NickName == "Momo"); // ne doit plus avoir de bière favorites
+beers[1].Ingredients = new ObservableCollection<IngredientModel>(dbr.Ingredients.ToList());
+dbr.BeerManager.Update(beers[1].Id, beers[1]).Wait(); // doit être une bière à trois ingrédients.
+var new_beer = await dbr.BeerManager.GetById(beers[1].Id);
+momo.FavoriteBeerIds = new ObservableCollection<Guid>{ new_beer.Id, beers[2].Id };
+dbr.UserManager.Update(momo.Id, momo).Wait(); // à ce moment deux nouvelles bières en favoris
+var ddbMomo = await dbr.UserManager.GetById(momo.Id);
 Console.WriteLine("Execution terminée");
 Console.ReadLine();
 

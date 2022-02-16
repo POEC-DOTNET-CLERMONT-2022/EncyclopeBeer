@@ -74,15 +74,27 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return await Context.Set<T>().IgnoreAutoIncludes().SingleOrDefaultAsync(obj => obj.Id == id);
         }
 
+        /// <summary>
+        /// Problème à régler ici. Update ne fonctionne pas avec les tables d'associations (pète une erreur).
+        /// Attach fonctionne mais pas correctement, les tables d'associations ne sont pas mise à jour.
+        /// Idée : custom la relation au niveau du DbContext ou bien revoir l'architecture des dto 
+        /// (comme alex et johan).
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public virtual async Task<T?> UpdateAsync(T entity)
         {
             var updatedEntry = Context.Attach(entity);
+            //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
+                                                         // intermédiaire
             if (!Context.Set<T>().Any(e => e.Id == entity.Id))
                 return null;
-  
-            updatedEntry.State = EntityState.Modified;
 
-            CheckBorderEffectAdded(entity);
+            //updatedEntry.State = EntityState.Modified;
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity && e.Entity is not Dictionary<string, object>);
+            SetEntriesState(entries, EntityState.Modified);
+            //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
+            //CheckBorderEffectAdded(entity);
 
             await Context.SaveChangesAsync();            
             return updatedEntry.Entity;
@@ -112,8 +124,33 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return await Context.SaveChangesAsync() >= 1;
         }
 
+        private void SetEntriesState(IEnumerable<EntityEntry> entries, EntityState entityState)
+        {
+            if (entries.Any())
+            {
+                foreach (var entry in entries)
+                {
+                    entry.State = entityState;
+                }
+            }
+        }
+
+        //private void SetStateExceptSelfAndCollections(T entity, EntityState entityState)
+        //{
+        //    var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
+
+        //    if (entries.Any())
+        //    {
+        //        foreach (var entry in entries)
+        //        {
+        //            entry.State = entityState;
+        //        }
+        //    }
+        //}
+
         /// <summary>
-        /// TODO : à retravailler pour tester aussi la modification par rapport à la base!
+        /// TODO : à retravailler pour pouvoir être utilisable tt court (ne foncitonne pas avec les tables d'association
+        /// custom)
         /// </summary>
         /// <param name="entity"></param>
         /// <exception cref="UndesiredBorderEffectException"></exception>
