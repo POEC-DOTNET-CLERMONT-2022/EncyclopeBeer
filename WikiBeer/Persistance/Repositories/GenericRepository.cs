@@ -71,7 +71,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 
         public virtual async Task<T?> GetByIdNoIncludeAsync(Guid id)
         {
-            return await Context.Set<T>().IgnoreAutoIncludes().SingleOrDefaultAsync(obj => obj.Id == id);
+            return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         /// <summary>
@@ -82,32 +82,89 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        //public virtual async Task<T?> UpdateAsync(T entity)
+        //{
+        //    //var entry = Context.Entry(entity);
+        //    //CustomTracking(entity);
+
+        //    //entry.State = EntityState.Modified;
+        //    var updatedEntry = Context.Attach(entity);
+        //    //var values = updatedEntry.GetDatabaseValues();
+        //    //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
+        //    // intermédiaires passent en add quand il ne faut pas
+        //    if (!Context.Set<T>().Any(e => e.Id == entity.Id))
+        //        return null;
+
+        //    //entry.State = EntityState.Modified;
+        //    updatedEntry.State = EntityState.Modified;
+        //    var fullEntrie = Context.ChangeTracker.Entries();
+        //    //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
+        //    //var compiletype = entries.ToList()[1].
+        //    //SetEntriesState(entries, EntityState.Modified);
+        //    //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
+        //    //CheckBorderEffectAdded(entity);
+
+        //    await Context.SaveChangesAsync();
+        //    //var updatedEntry = Context.Attach(entity);
+        //    return updatedEntry.Entity;
+        //    //return entry.Entity;
+        //}
+
+        /// Sur comment récupérer une clef composite
+        /// https://stackoverflow.com/questions/30688909/how-to-get-primary-key-value-with-entity-framework-core
+        /// 
         public virtual async Task<T?> UpdateAsync(T entity)
         {
-            //var entry = Context.Entry(entity);
-            //CustomTracking(entity);
-
-            //entry.State = EntityState.Modified;
             var updatedEntry = Context.Attach(entity);
-            //var values = updatedEntry.GetDatabaseValues();
-            //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
-            // intermédiaires passent en add quand il ne faut pas
+
             if (!Context.Set<T>().Any(e => e.Id == entity.Id))
                 return null;
 
-            //entry.State = EntityState.Modified;
             updatedEntry.State = EntityState.Modified;
             var fullEntrie = Context.ChangeTracker.Entries();
-            //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
-            //var compiletype = entries.ToList()[1].
-            //SetEntriesState(entries, EntityState.Modified);
-            //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
-            //CheckBorderEffectAdded(entity);
+            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity is UserBeer);
+
+            // Des test d'un algo moins bourrins qu'ef core
+            var keyNames = Context.Model.FindEntityType(typeof(UserBeer)).FindPrimaryKey()
+             .Properties.Select(x => x.Name).ToList();
+            var ent = entries.ToList()[0].Entity; // avec un cast sur un IAssociationTable qui force l'implem d'un get Tuple<Guid,Guid>
+            var tt1 = ent.GetType(); // Type runtime
+            var tt2 = tt1.GetProperties(); // Propriété associée
+            var tt3 = tt2.Where(p => keyNames.Any(p.Name.Contains)); // Enumerable des Id de la clef composite
+            //var method = tt1.Get; 
+            //var key1 = ent.GetType().GetProperty(keyNames[0]).GetValue(ent, null);
+            // Il nous faut une interface ET une classe Parent pour implémenter la méthode
+            // Il faut en plus une méthode qui prend un id donné et check si l'un ou l'autre des PK/FK correspond
+            var associationTableRows = Context.Set<UserBeer>().AsNoTracking().Where(atr => atr.IsInCompositeKey(entity.Id))
+                .Select(atr => atr.GetCompositeKey); // ce truc doit renvoyer une liste des clefs composites à tester
+            
+
 
             await Context.SaveChangesAsync();
-            //var updatedEntry = Context.Attach(entity);
             return updatedEntry.Entity;
-            //return entry.Entity;
+        }
+
+        /// <summary>
+        /// Doit fournir la logique de sélection des états des tables d'associations
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entries"></param>
+        private void test(Guid id, IEnumerable<EntityEntry> entries)
+        {
+            if (entries.Any())
+            {
+                // Récupération du nom des clefs de la tables d'association
+                //var keyNames = Context.Model.FindEntityType(typeof(UserBeer)).FindPrimaryKey()
+                // .Properties.Select(x => x.Name).ToList();
+                //var keyNames = Context.Model.FindEntityType(entries.GetType().GetGenericArguments().First())
+                //    .FindPrimaryKey().Properties.Select(x => x.Name).ToList();
+                //var associationTableRows = Context.Set<UserBeer>().Where(at => at.)                
+
+                foreach (var entry in entries)
+                {
+
+                }
+            }
         }
 
         private void CustomTracking(T entity)
