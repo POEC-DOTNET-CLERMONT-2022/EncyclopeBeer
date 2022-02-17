@@ -21,6 +21,8 @@ namespace Ipme.WikiBeer.Entities
         public BreweryEntity? Brewery { get; private set; }
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }
+
+        public IEnumerable<Guid> IngredientIds { get; init; }
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
         public IEnumerable<UserBeer>? UserBeers { get; private set; }
  

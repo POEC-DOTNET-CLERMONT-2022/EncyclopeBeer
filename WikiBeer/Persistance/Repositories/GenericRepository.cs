@@ -85,23 +85,49 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         public virtual async Task<T?> UpdateAsync(T entity)
         {
             //var entry = Context.Entry(entity);
+            //CustomTracking(entity);
+
             //entry.State = EntityState.Modified;
             var updatedEntry = Context.Attach(entity);
+            //var values = updatedEntry.GetDatabaseValues();
             //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
-                                                         // intermédiaire
+            // intermédiaires passent en add quand il ne faut pas
             if (!Context.Set<T>().Any(e => e.Id == entity.Id))
                 return null;
 
+            //entry.State = EntityState.Modified;
             //updatedEntry.State = EntityState.Modified;
             var fullEntrie = Context.ChangeTracker.Entries();
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
+            //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
             //var compiletype = entries.ToList()[1].
-            SetEntriesState(entries, EntityState.Modified);
+            //SetEntriesState(entries, EntityState.Modified);
             //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
             //CheckBorderEffectAdded(entity);
 
-            await Context.SaveChangesAsync();            
+            await Context.SaveChangesAsync();
+            var updatedEntry = Context.Attach(entity);
             return updatedEntry.Entity;
+            //return entry.Entity;
+        }
+
+        private void CustomTracking(T entity)
+        {
+            Context.ChangeTracker.TrackGraph(entity, node =>
+             {
+                 node.Entry.State = EntityState.Unchanged;
+
+             if (node.Entry.Entity as Dictionary<string, object> != null)
+             {
+                 if (node.Entry.IsKeySet)
+                     {
+                         node.Entry.State = EntityState.Modified;
+                     }
+                     else
+                     {
+                         node.Entry.State = EntityState.Added;
+                     }
+                 }
+             });
         }
 
         /// <summary>
