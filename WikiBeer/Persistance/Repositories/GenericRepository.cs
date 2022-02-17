@@ -96,7 +96,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 return null;
 
             //entry.State = EntityState.Modified;
-            //updatedEntry.State = EntityState.Modified;
+            updatedEntry.State = EntityState.Modified;
             var fullEntrie = Context.ChangeTracker.Entries();
             //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
             //var compiletype = entries.ToList()[1].
@@ -105,7 +105,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             //CheckBorderEffectAdded(entity);
 
             await Context.SaveChangesAsync();
-            var updatedEntry = Context.Attach(entity);
+            //var updatedEntry = Context.Attach(entity);
             return updatedEntry.Entity;
             //return entry.Entity;
         }

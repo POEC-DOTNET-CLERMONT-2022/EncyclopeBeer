@@ -22,7 +22,8 @@ namespace Ipme.WikiBeer.Entities
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }
 
-        public IEnumerable<Guid> IngredientIds { get; init; }
+        //public IEnumerable<Guid> IngredientIds { get; init; }
+        // ICollection plutot
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
         public IEnumerable<UserBeer>? UserBeers { get; private set; }
  
