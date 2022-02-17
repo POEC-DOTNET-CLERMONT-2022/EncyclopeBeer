@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations;
 /// </summary>
 namespace Ipme.WikiBeer.Models
 {
-    public class BeerModel : ObservableObject, IDeepClonable<BeerModel> /*IDataErrorInfo*/
+    public class BeerModel : ObservableObject, IDeepClonable<BeerModel>
     {
         public Guid Id { get; } // en readOnly car provient de la base
 
@@ -197,32 +197,5 @@ namespace Ipme.WikiBeer.Models
         {
             return new BeerModel(this);
         }
-
-        //public string Error
-        //{
-        //    get
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public string this[string name]
-        //{
-        //    get
-        //    {
-        //        string result = null;
-                
-        //        if (name == "Name")
-        //        {
-        //            if (this.Name == null || this.Name == string.Empty)
-        //            {
-        //                result = "Name cannot be empty";
-        //            }
-        //        }
-
-        //        return result;
-        //    }
-
-        //}
     }
 }

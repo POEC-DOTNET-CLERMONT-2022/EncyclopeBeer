@@ -7,6 +7,9 @@
              xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews"
              mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
              d:DesignHeight="700" d:DesignWidth="800">
+    <UserControl.Resources>
+
+    </UserControl.Resources>
     <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
@@ -74,13 +77,22 @@
                     Visibility="Visible"
                     />
                     <Button x:Name="Create_Button"
-                    Height="30" 
-                    Width="100" 
-                    Margin="10"
-                    Content="Create"
-                    Click="Create_Button_Click"
-                    Visibility="Collapsed"
-                    />
+                            Height="30" 
+                            Width="100" 
+                            Margin="10"
+                            Content="Create"
+                            Click="Create_Button_Click"
+                            Visibility="Visible">
+                        <Button.Resources>
+                            <Style x:Key="ButtonStyle" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsUpdating}" Value="false">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </DockPanel>
             </Grid>
         </Grid>

@@ -27,6 +27,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public IGenericListModel<BeerColorModel> Colors { get; }
         public IGenericListModel<IngredientModel> Ingredients { get; }
 
+        public bool IsUpdating = false;
+
         public ViewBeers()
         {
             Beers = new GenericListModel<BeerModel>();
@@ -131,7 +133,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             Update_Button.Visibility = Visibility.Collapsed;
             Delete_Button.Visibility = Visibility.Collapsed;
-            Create_Button.Visibility = Visibility.Visible;
+            Create_Button.Visibility = Visibility.Collapsed;
             ListOverlay.Visibility = Visibility.Visible;
             Beers.ToModify = new BeerModel();
         }

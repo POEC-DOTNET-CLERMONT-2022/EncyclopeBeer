@@ -1,5 +1,6 @@
 ﻿using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -88,6 +89,12 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         public BeerDetailsComponent()
         {
             InitializeComponent();
+        }
+
+        private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
