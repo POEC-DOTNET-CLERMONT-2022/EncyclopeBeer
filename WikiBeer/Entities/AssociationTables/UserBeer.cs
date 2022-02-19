@@ -27,21 +27,14 @@ namespace Ipme.WikiBeer.Entities
             Beer = beer;
         }
 
-        public (Guid, Guid) GetCompositeKey()
-        {
-            return (UserId,BeerId);
-        }
-
         public bool IsInCompositeKey(Guid id)
         {
             return id == UserId || id == BeerId;
         }
 
-        public bool Equals(UserBeer? other)
+        public (Guid, Guid) GetCompositeKey()
         {
-            if (other is null)
-                return false;
-            else return this.GetCompositeKey() == other.GetCompositeKey();
+            return (UserId, BeerId);
         }
 
         public bool Equals(IAssociationTable? other)
@@ -59,5 +52,7 @@ namespace Ipme.WikiBeer.Entities
         {
             return GetCompositeKey().GetHashCode();
         }
+
+       
     }
 }

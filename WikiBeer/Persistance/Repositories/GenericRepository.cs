@@ -116,159 +116,86 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// 
         public virtual async Task<T?> UpdateAsync(T entityToUpdate)
         {
-            var updatedEntry = Context.Attach(entityToUpdate);
+            var entryToUpdate = Context.Attach(entityToUpdate);
 
             if (!Context.Set<T>().Any(e => e.Id == entityToUpdate.Id))
                 return null;
 
-            updatedEntry.State = EntityState.Modified;
+            entryToUpdate.State = EntityState.Modified;
             var fullEntrie = Context.ChangeTracker.Entries();
 
+            TryUpdateAssociationTables(entryToUpdate, entityToUpdate.Id);
+
+            await Context.SaveChangesAsync();
+            return entryToUpdate.Entity;
+        }
+
+        private void TryUpdateAssociationTables(EntityEntry entryToUpdate, Guid associatedId)
+        {
             // recherche des tables d'association dans l'entité
-            var propInfo = updatedEntry.Entity.GetType().GetProperties();
+            var types = GetAssociationTableTypes(entryToUpdate);
+            if (types.Any())
+            {
+                UpdateAssociationTables(types, associatedId);
+            }
+        }
+
+        /// <summary>
+        /// Retourne la liste des types IAssociationTable contenus dans l'entry donnée.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        private IEnumerable<Type> GetAssociationTableTypes(EntityEntry entry)
+        {
+            var propInfo = entry.Entity.GetType().GetProperties();
             var asTypes = new List<Type>();
-            foreach(var prop in propInfo)
+            foreach (var prop in propInfo)
             {
                 if (typeof(IEnumerable<IAssociationTable>).IsAssignableFrom(prop.PropertyType))
                     asTypes.Add(prop.PropertyType.GetGenericArguments().FirstOrDefault());
             }
-            if (asTypes.Any())
-            {
-                var cpropInfo = Context.GetType().GetProperties();
-                foreach (var type in asTypes)
-                {
-                    // entités correpondant au type de table
-                    var entries = Context.ChangeTracker.Entries().Where(e => e.Entity.GetType() == type);
-                    var entities = entries.Select(e => e.Entity);
-                    // récupération du bon DbSet en fonction du type de table
-                    var setInfo = cpropInfo.Where(pi => pi.PropertyType.GetGenericArguments().FirstOrDefault() == type).FirstOrDefault();
-                    var set = (IQueryable<IAssociationTable>)setInfo.GetValue(Context);                   
-
-                    // entités en base 
-                    var inBaseEntities = set.AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(entityToUpdate.Id));
-                    
-                    var entitiesOnlyInBase = inBaseEntities.Except(entities);
-                    foreach (var entity in entitiesOnlyInBase)
-                    {
-                        var entry = Context.Entry(entity);
-                        entry.State = EntityState.Deleted;
-                    }
-                    // entité en base non contenue dans l'entité à update (a Add)
-                    var entitiesOnlyInEntity = entities.Except(inBaseEntities);
-                    foreach (var entity in entitiesOnlyInEntity)
-                    {
-                        var entry = Context.Entry(entity);
-                        entry.State = EntityState.Added;
-                    }
-
-
-                }
-            }
-
-
-            // entries correspondant à des lignes de tables d'association
-            //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity is IAssociationTable);
-            //var entriesTypes = entries.Select(e => e.Entity.GetType()).Distinct();
-            //// Des test d'un algo moins bourrins qu'ef core
-            //var keyNames = Context.Model.FindEntityType(typeof(UserBeer)).FindPrimaryKey()
-            // .Properties.Select(x => x.Name).ToList();
-            //var ent = entries.ToList()[0].Entity; // avec un cast sur un IAssociationTable qui force l'implem d'un get Tuple<Guid,Guid>
-            //var tt1 = ent.GetType(); // Type runtime
-            //var tt2 = tt1.GetProperties(); // Propriété associée
-            //var tt3 = tt2.Where(p => keyNames.Any(p.Name.Contains)); // Enumerable des Id de la clef composite
-            //var method = tt1.Get; 
-            //var key1 = ent.GetType().GetProperty(keyNames[0]).GetValue(ent, null);
-            // Il nous faut une interface ET une classe Parent pour implémenter la méthode
-            // Il faut en plus une méthode qui prend un id donné et check si l'un ou l'autre des PK/FK correspond
-            //var associationTableRows = Context.Set<UserBeer>().AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(entity.Id));
-            //var associationTablesKeys = associationTableRows.Select(atr => atr.GetCompositeKey());
-            //    //.Select(atr => atr.GetCompositeKey());
-            //var associationTableRows = Context.Set<UserBeer>().AsNoTracking().ToList().Where(atr => atr.IsInCompositeKey(entity.Id));
-            //.Select(atr => atr.GetCompositeKey()).ToList();
-            var toto = "tot";
-            //var associationTableRows = Context.Set<UserBeer>().AsNoTracking().Where(atr => atr.IsInCompositeKey(entity.Id))
-            //    .Select(atr => atr.GetCompositeKey()).ToList(); // ce truc doit renvoyer une liste des clefs composites à tester
-
-            // Ici il va falloir faire de la réflexion sur le context pour aller chercher le bon dBSet en fonction du type de table d'association
-            // entités et couples de clef correspondant à l'entité à update (dans la base)            
-            //var associationTableRows = Context.Set<UserBeer>().AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(entityToUpdate.Id));
-            //var associationTablesKeys = associationTableRows.Select(atr => atr.GetCompositeKey());
-            
-
-            // entité et couples de clefs à update
-            //var entities = entries.Select(e => e.Entity);
-            //var updatedKeys = entries.Select(e => ((IAssociationTable)e.Entity).GetCompositeKey());
-
-            // entité à updated non contenue dans la base (a Delete)
-            //var entitiesOnlyInBase = associationTableRows.Except(entities);
-            //foreach(var entity in entitiesOnlyInBase)
-            //{
-            //    var entry = Context.Entry(entity);
-            //    entry.State = EntityState.Deleted;
-            //}
-            //// entité en base non contenue dans l'entité à update (a Add)
-            //var entitiesOnlyInEntity = entities.Except(associationTableRows);
-            //foreach (var entity in entitiesOnlyInEntity)
-            //{
-            //    var entry = Context.Entry(entity);
-            //    entry.State = EntityState.Added;
-            //}
-
-            // check sur ce qui est dans le context après les modifs
-            var fullEntrie2 = Context.ChangeTracker.Entries();
-
-            // tt les entrées associées en base (à faire à la fin )
-            //var associationEntries = new List<EntityEntry>();
-            //foreach (var enti in associationTableRows)
-            //{
-            //    associationEntries.Add(Context.Entry(enti));
-            //}
-
-            await Context.SaveChangesAsync();
-            return updatedEntry.Entity;
+            return asTypes;
         }
 
         /// <summary>
-        /// Doit fournir la logique de sélection des états des tables d'associations
+        /// Update les tables d'associations contenue dans types à partir de l'id de l'entité à update
         /// </summary>
+        /// <param name="types"></param>
         /// <param name="id"></param>
-        /// <param name="entries"></param>
-        private void test(Guid id, IEnumerable<EntityEntry> entries)
+        private void UpdateAssociationTables(IEnumerable<Type> types, Guid id)
         {
-            if (entries.Any())
+            var cpropInfo = Context.GetType().GetProperties();
+            foreach (var type in types)
             {
-                // Récupération du nom des clefs de la tables d'association
-                //var keyNames = Context.Model.FindEntityType(typeof(UserBeer)).FindPrimaryKey()
-                // .Properties.Select(x => x.Name).ToList();
-                //var keyNames = Context.Model.FindEntityType(entries.GetType().GetGenericArguments().First())
-                //    .FindPrimaryKey().Properties.Select(x => x.Name).ToList();
-                //var associationTableRows = Context.Set<UserBeer>().Where(at => at.)                
-
-                foreach (var entry in entries)
-                {
-
-                }
+                // entités correpondant au type de table
+                var entries = Context.ChangeTracker.Entries().Where(e => e.Entity.GetType() == type);
+                var inContextEntities = entries.Select(e => e.Entity);
+                // récupération du bon DbSet en fonction du type de table
+                var setInfo = cpropInfo.Where(pi => pi.PropertyType.GetGenericArguments().FirstOrDefault() == type).FirstOrDefault();
+                var set = (IQueryable<IAssociationTable>)setInfo.GetValue(Context);
+                // entités en base 
+                var inBaseEntities = set.AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(id));
+                // Entries seulement en base passées en Deleted
+                SetStateOnExcept(inBaseEntities, inContextEntities, EntityState.Deleted);
+                // Entries seulement dans le context passées en Added
+                SetStateOnExcept(inContextEntities, inBaseEntities, EntityState.Added);
             }
         }
 
-        private void CustomTracking(T entity)
+        /// <summary>
+        /// Affecte l'Entity state donné aux entries des entités de first non contenue dans second 
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <param name="state"></param>
+        private void SetStateOnExcept(IEnumerable<object> first, IEnumerable<object> second, EntityState state)
         {
-            Context.ChangeTracker.TrackGraph(entity, node =>
-             {
-                 node.Entry.State = EntityState.Unchanged;
-
-             if (node.Entry.Entity as Dictionary<string, object> != null)
-             {
-                 if (node.Entry.IsKeySet)
-                     {
-                         node.Entry.State = EntityState.Modified;
-                     }
-                     else
-                     {
-                         node.Entry.State = EntityState.Added;
-                     }
-                 }
-             });
+            var differenceSet = first.Except(second);
+            foreach (var elem in differenceSet)
+            {
+                var entry = Context.Entry(elem);
+                entry.State = state;
+            }
         }
 
         /// <summary>
@@ -295,18 +222,13 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return await Context.SaveChangesAsync() >= 1;
         }
 
-        private void SetEntriesState(IEnumerable<EntityEntry> entries, EntityState entityState)
-        {
-            if (entries.Any())
-            {
-                foreach (var entry in entries)
-                {
-                    entry.State = entityState;
-                }
-            }
-        }
-
-        //private void SetStateExceptSelfAndCollections(T entity, EntityState entityState)
+        /// <summary>
+        /// TODO : à retravailler pour pouvoir être utilisable tt court (ne foncitonne pas avec les tables d'association
+        /// custom)
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="UndesiredBorderEffectException"></exception>
+        //private void CheckBorderEffectAdded(T entity)
         //{
         //    var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
 
@@ -314,31 +236,12 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         //    {
         //        foreach (var entry in entries)
         //        {
-        //            entry.State = entityState;
+        //            if (entry.State == EntityState.Added)
+        //                throw new UndesiredBorderEffectException("L'ajout en base d'un composant lors de création/modification" +
+        //                    $"d'un composé n'est pas autorisée. (composé :{entity.Id} : {entity})");
         //        }
         //    }
         //}
-
-        /// <summary>
-        /// TODO : à retravailler pour pouvoir être utilisable tt court (ne foncitonne pas avec les tables d'association
-        /// custom)
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <exception cref="UndesiredBorderEffectException"></exception>
-        private void CheckBorderEffectAdded(T entity)
-        {
-            var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
-
-            if (entries.Any())
-            {
-                foreach (var entry in entries)
-                {
-                    if (entry.State == EntityState.Added)
-                        throw new UndesiredBorderEffectException("L'ajout en base d'un composant lors de création/modification" +
-                            $"d'un composé n'est pas autorisée. (composé :{entity.Id} : {entity})");
-                }
-            }
-        }
 
 
     }
