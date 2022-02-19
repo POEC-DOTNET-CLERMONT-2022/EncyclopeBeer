@@ -43,6 +43,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<CerealEntity> Cereal { get; set; }
         public DbSet<AdditiveEntity> Additive { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+
+        public DbSet<UserBeer> UserBeers { get; set; }
         #endregion
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
 
             #region Configuration relations
             typeBuilder.HasOne(ub => ub.User).WithMany(u => u.UserBeers).HasForeignKey(u => u.UserId);
-            typeBuilder.HasOne(ub => ub.Beer).WithMany(b => b.UserBeers).HasForeignKey(u => u.BeerId);
+            typeBuilder.HasOne(ub => ub.Beer).WithMany().HasForeignKey(u => u.BeerId);
             // FavoritesBeer
             //typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
             //    .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));

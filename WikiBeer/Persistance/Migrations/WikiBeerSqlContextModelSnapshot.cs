@@ -334,7 +334,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.UserBeer", b =>
                 {
                     b.HasOne("Ipme.WikiBeer.Entities.BeerEntity", "Beer")
-                        .WithMany("UserBeers")
+                        .WithMany()
                         .HasForeignKey("BeerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -362,11 +362,6 @@ namespace Ipme.WikiBeer.Persistance.Migrations
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerColorEntity", b =>
                 {
                     b.Navigation("Beers");
-                });
-
-            modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerEntity", b =>
-                {
-                    b.Navigation("UserBeers");
                 });
 
             modelBuilder.Entity("Ipme.WikiBeer.Entities.BeerStyleEntity", b =>

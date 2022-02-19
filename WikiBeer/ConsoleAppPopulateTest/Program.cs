@@ -57,7 +57,7 @@ var bddbeers = await dbr.BeerManager.GetAll();
 var beers = new List<BeerModel>(bddbeers);
 //var ingredients = dbr.Ingredients.ToList();
 var ingredients = new List<IngredientModel>(await dbr.IngredientManager.GetAll());
-dbr.BeerManager.DeleteById(beers[0].Id).Wait();
+//dbr.BeerManager.DeleteById(beers[0].Id).Wait();
 var users = await dbr.UserManager.GetAll();
 var momo = users.FirstOrDefault(u => u.NickName == "Momo"); // ne doit plus avoir de bière favorites -> OK
 beers[1].Ingredients = new ObservableCollection<IngredientModel>(dbr.Ingredients.ToList());

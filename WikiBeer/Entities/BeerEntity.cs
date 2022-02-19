@@ -25,7 +25,7 @@ namespace Ipme.WikiBeer.Entities
         //public IEnumerable<Guid> IngredientIds { get; init; }
         // ICollection plutot
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
-        public IEnumerable<UserBeer>? UserBeers { get; private set; }
+        //public IEnumerable<UserBeer>? UserBeers { get; private set; }
  
         private BeerEntity(Guid id, string name, string? description, float? ibu, float degree)
         {
@@ -38,14 +38,14 @@ namespace Ipme.WikiBeer.Entities
 
         public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
             BeerColorEntity? color, BreweryEntity? brewery,
-            IEnumerable<IngredientEntity>? ingredients, IEnumerable<UserBeer>? userBeers)
+            IEnumerable<IngredientEntity>? ingredients)//, IEnumerable<UserBeer>? userBeers)
             : this(id, name, description, ibu, degree)
         {
             Style = style;
             Color = color;
             Brewery = brewery;
             Ingredients = ingredients;
-            UserBeers = userBeers;
+            //UserBeers = userBeers;
         }
     }
 }
