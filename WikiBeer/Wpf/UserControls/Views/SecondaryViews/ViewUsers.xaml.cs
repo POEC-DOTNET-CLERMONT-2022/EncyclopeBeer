@@ -1,28 +1,140 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Ipme.WikiBeer.ApiDatas;
+using Ipme.WikiBeer.Dtos;
+using Ipme.WikiBeer.Models;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
     /// <summary>
     /// Logique d'interaction pour ViewUsers.xaml
     /// </summary>
-    public partial class ViewUsers : UserControl
+    public partial class ViewUsers : UserControl, INotifyPropertyChanged
     {
+        private IDataManager<UserModel, UserDto> _userDataManager = ((App)Application.Current).UserDataManager;
+
+        public IGenericListModel<UserModel> Users { get; }
+
+        private string _textSearch;
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                _textSearch = value;
+                OnPropertyChanged();
+                ((CollectionViewSource)Resources["UsersViewSource"]).View.Refresh();
+            }
+        }
+
         public ViewUsers()
         {
+            Users = new GenericListModel<UserModel>();
             InitializeComponent();
+        }
+
+        public async void Windows_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadUsers();
+        }
+
+        public async Task LoadUsers()
+        {
+            var users = await _userDataManager.GetAll();
+            Users.List = new ObservableCollection<UserModel>(users);
+        }
+
+        private async void Create_Button_Click(object sender, RoutedEventArgs e)
+        {
+            //var name = Beers.ToModify.Name;
+            //var description = Beers.ToModify.Description;
+            //float ibu = Beers.ToModify.Ibu;
+            //float abv = Beers.ToModify.Degree;
+            //BreweryModel brewery = (BreweryModel)BeerDetailsComponent.BreweriesComboBox.SelectedItem;
+            //BeerStyleModel style = (BeerStyleModel)BeerDetailsComponent.StylesComboBox.SelectedItem;
+            //BeerColorModel color = (BeerColorModel)BeerDetailsComponent.ColorsComboBox.SelectedItem;
+            //IngredientModel ingredient = (IngredientModel)BeerDetailsComponent.IngredientsComboBox.SelectedItem;
+            //ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel>();
+            //ingredients.Add(ingredient);
+            //var beer = new BeerModel(name, description, ibu, abv, style, color, brewery, ingredients);
+            //var newBeer = await _beerDataManager.Add(beer);
+            //Beers.List.Add(newBeer);
+            //Beers.ToModify = null;
+
+            Update_Button.Visibility = Visibility.Visible;
+            Delete_Button.Visibility = Visibility.Visible;
+            Create_Button.Visibility = Visibility.Collapsed;
+            ListOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private async void Update_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Users.ToModify != null)
+            {
+                await _userDataManager.Update(Users.ToModify.Id, Users.ToModify);
+                var index = Users.List.IndexOf(Users.Current);
+                Users.List[index] = Users.ToModify.DeepClone();
+            }
+        }
+
+        private async void Delete_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Users.ToModify != null)
+            {
+                await _userDataManager.DeleteById(Users.ToModify.Id);
+                Users.List.Remove(Users.Current);
+                Users.ToModify = null;
+            }
+        }
+
+        public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            var user = e.Item as UserModel;
+
+            if (string.IsNullOrWhiteSpace(TextSearch))
+            {
+                e.Accepted = true;
+                return;
+            }
+
+            if (user != null)
+            {
+                string searchParams = BuildBeerSearchParams(user);
+                if (!string.IsNullOrWhiteSpace(searchParams) && searchParams.Contains(TextSearch.ToLower()))
+                {
+                    e.Accepted = true;
+                    return;
+                }
+
+                e.Accepted = false;
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private string BuildBeerSearchParams(UserModel user)
+        {
+            string searchParams = user.NickName;
+
+            if (user.Country != null)
+            {
+                searchParams = searchParams + " " + user.Country.Name;
+            }
+
+            return searchParams.ToLower();
         }
     }
 }

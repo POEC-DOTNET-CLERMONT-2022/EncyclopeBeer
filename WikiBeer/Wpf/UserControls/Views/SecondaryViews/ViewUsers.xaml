@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:control = "clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Components"
              xmlns:local="clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews"
- mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
+             mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
              d:DesignHeight="700" d:DesignWidth="800">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="UsersViewSource" Filter="CollectionViewSource_Filter" Source="{Binding Users.List, ElementName=root}"/>
+        <CollectionViewSource x:Key="UsersViewSource" 
+                              Filter="CollectionViewSource_Filter" 
+                              Source="{Binding Users.List, ElementName=root}"/>
     </UserControl.Resources>
     <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
@@ -28,11 +31,6 @@
                 <TextBox x:Name="SearchBar" Width="200" VerticalContentAlignment="Center"
                          Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
             </WrapPanel>
-            <DockPanel Grid.Row="2" HorizontalAlignment="Right" Margin="20, 0">
-                <Button x:Name="Add_Button" Content="Add" 
-                        Width="100" Height="30" 
-                        Click="Add_Button_Click"/>
-            </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -41,24 +39,27 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Margin="20,0,0,10" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" x:Name="Edit_Button" Content="Edit" Width="Auto" Height="30" Click="Edit_Button_Click" />
                 <Grid Grid.Row="1" x:Name="ListOverlay" Panel.ZIndex="200" Background="Black" Opacity="0.6" Visibility="Collapsed">
                     <TextBlock Text="Click on Edit" FontWeight="Bold"  VerticalAlignment="Center"/>
                 </Grid>
                 <Grid Grid.Row="1" x:Name="ListComponent" 
                       Panel.ZIndex="100" Height="Auto">
-                    <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
-                        <ListBox x:Name="List" 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="2,2,2,2" CanVerticallyScroll="True" Grid.ColumnSpan="2">
+                        <ListBox x:Name="List" MaxHeight="400"
                                  ItemsSource="{Binding Source={StaticResource UsersViewSource}}" 
-                                 SelectedItem="{Binding Users.Current}" MaxHeight="440">
+                                 SelectedItem="{Binding Users.Current}"
+                                 IsSynchronizedWithCurrentItem="False">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
-                                        <StackPanel Background="WhiteSmoke" Width="150" Height="50" HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}" Margin="5,5,0,0" />
+                                        <StackPanel Background="WhiteSmoke" Width="150" Height="25" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding NickName}" Margin="5,5,0,0" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
@@ -73,8 +74,8 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <control:UserDetailsComponent x:Name="UserDetailsComponent" 
-                                                 UserDetails="{Binding Users.ToModify, UpdateSourceTrigger=PropertyChanged}" 
-                                                 Grid.Row="0"/>
+                                              UserDetails="{Binding Users.ToModify, UpdateSourceTrigger=PropertyChanged}" 
+                                              Grid.Row="0"/>
                 <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button x:Name="Delete_Button"
                             Height="30" 

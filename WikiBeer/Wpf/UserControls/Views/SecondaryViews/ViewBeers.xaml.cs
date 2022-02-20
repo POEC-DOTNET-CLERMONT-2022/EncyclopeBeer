@@ -62,13 +62,13 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             await LoadStyles();
             await LoadColors();
             await LoadIngredients();
-            Beers.ToModify = null;
         }
 
         public async Task LoadBeers()
         {
             var beers = await _beerDataManager.GetAll();
             Beers.List = new ObservableCollection<BeerModel>(beers);
+            List.UnselectAll();
         }
 
         public async Task LoadBreweries()

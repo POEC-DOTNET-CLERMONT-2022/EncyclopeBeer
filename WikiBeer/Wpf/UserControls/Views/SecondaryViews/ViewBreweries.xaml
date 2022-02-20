@@ -50,7 +50,10 @@
                 <Grid Grid.Row="1" x:Name="ListComponent" 
                       Panel.ZIndex="100" Height="Auto">
                     <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
-                        <ListBox x:Name="List" ItemsSource="{Binding Source={StaticResource BreweriesViewSource}}" SelectedItem="{Binding Breweries.Current}" >
+                        <ListBox x:Name="List" MaxHeight="400"
+                                 ItemsSource="{Binding Source={StaticResource BreweriesViewSource}}" 
+                                 SelectedItem="{Binding Breweries.Current}" 
+                                 IsSynchronizedWithCurrentItem="False">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
