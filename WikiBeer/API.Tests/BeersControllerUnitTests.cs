@@ -27,6 +27,12 @@ using System.Threading.Tasks;
 /// Discussion interessante sur des Test génériques : 
 /// https://stackoverflow.com/questions/54048169/unit-test-with-generics-types
 /// https://codinghelmet.com/articles/how-to-write-unit-tests-for-generic-classes
+/// /// Un peu de doc sur Autofixture (sur le non remplissage de certaine propriétées)
+/// https://blog.ploeh.dk/2009/08/17/OmittingOnlyCertainPropertiesWithAutoFixture/
+/// pour ignorer des propriétés via des classes de customisation 
+/// https://github.com/AutoFixture/AutoFixture/issues/69#issuecomment-12991183
+/// Sur pk fixture n'aime pas le readOnly
+/// https://stackoverflow.com/questions/47391406/autofixture-and-read-only-properties
 /// </summary>
 namespace Ipme.WikiBeer.API.Tests
 {

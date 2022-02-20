@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Entities.AssociationTables;
 using Ipme.WikiBeer.Entities.Ingredients;
 using Ipme.WikiBeer.Persistance.Contexts.Magics;
 using Microsoft.EntityFrameworkCore;
@@ -39,11 +40,12 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<BeerStyleEntity> BeerStyles { get; set; }
         public DbSet<CountryEntity> Countrys { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
-        // TODO : vérifier si ces DbSet la sont vraiment nécessaire...
         public DbSet<HopEntity> Hops { get; set; }
         public DbSet<CerealEntity> Cereal { get; set; }
         public DbSet<AdditiveEntity> Additive { get; set; }
-
+        public DbSet<BeerIngredient> BeerIngredients { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserBeer> UserBeers { get; set; }
         #endregion
 
         /// <summary>
@@ -58,19 +60,27 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Entity de base
+            // Entities de base (Beer)
             OnBeerCreating(modelBuilder);
             OnBreweryCreating(modelBuilder);
             OnStyleCreating(modelBuilder);
             OnColorCreating(modelBuilder);
             OnCountryCreating(modelBuilder);
 
-            // Enity Abstract et dérivées            
+            // Enities Abstracts et dérivées (Beer)           
             OnIngredientCreating(modelBuilder);
             OnHopCreating(modelBuilder);
             OnCerealCreating(modelBuilder);
             OnAdditiveCreating(modelBuilder);
 
+            // Entities de base (Interractions Beer-Ingredient)
+            OnBeerIngredientCreating(modelBuilder);
+
+            // Entities de base (User)
+            OnUserCreating(modelBuilder);
+
+            // Entities de base (Interractions User-Beer)
+            OnUserBeerCreating(modelBuilder);
         }
 
         #region Méthodes de configuration des models
@@ -97,8 +107,14 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Navigation(be => be.Color).AutoInclude();
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
-                           .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+                           .UsingEntity<BeerIngredient>(
+                bi => bi.ToTable("BeerIngredient")
+                ); // permet de faire la table entity de manière automatique
             typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+
+            //typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
+            //               .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+            //typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
             //Si pas d'auto-include alors on doit charger en 2 fois
             //BeerEntity beer = GetById();
             //beer.Ingredients = GetIngredients(beer.BeerId);
@@ -215,6 +231,57 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(a => a.Use).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
         }
 
+        private void OnBeerIngredientCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BeerIngredient> typeBuilder = modelBuilder.Entity<BeerIngredient>();
+            var beerIdName = "BeerId";
+            var ingredientIdName = "IngredientId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("BeerIngredient").HasKey(bi => new { bi.BeerId, bi.IngredientId });
+            typeBuilder.Property(bi => bi.BeerId).HasColumnName(beerIdName);
+            typeBuilder.Property(bi => bi.IngredientId).HasColumnName(ingredientIdName);
+
+            #region COnfiguration relations
+            typeBuilder.HasOne(bi => bi.Beer).WithMany(b => b.BeerIngredients).HasForeignKey(b => b.BeerId);
+            typeBuilder.HasOne(bi => bi.Ingredient).WithMany().HasForeignKey(bi => bi.IngredientId);
+            #endregion
+        }
+        
+        private void OnUserCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserEntity> typeBuilder = modelBuilder.Entity<UserEntity>();
+            var idName = "UserId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("User").HasKey(u => u.Id).HasName(idName);
+            typeBuilder.Property(u => u.Id).HasColumnName(idName).ValueGeneratedOnAdd();
+            // Configuration longueur des nvarchar 
+            typeBuilder.Property(u => u.NickName).HasMaxLength(Rules.DEFAULT_NICKNAME_MAX_LENGTH);
+            typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
+
+            #region Configuration relations
+            // Country 
+            typeBuilder.HasOne(c => c.Country).WithMany();
+            typeBuilder.Navigation(u => u.Country).AutoInclude();
+            // UserBeer
+            typeBuilder.Navigation(u => u.UserBeers).AutoInclude();
+            #endregion
+        }
+
+        private void OnUserBeerCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserBeer> typeBuilder = modelBuilder.Entity<UserBeer>();
+            var userIdName = "UserId";
+            var beerIdName = "BeerId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("UserBeer").HasKey(ub => new { ub.UserId, ub.BeerId });
+            typeBuilder.Property(ub => ub.UserId).HasColumnName(userIdName);
+            typeBuilder.Property(ub => ub.BeerId).HasColumnName(beerIdName);
+
+            #region Configuration relations
+            typeBuilder.HasOne(ub => ub.User).WithMany(u => u.UserBeers).HasForeignKey(u => u.UserId);
+            typeBuilder.HasOne(ub => ub.Beer).WithMany().HasForeignKey(u => u.BeerId);
+            #endregion
+        }
         #endregion
 
         public override DbSet<TEntity> Set<TEntity>()
@@ -222,6 +289,6 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             ChangeTracker.LazyLoadingEnabled = false; // pour les anciennes versions d'EF (5 et moins)            
             return base.Set<TEntity>();
         }
-
+        
     }
 }

@@ -27,6 +27,13 @@ namespace Ipme.WikiBeer.Tools
             }
         }
 
+        public void EnsureDatabaseMigration()
+        {
+            using (var context = new WikiBeerSqlContext(GetContextOptions()))
+            {
+                context.Database.Migrate();
+            }
+        }
         public void DropDataBase()
         {
             using (var context = new WikiBeerSqlContext(GetContextOptions()))

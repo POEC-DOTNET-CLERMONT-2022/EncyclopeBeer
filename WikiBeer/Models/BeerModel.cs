@@ -134,18 +134,6 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        /// <summary>
-        /// Constructeur qui permet de set un Id (pour Get depuis un Dto)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="ibu"></param>
-        /// <param name="degree"></param>
-        /// <param name="style"></param>
-        /// <param name="color"></param>
-        /// <param name="brewery"></param>
-        /// <param name="ingredients"></param>
         public BeerModel(Guid id, string name, string description, float ibu, float degree, BeerStyleModel style, 
             BeerColorModel color, BreweryModel brewery, ObservableCollection<IngredientModel> ingredients)
         {
@@ -173,14 +161,14 @@ namespace Ipme.WikiBeer.Models
             Ibu = beer.Ibu;
             Degree = beer.Degree;
   
-            // Deep copy pour éviter les effets de bords          
+            // Deep copy pour éviter les effets de bords
             Style = new BeerStyleModel(beer.Style);
             Color = new BeerColorModel(beer.Color);
             Brewery = new BreweryModel(beer.Brewery);
             Ingredients = new ObservableCollection<IngredientModel>();
             foreach (var ingredient in beer.Ingredients)
             {                
-                Ingredients.Add((IngredientModel)ingredient.DeepClone()); // Test via Clone
+                Ingredients.Add(ingredient.DeepClone()); // Test via Clone
             }
         }
 

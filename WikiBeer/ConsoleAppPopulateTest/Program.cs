@@ -18,8 +18,11 @@
     Voir également
     https://github.com/manuc66/JsonSubTypes
  */
+using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
+using System.Collections.ObjectModel;
 
 // Paramètres
 var dbName = "WikiBeer";
@@ -34,7 +37,7 @@ var dbr = new DataBaseRessource(apiUrl);
 var manager = new DbManager(cs);
 var launcher = new ApiLauncher(apiUrl, apiPath, cs);
 
-//manager.DropDataBase();
+manager.DropDataBase();
 if (autoRunApi)
 {
     // Si l'API n'est pas lancée, la base non existente
@@ -43,10 +46,29 @@ if (autoRunApi)
 else
 {
     // Si l'API est lancé, la base existante ou non
-    manager.EnsureDatabaseCreation();
+    //manager.EnsureDatabaseCreation();
+    manager.EnsureDatabaseMigration();
     dbr.FillDatabase();
 }
 
+// Test divers
+// delete d'une bière
+var bddbeers = await dbr.BeerManager.GetAll();
+var beers = new List<BeerModel>(bddbeers);
+//var ingredients = dbr.Ingredients.ToList();
+var ingredients = new List<IngredientModel>(await dbr.IngredientManager.GetAll());
+//dbr.BeerManager.DeleteById(beers[0].Id).Wait();
+var users = await dbr.UserManager.GetAll();
+var momo = users.FirstOrDefault(u => u.NickName == "Momo"); // ne doit plus avoir de bière favorites -> OK
+beers[1].Ingredients = new ObservableCollection<IngredientModel>(dbr.Ingredients.ToList());
+dbr.BeerManager.Update(beers[1].Id, beers[1]).Wait(); // doit être une bière à trois ingrédients. -> pas OK
+var new_beer = await dbr.BeerManager.GetById(beers[1].Id);
+momo.FavoriteBeerIds = new ObservableCollection<Guid>{ beers[1].Id, beers[2].Id };
+dbr.UserManager.Update(momo.Id, momo).Wait(); // à ce moment deux nouvelles bières en favoris -> pas OK
+var ddbMomo1 = await dbr.UserManager.GetById(momo.Id);
+ddbMomo1.FavoriteBeerIds = new ObservableCollection<Guid>();
+dbr.UserManager.Update(ddbMomo1.Id, ddbMomo1).Wait();
+var ddbMomo2 = await dbr.UserManager.GetById(momo.Id);
 Console.WriteLine("Execution terminée");
 Console.ReadLine();
 
