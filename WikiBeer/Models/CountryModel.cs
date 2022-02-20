@@ -35,8 +35,9 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        public CountryModel DeepClone()
+        public CountryModel? DeepClone()
         {
+            if (this is null) return null;
             return new CountryModel(this);
         }
 

@@ -54,8 +54,9 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        public BeerStyleModel DeepClone()
+        public BeerStyleModel? DeepClone()
         {
+            if (this is null) return null;
             return new BeerStyleModel(this);
         }
     }

@@ -93,8 +93,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private CountryModel _country;
-        public CountryModel Country
+        private CountryModel? _country;
+        public CountryModel? Country
         {
             get { return _country; }
             set
@@ -148,7 +148,7 @@ namespace Ipme.WikiBeer.Models
             Email = user.Email;
             HashCode = user.HashCode;
             IsCertified = user.IsCertified;
-            Country = user.Country.DeepClone();
+            Country = user.Country?.DeepClone();
             FavoriteBeerIds = new ObservableCollection<Guid>();
             foreach (var beerId in user.FavoriteBeerIds)
             {
@@ -156,8 +156,9 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public UserModel DeepClone()
+        public UserModel? DeepClone()
         {
+            if (this is null) return null;
             return new UserModel(this);
         }
     }

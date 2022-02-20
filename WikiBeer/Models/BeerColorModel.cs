@@ -42,8 +42,9 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        public BeerColorModel DeepClone()
+        public BeerColorModel? DeepClone()
         {
+            if (this is null) return null;
             return new BeerColorModel(this);
         }
     }

@@ -54,6 +54,6 @@ namespace Ipme.WikiBeer.Models.Ingredients
         {
         }
 
-        public abstract IngredientModel DeepClone();
+        public abstract IngredientModel? DeepClone();
     }
 }

@@ -39,7 +39,7 @@ namespace Ipme.WikiBeer.Models
         }
 
         private CountryModel? _country;
-        public CountryModel Country 
+        public CountryModel? Country 
         {
             get { return _country; }
             set
@@ -70,11 +70,12 @@ namespace Ipme.WikiBeer.Models
             Id = brewery.Id;
             Name = brewery.Name;
             Description = brewery.Description;
-            Country = new CountryModel(brewery.Country);
+            Country = brewery.Country?.DeepClone();
         }
 
-        public BreweryModel DeepClone()
+        public BreweryModel? DeepClone()
         {
+            if (this is null) return null;
             return new BreweryModel(this);
         }
     }

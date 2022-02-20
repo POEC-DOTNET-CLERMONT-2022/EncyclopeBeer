@@ -116,8 +116,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private ObservableCollection<IngredientModel>? _ingredients;
-        public ObservableCollection<IngredientModel>? Ingredients 
+        private ObservableCollection<IngredientModel> _ingredients;
+        public ObservableCollection<IngredientModel> Ingredients 
         {
             get { return _ingredients; }
             set
@@ -132,10 +132,11 @@ namespace Ipme.WikiBeer.Models
 
         public BeerModel()
         {
+            Ingredients = new ObservableCollection<IngredientModel>();
         }
 
         public BeerModel(string name, string? description, float ibu, float degree, BeerStyleModel? style,
-            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel>? ingredients)
+            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel> ingredients)
             : this(Guid.Empty, name, description, ibu, degree, style, color, brewery, ingredients)
         {
         }
@@ -153,7 +154,7 @@ namespace Ipme.WikiBeer.Models
         /// <param name="brewery"></param>
         /// <param name="ingredients"></param>
         public BeerModel(Guid id, string name, string? description, float ibu, float degree, BeerStyleModel? style, 
-            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel>? ingredients)
+            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel> ingredients)
         {
             Id = id;
             Name = name;
@@ -180,21 +181,22 @@ namespace Ipme.WikiBeer.Models
             Degree = beer.Degree;
 
             // Deep copy pour éviter les effets de bords
-            Style = (BeerStyleModel?)beer.Style;
-            Color = (BeerColorModel?)beer.Color;
-            Brewery = (BreweryModel?)beer.Brewery;
+            Style = beer.Style?.DeepClone();
+            Color = beer.Color?.DeepClone();
+            Brewery = beer.Brewery?.DeepClone();
             Ingredients = new ObservableCollection<IngredientModel>();
             if (beer.Ingredients != null)
             {
                 foreach (var ingredient in beer.Ingredients)
                 {
-                    Ingredients.Add((IngredientModel)ingredient.DeepClone()); // Test via Clone
+                    Ingredients.Add(ingredient.DeepClone()); // Test via Clone
                 }
             }
         }
 
-        public BeerModel DeepClone()
+        public BeerModel? DeepClone()
         {
+            if (this == null) return null;
             return new BeerModel(this);
         }
     }

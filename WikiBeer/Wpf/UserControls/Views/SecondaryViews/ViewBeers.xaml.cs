@@ -62,7 +62,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             await LoadStyles();
             await LoadColors();
             await LoadIngredients();
-            Beers.ToModify = null;
+            //Beers.ToModify = null;
         }
 
         public async Task LoadBeers()
