@@ -98,10 +98,9 @@
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" >
                         <Label Content="Degree (ABV) " FontWeight="Bold"/>
@@ -125,14 +124,20 @@
                             </TextBox.Text>
                         </TextBox>
                     </WrapPanel>
-                    <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
+                    <StackPanel Grid.Row="2" Margin="10,0">
                         <Label Content="Ingredients" FontWeight="Bold"/>
-                        <ComboBox Name="IngredientsComboBox"
-                                  ItemsSource="{Binding Ingredients.List}"
-                                  DisplayMemberPath="Name"
-                                  IsEditable="True" StaysOpenOnEdit="True"
-                                  VerticalContentAlignment="Center">
-                        </ComboBox>
+                        <ListBox x:Name="ListIngredients" ItemsSource="{Binding BeerDetails.Ingredients}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Label Content="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" VerticalAlignment="Center" Margin="10,0">
+                        
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="2">

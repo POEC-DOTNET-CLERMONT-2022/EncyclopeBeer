@@ -3,20 +3,38 @@ using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
     /// <summary>
     /// Logique d'interaction pour ViewIngredients.xaml
     /// </summary>
-    public partial class ViewIngredients : UserControl
+    public partial class ViewIngredients : UserControl, INotifyPropertyChanged
     {
         private IDataManager<IngredientModel, IngredientDto> _ingredientDataManager = ((App)Application.Current).IngredientDataManager;
 
         public IGenericListModel<IngredientModel> Ingredients { get; }
+
+        private string _textSearch;
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                _textSearch = value;
+                OnPropertyChanged();
+                ((CollectionViewSource)Resources["IngredientsViewSource"]).View.Refresh();
+            }
+        }
 
         public ViewIngredients()
         {
@@ -101,6 +119,35 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         private void AdditiveRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             Ingredients.ToModify = new AdditiveModel(string.Empty, string.Empty, string.Empty);
+        }
+
+        public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            var ingredient = e.Item as IngredientModel;
+
+            if (string.IsNullOrWhiteSpace(TextSearch))
+            {
+                e.Accepted = true;
+                return;
+            }
+
+            if (ingredient != null)
+            {
+                if (!string.IsNullOrWhiteSpace(ingredient.Name) && ingredient.Name.ToLower().Contains(TextSearch.ToLower()))
+                {
+                    e.Accepted = true;
+                    return;
+                }
+
+                e.Accepted = false;
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

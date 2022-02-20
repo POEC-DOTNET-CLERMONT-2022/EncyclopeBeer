@@ -2,16 +2,19 @@
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
     /// <summary>
     /// Logique d'interaction pour ViewBrewery.xaml
     /// </summary>
-    public partial class ViewBreweries : UserControl
+    public partial class ViewBreweries : UserControl, INotifyPropertyChanged
     {
         private IDataManager<BeerModel, BeerDto> _beerDataManager = ((App)Application.Current).BeerDataManager;
         private IDataManager<BreweryModel, BreweryDto> _breweryDataManager = ((App)Application.Current).BreweryDataManager;
@@ -20,6 +23,21 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public IGenericListModel<BeerModel> Beers { get; }
         public IGenericListModel<BreweryModel> Breweries { get; }
         public IGenericListModel<CountryModel> Countries { get; }
+
+        private string _textSearch;
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                _textSearch = value;
+                OnPropertyChanged();
+                ((CollectionViewSource)Resources["BreweriesViewSource"]).View.Refresh();
+            }
+        }
 
         public ViewBreweries()
         {
@@ -107,5 +125,47 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             ListOverlay.Visibility = Visibility.Visible;
             Breweries.ToModify = new BreweryModel(string.Empty, string.Empty, null);
         }
+
+        public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            var brewery = e.Item as BreweryModel;
+
+            if (string.IsNullOrWhiteSpace(TextSearch))
+            {
+                e.Accepted = true;
+                return;
+            }
+
+            if (brewery != null)
+            {
+                string searchParams = BuildBrewerySearchParams(brewery);
+                if (!string.IsNullOrWhiteSpace(searchParams) && searchParams.Contains(TextSearch.ToLower()))
+                {
+                    e.Accepted = true;
+                    return;
+                }
+
+                e.Accepted = false;
+            }
+        }
+
+        private string BuildBrewerySearchParams(BreweryModel brewery)
+        {
+            string searchParams = brewery.Name;
+
+            if (brewery.Country != null)
+            {
+                searchParams = searchParams + " " + brewery.Country.Name;
+            }
+
+            return searchParams.ToLower();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

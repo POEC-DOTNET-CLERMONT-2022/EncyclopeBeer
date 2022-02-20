@@ -7,6 +7,9 @@
              xmlns:control = "clr-namespace:Ipme.WikiBeer.Wpf.UserControls.Components"
              mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
              d:DesignHeight="700" d:DesignWidth="800">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="BreweriesViewSource" Filter="CollectionViewSource_Filter" Source="{Binding Breweries.List, ElementName=root}"/>
+    </UserControl.Resources>
     <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
@@ -21,9 +24,11 @@
             <DockPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label Content="Breweries Manager" FontWeight="Bold" FontSize="24"/>
             </DockPanel>
-            <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Content="SearchBar" FontSize="18" FontWeight="Bold"/>
-            </DockPanel>
+            <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Search :"/>
+                <TextBox x:Name="SearchBar" Width="200" VerticalContentAlignment="Center"
+                         Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
+            </WrapPanel>
             <DockPanel Grid.Row="2" HorizontalAlignment="Right" Margin="20, 0">
                 <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Button_Click"/>
             </DockPanel>
@@ -42,7 +47,23 @@
                 <Grid Grid.Row="1" x:Name="ListOverlay" Panel.ZIndex="200" Background="Black" Opacity="0.6" Visibility="Collapsed">
                     <TextBlock Text="Click on Edit" FontWeight="Bold"  VerticalAlignment="Center"/>
                 </Grid>
-                <control:BreweryListComponent Grid.Row="1" x:Name="ListComponent" Panel.ZIndex="100" Height="Auto" DataList="{Binding Breweries, UpdateSourceTrigger=PropertyChanged}"/>
+                <Grid Grid.Row="1" x:Name="ListComponent" 
+                      Panel.ZIndex="100" Height="Auto">
+                    <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
+                        <ListBox x:Name="List" ItemsSource="{Binding Source={StaticResource BreweriesViewSource}}" SelectedItem="{Binding Breweries.Current}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
+                                        <StackPanel Background="WhiteSmoke" Width="150" Height="50" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Margin="5,5,0,0" />
+                                            <TextBlock Text="{Binding Country.Name}" Margin="5,5,0,0" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
             </Grid>
             <Grid Grid.Column="1" Margin="5,0,20,10">
                 <Grid.RowDefinitions>
@@ -50,7 +71,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <control:BreweryDetailsComponent x:Name="BreweryDetailsComponent" 
-                                                 BreweryDetails="{Binding DataList.ToModify, ElementName=ListComponent, UpdateSourceTrigger=PropertyChanged}" 
+                                                 BreweryDetails="{Binding Breweries.ToModify, UpdateSourceTrigger=PropertyChanged}" 
                                                  Countries="{Binding Countries}"
                                                  Grid.Row="0"/>
                 <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">

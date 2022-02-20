@@ -8,7 +8,7 @@
              mc:Ignorable="d" x:Name="root" Loaded="Windows_Loaded"
              d:DesignHeight="700" d:DesignWidth="800">
     <UserControl.Resources>
-
+        <CollectionViewSource x:Key="BeersViewSource" Filter="CollectionViewSource_Filter" Source="{Binding Beers.List, ElementName=root}"/>
     </UserControl.Resources>
     <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
@@ -24,11 +24,15 @@
             <DockPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label Content="Beers Manager" FontWeight="Bold" FontSize="24"/>
             </DockPanel>
-            <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Content="SearchBar" FontSize="18" FontWeight="Bold"/>
-            </DockPanel>
+            <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Search :"/>
+                <TextBox x:Name="SearchBar" Width="200" VerticalContentAlignment="Center"
+                         Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
+            </WrapPanel>
             <DockPanel Grid.Row="2" HorizontalAlignment="Right" Margin="20, 0">
-                <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Button_Click"/>
+                <Button x:Name="Add_Button" Content="Add" 
+                        Width="100" Height="30" 
+                        Click="Add_Button_Click"/>
             </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -45,7 +49,25 @@
                 <Grid Grid.Row="1" x:Name="ListOverlay" Panel.ZIndex="200" Background="Black" Opacity="0.6" Visibility="Collapsed">
                     <TextBlock Text="Click on Edit" FontWeight="Bold"  VerticalAlignment="Center"/>
                 </Grid>
-                <control:BeerListComponent Grid.Row="1" x:Name="ListComponent" Panel.ZIndex="100" Height="Auto" DataList="{Binding Beers, UpdateSourceTrigger=PropertyChanged}"/>
+                <Grid Grid.Row="1" x:Name="ListComponent" 
+                      Panel.ZIndex="100" Height="Auto">
+                    <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
+                        <ListBox x:Name="List" 
+                                 ItemsSource="{Binding Source={StaticResource BeersViewSource}}" 
+                                 SelectedItem="{Binding Beers.Current}" MaxHeight="440">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
+                                        <StackPanel Background="WhiteSmoke" Width="150" Height="50" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Margin="5,5,0,0" />
+                                            <TextBlock Text="{Binding Brewery.Name}" Margin="5,5,0,0" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
             </Grid>
             <Grid Grid.Column="1" Margin="5,0,20,10">
                 <Grid.RowDefinitions>
@@ -53,7 +75,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <control:BeerDetailsComponent x:Name="BeerDetailsComponent" 
-                                                 BeerDetails="{Binding DataList.ToModify, ElementName=ListComponent, UpdateSourceTrigger=PropertyChanged}" 
+                                                 BeerDetails="{Binding Beers.ToModify, UpdateSourceTrigger=PropertyChanged}" 
                                                  Breweries="{Binding Breweries}"
                                                  Styles="{Binding Styles}"
                                                  Colors="{Binding Colors}"
@@ -61,20 +83,20 @@
                                                  Grid.Row="0"/>
                 <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button x:Name="Delete_Button"
-                    Height="30" 
-                    Width="100" 
-                    Margin="10"
-                    Content="Delete"
-                    Click="Delete_Button_Click"
-                    Visibility="Visible"
+                            Height="30" 
+                            Width="100" 
+                            Margin="10"
+                            Content="Delete"
+                            Click="Delete_Button_Click"
+                            Visibility="Visible"
                     />
                     <Button x:Name="Update_Button"
-                    Height="30" 
-                    Width="100" 
-                    Margin="10"
-                    Content="Update"
-                    Click="Update_Button_Click"
-                    Visibility="Visible"
+                            Height="30" 
+                            Width="100" 
+                            Margin="10"
+                            Content="Update"
+                            Click="Update_Button_Click"
+                            Visibility="Visible"
                     />
                     <Button x:Name="Create_Button"
                             Height="30" 
@@ -82,17 +104,7 @@
                             Margin="10"
                             Content="Create"
                             Click="Create_Button_Click"
-                            Visibility="Visible">
-                        <Button.Resources>
-                            <Style x:Key="ButtonStyle" TargetType="Button">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsUpdating}" Value="false">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+                            Visibility="Collapsed"/>
                 </DockPanel>
             </Grid>
         </Grid>

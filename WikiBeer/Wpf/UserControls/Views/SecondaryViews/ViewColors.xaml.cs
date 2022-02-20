@@ -2,20 +2,39 @@
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 {
     /// <summary>
     /// Logique d'interaction pour ViewColors.xaml
     /// </summary>
-    public partial class ViewColors : UserControl
+    public partial class ViewColors : UserControl, INotifyPropertyChanged
     {
         private IDataManager<BeerColorModel, BeerColorDto> _colorDataManager = ((App)Application.Current).ColorDataManager;
 
         public IGenericListModel<BeerColorModel> Colors { get; }
+
+
+        private string _textSearch;
+        public string TextSearch
+        {
+            get
+            {
+                return _textSearch;
+            }
+            set
+            {
+                _textSearch = value;
+                OnPropertyChanged();
+                ((CollectionViewSource)Resources["ColorsViewSource"]).View.Refresh();
+            }
+        }
 
         public ViewColors()
         {
@@ -82,6 +101,35 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             Create_Button.Visibility = Visibility.Visible;
             ListOverlay.Visibility = Visibility.Visible;
             Colors.ToModify = new BeerColorModel(string.Empty);
+        }
+
+        public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            var color = e.Item as BeerColorModel;
+
+            if (string.IsNullOrWhiteSpace(TextSearch))
+            {
+                e.Accepted = true;
+                return;
+            }
+
+            if (color != null)
+            {
+                if (!string.IsNullOrWhiteSpace(color.Name) && color.Name.ToLower().Contains(TextSearch.ToLower()))
+                {
+                    e.Accepted = true;
+                    return;
+                }
+
+                e.Accepted = false;
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
