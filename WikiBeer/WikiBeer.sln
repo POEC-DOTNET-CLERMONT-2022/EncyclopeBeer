@@ -36,7 +36,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{3288A4B2-8D7D-496A-93D4-7A4CFF1D3502}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ressources", "Ressources\Ressources.csproj", "{5C5B1A22-B3F8-4D4F-8D6F-3A105FC179E6}"
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ressources", "Ressources\Ressources.csproj", "{5C5B1A22-B3F8-4D4F-8D6F-3A105FC179E6}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ExempleSetup", "ExempleSetup\ExempleSetup.vdproj", "{CBE8B9C0-C900-430F-AD20-2CA2E8BF4F2E}"
 EndProject

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Ipme.WikiBeer.Models;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Components
