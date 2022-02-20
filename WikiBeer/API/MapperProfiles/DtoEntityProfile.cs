@@ -2,6 +2,7 @@
 using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Dtos.Ingredients;
 using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Entities.AssociationTables;
 using Ipme.WikiBeer.Entities.Ingredients;
 using System.Runtime.CompilerServices;
 
@@ -12,10 +13,13 @@ namespace Ipme.WikiBeer.API.MapperProfiles
     {
         public DtoEntityProfile()
         {
-            CreateMap<BeerDto, BeerEntity>().ReverseMap();
+            //CreateMap<BeerDto, BeerEntity>().ReverseMap();
+            CreateMap<BeerDto, BeerEntity>()
+                .ForMember(dest => dest.BeerIngredients,
+                opt => opt.MapFrom(src => src.Ingredients.Select(i => new BeerIngredient(src.Id, i.Id))));
+            CreateMap<BeerEntity, BeerDto>();
 
             // Implicites : 
-            
             CreateMap<BreweryDto, BreweryEntity>().ReverseMap();
             CreateMap<BeerColorDto, BeerColorEntity>().ReverseMap();
             CreateMap<BeerStyleDto, BeerStyleEntity>().ReverseMap();
@@ -33,6 +37,8 @@ namespace Ipme.WikiBeer.API.MapperProfiles
             CreateMap<IngredientDto, IngredientEntity>().IncludeAllDerived();//.ReverseMap(); // IncludeAllDerived() pour inclure les types dérivées
             CreateMap<IngredientEntity, IngredientDto>().IncludeAllDerived();
             
+
+
             CreateMap<HopDto, HopEntity>().ReverseMap();
             CreateMap<CerealDto, CerealEntity>().ReverseMap();
             CreateMap<AdditiveDto, AdditiveEntity>().ReverseMap();

@@ -30,6 +30,9 @@ using System.Threading.Tasks;
 /// https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.entityentry.getdatabasevalues?view=efcore-6.0#microsoft-entityframeworkcore-changetracking-entityentry-getdatabasevalues
 /// Sur l'implémentation d'une searchbar (expression-tree qu'il va falloir associer à de la réflexion!): 
 /// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/expression-trees/how-to-use-expression-trees-to-build-dynamic-queries
+/// /// Sur comment récupérer une clef composite
+/// https://stackoverflow.com/questions/30688909/how-to-get-primary-key-value-with-entity-framework-core
+/// 
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
@@ -74,46 +77,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         {
             return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id);
         }
-
-        /// <summary>
-        /// Problème à régler ici. Update ne fonctionne pas avec les tables d'associations (pète une erreur).
-        /// Attach fonctionne mais pas correctement, les tables d'associations ne sont pas mise à jour.
-        /// Idée : custom la relation au niveau du DbContext ou bien revoir l'architecture des dto 
-        /// (comme alex et johan).
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        //public virtual async Task<T?> UpdateAsync(T entity)
-        //{
-        //    //var entry = Context.Entry(entity);
-        //    //CustomTracking(entity);
-
-        //    //entry.State = EntityState.Modified;
-        //    var updatedEntry = Context.Attach(entity);
-        //    //var values = updatedEntry.GetDatabaseValues();
-        //    //var updatedEntry = Context.Update(entity); // mais passe tt en Modified (grosse requête en base) -> et les relations
-        //    // intermédiaires passent en add quand il ne faut pas
-        //    if (!Context.Set<T>().Any(e => e.Id == entity.Id))
-        //        return null;
-
-        //    //entry.State = EntityState.Modified;
-        //    updatedEntry.State = EntityState.Modified;
-        //    var fullEntrie = Context.ChangeTracker.Entries();
-        //    //var entries = Context.ChangeTracker.Entries().Where(e => e.Entity == entity || e.Entity is Dictionary<string, object>);
-        //    //var compiletype = entries.ToList()[1].
-        //    //SetEntriesState(entries, EntityState.Modified);
-        //    //SetStateExceptSelfAndCollections(entity, EntityState.Unchanged); // est sensé limiter le nombre de modif en base.
-        //    //CheckBorderEffectAdded(entity);
-
-        //    await Context.SaveChangesAsync();
-        //    //var updatedEntry = Context.Attach(entity);
-        //    return updatedEntry.Entity;
-        //    //return entry.Entity;
-        //}
-
-        /// Sur comment récupérer une clef composite
-        /// https://stackoverflow.com/questions/30688909/how-to-get-primary-key-value-with-entity-framework-core
-        /// 
+      
         public virtual async Task<T?> UpdateAsync(T entityToUpdate)
         {
             var entryToUpdate = Context.Attach(entityToUpdate);
@@ -121,8 +85,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             if (!Context.Set<T>().Any(e => e.Id == entityToUpdate.Id))
                 return null;
 
-            entryToUpdate.State = EntityState.Modified;
-            var fullEntrie = Context.ChangeTracker.Entries();
+            entryToUpdate.State = EntityState.Modified;           
 
             TryUpdateAssociationTables(entryToUpdate, entityToUpdate.Id);
 
@@ -130,12 +93,44 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return entryToUpdate.Entity;
         }
 
+
+
+        /// <summary>
+        /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
+        /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
+        ///  -> pasque c'est la merde coté controller!
+        /// En fait on est obligé de faire un getById car on doit récupérer les
+        /// dépendances pour faire la suppression propre des relations optionnelles
+        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
+        /// uniquement)
+        /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
+        /// Mais en fait non... revoir pour un activator?
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
+        {
+            T? entity = await GetByIdAsync(id);
+            if (entity == null)
+                return null;
+
+            Context.Remove(entity);
+
+            return await Context.SaveChangesAsync() >= 1;
+        }
+
+        /// <summary>
+        /// Met à jour les tables d'associatiopns si elles existent.
+        /// </summary>
+        /// <param name="entryToUpdate"></param>
+        /// <param name="associatedId"></param>
         private void TryUpdateAssociationTables(EntityEntry entryToUpdate, Guid associatedId)
         {
             // recherche des tables d'association dans l'entité
             var types = GetAssociationTableTypes(entryToUpdate);
             if (types.Any())
             {
+                // Update si des tables ont été trouvées
                 UpdateAssociationTables(types, associatedId);
             }
         }
@@ -199,30 +194,6 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         }
 
         /// <summary>
-        /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
-        /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
-        ///  -> pasque c'est la merde coté controller!
-        /// En fait on est obligé de faire un getById car on doit récupérer les
-        /// dépendances pour faire la suppression propre des relations optionnelles
-        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
-        /// uniquement)
-        /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
-        /// Mais en fait non... revoir pour un activator?
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
-        {
-            T? entity = await GetByIdAsync(id);
-            if (entity == null)
-                return null;
-
-            Context.Remove(entity);
-
-            return await Context.SaveChangesAsync() >= 1;
-        }
-
-        /// <summary>
         /// TODO : à retravailler pour pouvoir être utilisable tt court (ne foncitonne pas avec les tables d'association
         /// custom)
         /// </summary>
@@ -242,7 +213,5 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         //        }
         //    }
         //}
-
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Entities;
+using Ipme.WikiBeer.Entities.AssociationTables;
 using Ipme.WikiBeer.Entities.Ingredients;
 using Ipme.WikiBeer.Persistance.Contexts.Magics;
 using Microsoft.EntityFrameworkCore;
@@ -42,8 +43,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<HopEntity> Hops { get; set; }
         public DbSet<CerealEntity> Cereal { get; set; }
         public DbSet<AdditiveEntity> Additive { get; set; }
+        public DbSet<BeerIngredient> BeerIngredients { get; set; }
         public DbSet<UserEntity> Users { get; set; }
-
         public DbSet<UserBeer> UserBeers { get; set; }
         #endregion
 
@@ -72,55 +73,14 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             OnCerealCreating(modelBuilder);
             OnAdditiveCreating(modelBuilder);
 
+            // Entities de base (Interractions Beer-Ingredient)
+            OnBeerIngredientCreating(modelBuilder);
+
             // Entities de base (User)
             OnUserCreating(modelBuilder);
 
             // Entities de base (Interractions User-Beer)
             OnUserBeerCreating(modelBuilder);
-        }
-
-        private void OnUserBeerCreating(ModelBuilder modelBuilder)
-        {
-            EntityTypeBuilder<UserBeer> typeBuilder = modelBuilder.Entity<UserBeer>();
-            var userIdName = "UserId";
-            var beerIdName = "BeerId";
-            // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("UserBeer").HasKey(ub => new { ub.UserId, ub.BeerId });
-            typeBuilder.Property(ub => ub.UserId).HasColumnName(userIdName);
-            typeBuilder.Property(ub => ub.BeerId).HasColumnName(beerIdName);
-
-            #region Configuration relations
-            typeBuilder.HasOne(ub => ub.User).WithMany(u => u.UserBeers).HasForeignKey(u => u.UserId);
-            typeBuilder.HasOne(ub => ub.Beer).WithMany().HasForeignKey(u => u.BeerId);
-            // FavoritesBeer
-            //typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
-            //    .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
-            //typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
-            #endregion
-        }
-
-        private void OnUserCreating(ModelBuilder modelBuilder)
-        {
-            EntityTypeBuilder<UserEntity> typeBuilder = modelBuilder.Entity<UserEntity>();
-            var idName = "UserId";
-            // Configuration nom de table et clef primaire
-            typeBuilder.ToTable("User").HasKey(u => u.Id).HasName(idName);
-            typeBuilder.Property(u => u.Id).HasColumnName(idName).ValueGeneratedOnAdd();
-            // Configuration longueur des nvarchar 
-            typeBuilder.Property(u => u.NickName).HasMaxLength(Rules.DEFAULT_NICKNAME_MAX_LENGTH);
-            typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
-
-            #region Configuration relations
-            // Country 
-            typeBuilder.HasOne(c => c.Country).WithMany();
-            typeBuilder.Navigation(u => u.Country).AutoInclude();
-            // UserBeer
-            typeBuilder.Navigation(u => u.UserBeers).AutoInclude();
-            // FavoritesBeer
-            //typeBuilder.HasMany(u => u.FavoriteBeers).WithMany(b => b.Users)
-            //    .UsingEntity(ub => ub.ToTable("UserFavoriteBeer"));
-            //typeBuilder.Navigation(u => u.FavoriteBeers).AutoInclude();
-            #endregion
         }
 
         #region Méthodes de configuration des models
@@ -147,8 +107,14 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Navigation(be => be.Color).AutoInclude();
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
-                           .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+                           .UsingEntity<BeerIngredient>(
+                bi => bi.ToTable("BeerIngredient")
+                ); // permet de faire la table entity de manière automatique
             typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
+
+            //typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
+            //               .UsingEntity(bi => bi.ToTable("BeerIngredient")); // permet de faire la table entity de manière automatique
+            //typeBuilder.Navigation(b => b.Ingredients).AutoInclude(); //Chargement automatique de la propriété de dépendance
             //Si pas d'auto-include alors on doit charger en 2 fois
             //BeerEntity beer = GetById();
             //beer.Ingredients = GetIngredients(beer.BeerId);
@@ -265,6 +231,57 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(a => a.Use).HasMaxLength(Rules.DEFAULT_DESCRIPTION_MAX_LENGTH);
         }
 
+        private void OnBeerIngredientCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<BeerIngredient> typeBuilder = modelBuilder.Entity<BeerIngredient>();
+            var beerIdName = "BeerId";
+            var ingredientIdName = "IngredientId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("BeerIngredient").HasKey(bi => new { bi.BeerId, bi.IngredientId });
+            typeBuilder.Property(bi => bi.BeerId).HasColumnName(beerIdName);
+            typeBuilder.Property(bi => bi.IngredientId).HasColumnName(ingredientIdName);
+
+            #region COnfiguration relations
+            typeBuilder.HasOne(bi => bi.Beer).WithMany(b => b.BeerIngredients).HasForeignKey(b => b.BeerId);
+            typeBuilder.HasOne(bi => bi.Ingredient).WithMany().HasForeignKey(bi => bi.IngredientId);
+            #endregion
+        }
+        
+        private void OnUserCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserEntity> typeBuilder = modelBuilder.Entity<UserEntity>();
+            var idName = "UserId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("User").HasKey(u => u.Id).HasName(idName);
+            typeBuilder.Property(u => u.Id).HasColumnName(idName).ValueGeneratedOnAdd();
+            // Configuration longueur des nvarchar 
+            typeBuilder.Property(u => u.NickName).HasMaxLength(Rules.DEFAULT_NICKNAME_MAX_LENGTH);
+            typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
+
+            #region Configuration relations
+            // Country 
+            typeBuilder.HasOne(c => c.Country).WithMany();
+            typeBuilder.Navigation(u => u.Country).AutoInclude();
+            // UserBeer
+            typeBuilder.Navigation(u => u.UserBeers).AutoInclude();
+            #endregion
+        }
+
+        private void OnUserBeerCreating(ModelBuilder modelBuilder)
+        {
+            EntityTypeBuilder<UserBeer> typeBuilder = modelBuilder.Entity<UserBeer>();
+            var userIdName = "UserId";
+            var beerIdName = "BeerId";
+            // Configuration nom de table et clef primaire
+            typeBuilder.ToTable("UserBeer").HasKey(ub => new { ub.UserId, ub.BeerId });
+            typeBuilder.Property(ub => ub.UserId).HasColumnName(userIdName);
+            typeBuilder.Property(ub => ub.BeerId).HasColumnName(beerIdName);
+
+            #region Configuration relations
+            typeBuilder.HasOne(ub => ub.User).WithMany(u => u.UserBeers).HasForeignKey(u => u.UserId);
+            typeBuilder.HasOne(ub => ub.Beer).WithMany().HasForeignKey(u => u.BeerId);
+            #endregion
+        }
         #endregion
 
         public override DbSet<TEntity> Set<TEntity>()

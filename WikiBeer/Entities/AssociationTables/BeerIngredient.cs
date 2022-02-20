@@ -1,4 +1,4 @@
-﻿using Ipme.WikiBeer.Entities.AssociationTables;
+﻿using Ipme.WikiBeer.Entities.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,39 +7,40 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Entities.AssociationTables
 {
-    public class UserBeer : IAssociationTable
+    public class BeerIngredient : IAssociationTable
     {
-        public Guid UserId { get; private set; }
-        public UserEntity User { get; private set; }
-
         public Guid BeerId { get; private set; }
         public BeerEntity Beer { get; private set; }
 
-        public UserBeer(Guid userId, Guid beerId)
-        {
-            UserId = userId;
-            BeerId = beerId;        }
+        public Guid IngredientId { get; private set; }
+        public IngredientEntity Ingredient { get; private set; }
 
-        public UserBeer(Guid userId, Guid beerId, UserEntity user, BeerEntity beer)
-            : this(userId, beerId)
+        public BeerIngredient(Guid beerId, Guid ingredientId)
         {
-            User = user;
+            BeerId = beerId;
+            IngredientId = ingredientId;
+        }
+
+        public BeerIngredient(Guid beerId, Guid ingredientId, BeerEntity beer, IngredientEntity ingredient)
+            : this(beerId, ingredientId)
+        {
             Beer = beer;
+            Ingredient = ingredient;
         }
 
         public bool IsInCompositeKey(Guid id)
         {
-            return id == UserId || id == BeerId;
+            return id == BeerId || id == IngredientId;
         }
 
         public (Guid, Guid) GetCompositeKey()
         {
-            return (UserId, BeerId);
+            return (BeerId, IngredientId);
         }
 
         public bool Equals(IAssociationTable? other)
         {
-            if (other is null || other is not UserBeer) return false;
+            if (other == null || other is not BeerIngredient) return false;
             else return this.GetCompositeKey() == other.GetCompositeKey();
         }
 
@@ -54,6 +55,6 @@ namespace Ipme.WikiBeer.Entities.AssociationTables
         public override int GetHashCode()
         {
             return GetCompositeKey().GetHashCode();
-        }       
+        }
     }
 }
