@@ -1,18 +1,6 @@
 ﻿using Ipme.WikiBeer.Models.Ingredients;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ipme.WikiBeer.Wpf.UserControls.Components
 {
@@ -21,17 +9,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class IngredientDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty IngredientToModifyProperty =
-                     DependencyProperty.Register("IngredientToModify", typeof(IngredientModel), typeof(IngredientDetailsComponent));
+        public static readonly DependencyProperty IngredientDetailsProperty =
+                     DependencyProperty.Register("IngredientDetails", typeof(IngredientModel), typeof(IngredientDetailsComponent));
 
-        public IngredientModel IngredientToModify
+        public IngredientModel IngredientDetails
         {
-            get { return GetValue(IngredientToModifyProperty) as IngredientModel; }
+            get { return GetValue(IngredientDetailsProperty) as IngredientModel; }
             set
             {
                 if (value != null)
                 {
-                    SetValue(IngredientToModifyProperty, value);
+                    SetValue(IngredientDetailsProperty, value);
                 }
             }
         }
@@ -41,12 +29,16 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             InitializeComponent();
         }
 
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void HopRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void CerealRadioButton_Checked(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void AdditiveRadioButton_Checked(object sender, RoutedEventArgs e)
         {
 
         }

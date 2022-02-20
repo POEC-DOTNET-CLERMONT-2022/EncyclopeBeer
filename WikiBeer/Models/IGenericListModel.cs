@@ -2,7 +2,7 @@
 
 namespace Ipme.WikiBeer.Models
 {
-    public interface IGenericListModel<T> where T : ObservableObject
+    public interface IGenericListModel<T> where T : ObservableObject, IDeepClonable<T>
     {
         public ObservableCollection<T> List { get; set; }
 

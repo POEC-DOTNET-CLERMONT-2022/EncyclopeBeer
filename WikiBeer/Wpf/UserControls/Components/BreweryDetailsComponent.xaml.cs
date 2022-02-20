@@ -9,17 +9,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BreweryDetailsComponent : UserControl
     {
-        public static readonly DependencyProperty BreweryToModifyProperty =
-                    DependencyProperty.Register("BreweryToModify", typeof(BreweryModel), typeof(BreweryDetailsComponent));
+        public static readonly DependencyProperty BreweryDetailsProperty =
+                    DependencyProperty.Register("BreweryDetails", typeof(BreweryModel), typeof(BreweryDetailsComponent));
 
-        public BreweryModel BreweryToModify
+        public BreweryModel BreweryDetails
         {
-            get { return GetValue(BreweryToModifyProperty) as BreweryModel; }
+            get { return GetValue(BreweryDetailsProperty) as BreweryModel; }
             set
             {
                 if (value != null)
                 {
-                    SetValue(BreweryToModifyProperty, value);
+                    SetValue(BreweryDetailsProperty, value);
                 }
             }
         }
@@ -44,14 +44,5 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             InitializeComponent();
         }
 
-        private void Update_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

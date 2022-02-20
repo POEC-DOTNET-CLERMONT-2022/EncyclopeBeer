@@ -3,6 +3,8 @@ using Ipme.WikiBeer.Models.Ingredients;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Pour de la deep copy 
@@ -30,13 +32,13 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private string _description;
-        public string Description
+        private string? _description;
+        public string? Description
         {
             get { return _description; }
             set
             {
-                if (_description != value)
+                if (_description != null)
                 {
                     _description = value;
                     OnNotifyPropertyChanged();
@@ -72,8 +74,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private BeerStyleModel _style;
-        public BeerStyleModel Style
+        private BeerStyleModel? _style;
+        public BeerStyleModel? Style
         {
             get { return _style; }
             set
@@ -86,8 +88,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private BeerColorModel _color;
-        public BeerColorModel Color 
+        private BeerColorModel? _color;
+        public BeerColorModel? Color 
         {
             get { return _color; }
             set
@@ -100,8 +102,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private BreweryModel _brewery;
-        public BreweryModel Brewery 
+        private BreweryModel? _brewery;
+        public BreweryModel? Brewery 
         {
             get { return _brewery; }
             set
@@ -114,8 +116,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private ObservableCollection<IngredientModel> _ingredients;
-        public ObservableCollection<IngredientModel> Ingredients 
+        private ObservableCollection<IngredientModel>? _ingredients;
+        public ObservableCollection<IngredientModel>? Ingredients 
         {
             get { return _ingredients; }
             set
@@ -128,14 +130,30 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public BeerModel(string name, string description, float ibu, float degree, BeerStyleModel style,
-            BeerColorModel color, BreweryModel brewery, ObservableCollection<IngredientModel> ingredients)
+        public BeerModel()
+        {
+        }
+
+        public BeerModel(string name, string? description, float ibu, float degree, BeerStyleModel? style,
+            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel>? ingredients)
             : this(Guid.Empty, name, description, ibu, degree, style, color, brewery, ingredients)
         {
         }
 
-        public BeerModel(Guid id, string name, string description, float ibu, float degree, BeerStyleModel style, 
-            BeerColorModel color, BreweryModel brewery, ObservableCollection<IngredientModel> ingredients)
+        /// <summary>
+        /// Constructeur qui permet de set un Id (pour Get depuis un Dto)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="ibu"></param>
+        /// <param name="degree"></param>
+        /// <param name="style"></param>
+        /// <param name="color"></param>
+        /// <param name="brewery"></param>
+        /// <param name="ingredients"></param>
+        public BeerModel(Guid id, string name, string? description, float ibu, float degree, BeerStyleModel? style, 
+            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel>? ingredients)
         {
             Id = id;
             Name = name;
@@ -160,15 +178,18 @@ namespace Ipme.WikiBeer.Models
                               // revient à en créer une nouvelle donc peut etre traité ici comme un type value
             Ibu = beer.Ibu;
             Degree = beer.Degree;
-  
+
             // Deep copy pour éviter les effets de bords
-            Style = new BeerStyleModel(beer.Style);
-            Color = new BeerColorModel(beer.Color);
-            Brewery = new BreweryModel(beer.Brewery);
+            Style = (BeerStyleModel?)beer.Style;
+            Color = (BeerColorModel?)beer.Color;
+            Brewery = (BreweryModel?)beer.Brewery;
             Ingredients = new ObservableCollection<IngredientModel>();
-            foreach (var ingredient in beer.Ingredients)
-            {                
-                Ingredients.Add(ingredient.DeepClone()); // Test via Clone
+            if (beer.Ingredients != null)
+            {
+                foreach (var ingredient in beer.Ingredients)
+                {
+                    Ingredients.Add((IngredientModel)ingredient.DeepClone()); // Test via Clone
+                }
             }
         }
 
