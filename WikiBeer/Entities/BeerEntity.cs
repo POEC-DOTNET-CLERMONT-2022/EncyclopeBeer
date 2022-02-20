@@ -1,4 +1,5 @@
-﻿using Ipme.WikiBeer.Entities.Ingredients;
+﻿using Ipme.WikiBeer.Entities.AssociationTables;
+using Ipme.WikiBeer.Entities.Ingredients;
 using System.Runtime.CompilerServices;
 
 /// <summary>
@@ -21,16 +22,11 @@ namespace Ipme.WikiBeer.Entities
         public BreweryEntity? Brewery { get; private set; }
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }
-        public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
 
-        /// <summary>
-        /// Pour EF Core uniquement : voir la note au dessus
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="ibu"></param>
-        /// <param name="degree"></param>
+        // ICollection plutot
+        public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
+        public IEnumerable<BeerIngredient>? BeerIngredients { get; private set; }
+ 
         private BeerEntity(Guid id, string name, string? description, float? ibu, float degree)
         {
             Id = id;
@@ -41,13 +37,15 @@ namespace Ipme.WikiBeer.Entities
         }
 
         public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
-            BeerColorEntity? color, BreweryEntity? brewery, IEnumerable<IngredientEntity>? ingredients)
+            BeerColorEntity? color, BreweryEntity? brewery,
+            IEnumerable<IngredientEntity>? ingredients, IEnumerable<BeerIngredient>? beerIngredients)//, IEnumerable<UserBeer>? userBeers)
             : this(id, name, description, ibu, degree)
         {
             Style = style;
             Color = color;
             Brewery = brewery;
             Ingredients = ingredients;
-        }       
+            BeerIngredients = beerIngredients;
+        }
     }
 }

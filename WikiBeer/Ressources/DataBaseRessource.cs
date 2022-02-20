@@ -27,6 +27,7 @@ namespace Ipme.WikiBeer.Ressources
         public StyleDataManager StyleManager { get; }
         public ColorDataManager ColorManager { get; }
         public IngredientDataManager IngredientManager { get; }
+        public UserDataManager UserManager { get; }
 
         public IEnumerable<BeerModel> Beers { get; set; }
         public IEnumerable<BreweryModel> Breweries { get; set; }
@@ -34,6 +35,8 @@ namespace Ipme.WikiBeer.Ressources
         public IEnumerable<BeerStyleModel> Styles { get; set; }
         public IEnumerable<BeerColorModel> Colors { get; set; }
         public IEnumerable<IngredientModel> Ingredients { get; set; }
+        public IEnumerable<UserModel> Users { get; set; }
+
 
         public DataBaseRessource(string url = "https://localhost:5001")
         {
@@ -50,6 +53,7 @@ namespace Ipme.WikiBeer.Ressources
             StyleManager = new StyleDataManager(Client, Mapper, ApiUrl);
             ColorManager = new ColorDataManager(Client, Mapper, ApiUrl);
             IngredientManager = new IngredientDataManager(Client, Mapper, ApiUrl);
+            UserManager = new UserDataManager(Client, Mapper, ApiUrl);
         }
 
         public void FillDatabase()
@@ -59,9 +63,11 @@ namespace Ipme.WikiBeer.Ressources
             Colors = InsertColors();
             Styles = InsertStyles();
             Ingredients = InsertIngredients();
-            Beers = InsertBeer(Breweries, Styles, Colors, Ingredients);
+            Beers = InsertBeers(Breweries, Styles, Colors, Ingredients);
+            Users = InsertUsers(Countries, Beers);
         }
 
+       
         #region Valeurs en dur
         public IEnumerable<CountryModel> InsertCountries()
         {
@@ -124,7 +130,7 @@ namespace Ipme.WikiBeer.Ressources
             return AddAndWait(ingredients, IngredientManager);
         }
 
-        public IEnumerable<BeerModel> InsertBeer(IEnumerable<BreweryModel> breweries, IEnumerable<BeerStyleModel> styles,
+        public IEnumerable<BeerModel> InsertBeers(IEnumerable<BreweryModel> breweries, IEnumerable<BeerStyleModel> styles,
             IEnumerable<BeerColorModel> colors, IEnumerable<IngredientModel> ingredients)
         {
             // Récupération brasseries
@@ -169,6 +175,28 @@ namespace Ipme.WikiBeer.Ressources
 
             return AddAndWait(beers, BeerManager);
         }
+
+        private IEnumerable<UserModel> InsertUsers(IEnumerable<CountryModel> countries, IEnumerable<BeerModel> beers)
+        {
+            // Récupération pays pour brasseries
+            var bddFrance = countries.FirstOrDefault(c => c.Name == "France");
+            var bddBelgique = countries.FirstOrDefault(c => c.Name == "Belgique");
+            var bddEcosse = countries.FirstOrDefault(c => c.Name == "Ecosse");
+
+            // Récupération bières
+            var beersId0 = new ObservableCollection<Guid>();
+            var beersId1 = new ObservableCollection<Guid>() { beers.ToList()[0].Id };
+            var beersId2 = new ObservableCollection<Guid>() { beers.ToList()[0].Id , beers.ToList()[1].Id };
+
+            // Users
+            var dede = new UserModel("Dédé", new DateTime(1960, 1, 1), "dede@bmail", 50, false, bddFrance, beersId0);
+            var maurice = new UserModel("Momo", new DateTime(1960, 2, 10), "momo@bmail", 60, true, bddBelgique, beersId1);
+            var marcel = new UserModel("FuturGuy", new DateTime(2050, 12, 30), "ff@bmail", 99, false, bddEcosse, beersId2);
+            IEnumerable<UserModel> users = new UserModel[] { dede, maurice, marcel };
+
+            return AddAndWait(users, UserManager);
+        }
+
         #endregion
 
         private IEnumerable<TModel> AddAndWait<TModel, TDto>(IEnumerable<TModel> models, IDataManager<TModel, TDto> manager)
