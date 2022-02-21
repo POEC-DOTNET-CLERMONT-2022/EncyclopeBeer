@@ -28,5 +28,10 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         {
             InitializeComponent();
         }
+
+        private void UpgradeUserRole(object sender, RoutedEventArgs e)
+        {
+            UserDetails.IsCertified = !UserDetails.IsCertified!;
+        }
     }
 }

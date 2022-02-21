@@ -96,5 +96,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            BeerDetails.Ingredients.Remove((IngredientModel)btn.DataContext);
+        }
     }
 }

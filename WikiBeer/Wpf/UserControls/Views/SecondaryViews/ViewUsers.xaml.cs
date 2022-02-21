@@ -54,20 +54,9 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
-            //var name = Beers.ToModify.Name;
-            //var description = Beers.ToModify.Description;
-            //float ibu = Beers.ToModify.Ibu;
-            //float abv = Beers.ToModify.Degree;
-            //BreweryModel brewery = (BreweryModel)BeerDetailsComponent.BreweriesComboBox.SelectedItem;
-            //BeerStyleModel style = (BeerStyleModel)BeerDetailsComponent.StylesComboBox.SelectedItem;
-            //BeerColorModel color = (BeerColorModel)BeerDetailsComponent.ColorsComboBox.SelectedItem;
-            //IngredientModel ingredient = (IngredientModel)BeerDetailsComponent.IngredientsComboBox.SelectedItem;
-            //ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel>();
-            //ingredients.Add(ingredient);
-            //var beer = new BeerModel(name, description, ibu, abv, style, color, brewery, ingredients);
-            //var newBeer = await _beerDataManager.Add(beer);
-            //Beers.List.Add(newBeer);
-            //Beers.ToModify = null;
+            await _userDataManager.Add(Users.ToModify);
+            Users.List.Add(Users.ToModify);
+            Users.ToModify = null;
 
             Update_Button.Visibility = Visibility.Visible;
             Delete_Button.Visibility = Visibility.Visible;
@@ -91,7 +80,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             {
                 await _userDataManager.DeleteById(Users.ToModify.Id);
                 Users.List.Remove(Users.Current);
-                Users.ToModify = null;
+                Users.Current = null;
             }
         }
 
