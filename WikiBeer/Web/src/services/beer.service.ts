@@ -19,15 +19,11 @@ export class BeerService {
       return this.httpClient.get<Beer[]>(this.baseUrl + this.beerController);
   }
 
-
-
-/*   getBeers(): Observable<IBeerList>
-  {
-      return this.httpClient.get<IBeerList>(this.baseUrl + this.beerController);
-  } */
-
   getBeerById(beerId : string): Observable<Beer>
   {
       return this.httpClient.get<Beer>(this.baseUrl+this.beerController+beerId);
   }
+
+
+
 }

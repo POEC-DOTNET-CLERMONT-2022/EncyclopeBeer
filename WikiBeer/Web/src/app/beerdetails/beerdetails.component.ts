@@ -10,7 +10,7 @@ import { BeerService } from 'src/services/beer.service';
 })
 export class BeerDetailsComponent implements OnInit {
 
-  public beer!: Beer;
+  public beer: Beer;
   public tnull: string = null;
 /*   @Input()
   beer!: Beer;
