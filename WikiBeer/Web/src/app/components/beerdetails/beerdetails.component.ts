@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Beer } from "../../models/beer";
+import { Beer } from "../../../models/beer";
 import { ActivatedRoute } from "@angular/router";
 import { BeerService } from 'src/services/beer.service';
 
