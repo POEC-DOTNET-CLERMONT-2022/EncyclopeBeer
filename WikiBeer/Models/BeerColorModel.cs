@@ -34,17 +34,16 @@ namespace Ipme.WikiBeer.Models
         public BeerColorModel(Guid id, string name)
         {
             Id = id;
-            Name = name;
+            Name = name ?? String.Empty;
         }
 
-        public BeerColorModel(BeerColorModel color)
+        private BeerColorModel(BeerColorModel color)
             : this(color.Id, color.Name)
         {
         }
 
-        public BeerColorModel? DeepClone()
+        public BeerColorModel DeepClone()
         {
-            if (this is null) return null;
             return new BeerColorModel(this);
         }
     }

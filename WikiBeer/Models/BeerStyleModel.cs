@@ -45,18 +45,17 @@ namespace Ipme.WikiBeer.Models
         public BeerStyleModel(Guid id, string name, string description)
         {
             Id = id;
-            Name = name;
-            Description = description;
+            Name = name ?? String.Empty;
+            Description = description ?? String.Empty;
         }
 
-        public BeerStyleModel(BeerStyleModel style)
+        private BeerStyleModel(BeerStyleModel style)
             : this(style.Id, style.Name, style.Description)
         {
         }
 
-        public BeerStyleModel? DeepClone()
-        {
-            if (this is null) return null;
+        public BeerStyleModel DeepClone()
+        {            
             return new BeerStyleModel(this);
         }
     }

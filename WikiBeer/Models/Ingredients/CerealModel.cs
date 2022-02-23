@@ -31,14 +31,13 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Ebc = ebc;
         }
 
-        public CerealModel(CerealModel cereal) 
+        private CerealModel(CerealModel cereal) 
             : this(cereal.Id, cereal.Name, cereal.Description, cereal.Ebc)
         {
         }
 
-        public override CerealModel? DeepClone()
+        public override CerealModel DeepClone()
         {
-            if (this is null) return null;
             return new CerealModel(this);
         }
     }

@@ -32,14 +32,13 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Use = use;
         }
 
-        public AdditiveModel(AdditiveModel additive) 
+        private AdditiveModel(AdditiveModel additive) 
             : this(additive.Id, additive.Name, additive.Description, additive.Use)
         {
         }
 
-        public override AdditiveModel? DeepClone()
-        {
-            if (this is null) return null;
+        public override AdditiveModel DeepClone()
+        {           
             return new AdditiveModel(this);
         }
     }

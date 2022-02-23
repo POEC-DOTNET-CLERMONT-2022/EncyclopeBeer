@@ -52,30 +52,29 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public BreweryModel(string name, string description, CountryModel country)
+        public BreweryModel(string name, string description, CountryModel? country)
             : this(Guid.Empty, name, description, country)
         {
         }
 
-        public BreweryModel(Guid id, string name, string description, CountryModel country)
+        public BreweryModel(Guid id, string name, string description, CountryModel? country)
         {
             Id = id;
-            Name = name;
-            Description = description;
+            Name = name ?? String.Empty;
+            Description = description ?? String.Empty;
             Country = country;
         }
 
-        public BreweryModel(BreweryModel brewery)
+        private BreweryModel(BreweryModel brewery)
+            : this(brewery.Id, brewery.Name, brewery.Description, brewery.Country?.DeepClone())
         {
             Id = brewery.Id;
-            Name = brewery.Name;
-            Description = brewery.Description;
-            Country = brewery.Country?.DeepClone();
+            Name = brewery.Name ?? String.Empty;
+            Description = brewery.Description;            
         }
 
-        public BreweryModel? DeepClone()
-        {
-            if (this is null) return null;
+        public BreweryModel DeepClone()
+        {            
             return new BreweryModel(this);
         }
     }

@@ -27,17 +27,16 @@ namespace Ipme.WikiBeer.Models
         public CountryModel(Guid id, string name)
         {
             Id = id;
-            Name = name;
+            Name = name ?? String.Empty;
         }
 
-        public CountryModel(CountryModel country) 
+        private CountryModel(CountryModel country) 
             : this(country.Id, country.Name)
         {
         }
 
-        public CountryModel? DeepClone()
+        public CountryModel DeepClone()
         {
-            if (this is null) return null;
             return new CountryModel(this);
         }
 
