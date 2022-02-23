@@ -11,6 +11,15 @@
         <CollectionViewSource x:Key="UsersViewSource" 
                               Filter="CollectionViewSource_Filter" 
                               Source="{Binding Users.List, ElementName=root}"/>
+        <Style x:Key="ButtonLock" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Users.ToModify, ElementName=root}" Value="null">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Background" Value="#404040"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid DataContext="{Binding ., ElementName=root}">
         <Grid.RowDefinitions>
@@ -76,31 +85,19 @@
                 <control:UserDetailsComponent x:Name="UserDetailsComponent" 
                                               UserDetails="{Binding Users.ToModify, UpdateSourceTrigger=PropertyChanged}" 
                                               Grid.Row="0"/>
-                <DockPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock x:Name="InfoDisplayer" FontWeight="Bold" Width="300"/>
                     <Button x:Name="Delete_Button"
-                            Height="30" 
-                            Width="100" 
-                            Margin="10"
-                            Content="Delete"
+                            Height="30" Width="100" 
+                            Margin="10" Content="Delete"
                             Click="Delete_Button_Click"
-                            Visibility="Visible"
-                    />
+                            Style="{StaticResource ButtonLock}"/>
                     <Button x:Name="Update_Button"
-                            Height="30" 
-                            Width="100" 
-                            Margin="10"
-                            Content="Update"
+                            Height="30" Width="100" 
+                            Margin="10" Content="Update"
                             Click="Update_Button_Click"
-                            Visibility="Visible"
-                    />
-                    <Button x:Name="Create_Button"
-                            Height="30" 
-                            Width="100" 
-                            Margin="10"
-                            Content="Create"
-                            Click="Create_Button_Click"
-                            Visibility="Collapsed"/>
-                </DockPanel>
+                            Style="{StaticResource ButtonLock}"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

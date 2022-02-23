@@ -18,6 +18,21 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     {
         private IDataManager<UserModel, UserDto> _userDataManager = ((App)Application.Current).UserDataManager;
 
+        //public static readonly DependencyProperty UsersProperty =
+        //    DependencyProperty.Register("Users", typeof(IGenericListModel<UserModel>), typeof(ViewUsers));
+
+        //public IGenericListModel<UserModel> Users
+        //{
+        //    get { return GetValue(UsersProperty) as IGenericListModel<UserModel>; }
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            SetValue(UsersProperty, value);
+        //        }
+        //    }
+        //}
+
         public IGenericListModel<UserModel> Users { get; }
 
         private string _textSearch;
@@ -44,6 +59,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadUsers();
+            Users.ToModify = null;
         }
 
         public async Task LoadUsers()
@@ -52,25 +68,22 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             Users.List = new ObservableCollection<UserModel>(users);
         }
 
-        private async void Create_Button_Click(object sender, RoutedEventArgs e)
-        {
-            await _userDataManager.Add(Users.ToModify);
-            Users.List.Add(Users.ToModify);
-            Users.ToModify = null;
-
-            Update_Button.Visibility = Visibility.Visible;
-            Delete_Button.Visibility = Visibility.Visible;
-            Create_Button.Visibility = Visibility.Collapsed;
-            ListOverlay.Visibility = Visibility.Collapsed;
-        }
-
         private async void Update_Button_Click(object sender, RoutedEventArgs e)
         {
             if (Users.ToModify != null)
             {
-                await _userDataManager.Update(Users.ToModify.Id, Users.ToModify);
-                var index = Users.List.IndexOf(Users.Current);
-                Users.List[index] = Users.ToModify.DeepClone();
+                var updatedBeer = await _userDataManager.Update(Users.ToModify.Id, Users.ToModify);
+                if (updatedBeer != null)
+                {
+                    var index = Users.List.IndexOf(Users.Current);
+                    Users.List[index] = Users.ToModify.DeepClone();
+                    List.SelectedItem = Users.List[index];
+                    InfoDisplayer.Text = "Succesfull update";
+                }
+                else
+                {
+                    InfoDisplayer.Text = "";
+                }
             }
         }
 
@@ -96,7 +109,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
             if (user != null)
             {
-                string searchParams = BuildBeerSearchParams(user);
+                string searchParams = BuildUserSearchParams(user);
                 if (!string.IsNullOrWhiteSpace(searchParams) && searchParams.Contains(TextSearch.ToLower()))
                 {
                     e.Accepted = true;
@@ -114,7 +127,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string BuildBeerSearchParams(UserModel user)
+        private string BuildUserSearchParams(UserModel user)
         {
             string searchParams = user.NickName;
 

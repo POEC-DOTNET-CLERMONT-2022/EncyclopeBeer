@@ -44,6 +44,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadStyles();
+            Styles.ToModify = null;
         }
 
         public async Task LoadStyles()

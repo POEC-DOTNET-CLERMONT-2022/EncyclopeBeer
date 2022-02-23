@@ -52,6 +52,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             await LoadBreweries();
             await LoadBeers();
             await LoadCountry();
+            Breweries.ToModify = null;
         }
 
         public async Task LoadBreweries()

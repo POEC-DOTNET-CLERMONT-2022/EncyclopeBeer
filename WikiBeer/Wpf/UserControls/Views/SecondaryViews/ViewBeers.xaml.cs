@@ -62,6 +62,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             await LoadStyles();
             await LoadColors();
             await LoadIngredients();
+            Beers.ToModify = null;
         }
 
         public async Task LoadBeers()
@@ -124,6 +125,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
                 await _beerDataManager.Update(Beers.ToModify.Id, Beers.ToModify);
                 var index = Beers.List.IndexOf(Beers.Current);
                 Beers.List[index] = Beers.ToModify.DeepClone();
+                List.SelectedItem = Beers.List[index];
             }
         }
 
