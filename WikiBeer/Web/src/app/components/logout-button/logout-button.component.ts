@@ -23,7 +23,6 @@ export class LogoutButtonComponent implements OnInit {
   ngOnInit(): void {}
 
   logout(): void {
-/*     this._auth.logout({ returnTo: this._doc.location.origin }); */
-    this._auth.logout();
+    this._auth.logout({ returnTo: this._doc.location.origin });
   }
 }

@@ -1,3 +1,4 @@
+import { AuthService } from '@auth0/auth0-angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -9,16 +10,21 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
 
   private _router: Router;
+  private _auth: AuthService;
 
   static pathBeerList : string = 'beers';
   urlBeerList : string = '/' + NavbarComponent.pathBeerList;
 
+  static pathUserProfile : string = 'account';
+  urlUserProfile : string = '/' + NavbarComponent.pathUserProfile;
 
 
-  constructor(router: Router)
+  constructor(router: Router, auth: AuthService)
   {
     this._router = router;
+    this._auth = auth;
   }
 
+  get auth(): AuthService {return this._auth;}
 
 }
