@@ -47,7 +47,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             _errInfo = $"From {this.GetType().Name}";
         }
 
-        public virtual async Task<T?> CreateAsync(T entityToCreate)
+        public virtual async Task<T> CreateAsync(T entityToCreate)
         {
             //if (entityToCreate.Id != Guid.Empty)
             //    return null;
