@@ -93,14 +93,14 @@ namespace Ipme.WikiBeer.ApiDatas
             return Mapper.Map<TModel>(responseDto);
         }
 
-        public virtual async Task<bool> DeleteById(Guid id)
+        public virtual async Task DeleteById(Guid id)
         {
             var response = await Client.DeleteAsync(Uri.AbsoluteUri+$"/{id}");
             response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            var success = JsonConvert.DeserializeObject<bool>(responseString,
-                JsonSerializerSettings);
-            return success;
+            //var responseString = await response.Content.ReadAsStringAsync();
+            //var success = JsonConvert.DeserializeObject<bool>(responseString,
+            //    JsonSerializerSettings);
+            //return success;
         }
     }
 }

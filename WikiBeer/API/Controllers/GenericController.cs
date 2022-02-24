@@ -32,9 +32,9 @@ namespace Ipme.WikiBeer.API.Controllers
         where TEntity : class, IEntity
         where TDto : class, IDto
     {
-        private readonly IMapper _mapper;
-        private readonly IGenericRepository<TEntity> _dbRepository;
-        private readonly ILogger _logger;
+        protected readonly IMapper _mapper;
+        protected readonly IGenericRepository<TEntity> _dbRepository;
+        protected readonly ILogger _logger;
         protected readonly string _errInfo;
   
         public GenericController(IGenericRepository<TEntity> dbRepository, IMapper mapper, ILogger logger)
@@ -42,11 +42,11 @@ namespace Ipme.WikiBeer.API.Controllers
             _dbRepository = dbRepository;
             _mapper = mapper;
             _logger = logger;
-            _errInfo = $"From {this.GetType().Name}";
+            _errInfo = $"From {GetType().Name}";
         }
 
         [HttpGet]
-        [ProducesResponseType(200)] // si on avait une classe BaseDto on pourrait la mettre là
+        [ProducesResponseType(200)] 
         [ProducesResponseType(500)]
         [EnableCors("LocalPolicy")]
         public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAsync()
@@ -58,12 +58,13 @@ namespace Ipme.WikiBeer.API.Controllers
             }
             catch (AutoMapperMappingException e)
             {
-                _logger.LogError(e,$"{_errInfo} GET : Error in mapping Entities to Dtos. {e.Message}");
+                _logger.LogError(e,$"{_errInfo} GET : trying to map Entities ({typeof(TEntity).Name})" +
+                    $" from Dtos ({typeof(TDto).Name}) cause {e.Message}");
                 return StatusCode(500);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{_errInfo} GET : {e.Message})");
+                _logger.LogError(e, $"{_errInfo} GET : Entities {typeof(TEntity).Name}. {e.Message})");
                 return StatusCode(500);
             }
         }
@@ -77,34 +78,28 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             try
             {
-                var entity = await _dbRepository.GetByIdAsync(id);
-                if (entity == null)
-                {
-                    _logger.LogWarning($"{_errInfo} GET(id) : {entity?.GetType()} : {id} not found in base");
-                    return NotFound();
-                }
+                var entity = await _dbRepository.GetByIdAsync(id);                
                 return Ok(_mapper.Map<TDto>(entity));
+            }
+            catch(EntryNotFoundException e)
+            {
+                _logger.LogWarning(e,$"{_errInfo} GET(id) : trying to get entity with Id : {id} cause {e.Message}");
+                return NotFound();
             }
             catch (AutoMapperMappingException e)
             {
-                _logger.LogError(e, $"{_errInfo} GET(id) : Error in mapping Entity to Dto (Id = {id}). {e.Message}");
+                _logger.LogError(e,$"{_errInfo} GET(id) : trying to map Entity ({typeof(TEntity).Name})" +
+                    $" from Dto ({typeof(TDto).Name}) sharing Id : {id} cause {e.Message}");
                 return StatusCode(500);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{_errInfo} GET(id) : {e.Message})");
+                _logger.LogError(e, $"{_errInfo} GET(id) : Entity {typeof(TEntity)}. {e.Message})");
                 return StatusCode(500);
             }
         }
 
-        /// <summary>
-        /// voir : https://docs.microsoft.com/en-us/dotnet/api/system.web.http.invalidmodelstateresult?view=aspnetcore-2.2
-        /// pour amélioration des bad request
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
         [HttpPost]
-        //[Consumes("application/json-patch+json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -113,24 +108,31 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var entity = _mapper.Map<TEntity>(dto);
-                var createdEntity = await _dbRepository.CreateAsync(entity);
-                if (createdEntity == null)
-                {
-                    _logger.LogWarning($"L'id du dto envoyé {dto} => Id = {dto.Id} est non null, impossible de l'insérer en base");
-                    return BadRequest($"L'id du dto envoyé {dto} => Id = {dto.Id} est non null, impossible de l'insérer en base");
-                }
+                var createdEntity = await _dbRepository.CreateAsync(entity);                
                 var correspondingDto = _mapper.Map<TDto>(createdEntity);
                 return CreatedAtAction(nameof(GetAsync), new { id = correspondingDto.Id }, correspondingDto);
-            }
-            catch (AutoMapperMappingException e)
+            }            
+            catch (AutoMapperMappingException e) 
             {
-                _logger.LogError(e, $"{_errInfo} POST : Error in mapping Dto to entity (Id = {dto.Id}). {e.Message}");
+                _logger.LogError(e, $"{_errInfo} POST : trying to map Dto <-> entity ({typeof(TDto).Name}" +
+                    $" <-> ({typeof(TEntity).Name} sharing Id = {dto.Id}) cause {e.Message}");
                 return StatusCode(500);
             }
-            
+            catch (UnauthorizedDbOperationException e)
+            {
+                _logger.LogWarning(e, $"{_errInfo} POST : trying to insert entity (mapped " +
+                    $"from dto {dto.GetType().Name} : Id = {dto.Id}) cause {e.Message}");
+                return BadRequest();
+            }
+            catch (EntityRepositoryException e)
+            {
+                _logger.LogError(e, $"{_errInfo} POST : trying to insert entity (mapped " +
+                    $"from dto {dto.GetType().Name} : Id = {dto.Id}) cause {e.Message}");
+                return StatusCode(500);
+            }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{_errInfo} POST : {e.Message})");
+                _logger.LogError(e, $"{_errInfo} POST : Dto {typeof(TDto).Name}, Entity {typeof(TEntity).Name} sharing Id : {dto.Id}. {e.Message})");
                 return StatusCode(500);
             }
         }
@@ -145,22 +147,30 @@ namespace Ipme.WikiBeer.API.Controllers
             try
             {
                 var entity = _mapper.Map<TEntity>(dto); // automapper plante si la forme du Dto n'est pas bonne -> BadRequest?
-                var updatedEntity = await _dbRepository.UpdateAsync(entity);
-                if (updatedEntity == null)
-                {
-                    _logger.LogWarning($"L'id du dto envoyé {dto} => Id = {dto.Id} est non null, impossible de modifier une entrée inexistante");
-                    return NotFound();
-                }
+                var updatedEntity = await _dbRepository.UpdateAsync(entity);                
                 return Ok(_mapper.Map<TDto>(updatedEntity));
             }
             catch (AutoMapperMappingException e)
             {
-                _logger.LogError(e, $"{_errInfo} PUT(id) : Error in mapping Dto to entity (Id = {dto.Id}). {e.Message}");
+                _logger.LogError(e, $"{_errInfo} PUT(id) : trying to map Dto <-> entity ({typeof(TDto).Name})" +
+                    $" <-> ({typeof(TEntity).Name} sharing Id = {id} cause {e.Message}");
                 return StatusCode(500);
             }
+            catch (EntryNotFoundException e)
+            {
+                _logger.LogWarning(e, $"{_errInfo} PUT(id) : trying to modify entity (mapped " +
+                    $"from dto {dto.GetType().Name} with Id = {id}) cause {e.Message}");
+                return NotFound();
+            }
+            catch (EntityRepositoryException e)
+            {
+                _logger.LogError(e, $"{_errInfo} PUT(id) : trying to modify entity (mapped " +
+                    $"from dto {dto.GetType().Name} with Id = {id}) cause {e.Message}");
+                return StatusCode(500);
+            }        
             catch (Exception e)
             {
-                _logger.LogError(e, $"{_errInfo} PUT(id) : {e.Message})");
+                _logger.LogError(e, $"{_errInfo} PUT(id) : Dto {typeof(TDto).Name}, Entity {typeof(TEntity).Name} sharing Id : {dto.Id}. {e.Message})");
                 return StatusCode(500);
             }
         }
@@ -173,24 +183,17 @@ namespace Ipme.WikiBeer.API.Controllers
         {
             try
             {
-                var response = await _dbRepository.DeleteByIdAsync(id);
-                if (response == null)  // id non trouvé en base
-                {
-                    _logger.LogWarning($"{id} not found in DataBase.");
-                    return NotFound();
-                }
-
-                // bool == true car ce bool en particulier peut etre null! (on ne peut pas faire if(bool?) directement!)
-                if (response == true) // si vrai le delete à fonctionné
-                    return Ok(true);
-                // Ni null, ni vrai, alors faux, id correct mais pas de suppression en base
-                //return StatusCode(500);
-                _logger.LogWarning($"{id} found but no DataBaseEntry was modified");
-                return Ok(false); // serait peut être mieux... ou alors renvoyé une erreur custom?
+                await _dbRepository.DeleteByIdAsync(id);                                
+                return Ok();
             }
-            catch (AutoMapperMappingException e)
+            catch (EntryNotFoundException e)
             {
-                _logger.LogError(e, $"{_errInfo} DELETE(id) : Error in mapping Dto to entity (Id = {id}). {e.Message}");
+                _logger.LogWarning(e, $"{_errInfo} DELETE(id) : trying to delete entity ({typeof(TEntity).Name} with Id = {id}) cause {e.Message}");
+                return NotFound();
+            }
+            catch (EntityRepositoryException e)
+            {
+                _logger.LogError(e, $"{_errInfo} DELETE(id) : trying to delete entity ({typeof(TEntity).Name} with Id = {id}) cause {e.Message}");
                 return StatusCode(500);
             }
             catch (Exception e)

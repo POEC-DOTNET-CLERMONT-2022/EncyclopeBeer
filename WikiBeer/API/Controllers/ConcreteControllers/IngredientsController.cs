@@ -17,8 +17,8 @@ namespace Ipme.WikiBeer.API.Controllers
 {
     public class IngredientsController : GenericController<IngredientEntity, IngredientDto>
     {
-        public IngredientsController(IGenericRepository<IngredientEntity> dbRepository, IMapper mapper)
-            : base(dbRepository,mapper)
+        public IngredientsController(IGenericRepository<IngredientEntity> dbRepository, IMapper mapper, ILogger logger)
+            : base(dbRepository,mapper, logger)
         {
         }
     }
