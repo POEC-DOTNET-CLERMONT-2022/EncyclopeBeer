@@ -31,6 +31,7 @@
                         <ComboBox x:Name="CountryBox"
                                   ItemsSource="{Binding Countries.List}"
                                   Text="{Binding BreweryDetails.Country.Name}"
+                                  SelectedItem="{Binding BreweryDetails.Country}"
                                   DisplayMemberPath="Name"
                                   IsEditable="True">
                         </ComboBox>

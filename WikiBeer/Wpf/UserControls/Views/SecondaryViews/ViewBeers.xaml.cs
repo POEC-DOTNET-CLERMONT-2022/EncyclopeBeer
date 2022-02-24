@@ -57,11 +57,15 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            await LoadBeers();
-            await LoadBreweries();
-            await LoadStyles();
-            await LoadColors();
-            await LoadIngredients();
+            Task[] tasks = { LoadBeers(), LoadBreweries(),
+                LoadStyles(), LoadColors(), LoadIngredients() };
+            //foreach(var task in tasks) { task.Start(); }
+            await Task.WhenAll(tasks);
+            //await LoadBeers();
+            //await LoadBreweries();
+            //await LoadStyles();
+            //await LoadColors();
+            //await LoadIngredients();
             //Beers.ToModify = null;
         }
 
