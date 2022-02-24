@@ -82,7 +82,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
                 }
                 else
                 {
-                    InfoDisplayer.Text = "";
+                    InfoDisplayer.Text = "Something went wrong";
                 }
             }
         }
@@ -94,6 +94,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
                 await _userDataManager.DeleteById(Users.ToModify.Id);
                 Users.List.Remove(Users.Current);
                 Users.Current = null;
+                InfoDisplayer.Text = "Deleted";
             }
         }
 

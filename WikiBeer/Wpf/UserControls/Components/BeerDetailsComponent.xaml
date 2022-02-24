@@ -67,8 +67,7 @@
                                   ItemsSource="{Binding Breweries.List}"
                                   Text="{Binding BeerDetails.Brewery.Name}"
                                   DisplayMemberPath="Name"
-                                  IsEditable="True" StaysOpenOnEdit="True"
-                                  VerticalContentAlignment="Center">
+                                  IsEditable="True">
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center">
@@ -133,12 +132,6 @@
                                         <Label Content="{Binding Name}" HorizontalAlignment="Left"/>
                                         <Button Height="20" Width="20" FontWeight="Bold"
                                                 Click="Button_Click" HorizontalAlignment="Right">
-                                            <!--<Button.Resources>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="5"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                </Style>
-                                            </Button.Resources>-->
                                             <Image>
                                                 <Image.Source>
                                                     <BitmapImage UriSource="/Img/remove.png"/>
@@ -151,7 +144,6 @@
                         </ItemsControl>
                     </StackPanel>
                     <StackPanel Grid.Row="3" VerticalAlignment="Center" Margin="10,0">
-                        
                     </StackPanel>
                 </Grid>
                 <StackPanel Grid.Column="2" Margin="10,10" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -168,14 +160,11 @@
                 </Grid.RowDefinitions>
                 <Label  Grid.Row="0"  Content="Description" FontWeight="Bold" Margin="10,5,10,0" 
                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                <TextBox Grid.Row="1"  
-                         Margin="10,0,10,20" 
-                         Text="{Binding BeerDetails.Description ,UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Grid.Row="1" Margin="10,0,10,20" 
                          HorizontalAlignment="Stretch" 
                          VerticalAlignment="Stretch" 
                          VerticalScrollBarVisibility="Auto" 
-                         AcceptsReturn="True"
-                         />
+                         Text="{Binding BeerDetails.Description ,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Grid>
     </Border>

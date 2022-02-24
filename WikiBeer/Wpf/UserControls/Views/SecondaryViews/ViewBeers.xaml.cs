@@ -69,7 +69,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             var beers = await _beerDataManager.GetAll();
             Beers.List = new ObservableCollection<BeerModel>(beers);
-            List.UnselectAll();
         }
 
         public async Task LoadBreweries()
@@ -155,7 +154,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             ListOverlay.Visibility = Visibility.Visible;
             Beers.ToModify = new BeerModel();
         }
-
 
         public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
