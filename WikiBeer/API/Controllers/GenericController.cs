@@ -127,10 +127,7 @@ namespace Ipme.WikiBeer.API.Controllers
                 _logger.LogError(e, $"{_errInfo} POST : Error in mapping Dto to entity (Id = {dto.Id}). {e.Message}");
                 return StatusCode(500);
             }
-            catch (UndesiredBorderEffectException ubee)
-            {
-                return BadRequest(ubee.Message);
-            }
+            
             catch (Exception e)
             {
                 _logger.LogError(e, $"{_errInfo} POST : {e.Message})");

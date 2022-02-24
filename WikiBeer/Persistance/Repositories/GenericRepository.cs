@@ -38,23 +38,35 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        private DbContext Context { get; } 
+        private DbContext Context { get; }
+        protected readonly string _errInfo;
 
         public GenericRepository(DbContext context)
         {
             Context = context;
+            _errInfo = $"From {this.GetType().Name}";
         }
 
         public virtual async Task<T?> CreateAsync(T entityToCreate)
         {
+            //if (entityToCreate.Id != Guid.Empty)
+            //    return null;
             if (entityToCreate.Id != Guid.Empty)
-                return null; 
+            {
+                throw new EntityRepositoryException($"{_errInfo} : CreateAsync. Entity {typeof(T).Name}, Id : {entityToCreate.Id} is already set." +
+                    $"Creation of entity forbidden.");
+            }
 
             var newEntry = Context.Attach(entityToCreate);
-
+            newEntry.State = EntityState.Added; // dangereux sa
             //CheckBorderEffectAdded(entityToCreate);
 
-            await Context.SaveChangesAsync(); 
+            //var nLignModified = await Context.SaveChangesAsync();
+            if (await Context.SaveChangesAsync() == 0)
+            {
+                throw new EntityRepositoryException($"{_errInfo} : CreateAsync. Entity {typeof(T).Name}, Id : {entityToCreate.Id}. No row have been" +
+                    $" changed in Database");
+            }
             return newEntry.Entity;
         }
 
@@ -68,28 +80,38 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return await Context.Set<T>().IgnoreAutoIncludes().ToListAsync();
         }
 
-        public virtual async Task<T?> GetByIdAsync(Guid id)
-        {            
-            return await Context.Set<T>().FindAsync(id);       
+        public virtual async Task<T> GetByIdAsync(Guid id)
+        {     
+            return await Context.Set<T>().FindAsync(id) 
+                ?? throw new EntryNotFoundException($"{_errInfo} : GetByIdAsync. Entity {typeof(T).Name} Id : {id} not found in base.");       
         }
 
-        public virtual async Task<T?> GetByIdNoIncludeAsync(Guid id)
+        public virtual async Task<T> GetByIdNoIncludeAsync(Guid id)
         {
-            return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id);
+            return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id)
+                ?? throw new EntryNotFoundException($"{_errInfo} : GetByIdAsync. Entity {typeof(T).Name} Id : {id} not found in base.");
         }
       
-        public virtual async Task<T?> UpdateAsync(T entityToUpdate)
+        public virtual async Task<T> UpdateAsync(T entityToUpdate)
         {
             var entryToUpdate = Context.Attach(entityToUpdate);
 
             if (!Context.Set<T>().Any(e => e.Id == entityToUpdate.Id))
-                return null;
+            {
+                throw new EntryNotFoundException($"{_errInfo} : UpdateAsync. Entity {typeof(T).Name}, Id : {entityToUpdate.Id} not found in base.");
+            }
+
 
             entryToUpdate.State = EntityState.Modified;           
 
             TryUpdateAssociationTables(entryToUpdate, entityToUpdate.Id);
 
-            await Context.SaveChangesAsync();
+            //await Context.SaveChangesAsync();
+            if (await Context.SaveChangesAsync() == 0)
+            {
+                throw new EntityRepositoryException($"{_errInfo} : UpdateAsync. Entity {typeof(T).Name}, Id : {entityToUpdate.Id}. No row have" +
+                    $" changed in Database.");
+            }
             return entryToUpdate.Entity;
         }
 
@@ -108,15 +130,30 @@ namespace Ipme.WikiBeer.Persistance.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
+        public virtual async Task DeleteByIdAsync(Guid id)
         {
-            T? entity = await GetByIdAsync(id);
-            if (entity == null)
-                return null;
+            try
+            {
+                T entity = await GetByIdAsync(id);
+                Context.Remove(entity);
 
-            Context.Remove(entity);
+                var saveResult = await Context.SaveChangesAsync();
+                if (saveResult == 0)
+                {
+                    throw new EntityRepositoryException($"{_errInfo} : DeleteByIdAsync. Entity {typeof(T).Name}, Id : {id}. No row have been" +
+                        $" changed in Database.");
+                }
+            }
+            
 
-            return await Context.SaveChangesAsync() >= 1;
+            //if (entity == null)            
+            //    throw new EntryNotFoundException($"{_errInfo} : DeleteByIdAsync. Entity {typeof(T).Name} Id : {id} not found in base."); ;
+
+
+            catch (EntryNotFoundException innerException)
+            {
+                throw new EntryNotFoundException($"{_errInfo} : UpdateAsync. Entity {typeof(T).Name}, Id : {id} not found in base", innerException);
+            }
         }
 
         /// <summary>
@@ -167,7 +204,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 var inContextEntities = entries.Select(e => e.Entity);
                 // récupération du bon DbSet en fonction du type de table
                 var setInfo = cpropInfo.Where(pi => pi.PropertyType.GetGenericArguments().FirstOrDefault() == type).FirstOrDefault();
-                var set = (IQueryable<IAssociationTable>)setInfo.GetValue(Context);
+                var set = (IQueryable<IAssociationTable>)setInfo.GetValue(Context) 
+                    ?? throw new EntityRepositoryException($"{_errInfo} DbSet is null");
                 // entités en base 
                 var inBaseEntities = set.AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(id));
                 // Entries seulement en base passées en Deleted
