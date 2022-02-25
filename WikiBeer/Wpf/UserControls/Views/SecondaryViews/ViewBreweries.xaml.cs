@@ -16,11 +16,9 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewBreweries : UserControl, INotifyPropertyChanged
     {
-        private IDataManager<BeerModel, BeerDto> _beerDataManager = ((App)Application.Current).BeerDataManager;
         private IDataManager<BreweryModel, BreweryDto> _breweryDataManager = ((App)Application.Current).BreweryDataManager;
         private IDataManager<CountryModel, CountryDto> _countryDataManager = ((App)Application.Current).CountryDataManager;
 
-        public IGenericListModel<BeerModel> Beers { get; }
         public IGenericListModel<BreweryModel> Breweries { get; }
         public IGenericListModel<CountryModel> Countries { get; }
 
@@ -41,7 +39,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         public ViewBreweries()
         {
-            Beers = new GenericListModel<BeerModel>();
             Breweries = new GenericListModel<BreweryModel>();
             Countries = new GenericListModel<CountryModel>();
             InitializeComponent();
@@ -50,21 +47,15 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadBreweries();
-            await LoadBeers();
             await LoadCountry();
             Breweries.ToModify = null;
+            List.UnselectAll();
         }
 
         public async Task LoadBreweries()
         {
             var breweries = await _breweryDataManager.GetAll();
             Breweries.List = new ObservableCollection<BreweryModel>(breweries);
-        }
-
-        public async Task LoadBeers()
-        {
-            var beers = await _beerDataManager.GetAll();
-            Beers.List = new ObservableCollection<BeerModel>(beers);
         }
 
         public async Task LoadCountry()
@@ -75,11 +66,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
-            var name = Breweries.ToModify.Name;
-            var description = Breweries.ToModify.Description;
-            CountryModel country = (CountryModel)BreweryDetailsComponent.CountryBox.SelectedItem;
-            var brewery = new BreweryModel(name, description, country);
-            var newBrewery = await _breweryDataManager.Add(brewery);
+            //var name = Breweries.ToModify.Name;
+            //var description = Breweries.ToModify.Description;
+            //CountryModel country = (CountryModel)BreweryDetailsComponent.CountryBox.SelectedItem;
+            //var brewery = new BreweryModel(name, description, country);
+            var newBrewery = await _breweryDataManager.Add(Breweries.ToModify);
             Breweries.List.Add(newBrewery);
             Breweries.ToModify = null;
 

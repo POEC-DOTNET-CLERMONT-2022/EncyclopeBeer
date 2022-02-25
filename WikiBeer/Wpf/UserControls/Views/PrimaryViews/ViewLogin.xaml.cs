@@ -16,7 +16,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             InitializeComponent();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             Navigator.NavigateTo(typeof(ViewHome));
         }

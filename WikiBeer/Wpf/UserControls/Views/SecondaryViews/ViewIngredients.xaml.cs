@@ -45,20 +45,19 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadIngredients();
+            Ingredients.ToModify = null;
         }
 
         public async Task LoadIngredients()
         {
             var ingredients = await _ingredientDataManager.GetAll();
             Ingredients.List = new ObservableCollection<IngredientModel>(ingredients);
-            Ingredients.ToModify = null;
         }
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
             var newIngredient = await _ingredientDataManager.Add(Ingredients.ToModify);
             Ingredients.List.Add(newIngredient);
-            Ingredients.ToModify = null;
 
             TypesSelector.Visibility = Visibility.Collapsed;
             Update_Button.Visibility = Visibility.Visible;

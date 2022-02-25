@@ -27,6 +27,7 @@ namespace Ipme.WikiBeer.Wpf
         public IDataManager<BeerStyleModel, BeerStyleDto> StyleDataManager { get; }
         public IDataManager<BeerColorModel, BeerColorDto> ColorDataManager { get; }
         public IDataManager<IngredientModel, IngredientDto> IngredientDataManager { get; }
+        public IDataManager<UserModel, UserDto> UserDataManager { get; }
 
         // Pas nécessaire on pourrait juste faire un new HttpClient() [voir IHttpClientFactory aussi pour de meilleurs performances]
         public HttpClient HttpClient{ get; set; } 
@@ -47,6 +48,7 @@ namespace Ipme.WikiBeer.Wpf
             StyleDataManager = new StyleDataManager(HttpClient, Mapper, ServerUrl);
             ColorDataManager = new ColorDataManager(HttpClient, Mapper, ServerUrl);
             IngredientDataManager = new IngredientDataManager(HttpClient, Mapper, ServerUrl);
+            UserDataManager = new UserDataManager(HttpClient, Mapper, ServerUrl);
         }
 
         private void App_OnStartup(object sender, StartupEventArgs e)

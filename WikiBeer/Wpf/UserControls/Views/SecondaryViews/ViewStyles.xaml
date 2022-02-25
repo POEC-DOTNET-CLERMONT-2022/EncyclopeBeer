@@ -52,9 +52,10 @@
                 <Grid Grid.Row="1" x:Name="ListComponent" 
                       Panel.ZIndex="100" Height="Auto">
                     <StackPanel Margin="2" CanVerticallyScroll="True">
-                        <ListBox x:Name="List" 
+                        <ListBox x:Name="List" MaxHeight="400"
                                  ItemsSource="{Binding Source={StaticResource StylesViewSource}}" 
-                                 SelectedItem="{Binding Styles.Current ,UpdateSourceTrigger=PropertyChanged}">
+                                 SelectedItem="{Binding Styles.Current ,UpdateSourceTrigger=PropertyChanged}"
+                                 IsSynchronizedWithCurrentItem="False">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">

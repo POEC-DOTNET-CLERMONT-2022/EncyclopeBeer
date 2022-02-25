@@ -121,6 +121,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
                 await _beerDataManager.Update(Beers.ToModify.Id, Beers.ToModify);
                 var index = Beers.List.IndexOf(Beers.Current);
                 Beers.List[index] = Beers.ToModify.DeepClone();
+                List.SelectedItem = Beers.List[index];
             }
         }
 
@@ -150,7 +151,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             ListOverlay.Visibility = Visibility.Visible;
             Beers.ToModify = new BeerModel();
         }
-
 
         public void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {

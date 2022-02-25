@@ -18,18 +18,15 @@
     Voir également
     https://github.com/manuc66/JsonSubTypes
  */
-using Ipme.WikiBeer.Models;
-using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
-using System.Collections.ObjectModel;
 
 // Paramètres
 var dbName = "WikiBeer";
 var cs = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
 var apiUrl = "https://localhost:7160";
 //var apiUrl = "https://localhost:5001"; // valeur par défaut si lancée en Auto
-var apiPath = @"C:\Users\armel\git\Formation_IPME_dot_net\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe";
+var apiPath = @"C:\Users\Shaz\source\repos\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe";
 bool autoRunApi = false;
        
 // Classes utilitaires

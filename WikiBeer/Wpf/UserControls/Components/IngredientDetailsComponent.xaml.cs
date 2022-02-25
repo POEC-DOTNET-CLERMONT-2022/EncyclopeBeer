@@ -28,19 +28,5 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         {
             InitializeComponent();
         }
-
-        private void HopRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void CerealRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AdditiveRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

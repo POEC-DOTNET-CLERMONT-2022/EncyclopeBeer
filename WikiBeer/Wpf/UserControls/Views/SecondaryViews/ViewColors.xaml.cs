@@ -45,6 +45,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         public async void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             await LoadColor();
+            Colors.ToModify = null;
         }
 
         public async Task LoadColor()

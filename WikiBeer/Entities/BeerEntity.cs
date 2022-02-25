@@ -19,6 +19,7 @@ namespace Ipme.WikiBeer.Entities
         public string Description { get; private set; }
         public float Ibu { get; private set; }
         public float Degree { get; private set; }        
+        public ImageEntity Image { get; private set; }
         public BreweryEntity? Brewery { get; private set; }
         public BeerStyleEntity? Style { get; private set; }
         public BeerColorEntity? Color { get; private set; }

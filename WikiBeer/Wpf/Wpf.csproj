@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>
     <RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
+    <None Remove="Img\remove.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
@@ -44,6 +48,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Img\remove.png" />
   </ItemGroup>
 
 </Project>

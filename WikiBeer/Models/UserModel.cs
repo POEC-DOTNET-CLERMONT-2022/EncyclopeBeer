@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace Ipme.WikiBeer.Models
 {
@@ -119,6 +114,9 @@ namespace Ipme.WikiBeer.Models
                     OnNotifyPropertyChanged();
                 }
             }
+        }
+        public UserModel()
+        {
         }
 
         public UserModel(Guid id, string nickName, DateTime birthDate, string email, int hashCode, 
