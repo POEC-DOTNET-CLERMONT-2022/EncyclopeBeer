@@ -8,7 +8,7 @@ namespace Ipme.WikiBeer.API.Controllers
 {
     public class StylesController : GenericController<BeerStyleEntity,BeerStyleDto>
     {
-        public StylesController(IGenericRepository<BeerStyleEntity> dbRepository, IMapper mapper, ILogger logger)
+        public StylesController(IGenericRepository<BeerStyleEntity> dbRepository, IMapper mapper, ILogger<StylesController> logger)
             : base(dbRepository,mapper, logger)
         {
         }

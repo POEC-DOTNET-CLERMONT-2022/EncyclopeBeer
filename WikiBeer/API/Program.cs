@@ -8,6 +8,7 @@ using System.Reflection;
 
 using Ipme.WikiBeer.API;
 using Ipme.WikiBeer.Dtos.SerializerSettings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 /// <summary>
 /// Notes sur de la désérialisation polymorphic en typescript : 
@@ -37,6 +38,17 @@ builder.Services.AddSwaggerGen();
 
 // Mapper profiles utilisé
 builder.Services.AddAutoMapper(typeof(DtoEntityProfile).Assembly);
+
+// Authentification 
+builder.Services.AddAuthentication(o => o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://docapc.eu.auth0.com/";
+        options.Audience = "https://localhost:7160";
+    });
+
+builder.Services.AddAuthorization(o => o.AddPolicy("AuthenticatedPolicy",
+    policyBuilder => policyBuilder.RequireAssertion(c => c.User.Identity.IsAuthenticated)));
 
 // Conection String 
 string cs;
@@ -74,7 +86,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication(); // en premier
+app.UseAuthorization(); // en deuxième
 
 app.MapControllers();
 

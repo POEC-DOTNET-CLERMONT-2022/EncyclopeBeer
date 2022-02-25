@@ -1,4 +1,19 @@
 {
   "domain": "docapc.eu.auth0.com",
-  "clientId": "W9tn0YyioeRSuxsT01vPIj8tAbTt1KpD"
+  "clientId": "W9tn0YyioeRSuxsT01vPIj8tAbTt1KpD",
+
+  "audience": "http://localhost:7160",
+  "scope": "",
+
+  "httpInterceptor": {
+    "allowedList": [
+      {
+        "uri": "http://localhost:7160/*",
+        "tokenOptions": {
+          "audience": "http://localhost:7160",
+          "scope": ""
+        }
+      }
+    ]
+  }
 }

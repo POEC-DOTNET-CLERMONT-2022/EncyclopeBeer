@@ -9,7 +9,7 @@ namespace Ipme.WikiBeer.API.Controllers
 {
     public class BreweriesController : GenericController<BreweryEntity,BreweryDto>
     {
-        public BreweriesController(IGenericRepository<BreweryEntity> dbRepository, IMapper mapper, ILogger logger)
+        public BreweriesController(IGenericRepository<BreweryEntity> dbRepository, IMapper mapper, ILogger<BreweriesController> logger)
             : base(dbRepository,mapper, logger)
         {
         }

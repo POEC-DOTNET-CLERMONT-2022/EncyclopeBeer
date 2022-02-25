@@ -10,7 +10,7 @@ namespace Ipme.WikiBeer.API.Controllers
 {
     public class ColorsController : GenericController<BeerColorEntity,BeerColorDto>
     {
-        public ColorsController(IGenericRepository<BeerColorEntity> dbRepository, IMapper mapper, ILogger logger)
+        public ColorsController(IGenericRepository<BeerColorEntity> dbRepository, IMapper mapper, ILogger<ColorsController> logger)
             : base(dbRepository, mapper, logger)
         {
         }
