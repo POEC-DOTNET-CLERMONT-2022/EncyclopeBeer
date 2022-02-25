@@ -31,6 +31,7 @@ namespace Ipme.WikiBeer.API.MapperProfiles
             CreateMap<UserEntity, UserDto>()
                 .ForMember(dest => dest.FavoriteBeerIds,
                 opt => opt.MapFrom(src => src.UserBeers.Select(ub => ub.BeerId)));
+            CreateMap<ImageDto, ImageEntity>().ReverseMap();
 
                       
             /// voir https://docs.automapper.org/en/stable/Lists-and-arrays.html#

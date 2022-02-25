@@ -12,6 +12,7 @@ namespace Ipme.WikiBeer.Wpf.Converters
 
         /// <summary>
         /// Convert a bytes array into a Bitmap image
+        /// TODO : ici retourner ume image par défaut.
         /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

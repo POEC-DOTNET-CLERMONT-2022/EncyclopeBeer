@@ -18,8 +18,11 @@
     Voir également
     https://github.com/manuc66/JsonSubTypes
  */
+using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Models.Ingredients;
 using Ipme.WikiBeer.Ressources;
 using Ipme.WikiBeer.Tools;
+using System.Collections.ObjectModel;
 
 // Paramètres
 var dbName = "WikiBeer";

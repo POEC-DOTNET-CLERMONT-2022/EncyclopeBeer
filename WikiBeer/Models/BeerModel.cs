@@ -74,19 +74,19 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private byte[]? _rawPicture;
-        public byte[]? RawPicture
-        {
-            get { return _rawPicture; }
-            set
-            {
-                if (_rawPicture != value)
-                {
-                    _rawPicture = value;
-                    OnNotifyPropertyChanged();
-                }
-            }
-        }
+        //private byte[] _rawPicture;
+        //public byte[] RawPicture
+        //{
+        //    get { return _rawPicture; }
+        //    set
+        //    {
+        //        if (_rawPicture != value)
+        //        {
+        //            _rawPicture = value;
+        //            OnNotifyPropertyChanged();
+        //        }
+        //    }
+        //}
 
         private BeerStyleModel? _style;
         public BeerStyleModel? Style
@@ -144,19 +144,34 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public BeerModel()
+        private ImageModel? _image;
+        public ImageModel? Image
         {
-            Ingredients = new ObservableCollection<IngredientModel>();
+            get { return _image; }
+            set
+            {
+                if (_image != value)
+                {
+                    _image = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+        //public BeerModel()
+        //{
+        //    Ingredients = new ObservableCollection<IngredientModel>();
+        //}
+
+        public BeerModel(string name = "", string description = "", float ibu = float.NaN, float degree = float.NaN,
+            BeerStyleModel? style = null, BeerColorModel? color = null, BreweryModel? brewery = null, ImageModel? image = null,
+            ObservableCollection<IngredientModel>? ingredients = null)
+            : this(Guid.Empty, name, description, ibu, degree, style, color, brewery, image, ingredients)
+        {
         }
 
-        public BeerModel(string name, string description, float ibu, float degree, BeerStyleModel? style,
-            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel> ingredients)
-            : this(Guid.Empty, name, description, ibu, degree, style, color, brewery, ingredients)
-        {
-        }
-
-        public BeerModel(Guid id, string name, string description, float ibu, float degree, BeerStyleModel? style, 
-            BeerColorModel? color, BreweryModel? brewery, ObservableCollection<IngredientModel> ingredients)
+        public BeerModel(Guid id, string name, string description, float ibu, float degree, 
+            BeerStyleModel? style, BeerColorModel? color, BreweryModel? brewery, ImageModel? image, 
+            ObservableCollection<IngredientModel>? ingredients)
         {
             Id = id;
             Name = name ?? String.Empty;
@@ -166,6 +181,7 @@ namespace Ipme.WikiBeer.Models
             Style = style;
             Color = color;
             Brewery = brewery;
+            Image = image;
             Ingredients = ingredients ?? new ObservableCollection<IngredientModel>();
         }
 
@@ -183,6 +199,7 @@ namespace Ipme.WikiBeer.Models
             Style = beer.Style?.DeepClone();
             Color = beer.Color?.DeepClone();
             Brewery = beer.Brewery?.DeepClone();
+            Image = beer.Image?.DeepClone();
             Ingredients = new ObservableCollection<IngredientModel>();
             if (beer.Ingredients != null)
             {

@@ -90,7 +90,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
       
         public virtual async Task<T> UpdateAsync(T entityToUpdate)
         {
-            var entryToUpdate = Context.Attach(entityToUpdate);
+            //var entryToUpdate = Context.Attach(entityToUpdate);
+            var entryToUpdate = Context.Update(entityToUpdate);
 
             if (!Context.Set<T>().Any(e => e.Id == entityToUpdate.Id))
             {
