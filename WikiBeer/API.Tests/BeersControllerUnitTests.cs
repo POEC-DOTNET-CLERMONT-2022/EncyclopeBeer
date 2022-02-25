@@ -48,7 +48,7 @@ namespace Ipme.WikiBeer.API.Tests
         private IEnumerable<BeerDto> BeersDto { get; set; }
         private IEnumerable<BeerEntity> BeersEntity { get; set; }
         private Mock<IGenericRepository<BeerEntity>> BeerRepository { get; set; }
-        private Mock<ILogger> Logger { get; set; }
+        private Mock<ILogger<BeersController>> Logger { get; set; }
         private BeersController BeersController { get; set;} 
 
         public BeersControllerUnitTests()
@@ -81,7 +81,7 @@ namespace Ipme.WikiBeer.API.Tests
             BeersEntity = _fixture.CreateMany<BeerEntity>(_initBeersLength);
             BeersDto = _mapper.Map<IEnumerable<BeerDto>>(BeersEntity);
             BeerRepository = new Mock<IGenericRepository<BeerEntity>>();
-            Logger = new Mock<ILogger>();
+            Logger = new Mock<ILogger<BeersController>>();
             BeersController = new BeersController(BeerRepository.Object, _mapper, Logger.Object); // Object donne l'instance dans le Mock Object
         }
 
