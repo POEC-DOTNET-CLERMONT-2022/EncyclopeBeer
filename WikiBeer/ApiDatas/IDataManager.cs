@@ -8,6 +8,6 @@
         Task<TModel> GetById(Guid id);
         Task<TModel> Add(TModel model);
         Task<TModel> Update(Guid id, TModel model);
-        Task<bool> DeleteById(Guid id);
+        Task DeleteById(Guid id);
     }
 }

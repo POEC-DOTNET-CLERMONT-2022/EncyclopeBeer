@@ -32,29 +32,31 @@ using System.Threading.Tasks;
 /// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/expression-trees/how-to-use-expression-trees-to-build-dynamic-queries
 /// /// Sur comment récupérer une clef composite
 /// https://stackoverflow.com/questions/30688909/how-to-get-primary-key-value-with-entity-framework-core
-/// 
+/// Sur l'eager loading (un peu plus)
+/// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
+/// Note pas la peine de retrhow explicitement les possible exception tant qu'on a pas de logger ici.
 /// </summary>
 namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        private DbContext Context { get; } 
+        private DbContext Context { get; }
+        protected readonly string _errInfo;
 
         public GenericRepository(DbContext context)
         {
             Context = context;
+            _errInfo = $"From {this.GetType().Name}";
         }
 
-        public virtual async Task<T?> CreateAsync(T entityToCreate)
+        public virtual async Task<T> CreateAsync(T entityToCreate)
         {
             if (entityToCreate.Id != Guid.Empty)
-                return null; 
-
+                throw new UnauthorizedDbOperationException($"{_errInfo} : CreateAsync. Entity {typeof(T).Name}, " +
+                    $"Id of enity canoot benull during");
             var newEntry = Context.Attach(entityToCreate);
-
-            //CheckBorderEffectAdded(entityToCreate);
-
-            await Context.SaveChangesAsync(); 
+            newEntry.State = EntityState.Added; // pour assurer l'ajout avec des Id non générés par la base
+            await SaveChangesAsync(entityToCreate.Id);
             return newEntry.Entity;
         }
 
@@ -68,55 +70,67 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             return await Context.Set<T>().IgnoreAutoIncludes().ToListAsync();
         }
 
-        public virtual async Task<T?> GetByIdAsync(Guid id)
-        {            
-            return await Context.Set<T>().FindAsync(id);       
+        /// <summary>
+        /// Récupère une entité.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="EntryNotFoundException"></exception>
+        public virtual async Task<T> GetByIdAsync(Guid id)
+        {     
+            return await Context.Set<T>().FindAsync(id) 
+                ?? throw new EntryNotFoundException($"{_errInfo} : GetByIdAsync. Entity {typeof(T).Name} Id : {id} not found in base.");       
         }
 
-        public virtual async Task<T?> GetByIdNoIncludeAsync(Guid id)
+        public virtual async Task<T> GetByIdNoIncludeAsync(Guid id)
         {
-            return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id);
+            return await Context.Set<T>().IgnoreAutoIncludes().FirstOrDefaultAsync(obj => obj.Id == id)
+                ?? throw new EntryNotFoundException($"{_errInfo} : GetByIdNoIncludeAsync. Entity {typeof(T).Name} Id : {id} not found in base.");
         }
       
-        public virtual async Task<T?> UpdateAsync(T entityToUpdate)
+        public virtual async Task<T> UpdateAsync(T entityToUpdate)
         {
             var entryToUpdate = Context.Attach(entityToUpdate);
 
             if (!Context.Set<T>().Any(e => e.Id == entityToUpdate.Id))
-                return null;
+            {
+                throw new EntryNotFoundException($"{_errInfo} : UpdateAsync. Entity {typeof(T).Name}, Id : {entityToUpdate.Id} not found in base.");
+            }
 
             entryToUpdate.State = EntityState.Modified;           
 
             TryUpdateAssociationTables(entryToUpdate, entityToUpdate.Id);
 
-            await Context.SaveChangesAsync();
+            await SaveChangesAsync(entityToUpdate.Id);
+
             return entryToUpdate.Entity;
         }
 
-
-
-        /// <summary>
-        /// TODO à revoir pour ne faire q'un seul appel à la bdd (voir activator)
-        /// Pourquoi ne pas juste lui passer une entité au lieu d'un id?
-        ///  -> pasque c'est la merde coté controller!
-        /// En fait on est obligé de faire un getById car on doit récupérer les
-        /// dépendances pour faire la suppression propre des relations optionnelles
-        /// (sauf dans le cas de la récupération d'un dépendant au sens EFCore : pour l'instant Beer
-        /// uniquement)
-        /// https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
-        /// Mais en fait non... revoir pour un activator?
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual async Task<bool?> DeleteByIdAsync(Guid id)
+        public virtual async Task DeleteByIdAsync(Guid id)
         {
-            T? entity = await GetByIdAsync(id);
-            if (entity == null)
-                return null;
+
+            T entity = await GetByIdAsync(id);
 
             Context.Remove(entity);
 
-            return await Context.SaveChangesAsync() >= 1;
+            await SaveChangesAsync(id);
+        }
+
+        /// <summary>
+        /// Sauvegarde les changements dans le context.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="callerMethodName"></param>
+        /// <returns></returns>
+        /// <exception cref="EntityRepositoryException"></exception>
+        private async Task SaveChangesAsync(Guid id, [CallerMemberName] string callerMethodName = "")
+        {
+            var saveResponse = await Context.SaveChangesAsync();
+            if (saveResponse == 0)
+            {
+                throw new EntityRepositoryException($"{_errInfo} : {callerMethodName}. Entity {typeof(T).Name}, " +
+                    $"Id : {id}. No lines has changed in Database after calling DbContext.SaveChangeAsync().");
+            }
         }
 
         /// <summary>
@@ -167,7 +181,8 @@ namespace Ipme.WikiBeer.Persistance.Repositories
                 var inContextEntities = entries.Select(e => e.Entity);
                 // récupération du bon DbSet en fonction du type de table
                 var setInfo = cpropInfo.Where(pi => pi.PropertyType.GetGenericArguments().FirstOrDefault() == type).FirstOrDefault();
-                var set = (IQueryable<IAssociationTable>)setInfo.GetValue(Context);
+                var set = (IQueryable<IAssociationTable>?)setInfo?.GetValue(Context) 
+                    ?? throw new EntityRepositoryException($"{_errInfo} : UpdateAssociationTable. DbSet is null");
                 // entités en base 
                 var inBaseEntities = set.AsNoTracking().AsEnumerable().Where(atr => atr.IsInCompositeKey(id));
                 // Entries seulement en base passées en Deleted
@@ -193,25 +208,5 @@ namespace Ipme.WikiBeer.Persistance.Repositories
             }
         }
 
-        /// <summary>
-        /// TODO : à retravailler pour pouvoir être utilisable tt court (ne foncitonne pas avec les tables d'association
-        /// custom)
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <exception cref="UndesiredBorderEffectException"></exception>
-        //private void CheckBorderEffectAdded(T entity)
-        //{
-        //    var entries = Context.ChangeTracker.Entries().Where(e => e.Entity != entity && e.Entity is not Dictionary<string, object>);
-
-        //    if (entries.Any())
-        //    {
-        //        foreach (var entry in entries)
-        //        {
-        //            if (entry.State == EntityState.Added)
-        //                throw new UndesiredBorderEffectException("L'ajout en base d'un composant lors de création/modification" +
-        //                    $"d'un composé n'est pas autorisée. (composé :{entity.Id} : {entity})");
-        //        }
-        //    }
-        //}
     }
 }

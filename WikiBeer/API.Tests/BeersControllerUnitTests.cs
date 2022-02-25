@@ -10,6 +10,8 @@ using Ipme.WikiBeer.Entities;
 using Ipme.WikiBeer.Entities.Ingredients;
 using Ipme.WikiBeer.Persistance.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -41,11 +43,12 @@ namespace Ipme.WikiBeer.API.Tests
     {
         private Fixture _fixture;
         private IMapper _mapper;
-
+        private ILogger _logger;
         private int _initBeersLength;
         private IEnumerable<BeerDto> BeersDto { get; set; }
         private IEnumerable<BeerEntity> BeersEntity { get; set; }
         private Mock<IGenericRepository<BeerEntity>> BeerRepository { get; set; }
+        private Mock<ILogger<BeersController>> Logger { get; set; }
         private BeersController BeersController { get; set;} 
 
         public BeersControllerUnitTests()
@@ -78,7 +81,8 @@ namespace Ipme.WikiBeer.API.Tests
             BeersEntity = _fixture.CreateMany<BeerEntity>(_initBeersLength);
             BeersDto = _mapper.Map<IEnumerable<BeerDto>>(BeersEntity);
             BeerRepository = new Mock<IGenericRepository<BeerEntity>>();
-            BeersController = new BeersController(BeerRepository.Object, _mapper); // Object donne l'instance dans le Mock Object
+            Logger = new Mock<ILogger<BeersController>>();
+            BeersController = new BeersController(BeerRepository.Object, _mapper, Logger.Object); // Object donne l'instance dans le Mock Object
         }
 
         [TestMethod]
@@ -144,7 +148,7 @@ namespace Ipme.WikiBeer.API.Tests
         public async Task Test_GetBeerByIdAsync_NotFound404()
         {
             //Arrange
-            BeerRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BeerEntity?)null);
+            BeerRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ThrowsAsync(new EntryNotFoundException());
 
             //Act
             var result = await BeersController.GetAsync(Guid.NewGuid());
@@ -229,7 +233,7 @@ namespace Ipme.WikiBeer.API.Tests
         {
             //Arrange
             var new_beerDto = _fixture.Create<BeerDto>();
-            BeerRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BeerEntity>())).ReturnsAsync((BeerEntity?)null);
+            BeerRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BeerEntity>())).ThrowsAsync(new EntryNotFoundException());
 
             //Act
             var result = await BeersController.PutAsync(Guid.NewGuid(), new_beerDto);

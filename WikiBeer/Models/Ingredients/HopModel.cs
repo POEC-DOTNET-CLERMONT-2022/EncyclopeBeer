@@ -30,13 +30,13 @@ namespace Ipme.WikiBeer.Models.Ingredients
             AlphaAcid = alphaAcid;
         }
 
-        public HopModel(HopModel hop)             
+        private HopModel(HopModel hop)             
             : this(hop.Id, hop.Name, hop.Description, hop.AlphaAcid)
         {
-        }
+        }        
 
         public override HopModel DeepClone()
-        {            
+        {
             return new HopModel(this);
         }
     }

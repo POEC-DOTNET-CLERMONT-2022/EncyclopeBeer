@@ -31,7 +31,7 @@ namespace Ipme.WikiBeer.Models.Ingredients
             Ebc = ebc;
         }
 
-        public CerealModel(CerealModel cereal) 
+        private CerealModel(CerealModel cereal) 
             : this(cereal.Id, cereal.Name, cereal.Description, cereal.Ebc)
         {
         }

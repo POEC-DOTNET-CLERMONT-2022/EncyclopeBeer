@@ -45,9 +45,9 @@ namespace Ipme.WikiBeer.Entities.AssociationTables
 
         public override bool Equals(object? obj)
         {
-            if (obj == null) return false;
+            if (obj is null) return false;
             var other = obj as IAssociationTable;
-            if (other == null) return false;
+            if (other is null) return false;
             return Equals(other);
         }
 

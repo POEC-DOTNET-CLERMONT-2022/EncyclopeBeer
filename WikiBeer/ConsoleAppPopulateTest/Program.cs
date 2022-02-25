@@ -66,9 +66,9 @@ var new_beer = await dbr.BeerManager.GetById(beers[1].Id);
 momo.FavoriteBeerIds = new ObservableCollection<Guid>{ beers[1].Id, beers[2].Id };
 dbr.UserManager.Update(momo.Id, momo).Wait(); // à ce moment deux nouvelles bières en favoris -> pas OK
 var ddbMomo1 = await dbr.UserManager.GetById(momo.Id);
-ddbMomo1.FavoriteBeerIds = new ObservableCollection<Guid>();
-dbr.UserManager.Update(ddbMomo1.Id, ddbMomo1).Wait();
-var ddbMomo2 = await dbr.UserManager.GetById(momo.Id);
+//ddbMomo1.FavoriteBeerIds = new ObservableCollection<Guid>();
+//dbr.UserManager.Update(ddbMomo1.Id, ddbMomo1).Wait();
+//var ddbMomo2 = await dbr.UserManager.GetById(momo.Id);
 Console.WriteLine("Execution terminée");
 Console.ReadLine();
 

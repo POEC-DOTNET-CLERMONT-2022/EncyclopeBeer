@@ -34,10 +34,10 @@ namespace Ipme.WikiBeer.Models
         public BeerColorModel(Guid id, string name)
         {
             Id = id;
-            Name = name;
+            Name = name ?? String.Empty;
         }
 
-        public BeerColorModel(BeerColorModel color)
+        private BeerColorModel(BeerColorModel color)
             : this(color.Id, color.Name)
         {
         }
