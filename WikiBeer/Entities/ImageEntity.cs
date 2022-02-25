@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Ipme.WikiBeer.Entities
 {
-    public class ImageEntity : IEntity
+    public class ImageEntity //: IEntity
     {
-        public Guid Id { get; set; }
-        public byte[] Image { get; set; }
+        //public Guid Id { get; private set; }
+        public byte[] ByteImage { get; private set; }
+
+        public ImageEntity(byte[] byteImage)
+        {
+            ByteImage = byteImage;
+        }
+
+
     }
 }

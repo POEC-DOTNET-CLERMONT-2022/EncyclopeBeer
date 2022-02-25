@@ -340,9 +340,28 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.OwnsOne("Ipme.WikiBeer.Entities.ImageEntity", "Image", b1 =>
+                        {
+                            b1.Property<Guid>("BeerEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("ByteImage")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)");
+
+                            b1.HasKey("BeerEntityId");
+
+                            b1.ToTable("Image", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("BeerEntityId");
+                        });
+
                     b.Navigation("Brewery");
 
                     b.Navigation("Color");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Style");
                 });

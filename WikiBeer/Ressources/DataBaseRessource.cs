@@ -161,18 +161,19 @@ namespace Ipme.WikiBeer.Ressources
             var trois = new ObservableCollection<IngredientModel>() { water, hop, malt };
 
             // bière
-            var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", 1, 9, ipa, blonde, brewdog, un);
-            var hazy = new BeerModel("HAZY JANE", "La préférée de Jimmy", 2, 10, ipa, blonde, brewdog, deux);
-            var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "Wouaf fait plouf", 3, 6, ale, blonde, brewdog, trois);
-            var elvis = new BeerModel("ELVIS JUICE", "Oh Yeah", 4, 66, speciale, fruitee, brewdog, deux);
-            var kriek = new BeerModel("KRIEK", "Pour tuer Sylvain", 5, 8, lambic, fruitee, linderman, un);
-            var gueuze = new BeerModel("GUEUZE", "Messire!", 6, 4, lambic, brune, linderman, deux);
-            var faro = new BeerModel("FARO LAMBIC", "Sans W", 7, 7, ale, fruitee, brewdog, trois);
-            var nipa = new BeerModel("NINKASI IPA", "La lyonnaise classique", 8, (float)6.05, ipa, blonde, ninkasi, deux);
-            var nblance = new BeerModel("NINKASI BLANCHE", "La lyonnaise au blé", 9, 3, ale, blanche, ninkasi, un);
-            var npa = new BeerModel("NINKASI PALE ALE", "La lyonnaise d'Angleterre", 10, (float)4.5, smoked, brune, ninkasi, deux);
+            var emptyImage = new ImageModel(new byte[] { });
+            var punk = new BeerModel("PUNK IPA", "Avec ou sans créte", 1, 9, ipa, blonde, brewdog, emptyImage, un);
+            var hazy = new BeerModel("HAZY JANE", "La préférée de Jimmy", 2, 10, ipa, blonde, brewdog, emptyImage, deux);
+            var cloud = new BeerModel("BREWDOG VS CLOUDWATER", "Wouaf fait plouf", 3, 6, ale, blonde, brewdog, emptyImage, trois);
+            var elvis = new BeerModel("ELVIS JUICE", "Oh Yeah", 4, 66, speciale, fruitee, brewdog, emptyImage, deux);
+            var kriek = new BeerModel("KRIEK", "Pour tuer Sylvain", 5, 8, lambic, fruitee, linderman, emptyImage, un);
+            var gueuze = new BeerModel("GUEUZE", "Messire!", 6, 4, lambic, brune, linderman, emptyImage, deux);
+            var faro = new BeerModel("FARO LAMBIC", "Sans W", 7, 7, ale, fruitee, brewdog, emptyImage, trois);
+            var nipa = new BeerModel("NINKASI IPA", "La lyonnaise classique", 8, (float)6.05, ipa, blonde, ninkasi, emptyImage, deux);
+            var nblance = new BeerModel("NINKASI BLANCHE", "La lyonnaise au blé", 9, 3, ale, blanche, ninkasi, emptyImage, un);
+            var npa = new BeerModel("NINKASI PALE ALE", "La lyonnaise d'Angleterre", 10, (float)4.5, smoked, brune, ninkasi, emptyImage, deux);
             IEnumerable<BeerModel> beers = new BeerModel[] { punk, hazy, cloud, elvis, kriek, gueuze, faro, nipa, nblance, npa };
-
+            //AddAndWait(BeerManager, punk, hazy, ...);
             return AddAndWait(beers, BeerManager);
         }
 

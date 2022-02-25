@@ -37,7 +37,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
         public DbSet<BeerEntity> Beers { get; set; }
         public DbSet<BreweryEntity> Brewerys { get; set; }
         public DbSet<BeerColorEntity> BeerColors { get; set; }
-        public DbSet<BeerStyleEntity> BeerStyles { get; set; }
+        public DbSet<BeerStyleEntity> BeerStyles { get; set; } 
+        //public DbSet<ImageEntity> ImageEntities { get; set; }
         public DbSet<CountryEntity> Countrys { get; set; }
         public DbSet<IngredientEntity> Ingredients { get; set; }
         public DbSet<HopEntity> Hops { get; set; }
@@ -66,6 +67,7 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             OnStyleCreating(modelBuilder);
             OnColorCreating(modelBuilder);
             OnCountryCreating(modelBuilder);
+            //OnImageCreating(modelBuilder);
 
             // Enities Abstracts et dérivées (Beer)           
             OnIngredientCreating(modelBuilder);
@@ -82,6 +84,17 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Entities de base (Interractions User-Beer)
             OnUserBeerCreating(modelBuilder);
         }
+
+        //private void OnImageCreating(ModelBuilder modelBuilder)
+        //{
+        //    EntityTypeBuilder<ImageEntity> typeBuilder = modelBuilder.Entity<ImageEntity>();
+        //    var idName = "ImageId";
+        //    // Configuration nom de table et clef primaire
+        //    typeBuilder.ToTable("Image").HasKey(im => im.Id).HasName(idName);
+        //    typeBuilder.Property(im => im.Id).HasColumnName(idName).ValueGeneratedOnAdd();
+        //    // Configuration Relations
+        //    typeBuilder.HasOne(im => im.Beer).WithOne(b => b.Image).OnDelete(DeleteBehavior.Cascade);
+        //}
 
         #region Méthodes de configuration des models
         private void OnBeerCreating(ModelBuilder modelBuilder)
@@ -105,6 +118,8 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             // Color
             typeBuilder.HasOne(be => be.Color).WithMany(c => c.Beers).OnDelete(DeleteBehavior.SetNull);
             typeBuilder.Navigation(be => be.Color).AutoInclude();
+            // Image 
+            typeBuilder.OwnsOne(be => be.Image, im => { im.ToTable("Image"); });
             // Ingredients - BeerIngredient
             typeBuilder.HasMany(b => b.Ingredients).WithMany(i => i.Beers)
                            .UsingEntity<BeerIngredient>(

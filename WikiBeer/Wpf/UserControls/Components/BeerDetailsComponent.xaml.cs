@@ -119,7 +119,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             {
                 var file = fileDialog.OpenFile() as FileStream;
                 var userImage = File.ReadAllBytes(file.Name);
-                BeerDetails.RawPicture = userImage;
+                BeerDetails.Image = new ImageModel(userImage);
             }
 
 

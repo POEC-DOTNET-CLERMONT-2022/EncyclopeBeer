@@ -67,6 +67,7 @@
                         <ComboBox x:Name="BreweriesComboBox"
                                   ItemsSource="{Binding Breweries.List}"
                                   Text="{Binding BeerDetails.Brewery.Name}"
+                                  SelectedItem ="{Binding BeerDetails.Brewery}"
                                   DisplayMemberPath="Name"
                                   IsEditable="True">
                         </ComboBox>
@@ -76,6 +77,7 @@
                         <ComboBox Name="StylesComboBox" 
                                   ItemsSource="{Binding Styles.List}"
                                   Text="{Binding BeerDetails.Style.Name}"
+                                  SelectedItem ="{Binding BeerDetails.Style}"
                                   DisplayMemberPath="Name"
                                   IsEditable="True" StaysOpenOnEdit="True"
                                   VerticalContentAlignment="Center">
@@ -86,6 +88,7 @@
                         <ComboBox Name="ColorsComboBox"
                                   ItemsSource="{Binding Colors.List}"
                                   Text="{Binding BeerDetails.Color.Name}"
+                                  SelectedItem ="{Binding BeerDetails.Color}"
                                   DisplayMemberPath="Name"
                                   IsEditable="True" StaysOpenOnEdit="True"
                                   VerticalContentAlignment="Center">
@@ -149,7 +152,7 @@
                 </Grid>
                 <StackPanel Grid.Column="2" Margin="10,10" HorizontalAlignment="Center">
                     <Border BorderBrush="Gainsboro" BorderThickness="4" CornerRadius="5" Margin="0,0,0,5">
-                        <Image Height="175" Width="175" Source="{Binding BeerDetails.RawPicture, Converter={StaticResource BytesToBitmap}}"/>
+                        <Image Height="175" Width="175" Source="{Binding BeerDetails.Image.ByteImage, Converter={StaticResource BytesToBitmap}}"/>
                     </Border>
                     <Button Content="Change picture" Height="25" Width="100" Click="SelectPicture_Button_Click"/>
                 </StackPanel>

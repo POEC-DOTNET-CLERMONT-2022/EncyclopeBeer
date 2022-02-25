@@ -19,24 +19,19 @@ namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
             CreateMap<BeerDto, BeerModel>().ReverseMap();
 
             /// Exemples implicites : 
-            #region Types simples (Brassseur, Style, Couleur, Pays, User)
             CreateMap<BreweryDto, BreweryModel>().ReverseMap();
             CreateMap<BeerColorDto, BeerColorModel>().ReverseMap();
             CreateMap<BeerStyleDto, BeerStyleModel>().ReverseMap();
             CreateMap<CountryDto, CountryModel>().ReverseMap();
             CreateMap<UserDto, UserModel>().ReverseMap();
-            #endregion
-
-            #region Ingredients : abstract puis dérivées
+            CreateMap<ImageDto, ImageModel>().ReverseMap();
+            
             /// voir https://docs.automapper.org/en/stable/Lists-and-arrays.html#
             CreateMap<IngredientDto, IngredientModel>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
             CreateMap<IngredientModel, IngredientDto>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées
-            #region Dérivées
             CreateMap<HopDto, HopModel>().ReverseMap();
             CreateMap<CerealDto, CerealModel>().ReverseMap();
             CreateMap<AdditiveDto, AdditiveModel>().ReverseMap();
-            #endregion
-            #endregion
 
         }
     }
