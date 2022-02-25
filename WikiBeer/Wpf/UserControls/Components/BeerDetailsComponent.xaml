@@ -9,7 +9,8 @@
              mc:Ignorable="d" x:Name="root"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
-        <!--<converter:StringFloatConverter x:Key="SFConverter"/>--> 
+        <!--<converter:StringFloatConverter x:Key="SFConverter"/>-->
+        <converter:ByteArrayToBitmapImageConverter x:Key="BytesToBitmap"/>
         <ControlTemplate x:Key="ValidationTemplate">
             <WrapPanel>
                 <AdornedElementPlaceholder/>
@@ -131,7 +132,7 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                         <Label Content="{Binding Name}" HorizontalAlignment="Left"/>
                                         <Button Height="20" Width="20" FontWeight="Bold"
-                                                Click="Button_Click" HorizontalAlignment="Right">
+                                                Click="DeletIngredient_Button_Click" HorizontalAlignment="Right">
                                             <Image>
                                                 <Image.Source>
                                                     <BitmapImage UriSource="/Img/remove.png"/>
@@ -146,11 +147,11 @@
                     <StackPanel Grid.Row="3" VerticalAlignment="Center" Margin="10,0">
                     </StackPanel>
                 </Grid>
-                <StackPanel Grid.Column="2" Margin="10,10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,5">
-                        <Image Height="200" Width="200"/>
+                <StackPanel Grid.Column="2" Margin="10,10" HorizontalAlignment="Center">
+                    <Border BorderBrush="Gainsboro" BorderThickness="4" CornerRadius="5" Margin="0,0,0,5">
+                        <Image Height="175" Width="175" Source="{Binding BeerDetails.RawPicture, Converter={StaticResource BytesToBitmap}}"/>
                     </Border>
-                    <Button Content="Change picture" Height="25" Width="100"/>
+                    <Button Content="Change picture" Height="25" Width="100" Click="SelectPicture_Button_Click"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="Description" Grid.Row="1">

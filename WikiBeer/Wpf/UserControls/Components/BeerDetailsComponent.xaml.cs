@@ -1,5 +1,8 @@
 ﻿using Ipme.WikiBeer.Models;
 using Ipme.WikiBeer.Models.Ingredients;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -97,10 +100,30 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DeletIngredient_Button_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             BeerDetails.Ingredients.Remove((IngredientModel)btn.DataContext);
+        }
+
+        private void SelectPicture_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+            fileDialog.FileName = "Picture";
+            fileDialog.Filter = "Image Files (*.bmp;*.png;*.jpg)|*.bmp;*.png;*.jpg";
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            
+            bool? result = fileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                var file = fileDialog.OpenFile() as FileStream;
+                var userImage = File.ReadAllBytes(file.Name);
+                BeerDetails.RawPicture = userImage;
+            }
+
+
+
         }
     }
 }

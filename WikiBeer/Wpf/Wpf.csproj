@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Ipme.WikiBeer.Wpf</AssemblyName>
     <RootNamespace>Ipme.WikiBeer.Wpf</RootNamespace>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
