@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Beer } from "../../models/beer";
+import { Beer } from "../../../models/beer";
 import { ActivatedRoute } from "@angular/router";
 import { BeerService } from 'src/services/beer.service';
 
@@ -10,7 +10,7 @@ import { BeerService } from 'src/services/beer.service';
 })
 export class BeerDetailsComponent implements OnInit {
 
-  public beer!: Beer;
+  public beer: Beer;
   public tnull: string = null;
 /*   @Input()
   beer!: Beer;

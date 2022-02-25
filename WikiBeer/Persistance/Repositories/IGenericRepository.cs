@@ -9,18 +9,18 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public interface IGenericRepository<T> where T : class, IEntity
     {
-        Task<T?> CreateAsync(T entityToCreate);
+        Task<T> CreateAsync(T entityToCreate);
 
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<IEnumerable<T>> GetAllNoIncludeAsync();
 
-        Task<T?> GetByIdAsync(Guid id);
+        Task<T> GetByIdAsync(Guid id);
 
-        Task<T?> GetByIdNoIncludeAsync(Guid id);
+        Task<T> GetByIdNoIncludeAsync(Guid id);
 
-        Task<T?> UpdateAsync(T entity);
+        Task<T> UpdateAsync(T entity);
 
-        Task<bool?> DeleteByIdAsync(Guid id);
+        Task DeleteByIdAsync(Guid id);
     }
 }

@@ -88,8 +88,8 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private CountryModel _country;
-        public CountryModel Country
+        private CountryModel? _country;
+        public CountryModel? Country
         {
             get { return _country; }
             set
@@ -120,25 +120,25 @@ namespace Ipme.WikiBeer.Models
         }
 
         public UserModel(Guid id, string nickName, DateTime birthDate, string email, int hashCode, 
-            bool isCertified, CountryModel country, ObservableCollection<Guid> favotiteBeerIds)
+            bool isCertified, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
         {
             Id = id;
-            NickName = nickName;
+            NickName = nickName ?? String.Empty;
             BirthDate = birthDate;
-            Email = email;
+            Email = email ?? String.Empty;
             HashCode = hashCode;
             IsCertified = isCertified;
             Country = country;
-            FavoriteBeerIds = favotiteBeerIds;
+            FavoriteBeerIds = favoriteBeerIds ?? new ObservableCollection<Guid>();
         }
 
         public UserModel(string nickName, DateTime birthDate, string email, int hashCode,
-            bool isCertified, CountryModel country, ObservableCollection<Guid> favoriteBeerIds)
+            bool isCertified, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
             : this(Guid.Empty, nickName, birthDate, email, hashCode, isCertified, country, favoriteBeerIds)
         {
         }
 
-        public UserModel(UserModel user)
+        private UserModel(UserModel user)
         {
             Id = user.Id;
             NickName = user.NickName;
@@ -146,7 +146,7 @@ namespace Ipme.WikiBeer.Models
             Email = user.Email;
             HashCode = user.HashCode;
             IsCertified = user.IsCertified;
-            Country = user.Country.DeepClone();
+            Country = user.Country?.DeepClone();
             FavoriteBeerIds = new ObservableCollection<Guid>();
             foreach (var beerId in user.FavoriteBeerIds)
             {

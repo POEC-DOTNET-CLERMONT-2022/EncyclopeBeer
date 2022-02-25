@@ -19,16 +19,18 @@ namespace Ipme.WikiBeer.Dtos.SerializerSettings
 
         public static DefaultContractResolver contractResolver { get; } = new DefaultContractResolver
         {
-            NamingStrategy = new CamelCaseNamingStrategy(),
+            NamingStrategy = new CamelCaseNamingStrategy(),           
         };
 
         public static JsonSerializerSettings StandartSettings { get; } = new JsonSerializerSettings { 
             TypeNameHandling = TypeNameHandling.Auto, 
+            NullValueHandling = NullValueHandling.Include,
             SerializationBinder = KnownTypesBinder,
             ContractResolver = contractResolver};
         
         public static JsonSerializerSettings SpecialSettings = new JsonSerializerSettings { 
-            TypeNameHandling = TypeNameHandling.Objects, 
+            TypeNameHandling = TypeNameHandling.Objects,
+            NullValueHandling = NullValueHandling.Include,
             SerializationBinder = KnownTypesBinder,
             ContractResolver = contractResolver};
         

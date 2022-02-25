@@ -38,21 +38,21 @@ namespace Ipme.WikiBeer.Models.Ingredients
         }
 
 
-        public IngredientModel(string name, string desription) : this(Guid.Empty, name, desription)
+        public IngredientModel(string name, string description) : this(Guid.Empty, name, description)
         {
         }
 
-        public IngredientModel(Guid id, string name, string desription)
+        public IngredientModel(Guid id, string name, string description)
         {
             Id = id;
-            Name = name;
-            Description = desription;
+            Name = name ?? String.Empty;
+            Description = description ?? String.Empty;
         }
 
-        public IngredientModel(IngredientModel ingredient)
-            : this(ingredient.Id, ingredient.Name, ingredient.Description)
-        {
-        }
+        //public IngredientModel(IngredientModel ingredient)
+        //    : this(ingredient.Id, ingredient.Name, ingredient.Description)
+        //{            
+        //}
 
         public abstract IngredientModel DeepClone();
     }

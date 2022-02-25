@@ -10,6 +10,16 @@ namespace Ipme.WikiBeer.Models
 
         private T? _toModify;
 
+        public GenericListModel()
+        {
+            _list = new ObservableCollection<T>();
+        }
+
+        public GenericListModel(ObservableCollection<T> list)
+        {
+            _list = list;
+        }
+
         public ObservableCollection<T> List
         {
             get { return _list; }
@@ -23,7 +33,7 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        public T Current
+        public T? Current
         {
             get { return _current; }
             set
@@ -34,13 +44,13 @@ namespace Ipme.WikiBeer.Models
                     OnNotifyPropertyChanged();
                     if(_current != null)
                     {
-                        ToModify = Current.DeepClone();
+                        ToModify = _current.DeepClone();
                     }
                 }
             }
         }
 
-        public T ToModify
+        public T? ToModify
         {
             get
             {
@@ -48,8 +58,11 @@ namespace Ipme.WikiBeer.Models
             }
             set
             {
-                _toModify = value;
-                OnNotifyPropertyChanged();
+                if (_toModify != value)
+                {
+                    _toModify = value;
+                    OnNotifyPropertyChanged();
+                }
             }
         }
     }

@@ -6,9 +6,9 @@ namespace Ipme.WikiBeer.Models
     {
         public ObservableCollection<T> List { get; set; }
 
-        public T Current { get; set; }
+        public T? Current { get; set; }
 
-        public T ToModify { get; set; }
+        public T? ToModify { get; set; }
 
     }
 }

@@ -91,10 +91,11 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
-                    b.Property<float?>("Ibu")
+                    b.Property<float>("Ibu")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")

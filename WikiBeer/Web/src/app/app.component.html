@@ -1,12 +1,30 @@
 <header>
-  Le Header avec la navBar
+  <app-navbar></app-navbar>
 </header>
 
 <div>
   <router-outlet></router-outlet>
-<!--  <app-listbeers></app-listbeers> -->
 </div>
 
 <footer>
   Un Footer
 </footer>
+
+
+<!-- <div id="app" class="d-flex flex-column h-100">
+  <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+    <app-loading></app-loading>
+  </div>
+
+  <ng-template #loaded>
+    <app-nav-bar></app-nav-bar>
+
+    <div class="container flex-grow-1">
+      <div class="mt-5">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </ng-template>
+</div> -->

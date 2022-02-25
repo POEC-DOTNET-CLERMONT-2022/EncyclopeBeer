@@ -9,8 +9,8 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
 {
     public class UsersController : GenericController<UserEntity, UserDto>
     {
-        public UsersController(IGenericRepository<UserEntity> dbRepository, IMapper mapper)
-            : base(dbRepository, mapper)
+        public UsersController(IGenericRepository<UserEntity> dbRepository, IMapper mapper, ILogger<UsersController> logger)
+            : base(dbRepository, mapper, logger)
         {
         }
     }

@@ -16,8 +16,8 @@ namespace Ipme.WikiBeer.Entities
     {       
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public string? Description { get; private set; }
-        public float? Ibu { get; private set; }
+        public string Description { get; private set; }
+        public float Ibu { get; private set; }
         public float Degree { get; private set; }        
         public ImageEntity Image { get; private set; }
         public BreweryEntity? Brewery { get; private set; }
@@ -28,7 +28,7 @@ namespace Ipme.WikiBeer.Entities
         public IEnumerable<IngredientEntity>? Ingredients { get; private set; }
         public IEnumerable<BeerIngredient>? BeerIngredients { get; private set; }
  
-        private BeerEntity(Guid id, string name, string? description, float? ibu, float degree)
+        private BeerEntity(Guid id, string name, string description, float ibu, float degree)
         {
             Id = id;
             Name = name;
@@ -37,7 +37,7 @@ namespace Ipme.WikiBeer.Entities
             Degree = degree;
         }
 
-        public BeerEntity(Guid id, string name, string? description, float? ibu, float degree, BeerStyleEntity? style,
+        public BeerEntity(Guid id, string name, string description, float ibu, float degree, BeerStyleEntity? style,
             BeerColorEntity? color, BreweryEntity? brewery,
             IEnumerable<IngredientEntity>? ingredients, IEnumerable<BeerIngredient>? beerIngredients)//, IEnumerable<UserBeer>? userBeers)
             : this(id, name, description, ibu, degree)

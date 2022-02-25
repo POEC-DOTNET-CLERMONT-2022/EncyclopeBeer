@@ -1,11 +1,14 @@
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListBeersComponent } from './listbeers/listbeers.component';
-import { BeerDetailsComponent } from './beerdetails/beerdetails.component';
+import { ListBeersComponent } from './components/listbeers/listbeers.component';
+import { BeerDetailsComponent } from './components/beerdetails/beerdetails.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const routes: Routes = [
-  {path: 'beers', component: ListBeersComponent},
-  {path: 'beers'+'/:beerId', component: BeerDetailsComponent}
+  {path: NavbarComponent.pathBeerList, component: ListBeersComponent},
+  {path: NavbarComponent.pathBeerList+'/:beerId', component: BeerDetailsComponent},
+  {path: NavbarComponent.pathUserProfile, component: UserProfileComponent}
 ];
 
 @NgModule({

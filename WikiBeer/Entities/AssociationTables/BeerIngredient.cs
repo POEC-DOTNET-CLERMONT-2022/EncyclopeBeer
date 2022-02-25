@@ -40,15 +40,15 @@ namespace Ipme.WikiBeer.Entities.AssociationTables
 
         public bool Equals(IAssociationTable? other)
         {
-            if (other == null || other is not BeerIngredient) return false;
+            if (other is null || other is not BeerIngredient) return false;
             else return this.GetCompositeKey() == other.GetCompositeKey();
         }
 
         public override bool Equals(object? obj)
         {
-            if (obj == null) return false;
+            if (obj is null) return false;
             var other = obj as IAssociationTable;
-            if (other == null) return false;
+            if (other is null) return false;
             return Equals(other);
         }
 

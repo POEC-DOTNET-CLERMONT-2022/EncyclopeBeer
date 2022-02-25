@@ -22,7 +22,7 @@ namespace Ipme.WikiBeer.Dtos.SerializerSettings
             get { return true; }
         }
 
-        public DtoConverter(JsonSerializerSettings standartSettings, JsonSerializerSettings specialSettings, IEnumerable<Type> specialTypes = null)
+        public DtoConverter(JsonSerializerSettings standartSettings, JsonSerializerSettings specialSettings, IEnumerable<Type>? specialTypes = null)
         {
             StandartSerializer = JsonSerializer.Create(standartSettings);
             SpecialSerializer = JsonSerializer.Create(specialSettings);
