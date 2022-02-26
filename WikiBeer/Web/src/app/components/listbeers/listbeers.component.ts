@@ -9,7 +9,8 @@ import { Beer } from 'src/models/beer';
 })
 export class ListBeersComponent implements OnInit {
 
-  public beers: Beer[] = [];
+  beers: Beer[] = [];
+  filterTerm!: string;
 
   constructor(public beerService: BeerService) {}
 

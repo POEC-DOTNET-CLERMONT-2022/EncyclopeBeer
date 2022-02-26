@@ -121,9 +121,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
                 var userImage = File.ReadAllBytes(file.Name);
                 BeerDetails.Image = new ImageModel(userImage);
             }
-
-
-
         }
     }
 }

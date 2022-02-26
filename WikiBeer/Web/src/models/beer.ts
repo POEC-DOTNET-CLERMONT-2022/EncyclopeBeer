@@ -1,5 +1,7 @@
+import { Byte } from "@angular/compiler/src/util";
 import { Brewery } from "./brewery";
 import { Color } from "./color";
+import { Image } from "./image";
 import { Ingredient } from "./ingredients/ingredient";
 import { Style } from "./style";
 
@@ -14,9 +16,10 @@ export class Beer
   private _style: Style;
   private _color: Color;
   private _ingredients: Ingredient[] = []
+  private _image: Image
 
   constructor(id: string, name: string, description: string, ibu: number, degree: number, brewery: Brewery,
-    style: Style, color: Color, ingredient: Ingredient) {
+    style: Style, color: Color, ingredient: Ingredient, image: Image) {
     this._id = id;
     this._name = name;
     this._description = description;
@@ -26,6 +29,7 @@ export class Beer
     this._style = style;
     this._color = color;
     this._ingredients;
+    this._image = image;
   }
 
   get id(): string {return this._id;}
@@ -55,4 +59,6 @@ export class Beer
   get ingredients(): Ingredient[] {return this._ingredients;}
   set ingredients(value: Ingredient[]) {this._ingredients = value;}
 
+  get image(): Image {return this._image;}
+  set image(value: Image) {this._image = value;}
 }

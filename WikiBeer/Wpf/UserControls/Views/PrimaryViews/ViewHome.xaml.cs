@@ -65,7 +65,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
 
         private void Button_Click_User(object sender, RoutedEventArgs e)
         {
-            //Navigator.NavigateTo(typeof(ViewUsers));
+            Navigator.NavigateTo(typeof(ViewUsers));
         }
 
         private void root_Loaded(object sender, RoutedEventArgs e)
@@ -76,7 +76,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             Navigator.RegisterView(new ViewColors());
             Navigator.RegisterView(new ViewStyles());
             Navigator.RegisterView(new ViewIngredients());
-            //Navigator.RegisterView(new ViewUsers());
+            Navigator.RegisterView(new ViewUsers());
         }
     }
 }
