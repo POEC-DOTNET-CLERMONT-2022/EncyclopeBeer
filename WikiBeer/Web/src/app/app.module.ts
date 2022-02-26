@@ -15,6 +15,7 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
 import { AuthenticationButtonComponent } from './components/authentication-button/authentication-button.component';
 import { AuthNavComponent } from './components/auth-nav/auth-nav.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserService } from 'src/services/user.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true
-  }],
+  }, UserService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
