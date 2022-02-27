@@ -13,15 +13,4 @@ import { environment as env } from '../environments/environment';
   providers: [],
 })
 
-/* @NgModule({
-  imports: [
-    AuthModule.forRoot({
-      domain: "docapc.eu.auth0.com",
-      clientId: "W9tn0YyioeRSuxsT01vPIj8tAbTt1KpD"
-    })
-  ],
-  exports: [AuthModule],
-  declarations: [],
-  providers: [],
-}) */
 export class AppAuthenticationModule { }

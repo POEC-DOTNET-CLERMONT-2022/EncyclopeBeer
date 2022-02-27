@@ -4,11 +4,11 @@ import { User } from 'src/models/users/user';
 import { UserService } from 'src/services/user.service';
 
 @Component({
-  selector: 'app-beer-card',
-  templateUrl: './beer-card.component.html',
-  styleUrls: ['./beer-card.component.scss']
+  selector: 'app-star',
+  templateUrl: './star.component.html',
+  styleUrls: ['./star.component.scss']
 })
-export class BeerCardComponent implements OnInit {
+export class StarComponent implements OnInit {
 
   public userService: UserService;
 
@@ -22,6 +22,7 @@ export class BeerCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.user.subscribe((u :User) => this.user = u);
+    console.log(this.beer);
   }
 
 }

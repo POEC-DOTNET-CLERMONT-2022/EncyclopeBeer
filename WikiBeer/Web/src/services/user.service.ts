@@ -9,7 +9,6 @@ import { UserProfile } from "src/models/users/user-profile";
 import { UserConnectionInfos } from "src/models/users/user-connection-infos";
 import { UserProfileService } from "./user-profile.service";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -118,7 +117,5 @@ export class UserService implements OnInit, OnDestroy{
     }
 
   }
-
-
 }
 /* new UserConnectionInfos(u.connectionInfos.connectionId, u.connectionInfos.email, u.connectionInfos.isEmailVerified) */

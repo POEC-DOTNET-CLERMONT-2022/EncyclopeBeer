@@ -17,9 +17,7 @@ export class BeerDetailsComponent implements OnInit {
 
   public userService : UserService;
   public user: User;
-/*   @Input()
-  beer!: Beer;
-*/
+
   constructor(private activatedRoute: ActivatedRoute, public beerService: BeerService, userService: UserService) {
     this.userService = userService;
    }
@@ -31,22 +29,12 @@ export class BeerDetailsComponent implements OnInit {
       {
         this.beerService.getBeerById(param['beerId']).subscribe
         (
-          (beer: Beer) => {this.beer = beer; /* console.log(this.beer); console.log(this.beer.name); */}
+          (beer: Beer) => {this.beer = beer;}
         );
-
       }
     )
     this.userService.user.subscribe((u: User) => this.user = u);
+    console.log(this.beer);
   }
-
-/*   isFavoriteBeer() : boolean  {
-
-    if(this.user.profile.favoriteBeerIds.includes(this.beer.id)){
-      return true;
-    }
-    else{
-      return false;
-    }
-  } */
 
 }

@@ -17,7 +17,6 @@ export class ListBeersComponent implements OnInit {
   filterTerm!: string;
   private _beerService : BeerService;
   private _userService : UserService;
-  private _auth : AuthService;
   public user : User;
 
   constructor(beerService: BeerService, userService: UserService) {
@@ -28,7 +27,7 @@ export class ListBeersComponent implements OnInit {
   ngOnInit(): void {
     this.pullBeers(); /* fonctionne */
     this._userService.user.subscribe((u) => this.user = u);
-    this._userService.setUserConnectionInfos(this.user);
+    this._userService.trySetUserConnectionInfos(this.user);
     this._userService.trySetUserProfile(this.user);
     this._userService.updateUser(this.user);
   }

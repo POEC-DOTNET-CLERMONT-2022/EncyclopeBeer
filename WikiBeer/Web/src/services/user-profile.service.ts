@@ -16,7 +16,6 @@ export class UserProfileService {
       'Content-Type': 'application/json-patch+json',
     })
   };
-  /* httpClient par injection de dépendance */
   private _httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {
@@ -34,7 +33,7 @@ export class UserProfileService {
     .pipe(map( (data: UserProfile) => {return data;}));
   }
 
-  getFavoriteBeer(id: string): Observable<Beer>{
+  getFavoriteBeers(id: string): Observable<Beer>{
     return this._httpClient.get<Beer>(this.baseUrl + this.userController + id +"/favoritesBeers" );
   }
 
@@ -43,4 +42,8 @@ export class UserProfileService {
     return this._httpClient.post<UserProfile>(this.baseUrl + this.userController, body, this.headers)
   }
 
+  putUserProfile(profile: UserProfile): Observable<UserProfile>{
+    const body = JSON.stringify(UserProfile)
+    return this._httpClient.post<UserProfile>(this.baseUrl + this.userController + profile.id, body, this.headers)
+  }
 }
