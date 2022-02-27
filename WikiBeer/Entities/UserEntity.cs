@@ -16,6 +16,8 @@ namespace Ipme.WikiBeer.Entities
         public int HashCode { get; private set; } // pour le password (qui ne doit pas transiter en dehors du front)
         public bool IsCertified { get; private set; }
 
+        public ConnectionInfosEntity ConnectionInfos { get; private set; }
+
         public CountryEntity? Country { get; private set; }
 
         public IEnumerable<UserBeer> UserBeers { get; private set; }
@@ -31,9 +33,10 @@ namespace Ipme.WikiBeer.Entities
         }
 
         public UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified,
-            CountryEntity? country, IEnumerable<UserBeer> userBeers)
+            ConnectionInfosEntity connectionInfos, CountryEntity? country, IEnumerable<UserBeer> userBeers)
             : this(id, nickName, birthDate, email, hashCode, isCertified)
         {
+            ConnectionInfos = connectionInfos;
             Country = country;
             UserBeers = userBeers;
         }

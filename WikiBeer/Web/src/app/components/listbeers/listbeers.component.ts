@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BeerService } from 'src/services/beer.service';
 import { Beer } from 'src/models/beer';
+import { AuthService } from '@auth0/auth0-angular';
+
+import { UserService } from 'src/services/user.service';
+import { User } from 'src/models/users/user';
 
 @Component({
   selector: 'app-listbeers',
@@ -11,16 +15,30 @@ export class ListBeersComponent implements OnInit {
 
   public beers: Beer[] = [];
 
-  constructor(public beerService: BeerService) {}
+  private _beerService : BeerService;
+  private _userService : UserService;
+  private _auth : AuthService;
+  public user : User;
+
+  constructor(beerService: BeerService, userService: UserService, auth: AuthService) {
+    this._beerService = beerService;
+    this._userService = userService;
+    this._auth = auth;
+  }
 
   ngOnInit(): void {
     this.pullBeers(); /* fonctionne */
+    this._userService.user.subscribe((u) => this.user = u);
+    this._userService.setUserConnectionInfos(this.user);
+    this._userService.setUserProfile(this.user);
+    this._userService.updateUser(this.user);
+    console.log(this.user);
   }
 
   /* Test GetAll */
   pullBeers()
   {
-    this.beerService.getBeers().subscribe((beerList: Beer[]) =>
+    this._beerService.getBeers().subscribe((beerList: Beer[]) =>
     {
       this.beers = beerList;
     })

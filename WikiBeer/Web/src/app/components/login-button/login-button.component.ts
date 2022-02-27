@@ -21,11 +21,11 @@ export class LoginButtonComponent implements OnInit {
   ngOnInit(): void {}
 
   loginWithRedirect(): void {
-    console.log("avant connecxion")
+    console.log("avant connexion")
     this._authService.loginWithRedirect();
-    this._userService.setUserConnectionInfos();
+    /* this._userService.setUserConnectionInfos();
     let user = this._userService.user;
     console.log(user);
-    console.log("après connexion")
+    console.log("après connexion") */
   }
 }

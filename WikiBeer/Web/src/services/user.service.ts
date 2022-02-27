@@ -1,48 +1,68 @@
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { BehaviorSubject, map, Observable } from "rxjs";
 import { User } from "src/models/users/user";
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "@auth0/auth0-angular";
 import { UserProfile } from "src/models/users/user-profile";
-import { IUserConnectionInfos } from "src/models/users/i-user-connection-infos";
+import { UserConnectionInfos } from "src/models/users/user-connection-infos";
+import { UserProfileService } from "./user-profile.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements OnInit{
+export class UserService implements OnInit, OnDestroy{
   /* ici la connection string de l'api*/
   baseUrl: string ='https://localhost:7160/api/';
   userController: string = 'users/';
   /* httpClient par injection de dépendance */
   private _httpClient: HttpClient;
+  private _userProfileService : UserProfileService;
   private _auth: AuthService;
 
-/*   public userConnectionInfo : IUserConnectionInfos; */
-  private _user : User;
+  private userSource = new BehaviorSubject<User>(new User());
+  user = this.userSource.asObservable();
 
-  constructor(httpClient: HttpClient, auth: AuthService)
+  constructor(httpClient: HttpClient, auth: AuthService, userProfileService : UserProfileService)
   {
     this._httpClient = httpClient;
+    this._userProfileService = userProfileService;
     this._auth = auth;
-    this._user = new User();
   }
 
   ngOnInit(): void {
-    /* this._auth.user$.subscribe((u) => this._user.setConnectionInfo(u)); */
   }
 
-  get user(): User {
-    return this._user;
+  ngOnDestroy() {
+    console.log(`Spy onDestroy`);
   }
 
-  setUserConnectionInfos(): void {
-    this._auth.user$.subscribe((u) => this._user.setConnectionInfo(u));
-    console.log(this._user);
+  setUserConnectionInfos(user: User): void {
+    this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
+      .subscribe({
+        next: (u: UserConnectionInfos) => user.connectionInfos = u,
+        error: () => {return null;}
+        });
   }
 
-  getUserProfileBySub(sub: string): Observable<UserProfile> {
-    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + sub)
+  setUserProfile(user: User): void {
+    this._userProfileService.getUserProfileById("stub")
+    .pipe(
+      map(
+        u => {return new UserProfile(u.id, u.nickname, u.isCertified, u.country, u.favoriteBeerIds,
+          u.connectionInfos)
+        }
+      )
+    )
+    .subscribe({
+      next : (p: UserProfile) => user.profile = p,
+      error : () => {return null;}
+    });
+  }
+
+  updateUser(user: User): void {
+    this.userSource.next(user);
   }
 
 }
+/* new UserConnectionInfos(u.connectionInfos.connectionId, u.connectionInfos.email, u.connectionInfos.isEmailVerified) */
