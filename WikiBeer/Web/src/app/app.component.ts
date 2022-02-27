@@ -10,7 +10,7 @@ import { User } from 'src/models/users/user';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnChanges{
+export class AppComponent implements OnInit{
 
   public title = 'WikiBeer';
   private _router: Router;
@@ -22,18 +22,8 @@ export class AppComponent implements OnInit, OnChanges{
     this._userService = userService;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this._router.navigate([NavbarComponent.pathBeerList]);
-/*     this._userService.user.subscribe((u) => this._user = u);
-    this._userService.setUserConnectionInfos(this._user);
-    this._userService.setUserProfile(this._user);
-    this._userService.updateUser(this._user); */
-  }
-
-
   ngOnInit(): void {
       let tt = this._router.navigate([NavbarComponent.pathBeerList]);
-      console.log(tt);
       this._userService.user.subscribe((u) => this._user = u);
       this._userService.setUserConnectionInfos(this._user);
       this._userService.setUserProfile(this._user);

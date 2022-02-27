@@ -30,9 +30,7 @@ export class UserProfileService {
   }
 
   getUserProfileById(id: string): Observable<UserProfile> {
-/*     let id2: string = "a6c7d1fc-6d4a-48fa-d60b-08d9f8af6db5"; */
-    let id2 = id;
-    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + id2)
+    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + id)
     .pipe(map( (data: UserProfile) => {return data;}));
   }
 

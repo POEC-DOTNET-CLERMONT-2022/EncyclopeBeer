@@ -1,12 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, map, Observable } from "rxjs";
 import { User } from "src/models/users/user";
+import { Beer } from "src/models/beer";
 
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "@auth0/auth0-angular";
 import { UserProfile } from "src/models/users/user-profile";
 import { UserConnectionInfos } from "src/models/users/user-connection-infos";
 import { UserProfileService } from "./user-profile.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +65,28 @@ export class UserService implements OnInit, OnDestroy{
   updateUser(user: User): void {
     this.userSource.next(user);
   }
+
+  isConnected(user: User): boolean{
+    if (user.connectionInfos)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  isFavoriteBeer(beer: Beer, user: User) : boolean
+  {
+    if(user.profile.favoriteBeerIds.includes(beer.id)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
 
 }
 /* new UserConnectionInfos(u.connectionInfos.connectionId, u.connectionInfos.email, u.connectionInfos.isEmailVerified) */

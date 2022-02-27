@@ -15,13 +15,13 @@ export class BeerDetailsComponent implements OnInit {
   public beer: Beer;
   public tnull: string = null;
 
-  private _userService : UserService;
+  public userService : UserService;
   public user: User;
 /*   @Input()
   beer!: Beer;
 */
   constructor(private activatedRoute: ActivatedRoute, public beerService: BeerService, userService: UserService) {
-    this._userService = userService;
+    this.userService = userService;
    }
 
   ngOnInit(): void {
@@ -36,23 +36,19 @@ export class BeerDetailsComponent implements OnInit {
 
       }
     )
-    this._userService.user.subscribe((u: User) => this.user = u);
+    this.userService.user.subscribe((u: User) => this.user = u);
     console.log(this.user);
     console.log(this.beer.id)
   }
 
-  isFavoriteBeer() : boolean  {
+/*   isFavoriteBeer() : boolean  {
 
-    console.log(this.user.profile)
-    console.log(this.beer)
     if(this.user.profile.favoriteBeerIds.includes(this.beer.id)){
-      console.log("est favorite")
       return true;
     }
     else{
-      console.log("n'est pas favorite")
       return false;
     }
-  }
+  } */
 
 }
