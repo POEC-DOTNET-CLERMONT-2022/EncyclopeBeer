@@ -10,25 +10,21 @@ import { UserService } from 'src/services/user.service';
 })
 export class BeerCardComponent implements OnInit {
 
-  private _userService: UserService;
+  public userService: UserService;
 
   @Input() beer: Beer;
   public user: User;
 
   constructor(userService: UserService)
   {
-    this._userService = userService
+    this.userService = userService;
   }
 
   ngOnInit(): void {
-    this._userService.user.subscribe((u :User) => this.user = u);
+    this.userService.user.subscribe((u :User) => this.user = u);
   }
 
-
-  isFavoriteBeer() : boolean  {
-
-    console.log(this.user.profile)
-    console.log(this.beer)
+/*   isFavoriteBeer() : boolean  {
     if(this.user.profile.favoriteBeerIds.includes(this.beer.id)){
       return true;
     }
@@ -36,5 +32,5 @@ export class BeerCardComponent implements OnInit {
       return false;
     }
   }
-
+ */
 }

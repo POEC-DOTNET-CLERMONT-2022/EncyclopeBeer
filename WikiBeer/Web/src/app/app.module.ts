@@ -29,6 +29,7 @@ import { AuthenticationButtonComponent } from './components/authentication-butto
 import { AuthNavComponent } from './components/auth-nav/auth-nav.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserService } from 'src/services/user.service';
+import { BeerService } from 'src/services/beer.service';
 
 
 @NgModule({
@@ -61,7 +62,7 @@ import { UserService } from 'src/services/user.service';
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true
-  }, UserService],
+  }, UserService, BeerService],
   bootstrap: [AppComponent]
 })
 

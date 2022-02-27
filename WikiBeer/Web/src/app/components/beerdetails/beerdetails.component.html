@@ -10,8 +10,8 @@
     ">
     <div style="display: flex; flex-direction: row; justify-content: space-between">
       <div class="Beer-Details-Box" style="width: 50%; position: relative;">
-        <div *ngIf="user.connectionInfos">
-          <div *ngIf="isFavoriteBeer(); else notFavorite">
+        <div *ngIf="userService.isConnected(user)">
+          <div *ngIf="userService.isFavoriteBeer(beer,user); else notFavorite">
             <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute; color: rgb(245, 245, 35)"> grade </span>
           </div>
           <ng-template #notFavorite>
