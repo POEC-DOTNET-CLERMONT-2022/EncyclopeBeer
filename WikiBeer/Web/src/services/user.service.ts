@@ -62,6 +62,20 @@ export class UserService implements OnInit, OnDestroy{
     });
   }
 
+  trySetUserConnectionInfos(user: User): void{
+    if (this._auth.user$)
+    {
+      this.setUserConnectionInfos(user);
+    }
+  }
+
+  trySetUserProfile(user: User): void {
+    if (this.isConnected(user))
+    {
+      this.setUserProfile(user);
+    }
+  }
+
   updateUser(user: User): void {
     this.userSource.next(user);
   }
@@ -77,14 +91,32 @@ export class UserService implements OnInit, OnDestroy{
     }
   }
 
+  hasProfile(user: User): boolean{
+    if (user.profile)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
   isFavoriteBeer(beer: Beer, user: User) : boolean
   {
-    if(user.profile.favoriteBeerIds.includes(beer.id)){
-      return true;
+    if(this.hasProfile(user))
+    {
+      if(user.profile.favoriteBeerIds.includes(beer.id)){
+        return true;
+      }
+      else{
+        return false;
+      }
     }
     else{
       return false;
     }
+
   }
 
 

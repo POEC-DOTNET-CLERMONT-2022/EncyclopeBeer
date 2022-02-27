@@ -37,8 +37,6 @@ export class BeerDetailsComponent implements OnInit {
       }
     )
     this.userService.user.subscribe((u: User) => this.user = u);
-    console.log(this.user);
-    console.log(this.beer.id)
   }
 
 /*   isFavoriteBeer() : boolean  {

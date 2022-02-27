@@ -29,7 +29,7 @@ export class ListBeersComponent implements OnInit {
     this.pullBeers(); /* fonctionne */
     this._userService.user.subscribe((u) => this.user = u);
     this._userService.setUserConnectionInfos(this.user);
-    this._userService.setUserProfile(this.user);
+    this._userService.trySetUserProfile(this.user);
     this._userService.updateUser(this.user);
   }
 

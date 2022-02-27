@@ -14,20 +14,20 @@ export class AppComponent implements OnInit{
 
   public title = 'WikiBeer';
   private _router: Router;
-  private _userService: UserService;
-  private _user: User;
+  private userService: UserService;
+  public user: User;
 
   constructor(router: Router, userService: UserService) {
     this._router = router;
-    this._userService = userService;
+    this.userService = userService;
   }
 
   ngOnInit(): void {
       let tt = this._router.navigate([NavbarComponent.pathBeerList]);
-      this._userService.user.subscribe((u) => this._user = u);
-      this._userService.setUserConnectionInfos(this._user);
-      this._userService.setUserProfile(this._user);
-      this._userService.updateUser(this._user);
+      this.userService.user.subscribe((u) => this.user = u);
+      this.userService.trySetUserConnectionInfos(this.user);
+      this.userService.trySetUserProfile(this.user);
+      this.userService.updateUser(this.user);
     }
 
 
