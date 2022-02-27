@@ -37,7 +37,15 @@ namespace Ipme.WikiBeer.API.Controllers
         protected readonly ILogger _logger;
         protected readonly string _errInfo;
   
+        //protected GenericController(IMapper mapper, ILogger logger)
+        //{
+        //    _mapper = mapper;
+        //    _logger = logger;
+        //    _errInfo = $"From {GetType().Name}";
+        //}
+
         public GenericController(IGenericRepository<TEntity> dbRepository, IMapper mapper, ILogger logger)
+            //: this(mapper, logger)
         {
             _dbRepository = dbRepository;
             _mapper = mapper;

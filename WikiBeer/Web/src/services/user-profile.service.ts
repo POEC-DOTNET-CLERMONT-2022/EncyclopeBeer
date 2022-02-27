@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { Beer } from 'src/models/beer';
 import { UserProfile } from 'src/models/users/user-profile';
 
 @Injectable({
@@ -22,14 +23,19 @@ export class UserProfileService {
     this._httpClient = httpClient;
   }
 
-  getUserProfileBySub(sub: string): Observable<UserProfile> {
-    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + sub)
+  getUserProfileBySub(connectionId: string): Observable<UserProfile> {
+    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + connectionId)
   }
 
   getUserProfileById(id: string): Observable<UserProfile> {
-    let id2: string = "a6c7d1fc-6d4a-48fa-d60b-08d9f8af6db5";
+/*     let id2: string = "a6c7d1fc-6d4a-48fa-d60b-08d9f8af6db5"; */
+    let id2 = id;
     return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + id2)
     .pipe(map( (data: UserProfile) => {return data;}));
+  }
+
+  getFavoriteBeer(id: string): Observable<Beer>{
+    return this._httpClient.get<Beer>(this.baseUrl + this.userController + id +"/favoritesBeers" );
   }
 
   postUserProfile(profile: UserProfile): Observable<UserProfile>{

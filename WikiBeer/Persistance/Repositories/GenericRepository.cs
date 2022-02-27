@@ -40,7 +40,7 @@ namespace Ipme.WikiBeer.Persistance.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        private DbContext Context { get; }
+        protected DbContext Context { get; }
         protected readonly string _errInfo;
 
         public GenericRepository(DbContext context)

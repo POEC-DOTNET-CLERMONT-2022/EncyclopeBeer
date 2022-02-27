@@ -11,7 +11,7 @@ namespace Ipme.WikiBeer.Entities
         public string Id { get; private set; }
         public string Email { get; private set; }
         public bool IsVerified { get; private set; }
-        public UserEntity User { get; private set; }
+        //public UserEntity User { get; private set; }
 
         public ConnectionInfosEntity(string id, string email, bool isVerified)
         {
@@ -20,10 +20,10 @@ namespace Ipme.WikiBeer.Entities
             IsVerified = isVerified;
         }
 
-        public ConnectionInfosEntity(string id, string email, bool isVerified, UserEntity User)
-            : this(id,email,isVerified)
-        {
-            User = user;
-        }
+        //public ConnectionInfosEntity(string id, string email, bool isVerified, UserEntity user)
+        //    : this(id,email,isVerified)
+        //{
+        //    User = user;
+        //}
     }
 }

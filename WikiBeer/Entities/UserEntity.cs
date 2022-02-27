@@ -12,8 +12,7 @@ namespace Ipme.WikiBeer.Entities
         public Guid Id { get; private set; }
         public string NickName { get; private set; }
         public DateTime BirthDate { get; private set; }
-        public string Email { get; private set; }
-        public int HashCode { get; private set; } // pour le password (qui ne doit pas transiter en dehors du front)
+       
         public bool IsCertified { get; private set; }
 
         public ConnectionInfosEntity ConnectionInfos { get; private set; }
@@ -22,19 +21,17 @@ namespace Ipme.WikiBeer.Entities
 
         public IEnumerable<UserBeer> UserBeers { get; private set; }
 
-        private UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified)
+        private UserEntity(Guid id, string nickName, DateTime birthDate, bool isCertified)
         {
             Id = id;
             NickName = nickName;
             BirthDate = birthDate;
-            Email = email;
-            HashCode = hashCode;
             IsCertified = isCertified;
         }
 
         public UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified,
             ConnectionInfosEntity connectionInfos, CountryEntity? country, IEnumerable<UserBeer> userBeers)
-            : this(id, nickName, birthDate, email, hashCode, isCertified)
+            : this(id, nickName, birthDate, isCertified)
         {
             ConnectionInfos = connectionInfos;
             Country = country;
