@@ -24,8 +24,9 @@ export class BeerDetailsComponent implements OnInit {
       {
         this.beerService.getBeerById(param['beerId']).subscribe
         (
-          (beer: Beer) => this.beer = beer
-        )
+          (beer: Beer) => {this.beer = beer; /* console.log(this.beer); console.log(this.beer.name); */}
+        );
+
       }
     )
   }

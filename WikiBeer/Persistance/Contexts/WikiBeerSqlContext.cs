@@ -271,9 +271,11 @@ namespace Ipme.WikiBeer.Persistance.Contexts
             typeBuilder.Property(u => u.Id).HasColumnName(idName).ValueGeneratedOnAdd();
             // Configuration longueur des nvarchar 
             typeBuilder.Property(u => u.NickName).HasMaxLength(Rules.DEFAULT_NICKNAME_MAX_LENGTH);
-            typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
+            //typeBuilder.Property(u => u.Email).HasMaxLength(Rules.DEFAULT_MAIL_MAX_LENGTH);
 
             #region Configuration relations
+            // Connection 
+            typeBuilder.OwnsOne(u => u.ConnectionInfos, uc => { uc.ToTable("ConnectionInfos"); });
             // Country 
             typeBuilder.HasOne(c => c.Country).WithMany();
             typeBuilder.Navigation(u => u.Country).AutoInclude();
