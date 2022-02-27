@@ -1,16 +1,16 @@
 export class UserConnectionInfos{
 
-  private _connectionId: string;
+  private _id: string;
   private _email: string;
   private _isVerified: boolean;
 
-  constructor(connectionId: string, email: string, isEmailVerified: boolean) {
-    this._connectionId = connectionId;
+  constructor(id: string, email: string, isEmailVerified: boolean) {
+    this._id = id;
     this._email = email;
     this._isVerified = isEmailVerified;
   }
 
-  get connectionId(): string {return this._connectionId;}
+  get id(): string {return this._id;}
 
   get email(): string {return this._email;}
 

@@ -13,18 +13,16 @@ import { User } from 'src/models/users/user';
 })
 export class ListBeersComponent implements OnInit {
 
-  beers: Beer[] = [];
+  public beers: Beer[] = [];
   filterTerm!: string;
-
   private _beerService : BeerService;
   private _userService : UserService;
   private _auth : AuthService;
   public user : User;
 
-  constructor(beerService: BeerService, userService: UserService, auth: AuthService) {
+  constructor(beerService: BeerService, userService: UserService) {
     this._beerService = beerService;
     this._userService = userService;
-    this._auth = auth;
   }
 
   ngOnInit(): void {
@@ -33,7 +31,6 @@ export class ListBeersComponent implements OnInit {
     this._userService.setUserConnectionInfos(this.user);
     this._userService.setUserProfile(this.user);
     this._userService.updateUser(this.user);
-    console.log(this.user);
   }
 
   /* Test GetAll */

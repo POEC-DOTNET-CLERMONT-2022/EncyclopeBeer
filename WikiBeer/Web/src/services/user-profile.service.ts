@@ -24,7 +24,9 @@ export class UserProfileService {
   }
 
   getUserProfileBySub(connectionId: string): Observable<UserProfile> {
-    return this._httpClient.get<UserProfile>(this.baseUrl + this.userController + connectionId)
+    let tt = this._httpClient.get<UserProfile>(this.baseUrl + this.userController + "connection/" + connectionId);
+    console.log(this.baseUrl + this.userController + "connection/" + connectionId)
+    return tt;
   }
 
   getUserProfileById(id: string): Observable<UserProfile> {

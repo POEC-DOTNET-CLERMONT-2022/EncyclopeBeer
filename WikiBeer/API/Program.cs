@@ -88,7 +88,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // en premier
-app.UseAuthorization(); // en deuxième
+//app.UseAuthorization(); // en deuxième
 
 app.MapControllers();
 

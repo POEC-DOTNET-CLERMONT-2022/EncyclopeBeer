@@ -18,7 +18,7 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
             _dbRepository = dbRepository;
         }
 
-        [HttpGet("connection/{id}")]
+        [HttpGet("connection/{connectionId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

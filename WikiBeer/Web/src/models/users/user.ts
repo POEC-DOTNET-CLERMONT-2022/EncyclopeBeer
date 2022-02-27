@@ -11,12 +11,6 @@ export class User{
     this._profile = userProfile;
   }
 
-/*   setConnectionInfo(userConnectionInfos: UserConnectionInfos){
-    this._connectionInfos = userConnectionInfos;
-  }
- */
-
-
   get connectionInfos (): UserConnectionInfos {return this._connectionInfos;}
   set connectionInfos (value: UserConnectionInfos) {this._connectionInfos = value;}
 

@@ -10,7 +10,14 @@
     ">
     <div style="display: flex; flex-direction: row; justify-content: space-between">
       <div class="Beer-Details-Box" style="width: 50%; position: relative;">
-        <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute;"> grade </span>
+        <div *ngIf="user.connectionInfos">
+          <div *ngIf="isFavoriteBeer(); else notFavorite">
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute; color: rgb(245, 245, 35)"> grade </span>
+          </div>
+          <ng-template #notFavorite>
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute; "> grade </span>
+          </ng-template>
+        </div>
         <div class="Beer-Details" style="padding: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
           <p class="BeerName" style="font-weight: bolder; font-size: xx-large;">
             {{ beer.name }}

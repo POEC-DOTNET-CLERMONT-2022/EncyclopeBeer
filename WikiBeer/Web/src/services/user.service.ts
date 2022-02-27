@@ -46,7 +46,7 @@ export class UserService implements OnInit, OnDestroy{
   }
 
   setUserProfile(user: User): void {
-    this._userProfileService.getUserProfileById("stub")
+    this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
     .pipe(
       map(
         u => {return new UserProfile(u.id, u.nickname, u.isCertified, u.country, u.favoriteBeerIds,
