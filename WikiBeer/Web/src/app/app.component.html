@@ -1,30 +1,25 @@
-<header>
+<header class="AppHeader" style="height: 50px;">
   <app-navbar></app-navbar>
 </header>
 
-<div>
+<div class="AppBody"
+     style="background-color: rgb(236, 236, 236);
+            min-height: 100%;
+            padding-top: 50px; padding-bottom: 50px;">
   <router-outlet></router-outlet>
 </div>
 
-<footer>
-  Un Footer
+<footer class="AppFooter"
+        style="height: 50px;
+               width: 100%;
+               background-color: black;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               color: white;
+               position: fixed;
+               bottom: 0;">
+  Wikibeer, une application qu'elle est bien
 </footer>
 
 
-<!-- <div id="app" class="d-flex flex-column h-100">
-  <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
-    <app-loading></app-loading>
-  </div>
-
-  <ng-template #loaded>
-    <app-nav-bar></app-nav-bar>
-
-    <div class="container flex-grow-1">
-      <div class="mt-5">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-
-    <app-footer></app-footer>
-  </ng-template>
-</div> -->

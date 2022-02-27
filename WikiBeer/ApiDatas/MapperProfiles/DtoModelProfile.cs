@@ -25,6 +25,7 @@ namespace Ipme.WikiBeer.ApiDatas.MapperProfiles
             CreateMap<CountryDto, CountryModel>().ReverseMap();
             CreateMap<UserDto, UserModel>().ReverseMap();
             CreateMap<ImageDto, ImageModel>().ReverseMap();
+            CreateMap<ConnectionInfosDto,ConnectionInfosModel>().ReverseMap();
             
             /// voir https://docs.automapper.org/en/stable/Lists-and-arrays.html#
             CreateMap<IngredientDto, IngredientModel>().IncludeAllDerived(); // IncludeAllDerived() pour inclure les types dérivées

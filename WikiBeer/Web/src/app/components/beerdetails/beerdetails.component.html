@@ -1,8 +1,81 @@
-<p>beerdetails works!</p>
-
 <div class="container">
-  <div>
-    {{beer.name}} : {{beer.brewery.name}}<!-- , {{tnull}} -->
+  <div class="Beer-Container" style="
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 10px, 5px, black;
+      margin-bottom: 75px;
+    ">
+    <div style="display: flex; flex-direction: row; justify-content: space-between">
+      <div class="Beer-Details-Box" style="width: 50%; position: relative;">
+        <div *ngIf="user.connectionInfos">
+          <div *ngIf="isFavoriteBeer(); else notFavorite">
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute; color: rgb(245, 245, 35)"> grade </span>
+          </div>
+          <ng-template #notFavorite>
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; position: absolute; "> grade </span>
+          </ng-template>
+        </div>
+        <div class="Beer-Details" style="padding: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <p class="BeerName" style="font-weight: bolder; font-size: xx-large;">
+            {{ beer.name }}
+          </p>
+          <p class="BreweryName" style="font-weight: bolder; font-size: x-large">
+            {{ beer.brewery.name }}
+          </p>
+          <p class="BeerNote" style="font-weight: bolder; font-size: larger">
+            Note moyenne / Note perso
+          </p>
+          <p>{{ beer.style.name }} / {{ beer.color.name }}</p>
+          <p>IBU : {{ beer.ibu }} / Degrés : {{ beer.degree }}°</p>
+          <p>Ingrédients :</p>
+          <div class="Beer-Details-Ingredient" style="display: flex; flex-direction: row">
+            <div style="margin: 5px" *ngFor="let ingredient of beer.ingredients">
+              {{ ingredient.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Image-Container" style="width: 50%;" *ngIf="beer.image.byteImage; else defaultImage">
+        <img class="BeerImage" width="100%" [src]="'data:image/jpeg;base64,' + beer.image.byteImage" />
+      </div>
+      <ng-template #defaultImage>
+        <img class="BeerImage" src="..\..\assets\images\defaultBeerImage.jpg" />
+      </ng-template>
+    </div>
+    <hr />
+    <div class="Beer-Description" style="padding: 10px">
+      <label style="font-weight: bold">Description :</label>
+      <p>{{ beer.description }}</p>
+    </div>
+    <hr />
+    <div class="Beer-Comment" style="padding: 10px">
+      <label style="font-weight: bold; margin-bottom: 20px;">Commentaires :</label>
+      <div>
+        <label class="UserName" style="font-weight: bold">Clément - 21/02/2022</label>
+        <p>FIRST !!!!!</p>
+      </div>
+      <hr />
+      <div>
+        <label class="UserName" style="font-weight: bold">Tristan - 21/02/2022</label>
+        <p>Ok</p>
+      </div>
+      <hr />
+      <div>
+        <label class="UserName" style="font-weight: bold">Vladimir - 22/02/2022</label>
+        <p>
+          Je aller attaquer Ukraine, vous pas cassez les couilles! Sinon moi
+          niquer meres !
+        </p>
+      </div>
+      <hr />
+      <div>
+        <label class="UserName" style="font-weight: bold">Tristan - 22/02/2022</label>
+        <p>Ok</p>
+      </div>
+      <hr />
+    </div>
   </div>
-
 </div>
