@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="beer" class="container">
   <div class="Beer-Container" style="
       padding: 20px;
       display: flex;
@@ -10,7 +10,15 @@
     ">
     <div style="display: flex; flex-direction: row; justify-content: space-between">
       <div class="Beer-Details-Box" style="width: 50%; position: relative;">
-        <app-star> [beer]="beer" [user]="user" </app-star>
+        <!-- <app-star> [beer]="beer" [user]="user" </app-star> -->
+        <div *ngIf="userService.isConnected(user)" style ="position: absolute">
+          <div *ngIf="userService.isFavoriteBeer(beer, user); else notFavorite">
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; color: rgb(245, 245, 35)"> grade </span>
+          </div>
+          <ng-template #notFavorite>
+            <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; "> grade </span>
+          </ng-template>
+        </div>
         <div class="Beer-Details" style="padding: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
           <p class="BeerName" style="font-weight: bolder; font-size: xx-large;">
             {{ beer.name }}
