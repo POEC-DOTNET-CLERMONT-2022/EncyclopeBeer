@@ -34,13 +34,16 @@
       padding-top: 10px;
     "
   >
-  <app-star> [beer]="beer" </app-star>
-<!--     <span
+  <div *ngIf="beer">
+  <app-star>  [beer]="beer" </app-star>
+  </div>
+
+  <!-- <span
       class="material-icons"
       style="display: flex; justify-content: right; font-size: 200%"
     >
       grade
-    </span> -->
+    </span>  -->
     <p
       class="Name"
       style="justify-content: center; font-weight: bold; font-size: larger"
