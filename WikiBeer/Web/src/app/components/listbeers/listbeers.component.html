@@ -1,29 +1,18 @@
-<div class="text-center">
- Search Bar
-<!-- De la doc pour une Search Bar https://stackoverflow.com/questions/55060545/angular-search-bar-in-typescript-table -->
+
+<div style="width: 100%; justify-content: center; display: flex; padding-left: 40%; padding-right: 40%;">
+  <input type="text"
+         class="form-control"
+         placeholder="Search..."
+         [(ngModel)]="filterTerm"
+/>
 </div>
 
-<div class="row mb-5">
-  <div class="card-beer col-xl-2 col-lg-3 col-md-4 col-sm-6 text-center my-3"
-    *ngFor="let beer of beers"
+<div class="content">
+  <div fxLayout="row wrap">
+    <div fxFlex="20%" style="display: flex; flex-direction: column;"
+    *ngFor="let beer of beers | filter:filterTerm"
     routerLink="/beers/{{ beer.id }}">
-    <h3>{{beer.name|titlecase}}</h3>
-    <h4 class="text-center">
-      {{beer.brewery.name}}
-    </h4>
-    <p class="text-left mx-4" style="text-align:left">
-      Style : {{beer.style.name}}
-    </p>
-    <p class="text-left mx-4" style="text-align:left">
-      Degrés : {{beer.degree}}
-    </p>
-    <p class="text-center">Ingredients</p>
-    <span *ngFor="let ingredient of beer.ingredients">
-      {{ingredient.name}}
-    </span>
+      <app-beer-card [beer]="beer"></app-beer-card>
+    </div>
   </div>
 </div>
-
-<!-- <div class='container' *ngFor="let beer of beerZ">
-  Beer name GetById : {{beer.name|titlecase}}
-</div> -->

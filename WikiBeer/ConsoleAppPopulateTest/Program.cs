@@ -27,10 +27,10 @@ using System.Collections.ObjectModel;
 // Paramètres
 var dbName = "WikiBeer";
 var cs = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
-var apiUrl = "https://localhost:7160";
-//var apiUrl = "https://localhost:5001"; // valeur par défaut si lancée en Auto
+//var apiUrl = "https://localhost:7160";
+var apiUrl = "https://localhost:5001"; // valeur par défaut si lancée en Auto
 var apiPath = @"C:\Users\Shaz\source\repos\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe";
-bool autoRunApi = false;
+bool autoRunApi = true;
        
 // Classes utilitaires
 var dbr = new DataBaseRessource(apiUrl);
@@ -51,6 +51,7 @@ else
     dbr.FillDatabase();
 }
 
+
 // Test divers
 // delete d'une bière
 var bddbeers = await dbr.BeerManager.GetAll();
@@ -69,6 +70,7 @@ var users = await dbr.UserManager.GetAll();
 //ddbMomo1.FavoriteBeerIds = new ObservableCollection<Guid>();
 //dbr.UserManager.Update(ddbMomo1.Id, ddbMomo1).Wait();
 //var ddbMomo2 = await dbr.UserManager.GetById(momo.Id);
+
 Console.WriteLine("Execution terminée");
 Console.ReadLine();
 

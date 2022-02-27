@@ -1,13 +1,25 @@
-<header>
+<header class="AppHeader" style="height: 50px;">
   <app-navbar></app-navbar>
 </header>
 
-<div>
+<div class="AppBody"
+     style="background-color: rgb(236, 236, 236);
+            min-height: 100%;
+            padding-top: 50px; padding-bottom: 50px;">
   <router-outlet></router-outlet>
 </div>
 
-<footer>
-  Un Footer
+<footer class="AppFooter"
+        style="height: 50px;
+               width: 100%;
+               background-color: black;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               color: white;
+               position: fixed;
+               bottom: 0;">
+  Wikibeer, une application qu'elle est bien
 </footer>
 
 
