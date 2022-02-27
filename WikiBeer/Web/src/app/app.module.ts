@@ -7,6 +7,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CommonModule } from '@angular/common';
 
 // Material design
 import { MatCardModule} from '@angular/material/card';
@@ -58,7 +59,8 @@ import { BeerService } from 'src/services/beer.service';
     FlexLayoutModule,
     MatIconModule,
     FormsModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    CommonModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true
