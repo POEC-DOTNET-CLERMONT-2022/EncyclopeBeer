@@ -46,20 +46,6 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private string _email;
-        public string Email
-        {
-            get { return _email; }
-            set
-            {
-                if (_email != value)
-                {
-                    _email = value;
-                    OnNotifyPropertyChanged();
-                }
-            }
-        }
-
         private int _hashCode;
         public int HashCode
         {
@@ -83,6 +69,20 @@ namespace Ipme.WikiBeer.Models
                 if (_isCertified != value)
                 {
                     _isCertified = value;
+                    OnNotifyPropertyChanged();
+                }
+            }
+        }
+
+        private ConnectionInfosModel _connectionInfos;
+        public ConnectionInfosModel? ConnectionInfos
+        {
+            get { return _connectionInfos; }
+            set
+            {
+                if (_connectionInfos != value)
+                {
+                    _connectionInfos = value;
                     OnNotifyPropertyChanged();
                 }
             }
@@ -119,22 +119,20 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        public UserModel(Guid id, string nickName, DateTime birthDate, string email, int hashCode, 
-            bool isCertified, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
+        public UserModel(Guid id, string nickName, DateTime birthDate, bool isCertified, ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
         {
             Id = id;
             NickName = nickName ?? String.Empty;
-            BirthDate = birthDate;
-            Email = email ?? String.Empty;
-            HashCode = hashCode;
+            BirthDate = birthDate;        
             IsCertified = isCertified;
+            ConnectionInfos = connectionInfos;
             Country = country;
             FavoriteBeerIds = favoriteBeerIds ?? new ObservableCollection<Guid>();
         }
 
-        public UserModel(string nickName, DateTime birthDate, string email, int hashCode,
-            bool isCertified, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
-            : this(Guid.Empty, nickName, birthDate, email, hashCode, isCertified, country, favoriteBeerIds)
+        public UserModel(string nickName, DateTime birthDate, bool isCertified, 
+            ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
+            : this(Guid.Empty, nickName, birthDate, isCertified, connectionInfos, country, favoriteBeerIds)
         {
         }
 
@@ -142,10 +140,9 @@ namespace Ipme.WikiBeer.Models
         {
             Id = user.Id;
             NickName = user.NickName;
-            BirthDate = user.BirthDate;
-            Email = user.Email;
-            HashCode = user.HashCode;
+            BirthDate = user.BirthDate;            
             IsCertified = user.IsCertified;
+            ConnectionInfos = user.ConnectionInfos?.DeepClone();
             Country = user.Country?.DeepClone();
             FavoriteBeerIds = new ObservableCollection<Guid>();
             foreach (var beerId in user.FavoriteBeerIds)

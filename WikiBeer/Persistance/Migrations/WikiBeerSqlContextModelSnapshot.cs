@@ -229,14 +229,6 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("HashCode")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsCertified")
                         .HasColumnType("bit");
 
@@ -381,6 +373,32 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                     b.HasOne("Ipme.WikiBeer.Entities.CountryEntity", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
+
+                    b.OwnsOne("Ipme.WikiBeer.Entities.ConnectionInfosEntity", "ConnectionInfos", b1 =>
+                        {
+                            b1.Property<Guid>("UserEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Id")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<bool>("IsVerified")
+                                .HasColumnType("bit");
+
+                            b1.HasKey("UserEntityId");
+
+                            b1.ToTable("ConnectionInfos", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserEntityId");
+                        });
+
+                    b.Navigation("ConnectionInfos")
+                        .IsRequired();
 
                     b.Navigation("Country");
                 });

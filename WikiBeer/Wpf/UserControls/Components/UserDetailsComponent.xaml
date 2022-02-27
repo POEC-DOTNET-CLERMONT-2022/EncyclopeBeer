@@ -38,7 +38,7 @@
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
                     <Label Content="Mail: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.Email}" Width="150" Height="30"/>
+                    <Label Content="{Binding UserDetails.ConnectionInfos.Email}" Width="150" Height="30"/>
                 </WrapPanel>
                 <WrapPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
                     <Label Content="Birthdate: " FontWeight="Bold"  Height="30"/>
