@@ -34,12 +34,20 @@
       padding-top: 10px;
     "
   >
-    <span
+  <div *ngIf="user.connectionInfos" style ="position: absolute">
+    <div *ngIf="isFavoriteBeer(); else notFavorite">
+      <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; color: rgb(245, 245, 35)"> grade </span>
+    </div>
+    <ng-template #notFavorite>
+      <span class="material-icons" style="display: flex; justify-content: left; font-size: 400%; "> grade </span>
+    </ng-template>
+  </div>
+<!--     <span
       class="material-icons"
       style="display: flex; justify-content: right; font-size: 200%"
     >
       grade
-    </span>
+    </span> -->
     <p
       class="Name"
       style="justify-content: center; font-weight: bold; font-size: larger"
