@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Img\remove.png" />
+    <None Remove="Img\add.png" />
+    <None Remove="Img\delete.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Img\add.png" />
+    <Resource Include="Img\delete.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="UserControls\Components\StyleDetailsComponent.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,10 +55,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Img\remove.png" />
   </ItemGroup>
 
 </Project>

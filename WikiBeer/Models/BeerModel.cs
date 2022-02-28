@@ -74,20 +74,6 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        //private byte[] _rawPicture;
-        //public byte[] RawPicture
-        //{
-        //    get { return _rawPicture; }
-        //    set
-        //    {
-        //        if (_rawPicture != value)
-        //        {
-        //            _rawPicture = value;
-        //            OnNotifyPropertyChanged();
-        //        }
-        //    }
-        //}
-
         private BeerStyleModel? _style;
         public BeerStyleModel? Style
         {

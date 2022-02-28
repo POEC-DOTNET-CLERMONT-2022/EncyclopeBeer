@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-light bg-dark text-white" style="position: fixed; top: 0; width: 100%;">
-  <div class="container-fluid">
+  <div class="container-fluid" styl>
     <div>
       <a class="btn btn-nav" [routerLink]="urlBeerList">
         Bières
@@ -13,16 +13,5 @@
  <!--  <app-user-profile *ngIf="(auth.isAuthenticated$ | async)">Favoris</app-user-profile> -->
   <app-auth-nav *ngIf="!(auth.isLoading$ |async)"></app-auth-nav>
   </div>
-
 </nav>
 
-
-<!-- <div class="nav-container mb-3">
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-      <div class="navbar-brand logo"></div>
-      <app-main-nav></app-main-nav>
-      <app-auth-nav></app-auth-nav>
-    </div>
-  </nav>
-</div> -->
