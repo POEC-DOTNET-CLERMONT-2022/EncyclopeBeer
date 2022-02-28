@@ -20,7 +20,6 @@ namespace Ipme.WikiBeer.Ressources
         public string ApiUrl { get; }
         public Mapper Mapper { get; }        
         public HttpClient Client { get; }       
-
         public BeerDataManager BeerManager { get; }
         public BreweryDataManager BreweryManager { get; }
         public CountryDataManager CountryManager { get; }
@@ -190,10 +189,19 @@ namespace Ipme.WikiBeer.Ressources
             var beersId2 = new ObservableCollection<Guid>() { beers.ToList()[0].Id , beers.ToList()[1].Id };
 
             // Users
-            var dede = new UserModel("Dédé", new DateTime(1960, 1, 1), "dede@bmail", 50, false, bddFrance, beersId0);
-            var maurice = new UserModel("Momo", new DateTime(1960, 2, 10), "momo@bmail", 60, true, bddBelgique, beersId1);
-            var marcel = new UserModel("FuturGuy", new DateTime(2050, 12, 30), "ff@bmail", 99, false, bddEcosse, beersId2);
-            IEnumerable<UserModel> users = new UserModel[] { dede, maurice, marcel };
+            //var dede = new UserModel("Dédé", new DateTime(1960, 1, 1), "dede@bmail", 50, false, bddFrance, beersId0);
+            //var maurice = new UserModel("Momo", new DateTime(1960, 2, 10), "momo@bmail", 60, true, bddBelgique, beersId1);
+            //var marcel = new UserModel("FuturGuy", new DateTime(2050, 12, 30), "ff@bmail", 99, false, bddEcosse, beersId2);
+            //IEnumerable<UserModel> users = new UserModel[] { dede, maurice, marcel };
+
+            //string nickName, DateTime birthDate, bool isCertified,
+            //ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection< Guid > favoriteBeerIds
+            var cArmel = new ConnectionInfosModel("auth0|6215640551eb1e00703daa24", "armel.pitelet@gmail.com", true);
+            var cClement = new ConnectionInfosModel("auth0|6219e3e290b20b0070d50e7e", "clem.heritier@gmail.com", false);
+            var armel = new UserModel("Armel", new DateTime(1960, 1, 1), false, cArmel, bddFrance, beersId0);
+            var clement = new UserModel("Clément", new DateTime(1960, 2, 10), true, cClement, bddBelgique, beersId1);
+            
+            IEnumerable<UserModel> users = new UserModel[] { armel, clement };
 
             return AddAndWait(users, UserManager);
         }
