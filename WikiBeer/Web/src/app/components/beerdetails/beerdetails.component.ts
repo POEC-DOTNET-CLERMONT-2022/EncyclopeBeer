@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BeerService } from 'src/services/beer.service';
 import { User } from 'src/models/users/user';
 import { UserService } from 'src/services/user.service';
-import { mergeMap, Subscription } from 'rxjs';
+import {Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-beerdetails',
