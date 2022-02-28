@@ -14,15 +14,16 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0"  Background="#34495E">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#212F3D">
                 <Label Content="WikiBeer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#212F3D" Foreground="#FACC00"/>
             </Grid>
-            <StackPanel Grid.Row="1" Background="#34495E">
+            <StackPanel Grid.Row="1" VerticalAlignment="Stretch">
                 <Button Content="Statistique" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Stats" Background="#D5D8DC"/>
                 <Button Content="Manager" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Manager" Background="#D5D8DC"/>
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
@@ -35,6 +36,9 @@
 
                 </StackPanel>
                 <Button Content="Utilisateur" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="LogOut" Padding="10, 5" HorizontalContentAlignment="Center" Click="Button_Click_Logout" Background="#D5D8DC"/>
             </StackPanel>
         </Grid>
 

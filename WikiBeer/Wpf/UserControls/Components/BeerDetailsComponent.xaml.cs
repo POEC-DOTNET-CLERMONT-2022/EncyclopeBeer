@@ -100,10 +100,16 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void DeletIngredient_Button_Click(object sender, RoutedEventArgs e)
+        private void DeleteIngredient_Button_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             BeerDetails.Ingredients.Remove((IngredientModel)btn.DataContext);
+        }
+
+        private void AddIngredient_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            BeerDetails.Ingredients.Add((IngredientModel)btn.DataContext);
         }
 
         private void SelectPicture_Button_Click(object sender, RoutedEventArgs e)
