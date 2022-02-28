@@ -14,7 +14,9 @@ import { User } from 'src/models/users/user';
 export class ListBeersComponent implements OnInit {
 
   public beers: Beer[] = [];
+
   filterTerm!: string;
+
   private _beerService : BeerService;
   private _userService : UserService;
   private _auth : AuthService;

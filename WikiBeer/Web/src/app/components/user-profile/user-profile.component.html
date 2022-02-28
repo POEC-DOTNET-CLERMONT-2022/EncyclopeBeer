@@ -7,10 +7,21 @@
       <div style="display: flex; justify-content: center; width: 100%;">
         <h1 style="width: fit-content;">General</h1>
       </div>
-      <label style="font-weight: bold;">NickName</label>
-      <p>{{user}}</p>
-      <label style="font-weight: bold;">Country</label>
-      <label style="font-weight: bold;">Email</label>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+        <label for="nickname" style="font-weight: bold;">NickName</label>
+        <input id="nickname" type="text" formControlName="nickname" style="width: 60%"/>
+        <label for="email" style="font-weight: bold; margin-top: 10px;">Email</label>
+        <p id="email" style="width: 60%"></p>
+        <label style="font-weight: bold; margin-top: 10px;">Country</label>
+        <select id="country" formControlName="country" style="width: 60%;">
+          <option disabled>Select country</option>
+          <option *ngFor="let country of countries">{{country.name}}</option>
+        </select>
+        <p>
+          <button type="submit">Submit</button>
+        </p>
+      </form>
     </div>
     <!-- <div class="row" *ngIf="profileJson">
       <pre class="col-12 text-light bg-dark p-4">{{ profileJson }}</pre>

@@ -23,7 +23,4 @@ export class BeerService {
   {
       return this.httpClient.get<Beer>(this.baseUrl+this.beerController+beerId);
   }
-
-
-
 }

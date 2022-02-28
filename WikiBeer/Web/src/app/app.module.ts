@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppAuthenticationModule } from './app-authentification.module';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CommonModule } from '@angular/common';
@@ -15,7 +16,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
-
 
 // Component
 import { BeerCardComponent } from './components/beer-card/beer-card.component'
@@ -31,7 +31,7 @@ import { AuthNavComponent } from './components/auth-nav/auth-nav.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserService } from 'src/services/user.service';
 import { BeerService } from 'src/services/beer.service';
-
+import { CountryService } from 'src/services/country.service';
 
 @NgModule({
   declarations: [
@@ -60,11 +60,12 @@ import { BeerService } from 'src/services/beer.service';
     MatIconModule,
     FormsModule,
     Ng2SearchPipeModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true
-  }, UserService, BeerService],
+  }, UserService, BeerService, CountryService],
   bootstrap: [AppComponent]
 })
 
