@@ -18,6 +18,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         public ViewHome()
         {
             InitializeComponent();
+            Navigator.NavigateTo(typeof(ViewBeers));
         }
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)

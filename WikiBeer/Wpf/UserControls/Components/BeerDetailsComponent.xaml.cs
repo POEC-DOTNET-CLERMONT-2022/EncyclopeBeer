@@ -109,7 +109,10 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         private void AddIngredient_Button_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            BeerDetails.Ingredients.Add((IngredientModel)btn.DataContext);
+            if (!BeerDetails.Ingredients.Contains((IngredientModel)btn.DataContext))
+            {
+                BeerDetails.Ingredients.Add((IngredientModel)btn.DataContext);
+            }
         }
 
         private void SelectPicture_Button_Click(object sender, RoutedEventArgs e)
