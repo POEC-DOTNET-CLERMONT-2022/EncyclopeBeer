@@ -4,7 +4,7 @@
   <!-- <div *ngIf="isFavorite; else notFavorite"> -->
     <span (click)="switchFavoriteState()" class="material-icons" style="display: flex; justify-content: left; font-size: 400%; color: rgb(255, 230, 2)"> grade </span>
   </div>
-  <ng-template (click)="switchFavoriteState()" #notFavorite>
+  <ng-template #notFavorite>
     <span (click)="switchFavoriteState()" class="material-icons" style="display: flex; justify-content: left; font-size: 400%; "> grade </span>
   </ng-template>
 <!-- </div> -->
