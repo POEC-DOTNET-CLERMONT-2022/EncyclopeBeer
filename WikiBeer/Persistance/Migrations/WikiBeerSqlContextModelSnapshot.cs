@@ -232,7 +232,7 @@ namespace Ipme.WikiBeer.Persistance.Migrations
                     b.Property<bool>("IsCertified")
                         .HasColumnType("bit");
 
-                    b.Property<string>("NickName")
+                    b.Property<string>("Nickname")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");

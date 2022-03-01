@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Beer } from 'src/models/beer';
+import { Country } from 'src/models/country';
+import { UserConnectionInfos } from 'src/models/users/user-connection-infos';
 import { UserProfile } from 'src/models/users/user-profile';
 
 @Injectable({
@@ -16,7 +18,6 @@ export class UserProfileService {
       'Content-Type': 'application/json-patch+json',
     })
   };
-  /* httpClient par injection de dépendance */
   private _httpClient: HttpClient;
 
   constructor(httpClient: HttpClient) {
@@ -34,7 +35,7 @@ export class UserProfileService {
     .pipe(map( (data: UserProfile) => {return data;}));
   }
 
-  getFavoriteBeer(id: string): Observable<Beer>{
+  getFavoriteBeers(id: string): Observable<Beer>{
     return this._httpClient.get<Beer>(this.baseUrl + this.userController + id +"/favoritesBeers" );
   }
 
@@ -43,4 +44,48 @@ export class UserProfileService {
     return this._httpClient.post<UserProfile>(this.baseUrl + this.userController, body, this.headers)
   }
 
+  putUserProfile(profile: UserProfile): Observable<UserProfile>{
+    let jsonProfile = this.getJsonProfile(profile);
+    const body = JSON.stringify(jsonProfile);
+    console.log(body)
+    return this._httpClient.put<UserProfile>(this.baseUrl + this.userController + profile.id, body, this.headers)
+  }
+
+  getJsonProfile(profile: UserProfile){
+    let jsonProfile = {
+      'id' : profile.id,
+      'nickname' : profile.nickname,
+      'isCertified' : profile.isCertified,
+      'birthDate' : profile.birthDate,
+      'country': this.getJsonCountry(profile.country),
+      'favoriteBeerIds' : profile.favoriteBeerIds,
+      'connectionInfos' : this.getJsonConnectionInfos(profile.connectionInfos)
+    }
+    return jsonProfile;
+  }
+
+  getJsonConnectionInfos(infos: UserConnectionInfos){
+    let jsonInfos = {
+      'id' : infos.id,
+      'email' : infos.email,
+      'isVerified' : infos.isVerified
+    }
+    return jsonInfos;
+  }
+
+  getJsonCountry(country : Country){
+    if (country)
+    {
+      let jsonCountry = {
+        'id' : country.id,
+        'name' : country.name
+      }
+      return jsonCountry;
+    }
+    else
+    {
+      return null;
+    }
+
+  }
 }

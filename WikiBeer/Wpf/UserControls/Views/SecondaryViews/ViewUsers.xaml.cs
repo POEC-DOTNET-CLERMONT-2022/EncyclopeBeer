@@ -130,7 +130,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private string BuildUserSearchParams(UserModel user)
         {
-            string searchParams = user.NickName;
+            string searchParams = user.Nickname;
 
             if (user.Country != null)
             {

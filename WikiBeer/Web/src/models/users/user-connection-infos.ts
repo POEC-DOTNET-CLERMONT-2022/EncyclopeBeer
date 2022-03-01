@@ -14,5 +14,5 @@ export class UserConnectionInfos{
 
   get email(): string {return this._email;}
 
-  get isEmailVerified(): boolean {return this._isVerified;}
+  get isVerified(): boolean {return this._isVerified;}
 }
