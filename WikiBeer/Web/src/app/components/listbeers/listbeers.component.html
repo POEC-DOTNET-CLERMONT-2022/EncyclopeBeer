@@ -12,10 +12,7 @@
     <div fxFlex="20%" style="display: flex; flex-direction: column;"
     *ngFor="let beer of beers | filter:filterTerm"
     routerLink="/beers/{{ beer.id }}">
-    <div *ngIf="beer">
       <app-beer-card [beer]="beer"></app-beer-card>
-    </div>
-
     </div>
   </div>
 </div>

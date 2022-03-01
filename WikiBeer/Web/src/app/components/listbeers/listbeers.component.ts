@@ -12,7 +12,7 @@ import { map, mergeMap, Subscription } from 'rxjs';
   templateUrl: './listbeers.component.html',
   styleUrls: ['./listbeers.component.scss']
 })
-export class ListBeersComponent implements OnInit, OnDestroy{
+export class ListBeersComponent implements OnInit, OnChanges,OnDestroy{
 
   public beers: Beer[] = [];
   filterTerm!: string;
@@ -26,8 +26,12 @@ export class ListBeersComponent implements OnInit, OnDestroy{
     this._userService = userService;
   }
 
-
-
+  ngOnChanges(changes: SimpleChanges): void {
+    /* this._subscription = this._userService.user.subscribe((u) => this.user = u);
+    this._userService.trySetUserConnectionInfos(this.user);
+    this._userService.trySetUserProfile(this.user);
+    this._userService.updateUser(this.user); */
+  }
 
   ngOnInit(): void {
     this.pullBeers(); /* fonctionne */

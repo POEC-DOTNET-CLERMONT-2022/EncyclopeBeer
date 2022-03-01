@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Beer } from 'src/models/beer';
 import { User } from 'src/models/users/user';
+import { SharedBeerService } from 'src/services/shared-beer.service';
 import { UserService } from 'src/services/user.service';
 
 @Component({
@@ -11,48 +12,27 @@ import { UserService } from 'src/services/user.service';
 })
 export class StarComponent implements OnInit, OnDestroy{
 
-  public userService: UserService;
-
-  @Input() beer: Beer;
-  /* @Input() user: User; */
-  /* private _beer = new BehaviorSubject<Beer>(null) */
-
   private _subscription: Subscription;
+  public userService: UserService;
+  public sharedBeerService : SharedBeerService;
+
+  public beer: Beer;
   public user: User;
 
-  constructor(userService: UserService)
+  constructor(userService: UserService, sharedBeerService: SharedBeerService)
   {
     this.userService = userService;
+    this.sharedBeerService = sharedBeerService;
   }
 
   ngOnInit(): void {
-    /* this._beer.subscribe(() => ); */
-    this._subscription = this.userService.user.subscribe((u :User) => this.user = u);
-     /* console.log(this.beer); */
+    this._subscription = this.userService.user.subscribe((u :User) => {this.user = u; });
+    this.beer = this.sharedBeerService.beer;
   }
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
-  /* get beer(): Beer {return this._beer.getValue()}
-  @Input() set beer(value: Beer) {this._beer.next(value);} */
-
-
 }
 
 
-/* private _items = new BehaviorSubject<Items[]>([]);
-
-@Input() set items(value: Items[]) {
-    this._items.next(value);
-}
-
-get items() {
-   return this._items.getValue();
-}
-
-ngOnInit() {
-    this._items.subscribe(x => {
-       this.chunk(x);
-    })
-} */

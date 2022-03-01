@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, map, concat } from "rxjs";
 import { User } from "src/models/users/user";
 import { Beer } from "src/models/beer";
 
@@ -38,6 +38,10 @@ export class UserService implements OnInit, OnDestroy{
     console.log(`Spy onDestroy`);
   }
 
+  updateUser(user: User): void {
+    this.userSource.next(user);
+  }
+
   setUserConnectionInfos(user: User): void {
     this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
       .subscribe({
@@ -73,10 +77,6 @@ export class UserService implements OnInit, OnDestroy{
     {
       this.setUserProfile(user);
     }
-  }
-
-  updateUser(user: User): void {
-    this.userSource.next(user);
   }
 
   isConnected(user: User): boolean{
