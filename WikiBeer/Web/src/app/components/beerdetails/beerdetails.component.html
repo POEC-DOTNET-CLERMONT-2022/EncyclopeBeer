@@ -8,7 +8,7 @@
       box-shadow: 0px 0px 10px 1px darkgrey;
       margin-bottom: 75px;
     ">
-    <div style="display: flex; flex-direction: row; justify-content: space-between">
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
       <div class="Beer-Details-Box" style="width: 50%; position: relative;">
         <div *ngIf="userService.isConnected(user)">
           <div *ngIf="userService.isFavoriteBeer(beer,user); else notFavorite">

@@ -53,7 +53,7 @@
                 </Grid>
                 <Grid Grid.Row="1" x:Name="ListComponent" 
                       Panel.ZIndex="100" Height="Auto">
-                    <StackPanel Margin="2" CanVerticallyScroll="True" VerticalAlignment="Stretch">
+                    <StackPanel Margin="2" CanVerticallyScroll="True" CanHorizontallyScroll="False" VerticalAlignment="Stretch">
                         <ListBox x:Name="List" MaxHeight="400"
                                  ItemsSource="{Binding Source={StaticResource BeersViewSource}}" 
                                  SelectedItem="{Binding Beers.Current}"

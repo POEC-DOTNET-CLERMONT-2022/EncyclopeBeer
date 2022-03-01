@@ -1,4 +1,7 @@
-﻿using Ipme.WikiBeer.Wpf.Utilities;
+﻿using Auth0.OidcClient;
+using Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews;
+using Ipme.WikiBeer.Wpf.Utilities;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using Auth0.OidcClient;
@@ -15,6 +18,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         private Auth0Client _client { get; set; }
 
 
+        public Auth0Client AuthClient = ((App)Application.Current).AuthClient;
+
         public ViewLogin()
         {
             InitializeComponent();
@@ -22,7 +27,16 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            Navigator.NavigateTo(typeof(ViewHome));
+            var loginResult = await AuthClient.LoginAsync();
+
+            if (loginResult.IsError)
+            {
+                Debug.WriteLine($"An error occurred during login: {loginResult.Error}");
+            }
+            else
+            {
+                Navigator.NavigateTo(typeof(ViewHome));
+            }
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)

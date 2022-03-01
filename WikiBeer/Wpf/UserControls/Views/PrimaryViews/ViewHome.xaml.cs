@@ -1,4 +1,5 @@
-﻿using Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews;
+﻿using Auth0.OidcClient;
+using Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews;
 using Ipme.WikiBeer.Wpf.Utilities;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,12 +13,13 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
     {
         public INavigator Navigator { get; } = new Navigator();
 
+        public Auth0Client AuthClient = ((App)Application.Current).AuthClient;
+
         public ViewHome()
         {
             InitializeComponent();
+            Navigator.NavigateTo(typeof(ViewBeers));
         }
-
-
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
         {
@@ -40,7 +42,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         private void Button_Click_Beer(object sender, RoutedEventArgs e)
         {
             Navigator.NavigateTo(typeof(ViewBeers));
-
         }
 
         private void Button_Click_Brewery(object sender, RoutedEventArgs e)
@@ -66,6 +67,12 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         private void Button_Click_User(object sender, RoutedEventArgs e)
         {
             Navigator.NavigateTo(typeof(ViewUsers));
+        }
+
+        private async void Button_Click_Logout(object sender, RoutedEventArgs e) 
+        {
+            await AuthClient.LogoutAsync();
+            Navigator.NavigateTo(typeof(ViewLogin));
         }
 
         private void root_Loaded(object sender, RoutedEventArgs e)
