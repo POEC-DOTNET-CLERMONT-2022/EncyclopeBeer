@@ -17,13 +17,32 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 // voir : https://docs.microsoft.com/fr-fr/aspnet/core/security/cors?view=aspnetcore-6.0 pour les police à allouer
-builder.Services.AddCors(
-    options => options.AddPolicy("LocalPolicy",
-                    builder =>
+//builder.Services.AddCors(
+//    options => options.AddPolicy("LocalPolicy",
+//                    builder =>
+//        {
+//            builder.WithOrigins("http://localhost:4200"); // ici l'adresse du front Angular
+//        })
+//    );
+
+builder.Services.AddCors(options =>
+{
+    //{ options.AddPolicy("LocalPolicy",
+    //    builder =>
+    //        {
+    //            builder.WithOrigins("http://localhost:4200"); // ici l'adresse du front Angular
+    //        });
+
+    options.AddPolicy(name: "Open",
+        builder =>
         {
-            builder.WithOrigins("http://localhost:4200"); // ici l'adresse du front Angular
-        })
-    );
+            builder.AllowAnyOrigin();
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+            //builder.WithOrigins("http://localhost:4200");
+        }); //};
+});
+
 
 // AddNewtonSoftJson (de AspNetCore.Mvc.NewtonSoftJson pour sérialiser des objets dérivées)
 // ---> Absoluement indispensable
@@ -47,8 +66,8 @@ builder.Services.AddAuthentication(o => o.DefaultAuthenticateScheme = JwtBearerD
         options.Audience = "https://localhost:7160";
     });
 
-builder.Services.AddAuthorization(o => o.AddPolicy("AuthenticatedPolicy",
-    policyBuilder => policyBuilder.RequireAssertion(c => c.User.Identity.IsAuthenticated)));
+//builder.Services.AddAuthorization(o => o.AddPolicy("AuthenticatedPolicy",
+//    policyBuilder => policyBuilder.RequireAssertion(c => c.User.Identity.IsAuthenticated)));
 
 // Conection String 
 string cs;
@@ -88,7 +107,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // en premier
-app.UseAuthorization(); // en deuxième
+//app.UseAuthorization(); // en deuxième
 
 app.MapControllers();
 

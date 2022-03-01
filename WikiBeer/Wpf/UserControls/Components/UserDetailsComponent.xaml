@@ -34,7 +34,7 @@
                 </Grid.RowDefinitions>
                 <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
                     <Label Content="Nickname: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.NickName}" Width="150" Height="30"/>
+                    <Label Content="{Binding UserDetails.Nickname}" Width="150" Height="30"/>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
                     <Label Content="Mail: " FontWeight="Bold" Height="30"/>

@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListBeersComponent } from './components/listbeers/listbeers.component';
 import { BeerDetailsComponent } from './components/beerdetails/beerdetails.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FavoritebeersComponent } from './components/favoritebeers/favoritebeers.component';
 
 const routes: Routes = [
   {path: NavbarComponent.pathBeerList, component: ListBeersComponent},
   {path: NavbarComponent.pathBeerList+'/:beerId', component: BeerDetailsComponent},
-  {path: NavbarComponent.pathUserProfile, component: UserProfileComponent}
+  {path: NavbarComponent.pathUserProfile, component: UserProfileComponent},
+  {path: NavbarComponent.pathFavoriteBeers, component: FavoritebeersComponent}
 ];
 
 @NgModule({

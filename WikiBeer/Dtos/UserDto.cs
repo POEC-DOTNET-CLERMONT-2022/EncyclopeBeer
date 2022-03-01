@@ -9,7 +9,7 @@ namespace Ipme.WikiBeer.Dtos
     public class UserDto : IDto
     {
         public Guid Id { get; set; }
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public DateTime BirthDate { get; set; }        
         public bool IsCertified { get; set; }
         public CountryDto? Country { get; set; }
