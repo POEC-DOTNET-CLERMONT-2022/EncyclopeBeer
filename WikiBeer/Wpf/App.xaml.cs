@@ -39,7 +39,7 @@ namespace Ipme.WikiBeer.Wpf
 
         public Auth0Client AuthClient { get; set; }
 
-        Auth0ClientOptions clientOptions = new Auth0ClientOptions()
+        Auth0ClientOptions clientOptions = new Auth0ClientOptions
         {
             Domain = "docapc.eu.auth0.com",
             ClientId = "gWxCRG1wMFIllvK17H6dI4QeRrRR3DGt"
