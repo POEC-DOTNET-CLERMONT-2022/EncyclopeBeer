@@ -1,4 +1,5 @@
 ﻿using Ipme.WikiBeer.Models;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,7 +11,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     public partial class UserDetailsComponent : UserControl
     {
         public static readonly DependencyProperty UserDetailsProperty =
-                    DependencyProperty.Register("UserDetails", typeof(UserModel), typeof(UserDetailsComponent));
+            DependencyProperty.Register("UserDetails", typeof(UserModel), typeof(UserDetailsComponent));
 
         public UserModel UserDetails
         {
@@ -20,6 +21,21 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
                 if (value != null)
                 {
                     SetValue(UserDetailsProperty, value);
+                }
+            }
+        }
+        
+        public static readonly DependencyProperty FavoriteBeersProperty =
+            DependencyProperty.Register("FavoriteBeers", typeof(ObservableCollection<BeerModel>), typeof(UserDetailsComponent));
+
+        public ObservableCollection<BeerModel> FavoriteBeers
+        {
+            get { return GetValue(FavoriteBeersProperty) as ObservableCollection<BeerModel>; }
+            set
+            {
+                if (value != null)
+                {
+                    SetValue(FavoriteBeersProperty, value);
                 }
             }
         }

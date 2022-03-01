@@ -14,6 +14,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
+        #region DependencyProperties
         public static readonly DependencyProperty BeerDetailsProperty =
             DependencyProperty.Register("BeerDetails", typeof(BeerModel), typeof(BeerDetailsComponent));
 
@@ -88,6 +89,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
                 }
             }
         }
+        #endregion
 
         public BeerDetailsComponent()
         {
