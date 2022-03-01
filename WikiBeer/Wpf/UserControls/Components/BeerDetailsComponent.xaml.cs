@@ -3,6 +3,7 @@ using Ipme.WikiBeer.Models.Ingredients;
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -111,7 +112,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
         private void AddIngredient_Button_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (!BeerDetails.Ingredients.Contains((IngredientModel)btn.DataContext))
+            IngredientModel ingredientToAdd = (IngredientModel)btn.DataContext;
+            if (!BeerDetails.Ingredients.Any(ingredient => ingredient.Id == ingredientToAdd.Id))
             {
                 BeerDetails.Ingredients.Add((IngredientModel)btn.DataContext);
             }

@@ -1,4 +1,3 @@
-import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/services/user.service';
 import { CountryService } from 'src/services/country.service';
@@ -6,8 +5,6 @@ import { User } from 'src/models/users/user';
 import { Country } from 'src/models/country';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from 'src/models/users/user';
-import { UserService } from 'src/services/user.service';
 
 
 @Component({
@@ -33,7 +30,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   {
     this._userService = userService;
     this._countryService = countryService;
-  constructor(userService: UserService) {
     this.userService = userService;
   }
 
@@ -69,6 +65,4 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
-
-
 }

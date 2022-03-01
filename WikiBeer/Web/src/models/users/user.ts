@@ -5,6 +5,7 @@ export class User{
 
   private _connectionInfos: UserConnectionInfos;
   private _profile: UserProfile;
+  private _image: string;
 
   constructor(userConnectionInfos: UserConnectionInfos = null, userProfile : UserProfile = null) {
     this._connectionInfos = userConnectionInfos;

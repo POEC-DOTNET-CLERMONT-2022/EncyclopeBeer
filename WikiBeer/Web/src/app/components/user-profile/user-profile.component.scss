@@ -1,0 +1,25 @@
+.formcontrolbox {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  p {
+    margin: 0px;
+  }
+}
+
+button {
+  width: 80px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+
