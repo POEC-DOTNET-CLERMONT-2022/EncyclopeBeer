@@ -33,7 +33,6 @@ export class BeerDetailsComponent implements OnInit, OnDestroy {
     this.userService = userService;
    }
 
-
   ngOnInit(): void {
     this._subscription = this.userService.user.subscribe((u: User) => this.user = u);
     this._activatedRoute.params.subscribe

@@ -22,7 +22,8 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [EnableCors("LocalPolicy")]
+        [EnableCors("Open")]
+        //[EnableCors("LocalPolicy")]
         public async Task<ActionResult<UserDto>> GetAsync(string connectionId)
         {
             try
@@ -51,7 +52,8 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
         [HttpGet("{id}/favoriteBeers")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        [EnableCors("LocalPolicy")]
+        [EnableCors("Open")]
+        //[EnableCors("LocalPolicy")]
         public async Task<ActionResult<IEnumerable<BeerEntity>>> GetAsync(Guid id)
         {
             try
@@ -72,6 +74,16 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
             }
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [EnableCors("Open")]
+        public override async Task<IActionResult> PutAsync(Guid id, [FromBody] UserDto dto)
+        {
+            return await base.PutAsync(id, dto);
+        }
 
     }
 }

@@ -36,15 +36,15 @@ export class ListBeersComponent implements OnInit, OnChanges,OnDestroy{
   ngOnInit(): void {
     this.pullBeers(); /* fonctionne */
     this._subscription = this._userService.user.subscribe((u) => this.user = u);
-    this._userService.trySetUserConnectionInfos(this.user);
-    this._userService.trySetUserProfile(this.user);
+    this._userService.setUser(this.user);
+    /* this._userService.trySetUserConnectionInfos(this.user);
+    this._userService.trySetUserProfile(this.user); */
     this._userService.updateUser(this.user);
   }
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
-
 
   pullBeers() : void
   {
@@ -55,14 +55,4 @@ export class ListBeersComponent implements OnInit, OnChanges,OnDestroy{
     })
   }
 
-  /* Test GetAll */
-/*   async pullBeers() : Promise<Beer[]>
-  {
-  return await new Promise( (resolve) => this._beerService.getBeers()
-    .subscribe((beerList: Beer[]) =>
-      {
-      resolve (this.beers = beerList);
-      })
-    )
-  } */
 }

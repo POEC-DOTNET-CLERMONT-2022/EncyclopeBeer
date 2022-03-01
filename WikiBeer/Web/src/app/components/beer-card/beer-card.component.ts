@@ -15,6 +15,7 @@ export class BeerCardComponent implements OnInit, OnChanges, OnDestroy {
 
   public userService: UserService;
   public sharedBeerService: SharedBeerService;
+
   private _subscription: Subscription;
 
   @Input() beer: Beer;

@@ -11,7 +11,7 @@
   <div fxLayout="row wrap">
     <div fxFlex="20%" style="display: flex; flex-direction: column;"
     *ngFor="let beer of beers | filter:filterTerm"
-    routerLink="/beers/{{ beer.id }}">
+    >
       <app-beer-card [beer]="beer"></app-beer-card>
     </div>
   </div>

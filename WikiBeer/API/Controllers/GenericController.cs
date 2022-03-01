@@ -56,7 +56,8 @@ namespace Ipme.WikiBeer.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)] 
         [ProducesResponseType(500)]
-        [EnableCors("LocalPolicy")]
+        //[EnableCors("LocalPolicy")]
+        [EnableCors("Open")]
         public virtual async Task<ActionResult<IEnumerable<TDto>>> GetAsync()
         {
             try
@@ -81,7 +82,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [EnableCors("LocalPolicy")]
+        //[EnableCors("LocalPolicy")]
         public virtual async Task<ActionResult<TDto>> GetAsync(Guid id)
         {
             try
@@ -150,6 +151,7 @@ namespace Ipme.WikiBeer.API.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        //[EnableCors("LocalPolicy")]
         public virtual async Task<IActionResult> PutAsync(Guid id, [FromBody] TDto dto) // Guid à passer en FromQuerry???
         {
             try

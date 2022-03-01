@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, concat } from "rxjs";
+import { BehaviorSubject, map, concat, finalize } from "rxjs";
 import { User } from "src/models/users/user";
 import { Beer } from "src/models/beer";
 
@@ -50,12 +50,31 @@ export class UserService implements OnInit, OnDestroy{
         });
   }
 
+  setUser(user: User): void {
+    this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
+      .subscribe({
+        next: (u: UserConnectionInfos) => {user.connectionInfos = u;
+          this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
+          .pipe(
+            map(
+              u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds)
+              }
+            )
+          )
+          .subscribe({
+            next : (p: UserProfile) => user.profile = p,
+            error : () => {return null;}
+          });
+        },
+        error: () => {return null;}
+        });
+  }
+
   setUserProfile(user: User): void {
     this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
     .pipe(
       map(
-        u => {return new UserProfile(u.id, u.nickname, u.isCertified, u.country, u.favoriteBeerIds,
-          u.connectionInfos)
+        u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate, u.country, u.favoriteBeerIds)
         }
       )
     )
