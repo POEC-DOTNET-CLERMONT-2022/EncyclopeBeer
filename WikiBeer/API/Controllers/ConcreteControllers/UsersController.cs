@@ -74,16 +74,16 @@ namespace Ipme.WikiBeer.API.Controllers.ConcreteControllers
             }
         }
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        [EnableCors("Open")]
-        public override async Task<IActionResult> PutAsync(Guid id, [FromBody] UserDto dto)
-        {
-            return await base.PutAsync(id, dto);
-        }
+        //[HttpPut("{id}")]
+        //[ProducesResponseType(200)]
+        //[ProducesResponseType(400)]
+        //[ProducesResponseType(404)]
+        //[ProducesResponseType(500)]
+        //[EnableCors("Open")]
+        //public override async Task<IActionResult> PutAsync(Guid id, [FromBody] UserDto dto)
+        //{
+        //    return await base.PutAsync(id, dto);
+        //}
 
     }
 }

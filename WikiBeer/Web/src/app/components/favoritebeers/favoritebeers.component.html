@@ -1,0 +1,29 @@
+<div style="width: 100%; justify-content: center; display: flex; padding-left: 40%; padding-right: 40%;">
+  <input type="text"
+         class="form-control"
+         placeholder="Search..."
+         [(ngModel)]="filterTerm"
+/>
+</div>
+
+<div class="content" *ngIf="beers.length !== 0 ; else emptyBeers">
+  <div fxLayout="row wrap">
+    <div fxFlex="20%" style="display: flex; flex-direction: column;"
+    *ngFor="let beer of beers | filter:filterTerm"
+    >
+      <app-beer-card [beer]="beer"></app-beer-card>
+    </div>
+  </div>
+</div>
+<ng-template #emptyBeers>
+  <div class="content">
+    <h2> Aucunes bières favorites pour le moment...</h2>
+    <img
+      class="BeerImage"
+      width="30%"
+      height="350"
+      src="..\..\assets\images\defaultBeerImage.jpg"
+      />
+    <h1> Consultez la liste des  pour ajouter des favoris!</h1>
+  </div>
+</ng-template>

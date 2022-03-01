@@ -6,7 +6,11 @@
         Bières
       </a>
     </div>
-  <div *ngIf="(auth.isAuthenticated$ | async)">Favoris</div>
+  <div *ngIf="(auth.isAuthenticated$ | async)">
+    <a class="btn btn-nav" *ngIf="(auth.isAuthenticated$ | async)" [routerLink]="urlFavoriteBeers">
+      Favoris
+    </a>
+  </div>
   <a class="btn btn-nav" *ngIf="(auth.isAuthenticated$ | async)" [routerLink]="urlUserProfile">
     Mon profile
   </a>

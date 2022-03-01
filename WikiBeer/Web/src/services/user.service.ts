@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, concat, finalize } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { BehaviorSubject, map, concat, finalize, catchError } from "rxjs";
 import { User } from "src/models/users/user";
 import { Beer } from "src/models/beer";
 
@@ -57,16 +57,25 @@ export class UserService implements OnInit, OnDestroy{
           this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
           .pipe(
             map(
-              u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds)
+              u => {console.log("tentative de map");
+                return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds);
               }
-            )
+            ),
+            catchError(() => {
+              let newProfile = new UserProfile(u);
+              return this._userProfileService.postUserProfile(newProfile);
+            })
           )
           .subscribe({
-            next : (p: UserProfile) => user.profile = p,
-            error : () => {return null;}
+            next : (p: UserProfile) => {user.profile = p},
+            error : (err:HttpErrorResponse) =>
+            {
+              return null;
+            }
           });
         },
-        error: () => {return null;}
+        error: (err) => {
+              return null;}
         });
   }
 

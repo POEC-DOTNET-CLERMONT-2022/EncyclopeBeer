@@ -18,6 +18,8 @@ export class NavbarComponent {
   static pathUserProfile : string = 'account';
   urlUserProfile : string = '/' + NavbarComponent.pathUserProfile;
 
+  static pathFavoriteBeers : string = 'favorites';
+  urlFavoriteBeers : string = '/' + NavbarComponent.pathFavoriteBeers;
 
   constructor(router: Router, auth: AuthService)
   {

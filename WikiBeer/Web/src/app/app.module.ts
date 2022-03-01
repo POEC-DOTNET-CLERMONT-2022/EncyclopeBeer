@@ -31,6 +31,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserService } from 'src/services/user.service';
 import { BeerService } from 'src/services/beer.service';
 import { StarComponent } from './components/star/star.component';
+import { FavoritebeersComponent } from './components/favoritebeers/favoritebeers.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { StarComponent } from './components/star/star.component';
     AuthNavComponent,
     UserProfileComponent,
     BeerCardComponent,
-    StarComponent
+    StarComponent,
+    FavoritebeersComponent
   ],
   imports: [
     BrowserModule,
