@@ -31,6 +31,7 @@ import { AuthNavComponent } from './components/auth-nav/auth-nav.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserService } from 'src/services/user.service';
 import { BeerService } from 'src/services/beer.service';
+import { StarComponent } from './components/star/star.component';
 import { CountryService } from 'src/services/country.service';
 
 @NgModule({
@@ -45,7 +46,8 @@ import { CountryService } from 'src/services/country.service';
     AuthenticationButtonComponent,
     AuthNavComponent,
     UserProfileComponent,
-    BeerCardComponent
+    BeerCardComponent,
+    StarComponent
   ],
   imports: [
     BrowserModule,

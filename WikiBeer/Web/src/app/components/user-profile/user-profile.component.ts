@@ -4,14 +4,23 @@ import { UserService } from 'src/services/user.service';
 import { CountryService } from 'src/services/country.service';
 import { User } from 'src/models/users/user';
 import { Country } from 'src/models/country';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { User } from 'src/models/users/user';
+import { UserService } from 'src/services/user.service';
+
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
 
+  profileJson: string = null;
+
+  private _subscription: Subscription;
+  public userService: UserService;
   public user : User;
   public countries: Country[] = [];
 
@@ -24,6 +33,8 @@ export class UserProfileComponent implements OnInit {
   {
     this._userService = userService;
     this._countryService = countryService;
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
 
   ngOnInit(): void {
@@ -51,6 +62,13 @@ export class UserProfileComponent implements OnInit {
 
   onSubmit() {
     console.log(this.userForm.value)
+    this._subscription = this.userService.user.subscribe((u : User) => this.user = u);
+    console.log(this.user);
   }
+
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
+
 
 }

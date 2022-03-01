@@ -13,7 +13,8 @@
       width="100%"
       height="350"
       [src]="'data:image/jpeg;base64,' + beer.image.byteImage"
-    />
+      routerLink="/beers/{{ beer.id }}"
+      />
   </div>
   <ng-template #defaultImage>
     <img
@@ -21,6 +22,7 @@
       height="100%"
       height="350"
       src="..\..\assets\images\defaultBeerImage.jpg"
+      routerLink="/beers/{{ beer.id }}"
     />
   </ng-template>
   <div
@@ -34,44 +36,23 @@
       padding-top: 10px;
     "
   >
-    <div *ngIf="userService.isConnected(user)" style="position: absolute">
-      <div *ngIf="userService.isFavoriteBeer(beer, user); else notFavorite">
-        <span
-          class="material-icons"
-          style="
-            display: flex;
-            justify-content: left;
-            font-size: 400%;
-            color: rgb(224, 203, 10);
-            text-shadow: 0px 0px 10px black;
-          "
-        >
-          grade
-        </span>
-      </div>
-      <ng-template #notFavorite>
-        <span
-          class="material-icons"
-          style="display: flex; justify-content: left; font-size: 400%"
-        >
-          grade
-        </span>
-      </ng-template>
-    </div>
-    <!--
-      <span
+  <div *ngIf="userService.isConnected(user)" >
+    <app-star>  </app-star>
+  </div>
+
+  <!-- <span
       class="material-icons"
       style="display: flex; justify-content: right; font-size: 200%"
     >
       grade
-    </span> -->
+    </span>  -->
     <p
       class="Name"
       style="justify-content: center; font-weight: bold; font-size: larger"
     >
       {{ beer.name }}
     </p>
-    <p class="Origine" style="justify-content: center">
+    <p class="Origine" style="justify-content: center" >
       {{ beer.brewery.name }} / {{ beer.brewery.country.name }}
     </p>
     <p style="display: flex; justify-content: center">

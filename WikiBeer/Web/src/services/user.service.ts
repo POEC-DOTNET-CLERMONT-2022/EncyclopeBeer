@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, map, concat, finalize } from "rxjs";
 import { User } from "src/models/users/user";
 import { Beer } from "src/models/beer";
 
@@ -8,7 +8,6 @@ import { AuthService } from "@auth0/auth0-angular";
 import { UserProfile } from "src/models/users/user-profile";
 import { UserConnectionInfos } from "src/models/users/user-connection-infos";
 import { UserProfileService } from "./user-profile.service";
-
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +38,10 @@ export class UserService implements OnInit, OnDestroy{
     console.log(`Spy onDestroy`);
   }
 
+  updateUser(user: User): void {
+    this.userSource.next(user);
+  }
+
   setUserConnectionInfos(user: User): void {
     this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
       .subscribe({
@@ -47,12 +50,31 @@ export class UserService implements OnInit, OnDestroy{
         });
   }
 
+  setUser(user: User): void {
+    this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
+      .subscribe({
+        next: (u: UserConnectionInfos) => {user.connectionInfos = u;
+          this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
+          .pipe(
+            map(
+              u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds)
+              }
+            )
+          )
+          .subscribe({
+            next : (p: UserProfile) => user.profile = p,
+            error : () => {return null;}
+          });
+        },
+        error: () => {return null;}
+        });
+  }
+
   setUserProfile(user: User): void {
     this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
     .pipe(
       map(
-        u => {return new UserProfile(u.id, u.nickname, u.isCertified, u.country, u.favoriteBeerIds,
-          u.connectionInfos)
+        u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate, u.country, u.favoriteBeerIds)
         }
       )
     )
@@ -74,10 +96,6 @@ export class UserService implements OnInit, OnDestroy{
     {
       this.setUserProfile(user);
     }
-  }
-
-  updateUser(user: User): void {
-    this.userSource.next(user);
   }
 
   isConnected(user: User): boolean{
@@ -118,7 +136,5 @@ export class UserService implements OnInit, OnDestroy{
     }
 
   }
-
-
 }
 /* new UserConnectionInfos(u.connectionInfos.connectionId, u.connectionInfos.email, u.connectionInfos.isEmailVerified) */

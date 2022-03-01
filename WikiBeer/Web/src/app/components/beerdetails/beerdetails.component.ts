@@ -1,52 +1,54 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Beer } from "../../../models/beer";
 import { ActivatedRoute } from "@angular/router";
 import { BeerService } from 'src/services/beer.service';
 import { User } from 'src/models/users/user';
 import { UserService } from 'src/services/user.service';
+import { Subscription } from 'rxjs';
+import { SharedBeerService } from 'src/services/shared-beer.service';
 
 @Component({
   selector: 'app-beerdetails',
   templateUrl: './beerdetails.component.html',
-  styleUrls: ['./beerdetails.component.scss']
+  styleUrls: ['./beerdetails.component.scss'],
+  providers: [SharedBeerService]
 })
-export class BeerDetailsComponent implements OnInit {
+export class BeerDetailsComponent implements OnInit, OnDestroy {
 
-  public beer: Beer;
-  public tnull: string = null;
+  private _subscription: Subscription;
+
+  private _activatedRoute: ActivatedRoute;
+  private _beerService: BeerService;
+  private _sharedBeerService: SharedBeerService;
 
   public userService : UserService;
+
   public user: User;
-/*   @Input()
-  beer!: Beer;
-*/
-  constructor(private activatedRoute: ActivatedRoute, public beerService: BeerService, userService: UserService) {
+  public beer: Beer;
+
+  constructor(activatedRoute: ActivatedRoute, beerService: BeerService, sharedBeerService: SharedBeerService, userService: UserService) {
+    this._activatedRoute = activatedRoute;
+    this._beerService = beerService;
+    this._sharedBeerService = sharedBeerService;
     this.userService = userService;
    }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe
+    this._subscription = this.userService.user.subscribe((u: User) => this.user = u);
+    this._activatedRoute.params.subscribe
     (
       (param) =>
       {
-        this.beerService.getBeerById(param['beerId']).subscribe
+        this._beerService.getBeerById(param['beerId']).subscribe
         (
-          (beer: Beer) => {this.beer = beer; /* console.log(this.beer); console.log(this.beer.name); */}
+          (beer: Beer) => {this.beer = beer; this._sharedBeerService.beer = this.beer;}
         );
-
       }
     )
-    this.userService.user.subscribe((u: User) => this.user = u);
   }
 
-/*   isFavoriteBeer() : boolean  {
-
-    if(this.user.profile.favoriteBeerIds.includes(this.beer.id)){
-      return true;
-    }
-    else{
-      return false;
-    }
-  } */
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
 
 }

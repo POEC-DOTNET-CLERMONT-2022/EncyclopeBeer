@@ -18,15 +18,15 @@ namespace Ipme.WikiBeer.Models
             }
         }
 
-        private string _nickName;
-        public string NickName
+        private string _nickname;
+        public string Nickname
         {
-            get { return _nickName; }
+            get { return _nickname; }
             set
             {
-                if (_nickName != value)
+                if (_nickname != value)
                 {
-                    _nickName = value;
+                    _nickname = value;
                     OnNotifyPropertyChanged();
                 }
             }
@@ -119,10 +119,10 @@ namespace Ipme.WikiBeer.Models
         {
         }
 
-        public UserModel(Guid id, string nickName, DateTime birthDate, bool isCertified, ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
+        public UserModel(Guid id, string nickname, DateTime birthDate, bool isCertified, ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
         {
             Id = id;
-            NickName = nickName ?? String.Empty;
+            Nickname = nickname ?? String.Empty;
             BirthDate = birthDate;        
             IsCertified = isCertified;
             ConnectionInfos = connectionInfos;
@@ -130,16 +130,16 @@ namespace Ipme.WikiBeer.Models
             FavoriteBeerIds = favoriteBeerIds ?? new ObservableCollection<Guid>();
         }
 
-        public UserModel(string nickName, DateTime birthDate, bool isCertified, 
+        public UserModel(string nickname, DateTime birthDate, bool isCertified, 
             ConnectionInfosModel connectionInfos, CountryModel? country, ObservableCollection<Guid> favoriteBeerIds)
-            : this(Guid.Empty, nickName, birthDate, isCertified, connectionInfos, country, favoriteBeerIds)
+            : this(Guid.Empty, nickname, birthDate, isCertified, connectionInfos, country, favoriteBeerIds)
         {
         }
 
         private UserModel(UserModel user)
         {
             Id = user.Id;
-            NickName = user.NickName;
+            Nickname = user.Nickname;
             BirthDate = user.BirthDate;            
             IsCertified = user.IsCertified;
             ConnectionInfos = user.ConnectionInfos?.DeepClone();

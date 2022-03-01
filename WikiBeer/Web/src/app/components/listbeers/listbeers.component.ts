@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { BeerService } from 'src/services/beer.service';
 import { Beer } from 'src/models/beer';
 import { AuthService } from '@auth0/auth0-angular';
 
 import { UserService } from 'src/services/user.service';
 import { User } from 'src/models/users/user';
+import { map, mergeMap, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-listbeers',
   templateUrl: './listbeers.component.html',
   styleUrls: ['./listbeers.component.scss']
 })
-export class ListBeersComponent implements OnInit {
+export class ListBeersComponent implements OnInit, OnChanges,OnDestroy{
 
   public beers: Beer[] = [];
 
@@ -19,7 +20,7 @@ export class ListBeersComponent implements OnInit {
 
   private _beerService : BeerService;
   private _userService : UserService;
-  private _auth : AuthService;
+  private _subscription: Subscription;
   public user : User;
 
   constructor(beerService: BeerService, userService: UserService) {
@@ -27,20 +28,33 @@ export class ListBeersComponent implements OnInit {
     this._userService = userService;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    /* this._subscription = this._userService.user.subscribe((u) => this.user = u);
+    this._userService.trySetUserConnectionInfos(this.user);
+    this._userService.trySetUserProfile(this.user);
+    this._userService.updateUser(this.user); */
+  }
+
   ngOnInit(): void {
     this.pullBeers(); /* fonctionne */
-    this._userService.user.subscribe((u) => this.user = u);
-    this._userService.setUserConnectionInfos(this.user);
-    this._userService.trySetUserProfile(this.user);
+    this._subscription = this._userService.user.subscribe((u) => this.user = u);
+    this._userService.setUser(this.user);
+    /* this._userService.trySetUserConnectionInfos(this.user);
+    this._userService.trySetUserProfile(this.user); */
     this._userService.updateUser(this.user);
   }
 
-  /* Test GetAll */
-  pullBeers()
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  pullBeers() : void
   {
-    this._beerService.getBeers().subscribe((beerList: Beer[]) =>
+  this._beerService.getBeers()
+  .subscribe((beerList: Beer[]) =>
     {
       this.beers = beerList;
     })
   }
+
 }

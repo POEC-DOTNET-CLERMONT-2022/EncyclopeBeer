@@ -23,12 +23,23 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      let tt = this._router.navigate([NavbarComponent.pathBeerList]);
+      let tt =
       this.userService.user.subscribe((u) => this.user = u);
-      this.userService.trySetUserConnectionInfos(this.user);
-      this.userService.trySetUserProfile(this.user);
+      this.userService.setUser(this.user);
+      /* this.userService.trySetUserConnectionInfos(this.user);
+      this.userService.trySetUserProfile(this.user); */
       this.userService.updateUser(this.user);
+      this.performInitialNavigation(this.user);
     }
 
+    performInitialNavigation(user: User): void
+    {
+      if (this.userService.isConnected(this.user)){
+        this._router.navigate([NavbarComponent.pathUserProfile]);
+      }
+      else{
+        this._router.navigate([NavbarComponent.pathBeerList]);
+      }
+    }
 
 }

@@ -10,7 +10,7 @@ namespace Ipme.WikiBeer.Entities
     public class UserEntity : IEntity
     {
         public Guid Id { get; private set; }
-        public string NickName { get; private set; }
+        public string Nickname { get; private set; }
         public DateTime BirthDate { get; private set; }
        
         public bool IsCertified { get; private set; }
@@ -21,17 +21,17 @@ namespace Ipme.WikiBeer.Entities
 
         public IEnumerable<UserBeer> UserBeers { get; private set; }
 
-        private UserEntity(Guid id, string nickName, DateTime birthDate, bool isCertified)
+        private UserEntity(Guid id, string nickname, DateTime birthDate, bool isCertified)
         {
             Id = id;
-            NickName = nickName;
+            Nickname = nickname;
             BirthDate = birthDate;
             IsCertified = isCertified;
         }
 
-        public UserEntity(Guid id, string nickName, DateTime birthDate, string email, int hashCode, bool isCertified,
+        public UserEntity(Guid id, string nickname, DateTime birthDate, string email, int hashCode, bool isCertified,
             ConnectionInfosEntity connectionInfos, CountryEntity? country, IEnumerable<UserBeer> userBeers)
-            : this(id, nickName, birthDate, isCertified)
+            : this(id, nickname, birthDate, isCertified)
         {
             ConnectionInfos = connectionInfos;
             Country = country;
