@@ -28,8 +28,8 @@ using System.Collections.ObjectModel;
 var dbName = "WikiBeer";
 var cs = @$"Data Source = (LocalDb)\MSSQLLocalDB; Initial Catalog = {dbName}; Integrated Security = True;";
 var apiUrl = "https://localhost:7160";
-//var apiUrl = "https://localhost:5001"; // valeur par défaut si lancée en Auto
-var apiPath = @"C:\Users\Shaz\source\repos\Projet\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe";
+/*var apiUrl = "https://localhost:5001";*/ // valeur par défaut si lancée en Auto
+var apiPath = @"C:\Users\cleme\source\repos\Projet fil rouge\EncyclopeBeer\WikiBeer\API\bin\Debug\net6.0\Ipme.WikiBeer.Api.exe";
 bool autoRunApi = false;
        
 // Classes utilitaires
