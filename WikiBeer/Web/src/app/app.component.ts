@@ -25,10 +25,6 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
 
       this.userService.user.subscribe((u) => this.user = u);
-      /*this.userService.setUser(this.user); */
-      /* this.userService.trySetUserConnectionInfos(this.user);
-      this.userService.trySetUserProfile(this.user); */
-      /* this.userService.updateUser(this.user); */
       this.performInitialNavigation(this.user);
     }
 

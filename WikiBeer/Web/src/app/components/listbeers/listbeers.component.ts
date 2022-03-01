@@ -1,11 +1,10 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { BeerService } from 'src/services/beer.service';
 import { Beer } from 'src/models/beer';
-import { AuthService } from '@auth0/auth0-angular';
 
 import { UserService } from 'src/services/user.service';
 import { User } from 'src/models/users/user';
-import { map, mergeMap, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-listbeers',

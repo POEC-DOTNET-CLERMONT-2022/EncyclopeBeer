@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Beer } from 'src/models/beer';
 import { User } from 'src/models/users/user';
-import { UserProfile } from 'src/models/users/user-profile';
-import { SharedBeerService } from 'src/services/shared-beer.service';
 import { UserProfileService } from 'src/services/user-profile.service';
 import { UserService } from 'src/services/user.service';
 
@@ -17,7 +15,6 @@ export class FavoritebeersComponent implements OnInit {
 
   private _subscription: Subscription;
 
-  private _activatedRoute: ActivatedRoute;
   private _userService : UserService;
 
   public userProfileService: UserProfileService;
@@ -26,8 +23,7 @@ export class FavoritebeersComponent implements OnInit {
   public beers: Beer[] = [];
   public filterTerm!: string;
 
-  constructor(activatedRoute: ActivatedRoute, userService: UserService, userProfileService : UserProfileService) {
-    this._activatedRoute = activatedRoute;
+  constructor(userService: UserService, userProfileService : UserProfileService) {
     this._userService = userService;
     this.userProfileService = userProfileService;
    }
