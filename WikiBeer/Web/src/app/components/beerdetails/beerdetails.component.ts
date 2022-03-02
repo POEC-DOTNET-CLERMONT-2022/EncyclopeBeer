@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Beer } from "../../../models/beer";
 import { ActivatedRoute } from "@angular/router";
 import { BeerService } from 'src/services/beer.service';

@@ -33,6 +33,7 @@ import { UserService } from 'src/services/user.service';
 import { BeerService } from 'src/services/beer.service';
 import { StarComponent } from './components/star/star.component';
 import { CountryService } from 'src/services/country.service';
+import { FavoritebeersComponent } from './components/favoritebeers/favoritebeers.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CountryService } from 'src/services/country.service';
     AuthNavComponent,
     UserProfileComponent,
     BeerCardComponent,
-    StarComponent
+    StarComponent,
+    FavoritebeersComponent
   ],
   imports: [
     BrowserModule,

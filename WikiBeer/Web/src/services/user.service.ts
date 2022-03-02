@@ -1,7 +1,6 @@
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, map, concat, finalize } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
+import { BehaviorSubject, map, catchError } from "rxjs";
 import { User } from "src/models/users/user";
-import { Beer } from "src/models/beer";
 
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "@auth0/auth0-angular";
@@ -13,20 +12,18 @@ import { UserProfileService } from "./user-profile.service";
   providedIn: 'root'
 })
 export class UserService implements OnInit, OnDestroy{
-  /* ici la connection string de l'api*/
+
   baseUrl: string ='https://localhost:7160/api/';
   userController: string = 'users/';
-  /* httpClient par injection de dépendance */
-  private _httpClient: HttpClient;
+
   private _userProfileService : UserProfileService;
   private _auth: AuthService;
 
   private userSource = new BehaviorSubject<User>(new User());
   user = this.userSource.asObservable();
 
-  constructor(httpClient: HttpClient, auth: AuthService, userProfileService : UserProfileService)
+  constructor(auth: AuthService, userProfileService : UserProfileService)
   {
-    this._httpClient = httpClient;
     this._userProfileService = userProfileService;
     this._auth = auth;
   }
@@ -42,14 +39,6 @@ export class UserService implements OnInit, OnDestroy{
     this.userSource.next(user);
   }
 
-  setUserConnectionInfos(user: User): void {
-    this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
-      .subscribe({
-        next: (u: UserConnectionInfos) => user.connectionInfos = u,
-        error: () => {return null;}
-        });
-  }
-
   setUser(user: User): void {
     this._auth.user$.pipe(map(u => {return new UserConnectionInfos(u.sub, u.email, u.email_verified)}))
       .subscribe({
@@ -57,45 +46,26 @@ export class UserService implements OnInit, OnDestroy{
           this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
           .pipe(
             map(
-              u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds)
+              u => {
+                return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate ,u.country, u.favoriteBeerIds);
               }
-            )
+            ),
+            catchError(() => {
+              let newProfile = new UserProfile(u);
+              return this._userProfileService.postUserProfile(newProfile);
+            })
           )
           .subscribe({
-            next : (p: UserProfile) => user.profile = p,
-            error : () => {return null;}
+            next : (p: UserProfile) => {user.profile = p},
+            error : (err:HttpErrorResponse) =>
+            {
+              return null;
+            }
           });
         },
-        error: () => {return null;}
+        error: (err) => {
+              return null;}
         });
-  }
-
-  setUserProfile(user: User): void {
-    this._userProfileService.getUserProfileBySub(user.connectionInfos.id)
-    .pipe(
-      map(
-        u => {return new UserProfile(u.connectionInfos, u.id, u.nickname, u.isCertified, u.birthDate, u.country, u.favoriteBeerIds)
-        }
-      )
-    )
-    .subscribe({
-      next : (p: UserProfile) => user.profile = p,
-      error : () => {return null;}
-    });
-  }
-
-  trySetUserConnectionInfos(user: User): void{
-    if (this._auth.user$)
-    {
-      this.setUserConnectionInfos(user);
-    }
-  }
-
-  trySetUserProfile(user: User): void {
-    if (this.isConnected(user))
-    {
-      this.setUserProfile(user);
-    }
   }
 
   isConnected(user: User): boolean{
@@ -108,33 +78,4 @@ export class UserService implements OnInit, OnDestroy{
       return false;
     }
   }
-
-  hasProfile(user: User): boolean{
-    if (user.profile)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  isFavoriteBeer(beer: Beer, user: User) : boolean
-  {
-    if(this.hasProfile(user))
-    {
-      if(user.profile.favoriteBeerIds.includes(beer.id)){
-        return true;
-      }
-      else{
-        return false;
-      }
-    }
-    else{
-      return false;
-    }
-
-  }
 }
-/* new UserConnectionInfos(u.connectionInfos.connectionId, u.connectionInfos.email, u.connectionInfos.isEmailVerified) */
