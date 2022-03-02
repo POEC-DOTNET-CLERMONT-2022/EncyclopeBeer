@@ -32,7 +32,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             }
             else
             {
-                Navigator.NavigateTo(typeof(ViewHome));
+                Navigator.NavigateTo(typeof(ViewMain));
             }
         }
     }

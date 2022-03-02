@@ -9,16 +9,16 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
     /// <summary>
     /// Logique d'interaction pour HomeU.xaml
     /// </summary>
-    public partial class ViewHome : UserControl
+    public partial class ViewMain : UserControl
     {
         public INavigator Navigator { get; } = new Navigator();
 
         public Auth0Client AuthClient = ((App)Application.Current).AuthClient;
 
-        public ViewHome()
+
+        public ViewMain()
         {
             InitializeComponent();
-            Navigator.NavigateTo(typeof(ViewBeers));
         }
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
@@ -32,6 +32,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
                 SubMenuManager.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void Button_Click_Home(object sender, RoutedEventArgs e)
+        {
+            Navigator.NavigateTo(typeof(ViewHome));
         }
 
         private void Button_Click_Stats(object sender, RoutedEventArgs e)
@@ -72,7 +77,9 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         private async void Button_Click_Logout(object sender, RoutedEventArgs e) 
         {
             await AuthClient.LogoutAsync();
-            Navigator.NavigateTo(typeof(ViewLogin));
+
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            mainWindow.Navigator.NavigateTo(typeof(ViewLogin));
         }
 
         private void root_Loaded(object sender, RoutedEventArgs e)
@@ -84,6 +91,9 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             Navigator.RegisterView(new ViewStyles());
             Navigator.RegisterView(new ViewIngredients());
             Navigator.RegisterView(new ViewUsers());
+            Navigator.RegisterView(new ViewHome());
+
+            Navigator.NavigateTo(typeof(ViewHome));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ipme.WikiBeer.Wpf.UserControls.Views.ViewHome"
+﻿<UserControl x:Class="Ipme.WikiBeer.Wpf.UserControls.Views.ViewMain"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,6 +24,7 @@
                 <Label Content="WikiBeer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#212F3D" Foreground="#FACC00"/>
             </Grid>
             <StackPanel Grid.Row="1" VerticalAlignment="Stretch">
+                <Button Content="Home" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Home" Background="#D5D8DC"/>
                 <Button Content="Statistique" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Stats" Background="#D5D8DC"/>
                 <Button Content="Manager" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Manager" Background="#D5D8DC"/>
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
