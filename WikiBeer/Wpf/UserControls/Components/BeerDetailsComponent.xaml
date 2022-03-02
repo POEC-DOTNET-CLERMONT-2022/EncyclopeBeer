@@ -161,7 +161,8 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
                                                         <Button Height="16" Width="16" BorderThickness="0" 
-                                                        Click="AddIngredient_Button_Click" Style="{StaticResource ButtonVisibility}">
+                                                        Click="AddIngredient_Button_Click">
+                                                            <!--Style="{StaticResource ButtonVisibility}"-->
                                                             <Image>
                                                                 <Image.Source>
                                                                     <BitmapImage UriSource="/Img/add.png"/>

@@ -18,7 +18,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         public ViewMain()
         {
             InitializeComponent();
-            Navigator.NavigateTo(typeof(ViewBeers));
         }
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
@@ -32,6 +31,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
                 SubMenuManager.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void Button_Click_Home(object sender, RoutedEventArgs e)
+        {
+            Navigator.NavigateTo(typeof(ViewHome));
         }
 
         private void Button_Click_Home(object sender, RoutedEventArgs e)
