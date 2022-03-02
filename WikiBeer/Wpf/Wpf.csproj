@@ -31,7 +31,7 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.8.*" />
-	<PackageReference Include="Auth0.OidcClient.WPF" Version="4.0.0" />
+    <PackageReference Include="Auth0.OidcClient.WPF" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
