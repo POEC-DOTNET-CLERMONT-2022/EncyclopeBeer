@@ -5,13 +5,15 @@
     background-color: white;
     border-radius: 5px;
     overflow: hidden;
+    position: relative;
   "
 >
+  <div *ngIf="userService.isConnected(user)" >
+    <app-star style="position: absolute;">  </app-star>
+  </div>
   <div class="Card-Image" *ngIf="beer.image.byteImage; else defaultImage">
     <img
       class="BeerImage"
-      width="100%"
-      height="350"
       [src]="'data:image/jpeg;base64,' + beer.image.byteImage"
       routerLink="/beers/{{ beer.id }}"
       />
@@ -19,8 +21,6 @@
   <ng-template #defaultImage>
     <img
       class="BeerImage"
-      height="100%"
-      height="350"
       src="..\..\assets\images\defaultBeerImage.jpg"
       routerLink="/beers/{{ beer.id }}"
     />
@@ -36,16 +36,7 @@
       padding-top: 10px;
     "
   >
-  <div *ngIf="userService.isConnected(user)" >
-    <app-star>  </app-star>
-  </div>
 
-  <!-- <span
-      class="material-icons"
-      style="display: flex; justify-content: right; font-size: 200%"
-    >
-      grade
-    </span>  -->
     <p
       class="Name"
       style="justify-content: center; font-weight: bold; font-size: larger"

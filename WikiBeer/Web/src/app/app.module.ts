@@ -5,8 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppAuthenticationModule } from './app-authentification.module';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CommonModule } from '@angular/common';
 
 // Material design
 import { MatCardModule} from '@angular/material/card';
@@ -14,7 +16,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
-
 
 // Component
 import { BeerCardComponent } from './components/beer-card/beer-card.component'
@@ -31,7 +32,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserService } from 'src/services/user.service';
 import { BeerService } from 'src/services/beer.service';
 import { StarComponent } from './components/star/star.component';
-
+import { CountryService } from 'src/services/country.service';
+import { FavoritebeersComponent } from './components/favoritebeers/favoritebeers.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { StarComponent } from './components/star/star.component';
     AuthNavComponent,
     UserProfileComponent,
     BeerCardComponent,
-    StarComponent
+    StarComponent,
+    FavoritebeersComponent
   ],
   imports: [
     BrowserModule,
@@ -60,11 +63,13 @@ import { StarComponent } from './components/star/star.component';
     FlexLayoutModule,
     MatIconModule,
     FormsModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true
-  }, UserService, BeerService],
+  }, UserService, BeerService, CountryService],
   bootstrap: [AppComponent]
 })
 

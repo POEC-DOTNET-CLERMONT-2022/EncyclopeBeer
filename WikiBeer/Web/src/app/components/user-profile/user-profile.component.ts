@@ -1,7 +1,10 @@
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { UserService } from 'src/services/user.service';
+import { CountryService } from 'src/services/country.service';
+import { User } from 'src/models/users/user';
+import { Country } from 'src/models/country';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from 'src/models/users/user';
-import { UserService } from 'src/services/user.service';
 
 
 @Component({
@@ -16,12 +19,43 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
   public userService: UserService;
   public user : User;
+  public countries: Country[] = [];
 
-  constructor(userService: UserService) {
+  userForm! :FormGroup;
+
+  private _userService : UserService;
+  private _countryService : CountryService;
+
+  constructor(userService : UserService, countryService : CountryService)
+  {
+    this._userService = userService;
+    this._countryService = countryService;
     this.userService = userService;
   }
 
   ngOnInit(): void {
+    this.pullCountries();
+    this._userService.user.subscribe((u) => this.user = u)
+    console.log(this.user)
+    this.userForm = new FormGroup(
+      {
+          nickname: new FormControl(),
+          country: new FormControl()
+      }
+    )
+
+  }
+
+  pullCountries()
+  {
+    this._countryService.getCountries().subscribe((countryList: Country[]) =>
+    {
+      this.countries = countryList;
+    })
+  }
+
+  onSubmit() {
+    console.log(this.userForm.value)
     this._subscription = this.userService.user.subscribe((u : User) => this.user = u);
     console.log(this.user);
   }
@@ -29,6 +63,4 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
-
-
 }

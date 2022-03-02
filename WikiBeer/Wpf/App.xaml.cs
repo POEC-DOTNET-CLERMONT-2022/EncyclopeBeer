@@ -11,6 +11,7 @@ using Ipme.WikiBeer.Wpf.Utilities;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
+using Auth0.OidcClient;
 
 namespace Ipme.WikiBeer.Wpf
 {
@@ -36,6 +37,14 @@ namespace Ipme.WikiBeer.Wpf
 
         public INavigator Navigator { get; } = new Navigator();
 
+        public Auth0Client AuthClient { get; set; }
+
+        Auth0ClientOptions clientOptions = new Auth0ClientOptions
+        {
+            Domain = "docapc.eu.auth0.com",
+            ClientId = "gWxCRG1wMFIllvK17H6dI4QeRrRR3DGt"
+        };
+
         public App()
         {
             // Création du BeerDataManager
@@ -49,6 +58,9 @@ namespace Ipme.WikiBeer.Wpf
             ColorDataManager = new ColorDataManager(HttpClient, Mapper, ServerUrl);
             IngredientDataManager = new IngredientDataManager(HttpClient, Mapper, ServerUrl);
             UserDataManager = new UserDataManager(HttpClient, Mapper, ServerUrl);
+
+            AuthClient = new Auth0Client(clientOptions);
+            clientOptions.PostLogoutRedirectUri = clientOptions.RedirectUri;
         }
 
         private void App_OnStartup(object sender, StartupEventArgs e)

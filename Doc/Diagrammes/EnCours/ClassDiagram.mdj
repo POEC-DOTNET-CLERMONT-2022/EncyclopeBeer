@@ -5750,7 +5750,7 @@
 											"top": 637,
 											"width": 150.21728515625,
 											"height": 13,
-											"text": "+email: string",
+											"text": "-email: string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5768,7 +5768,7 @@
 											"top": 652,
 											"width": 150.21728515625,
 											"height": 13,
-											"text": "+isVerified: bool",
+											"text": "-isVerified: bool",
 											"horizontalAlignment": 0
 										}
 									],
@@ -8659,6 +8659,7 @@
 								"$ref": "AAAAAAF/PSPBAgUFWuU="
 							},
 							"name": "email",
+							"visibility": "private",
 							"type": "string"
 						},
 						{
@@ -8668,6 +8669,7 @@
 								"$ref": "AAAAAAF/PSPBAgUFWuU="
 							},
 							"name": "isVerified",
+							"visibility": "private",
 							"type": "bool"
 						}
 					]

@@ -1,5 +1,4 @@
 ﻿using Ipme.WikiBeer.ApiDatas;
-using Ipme.WikiBeer.Dtos;
 using Ipme.WikiBeer.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,26 +15,13 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
     /// </summary>
     public partial class ViewUsers : UserControl, INotifyPropertyChanged
     {
-        private IDataManager<UserModel, UserDto> _userDataManager = ((App)Application.Current).UserDataManager;
-
-        //public static readonly DependencyProperty UsersProperty =
-        //    DependencyProperty.Register("Users", typeof(IGenericListModel<UserModel>), typeof(ViewUsers));
-
-        //public IGenericListModel<UserModel> Users
-        //{
-        //    get { return GetValue(UsersProperty) as IGenericListModel<UserModel>; }
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            SetValue(UsersProperty, value);
-        //        }
-        //    }
-        //}
+        private UserDataManager _userDataManager = (UserDataManager)((App)Application.Current).UserDataManager;
 
         public IGenericListModel<UserModel> Users { get; }
+        public IGenericListModel<BeerModel> FavoriteBeers { get; set; }
 
         private string _textSearch;
+
         public string TextSearch
         {
             get
@@ -45,14 +31,13 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             set
             {
                 _textSearch = value;
-                OnPropertyChanged();
-                ((CollectionViewSource)Resources["UsersViewSource"]).View.Refresh();
             }
         }
 
         public ViewUsers()
         {
             Users = new GenericListModel<UserModel>();
+            FavoriteBeers = new GenericListModel<BeerModel>();
             InitializeComponent();
         }
 
@@ -66,6 +51,12 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             var users = await _userDataManager.GetAll();
             Users.List = new ObservableCollection<UserModel>(users);
+        }
+
+        public async Task LoadFavoriteBeers()
+        {
+            var beers = await _userDataManager.GetFavoriteBeersById(Users.ToModify.Id);
+            FavoriteBeers.List = new ObservableCollection<BeerModel>(beers);
         }
 
         private async void Update_Button_Click(object sender, RoutedEventArgs e)
@@ -121,13 +112,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private string BuildUserSearchParams(UserModel user)
         {
             string searchParams = user.Nickname;
@@ -138,6 +122,17 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             }
 
             return searchParams.ToLower();
+        }
+
+        private async void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await LoadFavoriteBeers();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -66,9 +66,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
-            //var name = Breweries.ToModify.Name;
-            //var description = Breweries.ToModify.Description;
-            //CountryModel country = (CountryModel)BreweryDetailsComponent.CountryBox.SelectedItem;
             //var brewery = new BreweryModel(name, description, country);
             var newBrewery = await _breweryDataManager.Add(Breweries.ToModify);
             Breweries.List.Add(newBrewery);

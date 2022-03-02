@@ -11,6 +11,7 @@
         <converter:AgeConverter x:Key="AgeConverter"/>
         <converter:CertifiedConverter x:Key="CertifiedConverter"/>
         <Style x:Key="UserRoleButton" TargetType="Button">
+            <Setter Property="Padding" Value="5, 0"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding UserDetails.IsCertified}" Value="true">
                     <Setter Property="Content" Value="Downgrade"/>
@@ -24,39 +25,70 @@
     <Border DataContext="{Binding ., ElementName=root}" Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5">
         <Grid >
             <Grid x:Name="Details" Margin="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Nickname: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.Nickname}" Width="150" Height="30"/>
-                </WrapPanel>
-                <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Mail: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.ConnectionInfos.Email}" Width="150" Height="30"/>
-                </WrapPanel>
-                <WrapPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Birthdate: " FontWeight="Bold"  Height="30"/>
-                    <Label Content="{Binding UserDetails.BirthDate}" Width="150" Height="30"/>
-                </WrapPanel>
-                <WrapPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Age: " FontWeight="Bold"  Height="30"/>
-                    <Label Content="{Binding UserDetails.BirthDate, Converter={StaticResource AgeConverter}}" Width="150" Height="30"/>
-                </WrapPanel>
-                <WrapPanel Grid.Row="4" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Country: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.Country.Name}" Width="150" Height="30"/>
-                </WrapPanel>
-                <WrapPanel Grid.Row="5" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                    <Label Content="Role: " FontWeight="Bold" Height="30"/>
-                    <Label Content="{Binding UserDetails.IsCertified, Converter={StaticResource CertifiedConverter}}" Width="150" Height="30"/>
-                    <Button Click="UpgradeUserRole" Width="Auto" Style="{StaticResource UserRoleButton}"/>
-                </WrapPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Nickname: " FontWeight="Bold" Height="30"/>
+                        <Label Content="{Binding UserDetails.NickName}" Width="150" Height="30"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Mail: " FontWeight="Bold" Height="30"/>
+                        <Label Content="{Binding UserDetails.ConnectionInfos.Email}" Width="150" Height="30"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Birthdate: " FontWeight="Bold"  Height="30"/>
+                        <Label Content="{Binding UserDetails.BirthDate}" Width="150" Height="30"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Age: " FontWeight="Bold"  Height="30"/>
+                        <Label Content="{Binding UserDetails.BirthDate, Converter={StaticResource AgeConverter}}" Width="150" Height="30"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="4" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Country: " FontWeight="Bold" Height="30"/>
+                        <Label Content="{Binding UserDetails.Country.Name}" Width="150" Height="30"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="5" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Role: " FontWeight="Bold" Height="30"/>
+                        <Label Content="{Binding UserDetails.IsCertified, Converter={StaticResource CertifiedConverter}}" Width="150" Height="30"/>
+                        <Button Click="UpgradeUserRole" Width="Auto" Style="{StaticResource UserRoleButton}"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="6" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
+                        <Label Content="Beer Liked: " FontWeight="Bold" Height="30"/>
+                        <Label Content="{Binding UserDetails.FavoriteBeerIds.Count}" Width="150" Height="30"/>
+                    </WrapPanel>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="List" MaxHeight="400" Grid.Row="1"
+                             ItemsSource="{Binding FavoriteBeers}" 
+                             IsSynchronizedWithCurrentItem="False">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
+                                    <StackPanel Background="WhiteSmoke" Width="150" Height="50" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" Margin="5,5,0,0" />
+                                        <TextBlock Text="{Binding Brewery.Name}" Margin="5,5,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </Grid>
         </Grid>
     </Border>

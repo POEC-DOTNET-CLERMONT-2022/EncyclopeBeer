@@ -107,6 +107,14 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             //var newBeer = await _beerDataManager.Add(beer);
             //Beers.List.Add(newBeer);
             //Beers.ToModify = null;
+            if (Beers.ToModify != null)
+            {
+                var beerToCreate = await _beerDataManager.Add(Beers.ToModify);
+                if (beerToCreate != null)
+                {
+                    Beers.List.Add(beerToCreate);
+                }
+            }
 
             Update_Button.Visibility = Visibility.Visible;
             Delete_Button.Visibility = Visibility.Visible;
@@ -175,13 +183,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private string BuildBeerSearchParams(BeerModel beer)
         {
             string searchParams = beer.Name;
@@ -206,6 +207,12 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
             }
 
             return searchParams.ToLower();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

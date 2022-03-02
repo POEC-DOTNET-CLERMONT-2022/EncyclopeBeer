@@ -35,12 +35,14 @@ export class UserProfileService {
     .pipe(map( (data: UserProfile) => {return data;}));
   }
 
-  getFavoriteBeers(id: string): Observable<Beer>{
-    return this._httpClient.get<Beer>(this.baseUrl + this.userController + id +"/favoritesBeers" );
+  getFavoriteBeers(id: string): Observable<Beer[]>{
+    return this._httpClient.get<Beer[]>(this.baseUrl + this.userController + id +"/favoriteBeers" );
   }
 
   postUserProfile(profile: UserProfile): Observable<UserProfile>{
-    const body = JSON.stringify(UserProfile)
+    let jsonProfile = this.getJsonProfile(profile);
+    const body = JSON.stringify(jsonProfile);
+    console.log(body)
     return this._httpClient.post<UserProfile>(this.baseUrl + this.userController, body, this.headers)
   }
 

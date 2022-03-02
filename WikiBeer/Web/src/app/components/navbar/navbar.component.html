@@ -1,28 +1,20 @@
 
-<nav class="navbar navbar-light bg-dark text-white" style="position: fixed; top: 0; width: 100%;">
+<nav class="navbar navbar-light bg-dark text-white" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
   <div class="container-fluid">
     <div>
       <a class="btn btn-nav" [routerLink]="urlBeerList">
         Bières
       </a>
     </div>
-  <div *ngIf="(auth.isAuthenticated$ | async)">Favoris</div>
+  <div *ngIf="(auth.isAuthenticated$ | async)">
+    <a class="btn btn-nav" *ngIf="(auth.isAuthenticated$ | async)" [routerLink]="urlFavoriteBeers">
+      Favoris
+    </a>
+  </div>
   <a class="btn btn-nav" *ngIf="(auth.isAuthenticated$ | async)" [routerLink]="urlUserProfile">
     Mon profile
   </a>
- <!--  <app-user-profile *ngIf="(auth.isAuthenticated$ | async)">Favoris</app-user-profile> -->
   <app-auth-nav *ngIf="!(auth.isLoading$ |async)"></app-auth-nav>
   </div>
 
 </nav>
-
-
-<!-- <div class="nav-container mb-3">
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-      <div class="navbar-brand logo"></div>
-      <app-main-nav></app-main-nav>
-      <app-auth-nav></app-auth-nav>
-    </div>
-  </nav>
-</div> -->

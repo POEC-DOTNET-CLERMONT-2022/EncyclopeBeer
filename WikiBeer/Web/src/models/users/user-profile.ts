@@ -51,12 +51,5 @@ export class UserProfile{
     return this.favoriteBeerIds.includes(id);
   }
 
-/*   public toJSON(): string {
-    let obj = Object.assign(this);
-    let keys = Object.keys(this.constructor.prototype);
-    obj.toJSON = undefined;
-    return JSON.stringify(obj, keys);
-} */
-
 }
 

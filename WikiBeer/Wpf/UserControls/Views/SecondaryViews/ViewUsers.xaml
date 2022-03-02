@@ -63,7 +63,8 @@
                         <ListBox x:Name="List" MaxHeight="400"
                                  ItemsSource="{Binding Source={StaticResource UsersViewSource}}" 
                                  SelectedItem="{Binding Users.Current}"
-                                 IsSynchronizedWithCurrentItem="False">
+                                 IsSynchronizedWithCurrentItem="False"
+                                 SelectionChanged="List_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,2">
@@ -84,6 +85,7 @@
                 </Grid.RowDefinitions>
                 <control:UserDetailsComponent x:Name="UserDetailsComponent" 
                                               UserDetails="{Binding Users.ToModify, UpdateSourceTrigger=PropertyChanged}" 
+                                              FavoriteBeers="{Binding FavoriteBeers.list, UpdateSourceTrigger=PropertyChanged}" 
                                               Grid.Row="0"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <TextBlock x:Name="InfoDisplayer" FontWeight="Bold" Width="300"/>

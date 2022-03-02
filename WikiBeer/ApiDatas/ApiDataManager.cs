@@ -16,11 +16,11 @@ namespace Ipme.WikiBeer.ApiDatas
 {
     public class ApiDataManager<TModel, TDto> : IDataManager<TModel, TDto> where TModel : class where TDto : class
     {
-        private HttpClient Client { get; }
-        private IMapper Mapper { get; }
+        protected HttpClient Client { get; }
+        protected IMapper Mapper { get; }
         private string ServerUrl { get; }
         private string ResourceUrl { get; }
-        private Uri Uri { get; }        
+        protected Uri Uri { get; }        
         protected JsonSerializerSettings JsonSerializerSettings { get; set; }
 
         public ApiDataManager(HttpClient client, IMapper mapper, string serverUrl, string resourceUrl)

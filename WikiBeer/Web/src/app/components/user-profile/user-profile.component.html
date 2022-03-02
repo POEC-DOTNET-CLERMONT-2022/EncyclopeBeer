@@ -1,14 +1,37 @@
-<div *ngIf="userService.user | async ">
-  <div class="row align-items-center profile-header">
-    <div class="col-md-2 mb-3">
+<div style="display: flex; justify-content: center; justify-items: center; align-items: center; align-content: center;">
+  <div class="UserPresenter" style=" display: flex; max-width: 900px; width: 80%; background-color: white; border-radius: 5px; box-shadow: 0px 0px 10px 1px darkgrey; padding: 20px;">
+    <div style="width: 50%;">
+      <img [src]="" alt="User's profile picture" class="rounded-circle img-fluid profile-picture" />
     </div>
-    <div class="col-md text-center text-md-left">
-      <h2>{{ user.connectionInfos.email }}</h2>
-      <h2>{{ user.profile.nickname }}</h2>
+    <div style="display: flex; flex-direction: column; width: 50%;">
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <h1 style="width: fit-content;">General</h1>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+        <div class="formcontrolbox">
+          <label for="nickname">NickName</label>
+          <input id="nickname" type="text" formControlName="nickname" style="width: 60%"/>
+        </div>
+        <div class="formcontrolbox">
+          <label for="email">Email</label>
+          <p id="email">{{ user.connectionInfos.email }}</p>
+        </div>
+        <div class="formcontrolbox">
+          <label for="country">Country</label>
+          <select id="country" formControlName="country" style="width: 60%;">
+            <option disabled>Select country</option>
+            <option *ngFor="let country of countries">{{country.name}}</option>
+          </select>
+        </div>
+        <div class="formcontrolbox">
+          <label for="email">BirthDate</label>
+          <input class="datepicker" style="width:150px; justify-content: center;" formControlName="birthdate" type="date" id="birthDate" min="" max=""/>
+        </div>
+          <button type="submit">Submit</button>
+      </form>
+
     </div>
   </div>
 
-  <div class="row" *ngIf="user.profile">
-    <pre class="col-12 text-light bg-dark p-4">{{ user.profile.favoriteBeerIds}}</pre>
-  </div>
 </div>

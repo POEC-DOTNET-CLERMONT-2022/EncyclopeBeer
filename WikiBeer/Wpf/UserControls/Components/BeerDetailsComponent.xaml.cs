@@ -3,6 +3,7 @@ using Ipme.WikiBeer.Models.Ingredients;
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
     /// </summary>
     public partial class BeerDetailsComponent : UserControl
     {
+        #region DependencyProperties
         public static readonly DependencyProperty BeerDetailsProperty =
             DependencyProperty.Register("BeerDetails", typeof(BeerModel), typeof(BeerDetailsComponent));
 
@@ -88,6 +90,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
                 }
             }
         }
+        #endregion
 
         public BeerDetailsComponent()
         {
@@ -100,10 +103,20 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void DeletIngredient_Button_Click(object sender, RoutedEventArgs e)
+        private void DeleteIngredient_Button_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             BeerDetails.Ingredients.Remove((IngredientModel)btn.DataContext);
+        }
+
+        private void AddIngredient_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            IngredientModel ingredientToAdd = (IngredientModel)btn.DataContext;
+            if (!BeerDetails.Ingredients.Any(ingredient => ingredient.Id == ingredientToAdd.Id))
+            {
+                BeerDetails.Ingredients.Add((IngredientModel)btn.DataContext);
+            }
         }
 
         private void SelectPicture_Button_Click(object sender, RoutedEventArgs e)
