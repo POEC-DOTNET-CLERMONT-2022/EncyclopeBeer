@@ -47,7 +47,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         {
             if (user.IsCertified)
             {
-                Navigator.NavigateTo(typeof(ViewHome));
+                Navigator.NavigateTo(typeof(ViewMain));
             }
             else
             {

@@ -27,7 +27,7 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="ButtonVisibility" TargetType="Button">
-            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Background" Value="white"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding BeerDetails, ElementName=root}" Value="null">
                     <Setter Property="Visibility" Value="Hidden"/>
