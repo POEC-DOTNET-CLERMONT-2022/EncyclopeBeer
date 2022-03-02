@@ -67,7 +67,7 @@ namespace Ipme.WikiBeer.Wpf
         {
             // Définition des deux vues principales
             Navigator.RegisterView(new ViewLogin());
-            Navigator.RegisterView(new ViewHome());
+            Navigator.RegisterView(new ViewMain());
         }
 
         protected override void OnStartup(StartupEventArgs e)

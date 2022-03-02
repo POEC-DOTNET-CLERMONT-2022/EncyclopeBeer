@@ -1,4 +1,5 @@
-﻿using Ipme.WikiBeer.Wpf.UserControls.Views;
+﻿using Ipme.WikiBeer.Models;
+using Ipme.WikiBeer.Wpf.UserControls.Views;
 using Ipme.WikiBeer.Wpf.Utilities;
 using System.Windows;
 

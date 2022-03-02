@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="Img\add.png" />
     <None Remove="Img\delete.png" />
+    <None Remove="Img\logo.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +43,7 @@
   <ItemGroup>
     <Resource Include="Img\add.png" />
     <Resource Include="Img\delete.png" />
+    <Resource Include="Img\logo.jpg" />
   </ItemGroup>
 
   <ItemGroup>
