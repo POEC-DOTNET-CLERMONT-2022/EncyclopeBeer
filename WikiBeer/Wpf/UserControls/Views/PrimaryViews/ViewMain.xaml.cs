@@ -15,7 +15,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
 
         public Auth0Client AuthClient = ((App)Application.Current).AuthClient;
 
-
         public ViewMain()
         {
             InitializeComponent();
@@ -32,6 +31,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
                 SubMenuManager.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void Button_Click_Home(object sender, RoutedEventArgs e)
+        {
+            Navigator.NavigateTo(typeof(ViewHome));
         }
 
         private void Button_Click_Home(object sender, RoutedEventArgs e)
@@ -77,7 +81,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         private async void Button_Click_Logout(object sender, RoutedEventArgs e) 
         {
             await AuthClient.LogoutAsync();
-
             MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
             mainWindow.Navigator.NavigateTo(typeof(ViewLogin));
         }

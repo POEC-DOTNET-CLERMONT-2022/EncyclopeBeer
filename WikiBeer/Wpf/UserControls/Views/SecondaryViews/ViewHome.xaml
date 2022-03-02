@@ -7,17 +7,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="white">
-        <Label HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="25" Content="Bienvenue dans l'outil d'aministration de Wikibeer!"/>
-        <Image Width="200" Height="auto" HorizontalAlignment="Center" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel VerticalAlignment="Center" Grid.Row="0" >
+            <Label Width="auto" Height="auto" Margin="20" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold"
+               Content="Bienvenue dans l'outil d'aministration du Wikibeer!" />
+        </StackPanel>
+        <Image Grid.Row="1" Width="200" Height="Auto">
             <Image.Source>
                 <BitmapImage UriSource="/Img/logo.jpg"/>
             </Image.Source>
         </Image>
-        <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,10">
-            <Label HorizontalAlignment="Center"  FontWeight="DemiBold"  FontSize="18" Content="Naviguez grace au panneau latéral pour :"/>
-            <Label HorizontalAlignment="Center"  FontWeight="DemiBold" FontSize="16" Content="- Consultez les statistiques de l'application"/>
-            <Label HorizontalAlignment="Center"  FontWeight="DemiBold" FontSize="16" Content="- Gérer les bières et leurs composants/relations"/>
-            <Label HorizontalAlignment="Center"  FontWeight="DemiBold" FontSize="16" Content="- Administrer les utilisateurs"/>
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <Label Width="auto" Height="auto"  HorizontalAlignment="Center" FontSize="18" FontWeight="DemiBold"
+               Content="Naviguez grace au panneau latéral pour :" />
+            <Label Width="auto" Height="auto"  HorizontalAlignment="Center" FontSize="16" FontWeight="DemiBold"
+               Content="- Consultez les statistiques des bières" />
+            <Label Width="auto" Height="auto"  HorizontalAlignment="Center" FontSize="16" FontWeight="DemiBold"
+               Content="- Gérer les bières et leurs composants/relations" />
+            <Label Width="auto" Height="auto"  HorizontalAlignment="Center" FontSize="16" FontWeight="DemiBold"
+               Content="- Administrer les utilisateurs" />
         </StackPanel>
     </Grid>
 </UserControl>

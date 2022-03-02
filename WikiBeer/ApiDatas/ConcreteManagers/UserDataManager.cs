@@ -28,5 +28,17 @@ namespace Ipme.WikiBeer.ApiDatas
 
             return Mapper.Map<IEnumerable<BeerModel>>(dto);
         }
+
+        public async Task<UserModel> GetByConnectionId(string id)
+        {
+            var response = await Client.GetAsync(Uri.AbsoluteUri + $"/connection/{id}");
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            var dto = JsonConvert.DeserializeObject<UserDto>(responseString,
+                JsonSerializerSettings);
+
+            return Mapper.Map<UserModel>(dto);
+        }
     }
 }
