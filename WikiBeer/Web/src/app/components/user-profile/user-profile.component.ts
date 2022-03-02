@@ -36,8 +36,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pullCountries();
     this._userService.user.subscribe((u) => this.user = u)
-    this._userService.trySetUserProfile(this.user);
-    this._userService.updateUser(this.user);
     console.log(this.user)
     this.userForm = new FormGroup(
       {
