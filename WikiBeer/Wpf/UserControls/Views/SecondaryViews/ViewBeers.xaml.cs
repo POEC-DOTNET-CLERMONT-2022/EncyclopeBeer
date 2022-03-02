@@ -59,7 +59,8 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             Task[] tasks = { LoadBeers(), LoadBreweries(),
                 LoadStyles(), LoadColors(), LoadIngredients() };
-            await Task.WhenAll(tasks);            
+            await Task.WhenAll(tasks);
+            var toto = 1;
         }
 
         public async Task LoadBeers()
