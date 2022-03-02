@@ -26,6 +26,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ButtonVisibility" TargetType="Button">
+            <Setter Property="Background" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding BeerDetails, ElementName=root}" Value="null">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
     <Border DataContext="{Binding ., ElementName=root}" Background="GhostWhite" 
@@ -152,8 +160,8 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left">
-                                                        <Button Height="16" Width="16" BorderThickness="0" Background="White"
-                                                        Click="AddIngredient_Button_Click">
+                                                        <Button Height="16" Width="16" BorderThickness="0" 
+                                                        Click="AddIngredient_Button_Click" Style="{StaticResource ButtonVisibility}">
                                                             <Image>
                                                                 <Image.Source>
                                                                     <BitmapImage UriSource="/Img/add.png"/>
