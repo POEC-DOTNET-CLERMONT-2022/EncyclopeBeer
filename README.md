@@ -35,15 +35,15 @@ Pour un professionnel, elle permet de connaître le profil des utilisateurs : le
 
 ## Fonctionnalités
 
-L'objet principal de l'application sera "Beer".  
+L'objet principal de l'application est "Beer".  
 
-Il existe deux type d'utilisateur :  
+Il existe deux types d'utilisateurs :  
 
 - **Utilisateur Standard**: utilisateurs principaux de l'application via l'application Web, ils peuvent :  
 
   - Consulter la liste des bières et effectuer une recherche
   - Se connecter a l'application pour :     
-    - Ajouter une bière a ses favoris  
+    - Ajouter/Enlever une bière a ses favoris  
   
 - **Administateur**: Capable de gérer l'application via le client lourd.
 
@@ -84,7 +84,7 @@ dotnet run
 ```
 dotnet run 
 ```
-dans ConsoleAppPopulateTest.
+dans ConsoleAppPopulateTest ou bien passer par le .mdf fournit dans /Data (non testé -> fonctionnement non garantie).
 
 ### Utilisation courante
 
@@ -108,16 +108,16 @@ ng serve --open
 
 ### Note sur le client lourd
 
-Le client lourd (Wpf) nécessite une connection via Auth0. Pour le lancer sans il faut simplement désactiver la partie concerner dans le fichier Wpf/UserControls/Views/PrimaryViews/ViewLogin.xaml.cs ou bien contacter un des gestionnaires du projet.
+Le client lourd (Wpf) nécessite une connection via Auth0. Pour le lancer sans il faut simplement désactiver la partie concerné dans le fichier Wpf/UserControls/Views/PrimaryViews/ViewLogin.xaml.cs ou bien contacter un des gestionnaires du projet.
 
 ### Note sur le client Web
 
-Le client Web nécessite une création de compte avant de pouvoir utiliser les fonctionnalité dédiées aux utilisateurs connectés. La création de compte nécessite seulement un clique sur le bouton correspondant dans le client Web. La suppression d'un compte peut être demandé aux gestionnaires du projet.
+Le client Web nécessite une création de compte avant de pouvoir utiliser les fonctionnalités dédiées aux utilisateurs connectés. La création de compte nécessite seulement un clique sur le bouton correspondant dans le client Web. La suppression d'un compte peut être demandé aux gestionnaires du projet.
 
 ## Bug connus
 - Client lourd (WPf)
-  - Un regex ne fonctionne pas comme attendue sur les champs attendant des floats. Ces champs n'acceptent que des int pour l'instant. Contrournement : passer par la ConsoleAppPopulateTest pour rentrer/modifier ces champs.
-  - La tentative de connection très rapide peut fair eplanter le programme. Il faut attendre l'ouverture et la fermeture de la fenêtre Auth0 pour éviter cela lors de la procédure d'ideentification.
+  - Un regex ne fonctionne pas comme attendue sur les champs attendant des floats. Ces champs n'acceptent que des int pour l'instant. Contournement : passer par la ConsoleAppPopulateTest pour rentrer/modifier ces champs.
+  - La tentative de connection très rapide peut fair eplanter le programme. Il faut attendre l'ouverture et la fermeture de la fenêtre Auth0 pour éviter cela lors de la procédure d'identification.
   - Pour le moment la tentative de connection d'un utilisateur non certifié ne provoquera qu'une redirection vers la page de login donnant l'illusion que rien ne se passe. It's not a Bug, it's a feature.
 
 - Client léger (Web)
