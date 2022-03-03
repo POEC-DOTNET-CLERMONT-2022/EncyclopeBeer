@@ -48,7 +48,7 @@ Il existe deux type d'utilisateur :
 - **Administateur**: Capable de gérer l'application via le client lourd.
 
   - Effectuer des oppérations CRUD sur les bières et leurs sous objets
-  - Administrer les utilisateurs (donner les droits d'accès aux client lourds)
+  - Administrer les utilisateurs (donner les droits d'accès aux client lourd)
 
 ## Ce que l'on aimerait rajouter
 
