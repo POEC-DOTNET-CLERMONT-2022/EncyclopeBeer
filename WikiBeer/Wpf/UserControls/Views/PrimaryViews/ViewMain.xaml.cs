@@ -18,6 +18,14 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
         public ViewMain()
         {
             InitializeComponent();
+            Navigator.RegisterView(new ViewStats());
+            Navigator.RegisterView(new ViewBeers());
+            Navigator.RegisterView(new ViewBreweries());
+            Navigator.RegisterView(new ViewColors());
+            Navigator.RegisterView(new ViewStyles());
+            Navigator.RegisterView(new ViewIngredients());
+            Navigator.RegisterView(new ViewUsers());
+            Navigator.RegisterView(new ViewHome());
         }
 
         private void Button_Click_Manager(object sender, RoutedEventArgs e)
@@ -82,15 +90,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
 
         private void root_Loaded(object sender, RoutedEventArgs e)
         {
-            Navigator.RegisterView(new ViewStats());
-            Navigator.RegisterView(new ViewBeers());
-            Navigator.RegisterView(new ViewBreweries());
-            Navigator.RegisterView(new ViewColors());
-            Navigator.RegisterView(new ViewStyles());
-            Navigator.RegisterView(new ViewIngredients());
-            Navigator.RegisterView(new ViewUsers());
-            Navigator.RegisterView(new ViewHome());
-
             Navigator.NavigateTo(typeof(ViewHome));
         }
     }

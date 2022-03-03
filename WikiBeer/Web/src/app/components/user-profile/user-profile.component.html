@@ -5,12 +5,12 @@
     </div>
     <div style="display: flex; flex-direction: column; width: 50%;">
       <div style="display: flex; justify-content: center; width: 100%;">
-        <h1 style="width: fit-content;">General</h1>
+        <h1 style="width: fit-content;">Mon compte</h1>
       </div>
 
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
         <div class="formcontrolbox">
-          <label for="nickname">NickName</label>
+          <label for="nickname">Pseudo</label>
           <input id="nickname" type="text" formControlName="nickname" style="width: 60%"/>
         </div>
         <div class="formcontrolbox">
@@ -18,17 +18,17 @@
           <p id="email">{{ user.connectionInfos.email }}</p>
         </div>
         <div class="formcontrolbox">
-          <label for="country">Country</label>
+          <label for="country">Pays</label>
           <select id="country" formControlName="country" style="width: 60%;">
             <option disabled>Select country</option>
             <option *ngFor="let country of countries">{{country.name}}</option>
           </select>
         </div>
         <div class="formcontrolbox">
-          <label for="email">BirthDate</label>
+          <label for="email">Date de naissance</label>
           <input class="datepicker" style="width:150px; justify-content: center;" formControlName="birthdate" type="date" id="birthDate" min="" max=""/>
         </div>
-          <button type="submit">Submit</button>
+          <button type="submit">Mettre a jour</button>
       </form>
 
     </div>
