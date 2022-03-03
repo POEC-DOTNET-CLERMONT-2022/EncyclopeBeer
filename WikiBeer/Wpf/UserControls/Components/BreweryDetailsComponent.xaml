@@ -23,11 +23,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="40,0" VerticalAlignment="Center">
-                        <Label Content="Name" FontWeight="Bold"/>
+                        <Label Content="Nom" FontWeight="Bold"/>
                         <TextBox Text="{Binding BreweryDetails.Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="40,0" VerticalAlignment="Center">
-                        <Label Content="Country" FontWeight="Bold"/>
+                        <Label Content="Origine" FontWeight="Bold"/>
                         <ComboBox x:Name="CountryBox"
                                   ItemsSource="{Binding Countries.List}"
                                   Text="{Binding BreweryDetails.Country.Name}"
@@ -42,7 +42,7 @@
                         <Border BorderBrush="Gainsboro" BorderThickness="2" CornerRadius="5" Margin="0,0,0,5" DockPanel.Dock="Top">
                             <Image Height="150" Width="150"/>
                         </Border>
-                        <Button Content="Change picture" Height="25" Width="100" DockPanel.Dock="Bottom"/>
+                        <Button Content="Selection" Height="25" Width="100" DockPanel.Dock="Bottom"/>
                     </DockPanel>
                 </Grid>
             </Grid>

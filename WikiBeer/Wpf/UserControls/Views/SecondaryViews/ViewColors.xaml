@@ -32,7 +32,7 @@
                          Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
             </WrapPanel>
             <DockPanel Grid.Row="2" HorizontalAlignment="Right" Margin="20, 0">
-                <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Button_Click"/>
+                <Button x:Name="Add_Button" Content="Ajouter" Width="100" Height="30" Click="Add_Button_Click"/>
             </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -79,7 +79,7 @@
                     Height="30" 
                     Width="100" 
                     Margin="10"
-                    Content="Delete"
+                    Content="Supprimer"
                     Click="Delete_Button_Click"
                     Visibility="Visible"
                     />
@@ -87,7 +87,7 @@
                     Height="30" 
                     Width="100" 
                     Margin="10"
-                    Content="Update"
+                    Content="Mettre a jour"
                     Click="Update_Button_Click"
                     Visibility="Visible"
                     />

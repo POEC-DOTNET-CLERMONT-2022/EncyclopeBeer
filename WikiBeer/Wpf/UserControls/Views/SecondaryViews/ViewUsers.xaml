@@ -33,10 +33,10 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Content="Users Manager" FontWeight="Bold" FontSize="24"/>
+                <Label Content="Utilisateurs" FontWeight="Bold" FontSize="24"/>
             </DockPanel>
             <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Content="Search :"/>
+                <Label Content="Rechercher :"/>
                 <TextBox x:Name="SearchBar" Width="200" VerticalContentAlignment="Center"
                          Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
             </WrapPanel>
@@ -91,12 +91,12 @@
                     <TextBlock x:Name="InfoDisplayer" FontWeight="Bold" Width="300"/>
                     <Button x:Name="Delete_Button"
                             Height="30" Width="100" 
-                            Margin="10" Content="Delete"
+                            Margin="10" Content="Supprimer"
                             Click="Delete_Button_Click"
                             Style="{StaticResource ButtonLock}"/>
                     <Button x:Name="Update_Button"
                             Height="30" Width="100" 
-                            Margin="10" Content="Update"
+                            Margin="10" Content="Mettre a jour"
                             Click="Update_Button_Click"
                             Style="{StaticResource ButtonLock}"/>
                 </StackPanel>

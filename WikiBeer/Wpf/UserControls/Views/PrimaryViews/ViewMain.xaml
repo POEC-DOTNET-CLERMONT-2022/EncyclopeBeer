@@ -21,11 +21,11 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#212F3D">
-                <Label Content="WikiBeer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#212F3D" Foreground="#FACC00"/>
+                <Label Content="WikiBeer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#212F3D" Foreground="#FACC00" />
             </Grid>
             <StackPanel Grid.Row="1" VerticalAlignment="Stretch">
                 <Button Content="Acceuil" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Home" Background="#D5D8DC"/>
-                <Button Content="Statistique" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Stats" Background="#D5D8DC"/>
+                <Button Content="Statistiques" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Stats" Background="#D5D8DC"/>
                 <Button Content="Manager" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_Manager" Background="#D5D8DC"/>
                 <StackPanel x:Name="SubMenuManager" Visibility="Collapsed">
 
@@ -36,10 +36,10 @@
                     <Button Content="Styles" Click="Button_Click_Style"/>
 
                 </StackPanel>
-                <Button Content="Utilisateur" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>
+                <Button Content="Utilisateurs" Padding="5" HorizontalContentAlignment="Left" Click="Button_Click_User" Background="#D5D8DC"/>
             </StackPanel>
             <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="LogOut" Padding="10, 5" HorizontalContentAlignment="Center" Click="Button_Click_Logout" Background="#D5D8DC"/>
+                <Button Content="Déconnexion" Padding="10, 5" HorizontalContentAlignment="Center" Click="Button_Click_Logout" Background="#D5D8DC"/>
             </StackPanel>
         </Grid>
 

@@ -40,7 +40,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <WrapPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                        <Label Content="Nickname: " FontWeight="Bold" Height="30"/>
+                        <Label Content="Pseudo: " FontWeight="Bold" Height="30"/>
                         <Label Content="{Binding UserDetails.Nickname}" Width="150" Height="30"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="1" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
@@ -48,7 +48,7 @@
                         <Label Content="{Binding UserDetails.ConnectionInfos.Email}" Width="150" Height="30"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="2" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                        <Label Content="Birthdate: " FontWeight="Bold"  Height="30"/>
+                        <Label Content="Date de naissance: " FontWeight="Bold"  Height="30"/>
                         <Label Content="{Binding UserDetails.BirthDate}" Width="100" Height="30"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="3" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
@@ -56,16 +56,16 @@
                         <Label Content="{Binding UserDetails.BirthDate, Converter={StaticResource AgeConverter}}" Width="150" Height="30"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="4" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                        <Label Content="Country: " FontWeight="Bold" Height="30"/>
+                        <Label Content="Localisation: " FontWeight="Bold" Height="30"/>
                         <Label Content="{Binding UserDetails.Country.Name}" Width="120" Height="30"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="5" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                        <Label Content="Role: " FontWeight="Bold" Height="30"/>
+                        <Label Content="Rôle: " FontWeight="Bold" Height="30"/>
                         <Label Content="{Binding UserDetails.IsCertified, Converter={StaticResource CertifiedConverter}}" Width="150" Height="30"/>
                         <Button Click="UpgradeUserRole" Width="Auto" Style="{StaticResource UserRoleButton}"/>
                     </WrapPanel>
                     <WrapPanel Grid.Row="6" Margin="10,0" VerticalAlignment="Center" MinWidth="200">
-                        <Label Content="Beer Liked: " FontWeight="Bold" Height="30"/>
+                        <Label Content="Bières favorites: " FontWeight="Bold" Height="30"/>
                         <Label Content="{Binding UserDetails.FavoriteBeerIds.Count}" Width="100" Height="30"/>
                     </WrapPanel>
                 </Grid>

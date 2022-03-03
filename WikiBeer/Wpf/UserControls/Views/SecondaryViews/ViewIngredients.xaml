@@ -23,10 +23,10 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Content="Ingredient Manager" FontWeight="Bold" FontSize="24"/>
+                <Label Content="Ingrédients" FontWeight="Bold" FontSize="24"/>
             </DockPanel>
             <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Content="Search :"/>
+                <Label Content="Rechercher :"/>
                 <TextBox x:Name="SearchBar" Width="200" VerticalContentAlignment="Center"
                          Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}" />
             </WrapPanel>
@@ -36,7 +36,7 @@
                         <RadioButton Content="Cereal" Checked="CerealRadioButton_Checked"/>
                         <RadioButton Content="Additive" Checked="AdditiveRadioButton_Checked"/>
                 </StackPanel>
-                <Button x:Name="Add_Button" Content="Add" Width="100" Height="30" Click="Add_Button_Click"/>
+                <Button x:Name="Add_Button" Content="Ajouter" Width="100" Height="30" Click="Add_Button_Click"/>
             </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -85,7 +85,7 @@
                     Height="30" 
                     Width="100" 
                     Margin="10"
-                    Content="Delete"
+                    Content="Supprimer"
                     Click="Delete_Button_Click"
                     Visibility="Visible"
                     />
@@ -93,7 +93,7 @@
                     Height="30" 
                     Width="100" 
                     Margin="10"
-                    Content="Update"
+                    Content="Mettre a jour"
                     Click="Update_Button_Click"
                     Visibility="Visible"
                     />

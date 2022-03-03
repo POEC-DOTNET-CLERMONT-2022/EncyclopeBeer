@@ -38,11 +38,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views
             Navigator.NavigateTo(typeof(ViewHome));
         }
 
-        private void Button_Click_Home(object sender, RoutedEventArgs e)
-        {
-            Navigator.NavigateTo(typeof(ViewHome));
-        }
-
         private void Button_Click_Stats(object sender, RoutedEventArgs e)
         {
             Navigator.NavigateTo(typeof(ViewStats));

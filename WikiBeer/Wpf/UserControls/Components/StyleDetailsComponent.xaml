@@ -23,7 +23,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="10,0" VerticalAlignment="Center">
-                        <Label Content="Name" FontWeight="Bold"/>
+                        <Label Content="Nom" FontWeight="Bold"/>
                         <TextBox Text="{Binding StyleDetails.Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </Grid>

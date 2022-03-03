@@ -28,7 +28,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="40,0" VerticalAlignment="Center">
-                        <Label Content="Name" FontWeight="Bold"/>
+                        <Label Content="Nom" FontWeight="Bold"/>
                         <TextBox Text="{Binding IngredientDetails.Name ,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="40,0" VerticalAlignment="Center">
