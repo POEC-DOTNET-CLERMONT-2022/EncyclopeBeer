@@ -59,8 +59,7 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
         {
             Task[] tasks = { LoadBeers(), LoadBreweries(),
                 LoadStyles(), LoadColors(), LoadIngredients() };
-            await Task.WhenAll(tasks);
-            var toto = 1;
+            await Task.WhenAll(tasks);            
         }
 
         public async Task LoadBeers()
@@ -94,20 +93,6 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Views.SecondaryViews
 
         private async void Create_Button_Click(object sender, RoutedEventArgs e)
         {
-            //var name = Beers.ToModify.Name;
-            //var description = Beers.ToModify.Description;
-            //float ibu = Beers.ToModify.Ibu;
-            //float abv = Beers.ToModify.Degree;
-            //BreweryModel brewery = (BreweryModel)BeerDetailsComponent.BreweriesComboBox.SelectedItem;
-            //BeerStyleModel style = (BeerStyleModel)BeerDetailsComponent.StylesComboBox.SelectedItem;
-            //BeerColorModel color = (BeerColorModel)BeerDetailsComponent.ColorsComboBox.SelectedItem;
-            //IngredientModel ingredient = (IngredientModel)BeerDetailsComponent.IngredientsComboBox.SelectedItem;
-            //ObservableCollection<IngredientModel> ingredients = new ObservableCollection<IngredientModel>();
-            //ingredients.Add(ingredient);
-            //var beer = new BeerModel(name, description, ibu, abv, style, color, brewery, ingredients);
-            //var newBeer = await _beerDataManager.Add(beer);
-            //Beers.List.Add(newBeer);
-            //Beers.ToModify = null;
             if (Beers.ToModify != null)
             {
                 var beerToCreate = await _beerDataManager.Add(Beers.ToModify);

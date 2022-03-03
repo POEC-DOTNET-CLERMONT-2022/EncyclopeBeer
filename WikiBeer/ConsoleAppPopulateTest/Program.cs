@@ -83,7 +83,8 @@ void AutoFill(DataBaseRessource dbr, DbManager manager , ApiLauncher launcher)
     try
     {
         launcher.StartApi();
-        manager.EnsureDatabaseCreation();
+        //manager.EnsureDatabaseCreation();
+        manager.EnsureDatabaseMigration();
         dbr.FillDatabase();
     }
     catch(Exception ex)

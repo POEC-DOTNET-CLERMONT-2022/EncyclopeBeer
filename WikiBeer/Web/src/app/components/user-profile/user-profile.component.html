@@ -8,10 +8,10 @@
         <h1 style="width: fit-content;">General</h1>
       </div>
 
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column;">
+      <form [formGroup]="userForm"  style="display: flex; flex-direction: column;">
         <div class="formcontrolbox">
           <label for="nickname">NickName</label>
-          <input id="nickname" type="text" formControlName="nickname" style="width: 60%"/>
+          <input id="nickname" type="text" formControlName="_nickname" [name]="'nickname'" style="width: 60%"/>
         </div>
         <div class="formcontrolbox">
           <label for="email">Email</label>
@@ -19,19 +19,20 @@
         </div>
         <div class="formcontrolbox">
           <label for="country">Country</label>
-          <select id="country" formControlName="country" style="width: 60%;">
+          <select id="country" formControlName="_country" style="width: 60%;">
             <option disabled>Select country</option>
             <option *ngFor="let country of countries">{{country.name}}</option>
           </select>
         </div>
         <div class="formcontrolbox">
-          <label for="email">BirthDate</label>
-          <input class="datepicker" style="width:150px; justify-content: center;" formControlName="birthdate" type="date" id="birthDate" min="" max=""/>
+          <label for="birthdate">BirthDate</label>
+          <input class="datepicker" style="width:150px; justify-content: center;" formControlName="_birthdate" [name]="user.profile.birthDate"
+          startAt="user.profile.birthDate"
+          type="date" id="birthDate" min="" max=""/>
         </div>
-          <button type="submit">Submit</button>
+          <button type="submit" (click)="onSubmit()">Submit</button>
       </form>
 
     </div>
   </div>
-
 </div>

@@ -2,6 +2,7 @@
 using Ipme.WikiBeer.Models.Ingredients;
 using Microsoft.Win32;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -99,7 +100,11 @@ namespace Ipme.WikiBeer.Wpf.UserControls.Components
 
         private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            //Regex regex = new Regex(@"[^0-9]+\.?");
+            //var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            Regex regex = new Regex(@"[^0-9](?:[.]\d{0,2})?$");
+            //Regex regex = new Regex(@"[^0-9]+(?:\.[0-9]+)?$");
+
             e.Handled = regex.IsMatch(e.Text);
         }
 
